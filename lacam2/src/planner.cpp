@@ -1,7 +1,10 @@
 #include "../include/planner.hpp"
 
-LNode::LNode(LNode* parent, uint i, Vertex* v)
-    : who(), where(), depth(parent == nullptr ? 0 : parent->depth + 1)
+// Define the low level node (aka constraint)
+LNode::LNode(LNode* parent, uint i, Vertex* v) : 
+    who(), 
+    where(), 
+    depth(parent == nullptr ? 0 : parent->depth + 1)
 {
   if (parent != nullptr) {
     who = parent->who;
@@ -13,10 +16,9 @@ LNode::LNode(LNode* parent, uint i, Vertex* v)
 
 uint HNode::HNODE_CNT = 0;
 
-// for high-level
-HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g,
-             const uint _h)
-    : C(_C),
+// Define the high-level
+HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, const uint _h) : 
+      C(_C),
       parent(_parent),
       neighbor(),
       g(_g),
@@ -93,6 +95,8 @@ Solution Planner::solve(std::string& additional_info)
   // setup agents
   for (auto i = 0; i < N; ++i) A[i] = new Agent(i);
 
+  
+
   // setup search
   auto OPEN = std::stack<HNode*>();
   auto EXPLORED = std::unordered_map<Config, HNode*, ConfigHasher>();
@@ -108,6 +112,7 @@ Solution Planner::solve(std::string& additional_info)
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
+    // check for factorization possibility here. If there 
 
     // do not pop here!
     auto H = OPEN.top();  // high-level node
@@ -199,13 +204,13 @@ Solution Planner::solve(std::string& additional_info)
   return solution;
 }
 
-void Planner::rewrite(HNode* H_from, HNode* H_to, HNode* H_goal,
-                      std::stack<HNode*>& OPEN)
+// Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality
+void Planner::rewrite(HNode* H_from, HNode* H_to, HNode* H_goal, std::stack<HNode*>& OPEN)
 {
-  // update neighbors
+  // update neighbors. Means H_to is reachable from H_from
   H_from->neighbor.insert(H_to);
 
-  // Dijkstra update
+  // Dijkstra update of the whole net of High Level nodes in our instance. This is the part of the code that makes LaCAM converge to optimality
   std::queue<HNode*> Q({H_from});  // queue is sufficient
   while (!Q.empty()) {
     auto n_from = Q.front();
@@ -225,12 +230,14 @@ void Planner::rewrite(HNode* H_from, HNode* H_to, HNode* H_goal,
   }
 }
 
+// Can pass it either configs or 2 Hnodes.
+// Compute the 'edge cost' aka the difference in # of agents at their goal position
 uint Planner::get_edge_cost(const Config& C1, const Config& C2)
 {
   if (objective == OBJ_SUM_OF_LOSS) {
     uint cost = 0;
-    for (uint i = 0; i < N; ++i) {
-      if (C1[i] != ins->goals[i] || C2[i] != ins->goals[i]) {
+    for (uint i = 0; i < N; ++i) {                              // loop through every agent
+      if (C1[i] != ins->goals[i] || C2[i] != ins->goals[i]) {   // for either config, each agent not at its goal position increases cost by one.
         cost += 1;
       }
     }
@@ -240,12 +247,12 @@ uint Planner::get_edge_cost(const Config& C1, const Config& C2)
   // default: makespan
   return 1;
 }
-
 uint Planner::get_edge_cost(HNode* H_from, HNode* H_to)
 {
   return get_edge_cost(H_from->C, H_to->C);
 }
 
+// compute the heuristic
 uint Planner::get_h_value(const Config& C)
 {
   uint cost = 0;
@@ -269,6 +276,7 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
   for (auto v : C) H->search_tree.push(new LNode(L, i, v));
 }
 
+// Create a new configuration given some constraints for the next step. Basically the same as in LaCAM
 bool Planner::get_new_config(HNode* H, LNode* L)
 {
   // setup cache
@@ -305,6 +313,8 @@ bool Planner::get_new_config(HNode* H, LNode* L)
     occupied_next[l] = A[i];
   }
 
+  std::cout<<"\n - PIBT invoked for every agent";
+
   // perform PIBT
   for (auto k : H->order) {
     auto a = A[k];
@@ -313,21 +323,24 @@ bool Planner::get_new_config(HNode* H, LNode* L)
   return true;
 }
 
+// PIBT planner for the low level node
 bool Planner::funcPIBT(Agent* ai)
 {
   const auto i = ai->id;
   const auto K = ai->v_now->neighbor.size();
 
-  // get candidates for next locations
+  // get candidates for next locations. Loop through all neighbouring vertices
   for (auto k = 0; k < K; ++k) {
     auto u = ai->v_now->neighbor[k];
     C_next[i][k] = u;
     if (MT != nullptr)
       tie_breakers[u->id] = get_random_float(MT);  // set tie-breaker
   }
+  
+  // add stay as possible next location
   C_next[i][K] = ai->v_now;
 
-  // sort
+  // sort in ascending descending order of priority
   std::sort(C_next[i].begin(), C_next[i].begin() + K + 1,
             [&](Vertex* const v, Vertex* const u) {
               return D.get(i, v) + tie_breakers[v->id] <
@@ -338,23 +351,25 @@ bool Planner::funcPIBT(Agent* ai)
   if (swap_agent != nullptr)
     std::reverse(C_next[i].begin(), C_next[i].begin() + K + 1);
 
-  // main operation
+  // main operation. loop through the actions starting from prefered one and check if it is possible. If so, reserve the spot
   for (auto k = 0; k < K + 1; ++k) {
     auto u = C_next[i][k];
 
-    // avoid vertex conflicts
-    if (occupied_next[u->id] != nullptr) continue;
+    // avoid vertex conflicts and skip this vertex
+    if (occupied_next[u->id] != nullptr) continue;  //check if some agent already reserved the spot for next move
 
-    auto& ak = occupied_now[u->id];
+    auto& ak = occupied_now[u->id];   // ak = agent occupying NOW the vertex we want to go NEXT
 
-    // avoid swap conflicts
-    if (ak != nullptr && ak->v_next == ai->v_now) continue;
+    // avoid swap conflicts and skip this vertex
+    if (ak != nullptr && ak->v_next == ai->v_now) continue;   // check if ak wants to go where we want to go
 
+    // if it's all good, we can proceed to the reservation of next step
     // reserve next location
-    occupied_next[u->id] = ai;
-    ai->v_next = u;
+    occupied_next[u->id] = ai;        // reserve the next vertex
+    ai->v_next = u;                   // store move as next vertex
 
     // priority inheritance
+    // if ak is not planned yet and our move leads to deadlock, do not use this move.
     if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT(ak))
       continue;
 
@@ -374,6 +389,7 @@ bool Planner::funcPIBT(Agent* ai)
   return false;
 }
 
+// Define the swap operation
 Agent* Planner::swap_possible_and_required(Agent* ai)
 {
   const auto i = ai->id;
@@ -400,10 +416,8 @@ Agent* Planner::swap_possible_and_required(Agent* ai)
 
   return nullptr;
 }
-
 // simulate whether the swap is required
-bool Planner::is_swap_required(const uint pusher, const uint puller,
-                               Vertex* v_pusher_origin, Vertex* v_puller_origin)
+bool Planner::is_swap_required(const uint pusher, const uint puller, Vertex* v_pusher_origin, Vertex* v_puller_origin)
 {
   auto v_pusher = v_pusher_origin;
   auto v_puller = v_puller_origin;
@@ -431,7 +445,6 @@ bool Planner::is_swap_required(const uint pusher, const uint puller,
          (D.get(pusher, v_pusher) == 0 ||
           D.get(pusher, v_puller) < D.get(pusher, v_pusher));
 }
-
 // simulate whether the swap is possible
 bool Planner::is_swap_possible(Vertex* v_pusher_origin, Vertex* v_puller_origin)
 {
@@ -457,6 +470,7 @@ bool Planner::is_swap_possible(Vertex* v_pusher_origin, Vertex* v_puller_origin)
   return false;
 }
 
+// Just some printing stuff to visualize objective
 std::ostream& operator<<(std::ostream& os, const Objective obj)
 {
   if (obj == OBJ_NONE) {

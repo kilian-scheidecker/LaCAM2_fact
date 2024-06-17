@@ -6,7 +6,7 @@ Instance::Instance(const std::string& map_filename,
     : G(map_filename),
       starts(Config()),
       goals(Config()),
-      N(start_indexes.size())
+      N(start_indexes.size()) // ADD A SMART LIST TO KNOW THE PROBLEM FACTORIZATION AND A FLAG OF SOLVED/UNSOVED
 {
   for (auto k : start_indexes) starts.push_back(G.U[k]);
   for (auto k : goal_indexes) goals.push_back(G.U[k]);

@@ -4,6 +4,12 @@
 
 #pragma once
 
+// define the uint type even if it should be handled by the compiler
+#ifndef uint
+typedef unsigned int uint;
+#endif
+
+
 #include "dist_table.hpp"
 #include "graph.hpp"
 #include "instance.hpp"
