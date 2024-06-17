@@ -39,3 +39,13 @@ struct ConfigHasher {
 
 std::ostream& operator<<(std::ostream& os, const Vertex* v);
 std::ostream& operator<<(std::ostream& os, const Config& config);
+
+void print_vec_int(const std::vector<int> v);
+
+void print_vec_float(std::vector<float> v);
+
+void print_array_vertices(const std::vector<int> V, int width);
+
+void print_vertex(const std::shared_ptr<Vertex> V, int width);
+
+void print_vertices(const Vertices V, int width);
