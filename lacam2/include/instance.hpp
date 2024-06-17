@@ -2,6 +2,12 @@
  * instance definition
  */
 #pragma once
+
+// define the uint type even if it should be handled by the compiler
+#ifndef uint
+typedef unsigned int uint;
+#endif
+
 #include <random>
 
 #include "graph.hpp"

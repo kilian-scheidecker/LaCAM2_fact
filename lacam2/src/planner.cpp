@@ -93,7 +93,7 @@ Solution Planner::solve(std::string& additional_info)
   solver_info(1, "start search");
 
   // setup agents
-  for (auto i = 0; i < N; ++i) A[i] = new Agent(i);
+  for (int i = 0; i < N; ++i) A[i] = new Agent(i);
 
   
 
@@ -257,9 +257,9 @@ uint Planner::get_h_value(const Config& C)
 {
   uint cost = 0;
   if (objective == OBJ_MAKESPAN) {
-    for (auto i = 0; i < N; ++i) cost = std::max(cost, D.get(i, C[i]));
+    for (int i = 0; i < N; ++i) cost = std::max(cost, D.get(i, C[i]));
   } else if (objective == OBJ_SUM_OF_LOSS) {
-    for (auto i = 0; i < N; ++i) cost += D.get(i, C[i]);
+    for (int i = 0; i < N; ++i) cost += D.get(i, C[i]);
   }
   return cost;
 }
@@ -267,7 +267,7 @@ uint Planner::get_h_value(const Config& C)
 void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
 {
   if (L->depth >= N) return;
-  const auto i = H->order[L->depth];
+  const int i = H->order[L->depth];
   auto C = H->C[i]->neighbor;
   C.push_back(H->C[i]);
   // randomize
@@ -297,8 +297,8 @@ bool Planner::get_new_config(HNode* H, LNode* L)
 
   // add constraints
   for (uint k = 0; k < L->depth; ++k) {
-    const auto i = L->who[k];        // agent
-    const auto l = L->where[k]->id;  // loc
+    const int i = L->who[k];        // agent
+    const int l = L->where[k]->id;  // loc
 
     // check vertex collision
     if (occupied_next[l] != nullptr) return false;
@@ -316,7 +316,7 @@ bool Planner::get_new_config(HNode* H, LNode* L)
   std::cout<<"\n - PIBT invoked for every agent";
 
   // perform PIBT
-  for (auto k : H->order) {
+  for (int k : H->order) {
     auto a = A[k];
     if (a->v_next == nullptr && !funcPIBT(a)) return false;  // planning failure
   }
@@ -326,11 +326,11 @@ bool Planner::get_new_config(HNode* H, LNode* L)
 // PIBT planner for the low level node
 bool Planner::funcPIBT(Agent* ai)
 {
-  const auto i = ai->id;
-  const auto K = ai->v_now->neighbor.size();
+  const int i = ai->id;
+  const size_t K = ai->v_now->neighbor.size();
 
   // get candidates for next locations. Loop through all neighbouring vertices
-  for (auto k = 0; k < K; ++k) {
+  for (size_t k = 0; k < K; ++k) {
     auto u = ai->v_now->neighbor[k];
     C_next[i][k] = u;
     if (MT != nullptr)
@@ -352,7 +352,7 @@ bool Planner::funcPIBT(Agent* ai)
     std::reverse(C_next[i].begin(), C_next[i].begin() + K + 1);
 
   // main operation. loop through the actions starting from prefered one and check if it is possible. If so, reserve the spot
-  for (auto k = 0; k < K + 1; ++k) {
+  for (size_t k = 0; k < K + 1; ++k) {
     auto u = C_next[i][k];
 
     // avoid vertex conflicts and skip this vertex
@@ -392,7 +392,7 @@ bool Planner::funcPIBT(Agent* ai)
 // Define the swap operation
 Agent* Planner::swap_possible_and_required(Agent* ai)
 {
-  const auto i = ai->id;
+  const int i = ai->id;
   // ai wanna stay at v_now -> no need to swap
   if (C_next[i][0] == ai->v_now) return nullptr;
 

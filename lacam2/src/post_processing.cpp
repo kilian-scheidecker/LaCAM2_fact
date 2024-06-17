@@ -166,12 +166,12 @@ void make_log(const Instance& ins, const Solution& solution,
   if (log_short) return;
   log << "starts=";
   for (size_t i = 0; i < ins.N; ++i) {
-    auto k = ins.starts[i]->index;
+    int k = ins.starts[i]->index;
     log << "(" << get_x(k) << "," << get_y(k) << "),";
   }
   log << "\ngoals=";
   for (size_t i = 0; i < ins.N; ++i) {
-    auto k = ins.goals[i]->index;
+    int k = ins.goals[i]->index;
     log << "(" << get_x(k) << "," << get_y(k) << "),";
   }
   log << "\nsolution=\n";
