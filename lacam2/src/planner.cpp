@@ -261,7 +261,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 // factorized solving
 void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const FactAlgo& factalgo, std::queue<Instance>& OPENins)
 {
-  solver_info(1, "start search");
+  //solver_info(1, "start search");
 
   // setup agents
   for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
@@ -331,7 +331,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     // DEBUG PRINT
     info(2, verbose,"\n-------------------------------------------\n");
     info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt, ", timestep = ", timestep);
-    if(verbose > 2) {
+    if(verbose > 1) {
       std::cout<<"\n- Printing current configuration : ";
       print_vertices(H->C, ins.G.width);
       std::cout<<"\n";

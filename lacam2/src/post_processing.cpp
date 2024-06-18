@@ -32,6 +32,7 @@ bool is_feasible_solution(const Instance& ins, const Solution& solution,
         print_vertex(v_i_from, ins.G.width);
         std::cout<<"\nTo : ";
         print_vertex(v_i_to, ins.G.width);
+        std::cout<<"\n";
         return false;
       }
 
@@ -46,6 +47,7 @@ bool is_feasible_solution(const Instance& ins, const Solution& solution,
           print_vertex(v_j_to, ins.G.width);
           std::cout<<"\nTo : ";
           print_vertex(v_i_to, ins.G.width);
+          std::cout<<"\n";
           return false;
         }
         // swap conflicts
@@ -55,6 +57,7 @@ bool is_feasible_solution(const Instance& ins, const Solution& solution,
           print_vertex(v_i_from, ins.G.width);
           std::cout<<"\nTo : ";
           print_vertex(v_i_to, ins.G.width);
+          std::cout<<"\n";
           return false;
         }
       }

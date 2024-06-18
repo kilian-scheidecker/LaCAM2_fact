@@ -1,6 +1,6 @@
 {
   "init": "False",
-  "from": 50,
+  "from": 4,
   "to": 50,
   "jump": 1,
   "n": 1,
