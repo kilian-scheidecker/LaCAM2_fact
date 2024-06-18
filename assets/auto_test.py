@@ -5,8 +5,8 @@ import json
 
 import numpy as np
 
-#WSL_DIR = '/mnt/c/Users/kilia/Documents/PC KILIAN - sync/MA 4/League of Robot Runners/lacam2_fact'
-WSL_DIR = '/mnt/e/Fichiers Kilian/DOCUMENTS/Fichiers Perso/ETHZ/lacam2_fact'
+WSL_DIR = '/mnt/c/Users/kilia/Documents/PC KILIAN - sync/MA 4/League of Robot Runners/lacam2_fact'
+#WSL_DIR = '/mnt/e/Fichiers Kilian/DOCUMENTS/Fichiers Perso/ETHZ/lacam2_fact'
 
 # Creates the command string for a given number of agents N
 def create_command(map_name: str, N: int, verbose: int, factorize: list):

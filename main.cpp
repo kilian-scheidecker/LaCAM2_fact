@@ -109,14 +109,9 @@ int main(int argc, char* argv[])
     // Generate the agent map, at the start, each agent is mapped to itself
     for (int i = 0; i < N; ++i) agent_map[i] = i;
 
-    // just debug print
-    for(auto it = agent_map.cbegin(); it != agent_map.cend(); ++it)
-    {
-        std::cout << it->first << ": " << it->second << "\n";
-    }
-
     // Create the instance
     const auto ins_fact = Instance(scen_name, map_name, v_enable, agent_map, N);
+    if (!ins_fact.is_valid(1)) return 1;
 
     // Create the FactAlgo class
     std::unique_ptr<FactAlgo> algo;

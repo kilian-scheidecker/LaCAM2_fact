@@ -33,7 +33,7 @@ const bool FactDistance::is_factorizable(const Config& C, const Config& goals) c
 }
 
 
-void FactDistance::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance> OPENins) const {
+void FactDistance::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins) const {
 
   std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   std::vector<std::vector<int>> partitions;         // collection of partitions
@@ -117,7 +117,7 @@ void FactDistance::factorize(const Config& C, const Instance& ins, const int ver
 }
 
 
-void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance> OPENins) const 
+void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins) const 
 {
   // printing info about the parititons
   if(verbose > 0)
@@ -189,7 +189,7 @@ void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, 
         std::cout<<"\ngoals : ";
         print_vertices(G0, width);
       }*/
-
+      info(1, verbose, "Pushed new sub-instance with ", I0.N, " agents.");
       OPENins.push(I0);
     }
 
@@ -259,7 +259,7 @@ const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
 }
 
 
-void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance> OPENins) const {
+void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins) const {
 
   std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   std::vector<std::vector<int>> partitions;         // collection of partitions
@@ -343,7 +343,7 @@ void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose
 }
 
 
-void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance> OPENins) const 
+void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins) const 
 {
   // printing info about the parititons
   if(verbose > 0)
@@ -415,6 +415,7 @@ void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, cons
         print_vertices(G0, width);
       }*/
 
+      info(1, verbose, "Pushed new sub-instance with ", I0.N, " agents.");
       OPENins.push(I0);
     }
 
@@ -489,7 +490,7 @@ const bool FactOrient::is_factorizable(const Config& C, const Config& goals) con
 }
 
 
-void FactOrient::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance> OPENins) const {
+void FactOrient::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins) const {
 
   std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   std::vector<std::vector<int>> partitions;         // collection of partitions
@@ -573,7 +574,7 @@ void FactOrient::factorize(const Config& C, const Instance& ins, const int verbo
 }
 
 
-void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance> OPENins) const 
+void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins) const 
 {
   // printing info about the parititons
   if(verbose > 0)
@@ -645,6 +646,7 @@ void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, co
         print_vertices(G0, width);
       }*/
 
+      info(1, verbose, "Pushed new sub-instance with ", I0.N, " agents.");
       OPENins.push(I0);
     }
 

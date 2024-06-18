@@ -9,40 +9,52 @@ bool is_feasible_solution(const Instance& ins, const Solution& solution,
 
   // check start locations
   if (!is_same_config(solution.front(), ins.starts)) {
-    info(1, verbose, "invalid starts");
+    info(0, verbose, "invalid starts");
     return false;
   }
 
   // check goal locations
   if (!is_same_config(solution.back(), ins.goals)) {
-    info(1, verbose, "invalid goals");
+    info(0, verbose, "invalid goals");
     return false;
   }
 
   for (size_t t = 1; t < solution.size(); ++t) {
     for (size_t i = 0; i < ins.N; ++i) {
-      auto v_i_from = solution[t - 1][i];
-      auto v_i_to = solution[t][i];
+      auto v_i_from = solution[t - 1][i];   // force to get the raw pointers. not anymore
+      auto v_i_to = solution[t][i];         // force to get the raw pointers
       // check connectivity
-      if (v_i_from != v_i_to &&
-          std::find(v_i_to->neighbor.begin(), v_i_to->neighbor.end(),
-                    v_i_from) == v_i_to->neighbor.end()) {
-        info(1, verbose, "invalid move");
+      //if (v_i_from != v_i_to && std::find(v_i_to->neighbor.begin(), v_i_to->neighbor.end(), v_i_from) == v_i_to->neighbor.end()) {
+      if(!is_neighbor(v_i_from, v_i_to, ins.G.width) && v_i_from.get()->index != v_i_to.get()->index)
+      {
+        info(0, verbose, "invalid move");
+        std::cout<<"\nFrom : ";
+        print_vertex(v_i_from, ins.G.width);
+        std::cout<<"\nTo : ";
+        print_vertex(v_i_to, ins.G.width);
         return false;
       }
 
       // check conflicts
       for (size_t j = i + 1; j < ins.N; ++j) {
-        auto v_j_from = solution[t - 1][j];
-        auto v_j_to = solution[t][j];
+        auto v_j_from = solution[t - 1][j];  // force to get the raw pointers
+        auto v_j_to = solution[t][j];        // force to get the raw pointers
         // vertex conflicts
-        if (v_j_to == v_i_to) {
-          info(1, verbose, "vertex conflict");
+        if (v_j_to.get()->index == v_i_to.get()->index) {
+          info(0, verbose, "vertex conflict between ", i, " and ", j, " at timestep ", t);
+          std::cout<<"\nFrom : ";
+          print_vertex(v_j_to, ins.G.width);
+          std::cout<<"\nTo : ";
+          print_vertex(v_i_to, ins.G.width);
           return false;
         }
         // swap conflicts
-        if (v_j_to == v_i_from && v_j_from == v_i_to) {
-          info(1, verbose, "edge conflict");
+        if (v_j_to.get()->index == v_i_from.get()->index && v_j_from.get()->index == v_i_to.get()->index) {
+          info(0, verbose, "edge conflict between ", i, " and ", j, " at timestep ", t);
+          std::cout<<"\nFrom : ";
+          print_vertex(v_i_from, ins.G.width);
+          std::cout<<"\nTo : ";
+          print_vertex(v_i_to, ins.G.width);
           return false;
         }
       }
@@ -50,6 +62,25 @@ bool is_feasible_solution(const Instance& ins, const Solution& solution,
   }
 
   return true;
+}
+
+
+bool is_neighbor(std::shared_ptr<Vertex> v1, std::shared_ptr<Vertex> v2, int width)
+{
+  int t1 = v1->index;
+  int y1 = (int) t1/width;
+  int x1 = t1%width;  
+
+  int t2 = v2->index;
+  int y2 = (int) t2/width;
+  int x2 = t2%width; 
+
+  // if v1 and v2 are neighbors
+  if(((abs(x1-x2)==1) && (abs(y1-y2)==0)) != ((abs(y1-y2)==1) && (abs(x1-x2)==0)))
+    return true;
+
+  else
+    return false;
 }
 
 int get_makespan(const Solution& solution)

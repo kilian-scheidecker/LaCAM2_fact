@@ -147,8 +147,6 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   // setup agents
   for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
 
-  
-
   // setup search
   auto OPEN = std::stack<HNode*>();
   auto EXPLORED = std::unordered_map<Config, HNode*, ConfigHasher>();
@@ -282,7 +280,6 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   HNode* H_end = nullptr;           // to store end node for backtracking early
   bool backtrack_flag = false;      // to know when to backtrack
 
-  std::queue<Instance> L_ins = {};       // initiate a list of instances
   int timestep = empty_solution->solution[ins.enabled[0]].size();
 
 
@@ -331,10 +328,9 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       continue;
     }
 
+    // DEBUG PRINT
     info(2, verbose,"\n-------------------------------------------\n");
     info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt, ", timestep = ", timestep);
-
-    // DEBUG PRINT
     if(verbose > 2) {
       std::cout<<"\n- Printing current configuration : ";
       print_vertices(H->C, ins.G.width);
@@ -392,6 +388,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       break;
     }
 
+    timestep++;
   }
 
   // backtrack always !!!!!!!
@@ -411,7 +408,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     solver_info(1, "solved sub-optimally, objective: ", objective);
   } else if (OPEN.empty()) {
     solver_info(1, "no solution");
-  } else if (!L_ins.empty()) {
+  } else if (is_expired(deadline)) {
     solver_info(1, "timeout");
   }
 
@@ -433,10 +430,6 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
 
   Solution sol_t = transpose(solution);
 
-  std::cout<<"sol size :"<<sol_t.size()<<std::endl;
-  std::cout<<"map size :"<<ins.agent_map.size()<<std::endl;
-
-
   for(const auto& [id, true_id] : ins.agent_map)   // for some reason vscode doesnt like this line but compiles all good
   {
     //std::cout<<"\nActive agent : "<<active_agent;
@@ -448,24 +441,6 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       line->push_back(v);
     }
   }
-
-
-  /*for(auto id : ins.enabled)   // why problem here ? wtf
-  {
-    //std::cout<<"\nActive agent : "<<active_agent;
-    auto sol_bit = sol_t[id];
-    auto line = &(empty_solution->solution[ins.agent_map.at(id)]);
-
-    for (auto v : sol_bit) 
-    {
-      line->push_back(v);
-    }
-  }*/
-
-
-  // here ?
-  std::cout<<"test"<<std::endl;
-  std::cout<<"test"<<std::endl;
 }
 
 
