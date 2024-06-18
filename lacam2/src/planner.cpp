@@ -282,10 +282,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
 
   int timestep = empty_solution->solution[ins.enabled[0]].size();
 
-  if (timestep > 21) return;
-
-
-  // Need to fix the priorities between agents
+  // Restore the inheried priorities of agents
   if (ins.priority.size() > 1)
   {
     for (int i=0; i<int(N); i++)

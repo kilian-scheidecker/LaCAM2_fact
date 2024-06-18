@@ -13,7 +13,6 @@
 
 const bool FactDistance::is_factorizable(const Config& C, const Config& goals) const
 {
-  std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   Partitions partitions;         // collection of partitions
 
   // initialize partitions with single agents
@@ -27,7 +26,8 @@ const bool FactDistance::is_factorizable(const Config& C, const Config& goals) c
     int j = 0;                      // keep track of agent number 2
     int index1 = agent1_pos.get()->index;     // agent1 vertex index
     int goal1 = goals[i].get()->index;        // agent1's goal index
-
+    std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
+  
     // loop through every agent j in same configuration                 
     for(auto agent2_pos : C)
     {
@@ -66,11 +66,11 @@ const bool FactDistance::is_factorizable(const Config& C, const Config& goals) c
           // insert partition2 into partition1
           partition1->insert(partition1->end(), partition2->begin(), partition2->end());
 
-          // add agent i to taken list
-          taken.push_back(i);
+          // add agent j to taken list
+          taken.push_back(j);
 
           // Add all agents in partition2 to taken list
-          taken.insert(taken.end(), partition2->begin(), partition2->end());
+          //taken.insert(taken.end(), partition2->begin(), partition2->end());
 
           // clear partition2
           partition2->clear();
@@ -99,7 +99,6 @@ const bool FactDistance::is_factorizable(const Config& C, const Config& goals) c
 
 void FactDistance::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins) const {
 
-  std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   std::vector<std::vector<int>> partitions;         // collection of partitions
 
   // initialize partitions with single agents
@@ -113,6 +112,8 @@ void FactDistance::factorize(const Config& C, const Instance& ins, const int ver
     int j = 0;                      // keep track of agent number 2
     int index1 = agent1_pos.get()->index;     // agent1 vertex index
     int goal1 = goals[i].get()->index;        // agent1's goal index
+    std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
+  
 
     // loop through every agent j in same configuration                 
     for(auto agent2_pos : C)
@@ -148,15 +149,14 @@ void FactDistance::factorize(const Config& C, const Instance& ins, const int ver
 
         if(!break_flag)
         {
-          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 << ")" << " are neighbours";
           // insert partition2 into partition1
           partition1->insert(partition1->end(), partition2->begin(), partition2->end());
 
-          // add agent i to taken list
-          taken.push_back(i);
+          // add agent j to taken list
+          taken.push_back(j);
 
           // Add all agents in partition2 to taken list
-          taken.insert(taken.end(), partition2->begin(), partition2->end());
+          //taken.insert(taken.end(), partition2->begin(), partition2->end());
 
           // clear partition2
           partition2->clear();
@@ -303,23 +303,82 @@ const int FactDistance::get_manhattan(const int index1, const int index2) const 
 
 const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
 {
-  for (size_t i = 0; i < C.size(); i++)
-  {
-    for (size_t j = 0; j < C.size(); j++)
-    {
-      if (i != j)
-      {
-        const int pi = C.at(i).get()->index;
-        const int pj = C.at(j).get()->index;
-        const int gi = goals.at(i).get()->index;
-        const int gj = goals.at(j).get()->index;
+  std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
+  Partitions partitions;         // collection of partitions
 
-        if (heuristic(pi, pj, gi, gj))
-          return true;
+  // initialize partitions with single agents
+  for(int j=0; j< (int)C.size(); j++)
+    partitions.push_back({j});
+
+  // loop through every agent in the configuration
+  int i = 0;                        // keep track of agent number 1
+  for(auto agent1_pos : C)
+  {
+    int j = 0;                      // keep track of agent number 2
+    int index1 = agent1_pos.get()->index;     // agent1 vertex index
+    int goal1 = goals[i].get()->index;        // agent1's goal index
+
+    // loop through every agent j in same configuration                 
+    for(auto agent2_pos : C)
+    {
+      int index2 = agent2_pos.get()->index; // agent2 vertex index
+      int goal2 = goals[j].get()->index;        // agent1's goal index
+
+      if ( !heuristic(index1, index2, goal1, goal2) and !(std::find(taken.begin(), taken.end(), j) != taken.end()))
+      {
+        int k = 0;
+        std::vector<int>* partition1 = nullptr;
+        std::vector<int>* partition2 = nullptr;
+
+        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not met for factorization
+
+        for (auto partition : partitions) 
+        {
+          bool is_i_in_partition = std::find(partition.begin(), partition.end(), i) != partition.end();
+          bool is_j_in_partition = std::find(partition.begin(), partition.end(), j) != partition.end();
+
+          if(is_i_in_partition)
+            partition1 = &partitions[k];
+
+          if(is_j_in_partition)
+            partition2 = &partitions[k];
+
+          // break if both agents are already in the same partition
+          if(is_i_in_partition && is_j_in_partition)
+            break_flag = true;    
+
+          k++;
+        }
+
+        if(!break_flag)
+        {
+          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 << ")" << " are neighbours";
+          // insert partition2 into partition1
+          partition1->insert(partition1->end(), partition2->begin(), partition2->end());
+
+          // add agent i to taken list
+          taken.push_back(i);
+
+          // clear partition2
+          partition2->clear();
+        }
       }
+      j++;
     }
+    i++; 
   }
-  return false;
+
+  // remove empty partitions.
+  auto& partits = partitions;
+  partits.erase(
+      std::remove_if(partits.begin(), partits.end(), [](const std::vector<int>& partition) {
+          return partition.empty();
+      }),
+      partits.end()
+  );
+
+  if (partitions.size() > 1) return true;
+  else return false;
 }
 
 

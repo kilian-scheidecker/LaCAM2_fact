@@ -96,7 +96,7 @@ def auto_test() :
         if from_ == to_ :
             n_agents = [from_]
         else : 
-            n_agents = np.arange(from_, to_, jump).tolist()
+            n_agents = np.arange(from_, to_+1, jump).tolist()
 
 
         for N in n_agents :

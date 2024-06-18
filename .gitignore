@@ -1,7 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/c++
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++
 
+# Generated test scenes
 other_scenes/
+
+# Generated data to analyze
+stats_json.txt
+
 ### C++ ###
 # Prerequisites
 *.d

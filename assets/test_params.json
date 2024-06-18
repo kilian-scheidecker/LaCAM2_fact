@@ -1,7 +1,7 @@
 {
   "init": "False",
   "from": 1,
-  "to": 50,
+  "to": 60,
   "jump": 1,
   "n": 1,
   "map_name": "random-32-32-20",
