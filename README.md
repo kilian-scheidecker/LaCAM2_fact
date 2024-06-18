@@ -1,12 +1,14 @@
-lacam2
+LaCAM2_fact
 ---
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![CI](https://github.com/Kei18/lacam2/actions/workflows/ci.yml/badge.svg)](https://github.com/Kei18/lacam2/actions/workflows/ci.yml)
 
+This is a factorized version of the LaCAM* algorithm from Keisuke Okumura.
+
 Do you want the power?
 LaCAM* could be the answer.
 
-This is a code repository of the paper ["Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding"](https://kei18.github.io/lacam2/) (IJCAI-23), extended from from [the LaCAM repo](https://kei18.github.io/lacam/) presented at AAAI-23.
+The original work is from code repository of the paper ["Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding"](https://kei18.github.io/lacam2/) (IJCAI-23), extended from from [the LaCAM repo](https://kei18.github.io/lacam/) presented at AAAI-23.
 
 ## Building
 
@@ -15,7 +17,7 @@ All you need is [CMake](https://cmake.org/) (≥v3.16). The code is written in C
 First, clone this repo with submodules.
 
 ```sh
-git clone --recursive https://github.com/Kei18/lacam2.git && cd lacam2
+git clone --recursive https://github.com/idsc-frazzoli/LaCAM2_fact.git && cd LaCAM2_fact
 ```
 
 Then, build the project.
