@@ -22,3 +22,5 @@ void make_log(const Instance& ins, const Solution& solution,
               const std::string& additional_info,
               const bool log_short = false  // true -> paths not appear
 );
+void make_stats(const std::string file_name, const std::string factorize, const int N, 
+                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname);

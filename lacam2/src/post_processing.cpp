@@ -185,3 +185,28 @@ void make_log(const Instance& ins, const Solution& solution,
   }
   log.close();
 }
+
+
+// print the stats to a json-like .txt file
+void make_stats(const std::string file_name, const std::string factorize, const int N, 
+                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname)
+{ 
+  std::ofstream out;
+
+  out.open(file_name, std::ios::app);
+  out<<"\t{\n";
+  out<<"\t\t\"Number of agents\" : \""<<N<<"\",\n";
+  out<<"\t\t\"Map name\" : \""<<mapname<<"\",\n";
+  out<<"\t\t\"Computation time (ms)\" : \""<<comp_time_ms<<"\",\n";
+  out<<"\t\t\"Factorized\" : \""<<factorize<<"\",\n";
+  out<<"\t\t\"Loop count\" : \""<<infos.loop_count<<"\",\n";
+  out<<"\t\t\"PIBT calls\" : \""<<infos.PIBT_calls<<"\",\n";
+  out<<"\t\t\"Active PIBT calls\" : \""<<infos.PIBT_calls_active<<"\",\n";
+  out<<"\t\t\"Action counts\" : \""<<infos.actions_count<<"\",\n";
+  out<<"\t\t\"Active action counts\" : \""<<infos.actions_count_active<<"\",\n";
+  out<<"\t\t\"Sum of costs\" : \""<<get_sum_of_costs(solution)<<"\",\n";          // length of all the solutions
+  out<<"\t\t\"Sum of loss\" : \""<<get_sum_of_costs(solution)<<"\"\n";            // number of vertex transitions. NO COMMA HEREAFTER
+  out<<"\t},\n";
+
+  out.close();
+}

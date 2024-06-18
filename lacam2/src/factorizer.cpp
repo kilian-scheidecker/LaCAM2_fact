@@ -33,9 +33,8 @@ const bool FactDistance::is_factorizable(const Config& C, const Config& goals) c
 }
 
 
-std::list<Instance> FactDistance::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals) const {
+void FactDistance::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance> OPENins) const {
 
-  std::list<Instance> L;
   std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   std::vector<std::vector<int>> partitions;         // collection of partitions
 
@@ -114,12 +113,11 @@ std::list<Instance> FactDistance::factorize(const Config& C, const Instance& ins
   );
 
 
-  L = split_ins(ins, partitions, C, verbose, priorities);
-  return L;
+  split_ins(ins, partitions, C, verbose, priorities, OPENins);
 }
 
 
-std::list<Instance> FactDistance::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities) const 
+void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance> OPENins) const 
 {
   // printing info about the parititons
   if(verbose > 0)
@@ -135,19 +133,16 @@ std::list<Instance> FactDistance::split_ins(const Instance& ins, const Partition
     }
     std::cout<<" \n";
   }
-  
-  std::list<Instance> ins_list;
 
   //std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
 
 
   // just debug print
-  for(auto it = ins.agent_map.cbegin(); it != ins.agent_map.cend(); ++it)
+  /*for(auto it = ins.agent_map.cbegin(); it != ins.agent_map.cend(); ++it)
   {
       std::cout << it->first << ": " << it->second << "\n";
-  }
+  }*/
 
-  info(1, verbose, "width = ", width);
 
   for (auto enable : partitions) 
   {
@@ -195,14 +190,12 @@ std::list<Instance> FactDistance::split_ins(const Instance& ins, const Partition
         print_vertices(G0, width);
       }*/
 
-      ins_list.push_back(I0);
+      OPENins.push(I0);
     }
 
     else 
       std::cerr<<"Something wrong with Instance generation";
   }
-
-  return ins_list;
 }
 
 
@@ -266,9 +259,8 @@ const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
 }
 
 
-std::list<Instance> FactBbox::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals) const {
+void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance> OPENins) const {
 
-  std::list<Instance> L;
   std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   std::vector<std::vector<int>> partitions;         // collection of partitions
 
@@ -347,12 +339,11 @@ std::list<Instance> FactBbox::factorize(const Config& C, const Instance& ins, co
   );
 
 
-  L = split_ins(ins, partitions, C, verbose, priorities);
-  return L;
+  split_ins(ins, partitions, C, verbose, priorities, OPENins);
 }
 
 
-std::list<Instance> FactBbox::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities) const 
+void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance> OPENins) const 
 {
   // printing info about the parititons
   if(verbose > 0)
@@ -368,9 +359,6 @@ std::list<Instance> FactBbox::split_ins(const Instance& ins, const Partitions& p
     }
     std::cout<<" \n";
   }
-  
-  std::list<Instance> ins_list;
-
   //std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
 
 
@@ -380,7 +368,6 @@ std::list<Instance> FactBbox::split_ins(const Instance& ins, const Partitions& p
       std::cout << it->first << ": " << it->second << "\n";
   }
 
-  info(1, verbose, "width = ", width);
 
   for (auto enable : partitions) 
   {
@@ -428,14 +415,12 @@ std::list<Instance> FactBbox::split_ins(const Instance& ins, const Partitions& p
         print_vertices(G0, width);
       }*/
 
-      ins_list.push_back(I0);
+      OPENins.push(I0);
     }
 
     else 
       std::cerr<<"Something wrong with Instance generation";
   }
-
-  return ins_list;
 }
 
 
@@ -504,9 +489,8 @@ const bool FactOrient::is_factorizable(const Config& C, const Config& goals) con
 }
 
 
-std::list<Instance> FactOrient::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals) const {
+void FactOrient::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance> OPENins) const {
 
-  std::list<Instance> L;
   std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   std::vector<std::vector<int>> partitions;         // collection of partitions
 
@@ -585,12 +569,11 @@ std::list<Instance> FactOrient::factorize(const Config& C, const Instance& ins, 
   );
 
 
-  L = split_ins(ins, partitions, C, verbose, priorities);
-  return L;
+  split_ins(ins, partitions, C, verbose, priorities, OPENins);
 }
 
 
-std::list<Instance> FactOrient::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities) const 
+void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance> OPENins) const 
 {
   // printing info about the parititons
   if(verbose > 0)
@@ -606,8 +589,6 @@ std::list<Instance> FactOrient::split_ins(const Instance& ins, const Partitions&
     }
     std::cout<<" \n";
   }
-  
-  std::list<Instance> ins_list;
 
   //std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
 
@@ -617,8 +598,6 @@ std::list<Instance> FactOrient::split_ins(const Instance& ins, const Partitions&
   {
       std::cout << it->first << ": " << it->second << "\n";
   }
-
-  info(1, verbose, "width = ", width);
 
   for (auto enable : partitions) 
   {
@@ -666,14 +645,12 @@ std::list<Instance> FactOrient::split_ins(const Instance& ins, const Partitions&
         print_vertices(G0, width);
       }*/
 
-      ins_list.push_back(I0);
+      OPENins.push(I0);
     }
 
     else 
       std::cerr<<"Something wrong with Instance generation";
   }
-
-  return ins_list;
 }
 
 

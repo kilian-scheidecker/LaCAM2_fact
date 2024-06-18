@@ -4,15 +4,11 @@
 
 #pragma once
 
-// define the uint type even if it should be handled by the compiler
-#ifndef uint
-typedef unsigned int uint;
-#endif
-
 
 #include "dist_table.hpp"
 #include "graph.hpp"
 #include "instance.hpp"
+#include "factorizer.hpp"
 #include "utils.hpp"
 
 // objective function
@@ -22,8 +18,8 @@ std::ostream& operator<<(std::ostream& os, const Objective objective);
 // PIBT agent
 struct Agent {
   const uint id;
-  Vertex* v_now;   // current location
-  Vertex* v_next;  // next location
+  std::shared_ptr<Vertex> v_now;   // current location
+  std::shared_ptr<Vertex> v_next;  // next location
   Agent(uint _id) : id(_id), v_now(nullptr), v_next(nullptr) {}
 };
 using Agents = std::vector<Agent*>;
@@ -34,7 +30,7 @@ struct LNode {
   Vertices where;
   const uint depth;
   LNode(LNode* parent = nullptr, uint i = 0,
-        Vertex* v = nullptr);  // who and where
+        std::shared_ptr<Vertex> v = nullptr);  // who and where
 };
 
 // high-level node
@@ -63,7 +59,7 @@ struct HNode {
 using HNodes = std::vector<HNode*>;
 
 struct Planner {
-  const Instance* ins;
+  const Instance& ins;
   const Deadline* deadline;
   std::mt19937* MT;
   const int verbose;
@@ -79,19 +75,46 @@ struct Planner {
   uint loop_cnt;      // auxiliary
 
   // used in PIBT
-  std::vector<std::array<Vertex*, 5> > C_next;  // next locations, used in PIBT
+  std::vector<std::array<std::shared_ptr<Vertex>, 5> > C_next;  // next locations, used in PIBT
   std::vector<float> tie_breakers;              // random values, used in PIBT
   Agents A;
   Agents occupied_now;                          // for quick collision checking
   Agents occupied_next;                         // for quick collision checking
 
-  Planner(const Instance* _ins, const Deadline* _deadline, std::mt19937* _MT,
+  // used for factorization
+  std::shared_ptr<Sol> empty_solution;    // pointer to the empty solution
+
+  // constructor for the standard version
+  /*Planner(const Instance& _ins, const Deadline* _deadline, std::mt19937* _MT,
           const int _verbose = 0,
           // other parameters
           const Objective _objective = OBJ_NONE,
-          const float _restart_rate = 0.001);
+          const float _restart_rate = 0.001);*/
+
+  // constructor for the factorized version
+  Planner(std::shared_ptr<const Instance> _ins, const Deadline* _deadline, std::mt19937* _MT,
+          const int _verbose = 0,
+          // other parameters
+          const Objective _objective = OBJ_NONE,
+          const float _restart_rate = 0.001,
+          std::shared_ptr<Sol> _empty_solution = {});     // shared pointer, no ref
+
+  // constructor for the factorized version, instance ref
+  Planner(const Instance& _ins, const Deadline* _deadline, std::mt19937* _MT,
+          const int _verbose = 0,
+          // other parameters
+          const Objective _objective = OBJ_NONE,
+          const float _restart_rate = 0.001,
+          std::shared_ptr<Sol> _empty_solution = {});
+
+
   ~Planner();
-  Solution solve(std::string& additional_info);
+
+  // standard solving
+  Solution solve(std::string& additional_info, Infos* infos_ptr);
+  // factorized solving
+  void solve_fact(std::string& additional_info, Infos* infos_ptr, const FactAlgo& factalgo, std::queue<Instance>& OPENins);
+  
   void expand_lowlevel_tree(HNode* H, LNode* L);
   void rewrite(HNode* H_from, HNode* T, HNode* H_goal,
                std::stack<HNode*>& OPEN);
@@ -104,8 +127,8 @@ struct Planner {
   // swap operation
   Agent* swap_possible_and_required(Agent* ai);
   bool is_swap_required(const uint pusher, const uint puller,
-                        Vertex* v_pusher_origin, Vertex* v_puller_origin);
-  bool is_swap_possible(Vertex* v_pusher_origin, Vertex* v_puller_origin);
+                        std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin);
+  bool is_swap_possible(std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin);
 
   // utilities
   template <typename... Body>
@@ -118,3 +141,7 @@ struct Planner {
     info(level, verbose, (body)...);
   }
 };
+
+// helper functions
+Solution transpose(const Solution& matrix);
+void padSolution(std::shared_ptr<Sol>& sol);

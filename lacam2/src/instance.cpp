@@ -1,24 +1,26 @@
 #include "../include/instance.hpp"
 
-Instance::Instance(const std::string& map_filename,
-                   const std::vector<uint>& start_indexes,
-                   const std::vector<uint>& goal_indexes)
-    : G(map_filename),
-      starts(Config()),
-      goals(Config()),
-      N(start_indexes.size()) // ADD A SMART LIST TO KNOW THE PROBLEM FACTORIZATION AND A FLAG OF SOLVED/UNSOVED
-{
-  for (int k : start_indexes) starts.push_back(G.U[k]);
-  for (int k : goal_indexes) goals.push_back(G.U[k]);
-}
 
 // for load instance
 static const std::regex r_instance =
     std::regex(R"(\d+\t.+\.map\t\d+\t\d+\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t.+)");
 
-Instance::Instance(const std::string& scen_filename,
-                   const std::string& map_filename, const uint _N)
-    : G(Graph(map_filename)), starts(Config()), goals(Config()), N(_N)
+
+// Constructor for factorization
+Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, std::map<int, int>& _agent_map, const int _N, const std::vector<float>& _priority)
+    : G(_G), 
+      starts(std::move(_starts)), 
+      goals(std::move(_goals)), 
+      enabled(std::move(_enabled)),
+      agent_map(_agent_map),
+      N(_N), 
+      priority(_priority)       // optional argument to specify the inherited priority of the agents
+{ 
+}
+
+// For MAPF benchmark
+Instance::Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, std::map<int, int>& _agent_map, const int _N)
+    : G(Graph(map_filename)), starts(Config()), goals(Config()), enabled(_enabled), agent_map(_agent_map), N(_N)
 {
   // load start-goal pairs
   std::ifstream file(scen_filename);
@@ -38,6 +40,8 @@ Instance::Instance(const std::string& scen_filename,
       uint y_s = std::stoi(results[2].str());
       uint x_g = std::stoi(results[3].str());
       uint y_g = std::stoi(results[4].str());
+      //std::cout<<"Start : ("<<x_s<<","<<y_s<<")"<<std::endl;
+      //std::cout<<"Goal : ("<<x_g<<","<<y_g<<")"<<std::endl;
       if (x_s < 0 || G.width <= x_s || x_g < 0 || G.width <= x_g) break;
       if (y_s < 0 || G.height <= y_s || y_g < 0 || G.height <= y_g) break;
       auto s = G.U[G.width * y_s + x_s];
@@ -51,40 +55,10 @@ Instance::Instance(const std::string& scen_filename,
   }
 }
 
-Instance::Instance(const std::string& map_filename, std::mt19937* MT,
-                   const uint _N)
-    : G(Graph(map_filename)), starts(Config()), goals(Config()), N(_N)
-{
-  // random assignment
-  const auto V_size = G.size();
-
-  // set starts
-  auto s_indexes = std::vector<uint>(V_size);
-  std::iota(s_indexes.begin(), s_indexes.end(), 0);
-  std::shuffle(s_indexes.begin(), s_indexes.end(), *MT);
-  size_t i = 0;
-  while (true) {
-    if (i >= V_size) return;
-    starts.push_back(G.V[s_indexes[i]]);
-    if (starts.size() == N) break;
-    ++i;
-  }
-
-  // set goals
-  auto g_indexes = std::vector<uint>(V_size);
-  std::iota(g_indexes.begin(), g_indexes.end(), 0);
-  std::shuffle(g_indexes.begin(), g_indexes.end(), *MT);
-  size_t j = 0;
-  while (true) {
-    if (j >= V_size) return;
-    goals.push_back(G.V[g_indexes[j]]);
-    if (goals.size() == N) break;
-    ++j;
-  }
-}
 
 bool Instance::is_valid(const int verbose) const
 {
+  info(2,verbose, "Checking instance with N = ", N, ", starts.size : ", starts.size(), ", goals.size : ", goals.size());
   if (N != starts.size() || N != goals.size()) {
     info(1, verbose, "invalid N, check instance");
     return false;
@@ -105,3 +79,6 @@ std::ostream& operator<<(std::ostream& os, const Solution& solution)
   }
   return os;
 }
+
+// Sol constructor
+Sol::Sol(int N) : solution(N) {}

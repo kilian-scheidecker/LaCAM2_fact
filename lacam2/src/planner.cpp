@@ -1,7 +1,7 @@
 #include "../include/planner.hpp"
 
 // Define the low level node (aka constraint)
-LNode::LNode(LNode* parent, uint i, Vertex* v) : 
+LNode::LNode(LNode* parent, uint i, std::shared_ptr<Vertex> v) : 
     who(), 
     where(), 
     depth(parent == nullptr ? 0 : parent->depth + 1)
@@ -65,7 +65,8 @@ HNode::~HNode()
   }
 }
 
-Planner::Planner(const Instance* _ins, const Deadline* _deadline,
+// Planner constructor for the standard version
+/*Planner::Planner(const Instance& _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
                  const Objective _objective, const float _restart_rate)
     : ins(_ins),
@@ -74,26 +75,77 @@ Planner::Planner(const Instance* _ins, const Deadline* _deadline,
       verbose(_verbose),
       objective(_objective),
       RESTART_RATE(_restart_rate),
-      N(ins->N),
-      V_size(ins->G.size()),
+      N(ins.N),
+      V_size(ins.G.size()),
       D(DistTable(ins)),
       loop_cnt(0),
       C_next(N),
       tie_breakers(V_size, 0),
       A(N, nullptr),
       occupied_now(V_size, nullptr),
-      occupied_next(V_size, nullptr)
+      occupied_next(V_size, nullptr),
+      empty_solution({})                  // initialize with nothing
+{
+}*/
+
+
+// Planner constructor for the factorized version, shared_ptr
+Planner::Planner(std::shared_ptr<const Instance> _ins, const Deadline* _deadline,
+                 std::mt19937* _MT, const int _verbose,
+                 const Objective _objective, const float _restart_rate,
+                 std::shared_ptr<Sol> _empty_solution)
+    : ins(*_ins.get()),
+      deadline(_deadline),
+      MT(_MT),
+      verbose(_verbose),
+      objective(_objective),
+      RESTART_RATE(_restart_rate),
+      N(ins.N),
+      V_size(ins.G.size()),
+      D(DistTable(ins)),
+      loop_cnt(0),
+      C_next(N),
+      tie_breakers(V_size, 0),
+      A(N, nullptr),
+      occupied_now(V_size, nullptr),
+      occupied_next(V_size, nullptr),
+      empty_solution(_empty_solution)
+{
+}
+
+// Planner constructor for the factorized version, const ref
+Planner::Planner(const Instance& _ins, const Deadline* _deadline,
+                 std::mt19937* _MT, const int _verbose,
+                 const Objective _objective, const float _restart_rate,
+                 std::shared_ptr<Sol> _empty_solution)
+    : ins(_ins),
+      deadline(_deadline),
+      MT(_MT),
+      verbose(_verbose),
+      objective(_objective),
+      RESTART_RATE(_restart_rate),
+      N(ins.N),
+      V_size(ins.G.size()),
+      D(DistTable(ins)),
+      loop_cnt(0),
+      C_next(N),
+      tie_breakers(V_size, 0),
+      A(N, nullptr),
+      occupied_now(V_size, nullptr),
+      occupied_next(V_size, nullptr),
+      empty_solution(_empty_solution)                  // initialize with nothing
 {
 }
 
 Planner::~Planner() {}
 
-Solution Planner::solve(std::string& additional_info)
+// standard solving
+Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 {
   solver_info(1, "start search");
 
   // setup agents
-  for (int i = 0; i < N; ++i) A[i] = new Agent(i);
+  for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
 
   
 
@@ -101,7 +153,7 @@ Solution Planner::solve(std::string& additional_info)
   auto OPEN = std::stack<HNode*>();
   auto EXPLORED = std::unordered_map<Config, HNode*, ConfigHasher>();
   // insert initial node, 'H': high-level node
-  auto H_init = new HNode(ins->starts, D, nullptr, 0, get_h_value(ins->starts));
+  auto H_init = new HNode(ins.starts, D, nullptr, 0, get_h_value(ins.starts));
   OPEN.push(H_init);
   EXPLORED[H_init->C] = H_init;
 
@@ -130,7 +182,7 @@ Solution Planner::solve(std::string& additional_info)
     }
 
     // check goal condition
-    if (H_goal == nullptr && is_same_config(H->C, ins->goals)) {
+    if (H_goal == nullptr && is_same_config(H->C, ins.goals)) {
       H_goal = H;
       solver_info(1, "found solution, cost: ", H->g);
       if (objective == OBJ_NONE) break;
@@ -201,8 +253,222 @@ Solution Planner::solve(std::string& additional_info)
   for (auto a : A) delete a;
   for (auto itr : EXPLORED) delete itr.second;
 
+  infos_ptr->loop_count += loop_cnt;
+
   return solution;
 }
+
+
+
+// factorized solving
+void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const FactAlgo& factalgo, std::queue<Instance>& OPENins)
+{
+  solver_info(1, "start search");
+
+  // setup agents
+  for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
+
+  // setup search
+  auto OPEN = std::stack<HNode*>();
+  auto EXPLORED = std::unordered_map<Config, HNode*, ConfigHasher>();
+  // insert initial node, 'H': high-level node
+  auto H = new HNode(ins.starts, D, nullptr, 0, get_h_value(ins.starts));
+  OPEN.push(H);
+  EXPLORED[H->C] = H;
+
+  std::vector<Config> solution;
+  auto C_new = Config(N, nullptr);  // for new configuration
+  HNode* H_goal = nullptr;          // to store goal node
+  HNode* H_end = nullptr;           // to store end node for backtracking early
+  bool backtrack_flag = false;      // to know when to backtrack
+
+  std::queue<Instance> L_ins = {};       // initiate a list of instances
+  int timestep = empty_solution->solution[ins.enabled[0]].size();
+
+
+  // Need to fix the priorities between agents
+  if (ins.priority.size() > 1)
+  {
+    for (int i=0; i<int(N); i++)
+      H->priorities[i] = ins.priority[i];
+
+    // set order in decreasing priority 
+    std::iota(H->order.begin(), H->order.end(), 0);
+    std::sort(H->order.begin(), H->order.end(),
+              [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
+  }
+
+  // DFS
+  while (!OPEN.empty() && !is_expired(deadline)) {
+    loop_cnt += 1;
+    // check for factorization possibility here. If there 
+
+    // do not pop here!
+    auto H = OPEN.top();  // high-level node
+
+    // low-level search end
+    if (H->search_tree.empty()) {
+      OPEN.pop();
+      continue;
+    }
+
+    // check lower bounds
+    if (H_goal != nullptr && H->f >= H_goal->f) {
+      OPEN.pop();
+      continue;
+    }
+
+    // check goal condition
+    if (H_goal == nullptr && is_same_config(H->C, ins.goals)) {
+      H_goal = H;
+      H_end = H;
+      solver_info(1, "found solution, cost: ", H->g);
+      if (objective == OBJ_NONE)
+      { 
+        backtrack_flag = true;
+        break;
+      }
+      continue;
+    }
+
+    info(2, verbose,"\n-------------------------------------------\n");
+    info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt, ", timestep = ", timestep);
+
+    // DEBUG PRINT
+    if(verbose > 2) {
+      std::cout<<"\n- Printing current configuration : ";
+      print_vertices(H->C, ins.G.width);
+      std::cout<<"\n";
+    }
+
+    // create successors at the low-level search
+    auto L = H->search_tree.front();
+    H->search_tree.pop();
+    expand_lowlevel_tree(H, L);
+
+    // create successors at the high-level search
+    const auto res = get_new_config(H, L);
+    delete L;  // free
+    if (!res) continue;
+
+    // create new configuration
+    for (auto a : A) C_new[a->id] = a->v_next;
+
+    // check explored list
+    const auto iter = EXPLORED.find(C_new);
+    if (iter != EXPLORED.end()) {
+      // case found
+      rewrite(H, iter->second, H_goal, OPEN);
+      // re-insert or random-restart
+      auto H_insert = (MT != nullptr && get_random_float(MT) >= RESTART_RATE)
+                          ? iter->second
+                          : H;
+      if (H_goal == nullptr || H_insert->f < H_goal->f) 
+      {
+        OPEN.push(H_insert);
+      }
+    } else {
+      // insert new search node
+      const auto H_new = new HNode(
+          C_new, D, H, H->g + get_edge_cost(H->C, C_new), get_h_value(C_new));
+      EXPLORED[H_new->C] = H_new;
+      if (H_goal == nullptr || H_new->f < H_goal->f)
+      {
+        OPEN.push(H_new);
+      }
+      // store node for backtracking
+      H_end = H_new;
+    }
+
+    // Check for factorizability
+    if (H_end != nullptr && factalgo.is_factorizable(C_new, ins.goals))
+    {
+      info(1, verbose, "\nProblem is factorizable, factorizing now at timestep ", timestep);
+
+      factalgo.factorize(C_new, ins, verbose, H->priorities, ins.goals, OPENins);
+      
+      backtrack_flag = true;
+      
+      break;
+    }
+
+  }
+
+  // backtrack always !!!!!!!
+  if (H_goal != nullptr || backtrack_flag == true) {
+    auto H = H_end;
+    while (H != nullptr) {
+      solution.push_back(H->C);
+      H = H->parent;
+    }
+    std::reverse(solution.begin(), solution.end());
+  }
+
+  // print result
+  if (H_goal != nullptr && OPEN.empty()) {
+    solver_info(1, "solved optimally, objective: ", objective);
+  } else if (H_goal != nullptr) {
+    solver_info(1, "solved sub-optimally, objective: ", objective);
+  } else if (OPEN.empty()) {
+    solver_info(1, "no solution");
+  } else if (!L_ins.empty()) {
+    solver_info(1, "timeout");
+  }
+
+  // logging
+  additional_info +=
+      "optimal=" + std::to_string(H_goal != nullptr && OPEN.empty()) + "\n";
+  additional_info += "objective=" + std::to_string(objective) + "\n";
+  additional_info += "loop_cnt=" + std::to_string(loop_cnt) + "\n";
+  additional_info += "num_node_gen=" + std::to_string(EXPLORED.size()) + "\n";
+
+  // memory management
+  for (auto a : A) delete a;
+  for (auto itr : EXPLORED) delete itr.second;
+
+
+  infos_ptr->loop_count += loop_cnt;
+
+  // Spaghetti to append the solutions correctly
+
+  Solution sol_t = transpose(solution);
+
+  std::cout<<"sol size :"<<sol_t.size()<<std::endl;
+  std::cout<<"map size :"<<ins.agent_map.size()<<std::endl;
+
+
+  for(const auto& [id, true_id] : ins.agent_map)   // for some reason vscode doesnt like this line but compiles all good
+  {
+    //std::cout<<"\nActive agent : "<<active_agent;
+    auto sol_bit = sol_t[id];
+    auto line = &(empty_solution->solution[true_id]);
+
+    for (auto v : sol_bit) 
+    {
+      line->push_back(v);
+    }
+  }
+
+
+  /*for(auto id : ins.enabled)   // why problem here ? wtf
+  {
+    //std::cout<<"\nActive agent : "<<active_agent;
+    auto sol_bit = sol_t[id];
+    auto line = &(empty_solution->solution[ins.agent_map.at(id)]);
+
+    for (auto v : sol_bit) 
+    {
+      line->push_back(v);
+    }
+  }*/
+
+
+  // here ?
+  std::cout<<"test"<<std::endl;
+  std::cout<<"test"<<std::endl;
+}
+
+
 
 // Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality
 void Planner::rewrite(HNode* H_from, HNode* H_to, HNode* H_goal, std::stack<HNode*>& OPEN)
@@ -237,7 +503,7 @@ uint Planner::get_edge_cost(const Config& C1, const Config& C2)
   if (objective == OBJ_SUM_OF_LOSS) {
     uint cost = 0;
     for (uint i = 0; i < N; ++i) {                              // loop through every agent
-      if (C1[i] != ins->goals[i] || C2[i] != ins->goals[i]) {   // for either config, each agent not at its goal position increases cost by one.
+      if (C1[i] != ins.goals[i] || C2[i] != ins.goals[i]) {   // for either config, each agent not at its goal position increases cost by one.
         cost += 1;
       }
     }
@@ -257,9 +523,9 @@ uint Planner::get_h_value(const Config& C)
 {
   uint cost = 0;
   if (objective == OBJ_MAKESPAN) {
-    for (int i = 0; i < N; ++i) cost = std::max(cost, D.get(i, C[i]));
+    for (uint i = 0; i < N; ++i) cost = std::max(cost, D.get(i, C[i]));
   } else if (objective == OBJ_SUM_OF_LOSS) {
-    for (int i = 0; i < N; ++i) cost += D.get(i, C[i]);
+    for (uint i = 0; i < N; ++i) cost += D.get(i, C[i]);
   }
   return cost;
 }
@@ -313,8 +579,6 @@ bool Planner::get_new_config(HNode* H, LNode* L)
     occupied_next[l] = A[i];
   }
 
-  std::cout<<"\n - PIBT invoked for every agent";
-
   // perform PIBT
   for (int k : H->order) {
     auto a = A[k];
@@ -342,7 +606,7 @@ bool Planner::funcPIBT(Agent* ai)
 
   // sort in ascending descending order of priority
   std::sort(C_next[i].begin(), C_next[i].begin() + K + 1,
-            [&](Vertex* const v, Vertex* const u) {
+            [&](std::shared_ptr<Vertex> const v, std::shared_ptr<Vertex> const u) {
               return D.get(i, v) + tie_breakers[v->id] <
                      D.get(i, u) + tie_breakers[u->id];
             });
@@ -417,18 +681,18 @@ Agent* Planner::swap_possible_and_required(Agent* ai)
   return nullptr;
 }
 // simulate whether the swap is required
-bool Planner::is_swap_required(const uint pusher, const uint puller, Vertex* v_pusher_origin, Vertex* v_puller_origin)
+bool Planner::is_swap_required(const uint pusher, const uint puller, std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin)
 {
   auto v_pusher = v_pusher_origin;
   auto v_puller = v_puller_origin;
-  Vertex* tmp = nullptr;
+  std::shared_ptr<Vertex> tmp = nullptr;
   while (D.get(pusher, v_puller) < D.get(pusher, v_pusher)) {
     auto n = v_puller->neighbor.size();
     // remove agents who need not to move
     for (auto u : v_puller->neighbor) {
       auto a = occupied_now[u->id];
       if (u == v_pusher ||
-          (u->neighbor.size() == 1 && a != nullptr && ins->goals[a->id] == u)) {
+          (u->neighbor.size() == 1 && a != nullptr && ins.goals[a->id] == u)) {
         --n;
       } else {
         tmp = u;
@@ -446,17 +710,17 @@ bool Planner::is_swap_required(const uint pusher, const uint puller, Vertex* v_p
           D.get(pusher, v_puller) < D.get(pusher, v_pusher));
 }
 // simulate whether the swap is possible
-bool Planner::is_swap_possible(Vertex* v_pusher_origin, Vertex* v_puller_origin)
+bool Planner::is_swap_possible(std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin)
 {
   auto v_pusher = v_pusher_origin;
   auto v_puller = v_puller_origin;
-  Vertex* tmp = nullptr;
+  std::shared_ptr<Vertex> tmp = nullptr;
   while (v_puller != v_pusher_origin) {  // avoid loop
     auto n = v_puller->neighbor.size();  // count #(possible locations) to pull
     for (auto u : v_puller->neighbor) {
       auto a = occupied_now[u->id];
       if (u == v_pusher ||
-          (u->neighbor.size() == 1 && a != nullptr && ins->goals[a->id] == u)) {
+          (u->neighbor.size() == 1 && a != nullptr && ins.goals[a->id] == u)) {
         --n;      // pull-impossible with u
       } else {
         tmp = u;  // pull-possible with u
@@ -481,4 +745,56 @@ std::ostream& operator<<(std::ostream& os, const Objective obj)
     os << "sum_of_loss";
   }
   return os;
+}
+
+
+
+// To transpose Sol.solution type objects
+Solution transpose(const Solution& matrix) {
+    if (matrix.empty() || matrix[0].empty()) return {};
+
+    size_t numRows = matrix.size();
+    size_t numCols = matrix[0].size();
+
+    // Ensure all rows have the same number of columns
+    for (const auto& row : matrix) {
+        if (row.size() != numCols) {
+            throw std::invalid_argument("All rows in the input matrix must have the same number of columns.");
+        }
+    }
+
+    // Initialize the transposed matrix with the correct dimensions
+    Solution transposed(numCols, Config(numRows, nullptr));
+
+    // Perform the transposition
+    for (size_t i = 0; i < numRows; ++i) {
+        for (size_t j = 0; j < numCols; ++j) {
+            transposed[j][i] = matrix[i][j];
+        }
+    }
+
+    return transposed;
+}
+
+// Add padding to make the solution transposable
+void padSolution(std::shared_ptr<Sol>& sol) {
+    if (!sol) return; // Check if sol is null
+
+    // Find the length of the longest row
+    size_t maxLength = 0;
+    for (const auto& row : sol->solution) {
+        if (row.size() > maxLength) {
+            maxLength = row.size();
+        }
+    }
+
+    // Pad each row with its last element until it reaches maxLength
+    for (auto& row : sol->solution) {
+        if (!row.empty()) {
+            std::shared_ptr<Vertex> lastElement = row.back();
+            while (row.size() < maxLength) {
+                row.push_back(lastElement);
+            }
+        }
+    }
 }
