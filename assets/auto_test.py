@@ -101,10 +101,11 @@ def auto_test() :
 
         for N in n_agents :
             total = 0
+            success = 0
             for i in range(n) :
                 print("Testing with " + str(N) + " agents")
                 commmands = create_command(map_name=map_name, N=N, verbose=verbose, factorize=factorize)
-                print(commmands)
+                #print(commmands)
                 create_scen(N, dir_py, map_name)
                 #total += 1
                 for command in commmands :
@@ -113,10 +114,10 @@ def auto_test() :
                         run_commands_in_ubuntu([command], WSL_DIR)
                         success += 1
                     except : 
-                        print("Solving failed")
+                        print("Solving failed with " + str(N) + " agents")
                         continue
 
-            print(f"\nSuccessfully completed {success}/{total} tests\n")
+            #print(f"\nSuccessfully completed {success}/{total} tests\n")
     return
 
 

@@ -5,7 +5,7 @@
 #include "../include/instance.hpp"
 #include "../include/utils.hpp"
 
-
+#define SAFETY_DISTANCE 3
 
  /****************************************************************************************\
  *                        Implementation of the FactDistance class                        *
@@ -13,23 +13,87 @@
 
 const bool FactDistance::is_factorizable(const Config& C, const Config& goals) const
 {
-  for (size_t i = 0; i < C.size(); i++)
-  {
-    for (size_t j = 0; j < C.size(); j++)
-    {
-      if (i != j)
-      {
-        const int pi = C.at(i).get()->index;
-        const int pj = C.at(j).get()->index;
-        const int gi = goals.at(i).get()->index;
-        const int gj = goals.at(j).get()->index;
+  std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
+  Partitions partitions;         // collection of partitions
 
-        if (heuristic(pi, pj, gi, gj))
-          return true;
+  // initialize partitions with single agents
+  for(int j=0; j< (int)C.size(); j++)
+    partitions.push_back({j});
+
+  // loop through every agent in the configuration
+  int i = 0;                        // keep track of agent number 1
+  for(auto agent1_pos : C)
+  {
+    int j = 0;                      // keep track of agent number 2
+    int index1 = agent1_pos.get()->index;     // agent1 vertex index
+    int goal1 = goals[i].get()->index;        // agent1's goal index
+
+    // loop through every agent j in same configuration                 
+    for(auto agent2_pos : C)
+    {
+      int index2 = agent2_pos.get()->index; // agent2 vertex index
+      int goal2 = goals[j].get()->index;        // agent1's goal index
+
+      if ( !heuristic(index1, index2, goal1, goal2) and !(std::find(taken.begin(), taken.end(), j) != taken.end()))
+      {
+        int k = 0;
+        std::vector<int>* partition1 = nullptr;
+        std::vector<int>* partition2 = nullptr;
+
+        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not met for factorization
+
+        for (auto partition : partitions) 
+        {
+          bool is_i_in_partition = std::find(partition.begin(), partition.end(), i) != partition.end();
+          bool is_j_in_partition = std::find(partition.begin(), partition.end(), j) != partition.end();
+
+          if(is_i_in_partition)
+            partition1 = &partitions[k];
+
+          if(is_j_in_partition)
+            partition2 = &partitions[k];
+
+          // break if both agents are already in the same partition
+          if(is_i_in_partition && is_j_in_partition)
+            break_flag = true;    
+
+          k++;
+        }
+
+        if(!break_flag)
+        {
+          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 << ")" << " are neighbours";
+          // insert partition2 into partition1
+          partition1->insert(partition1->end(), partition2->begin(), partition2->end());
+
+          // add agent i to taken list
+          taken.push_back(i);
+
+          // Add all agents in partition2 to taken list
+          taken.insert(taken.end(), partition2->begin(), partition2->end());
+
+          // clear partition2
+          partition2->clear();
+        }
       }
+      j++;
     }
+    i++; 
   }
-  return false;
+
+  // remove empty partitions.
+  auto& partits = partitions;
+  partits.erase(
+      std::remove_if(partits.begin(), partits.end(), [](const std::vector<int>& partition) {
+          return partition.empty();
+      }),
+      partits.end()
+  );
+
+  // return true only if there is an actual split possible
+  //std::cout<<"partitions size : "<<partitions.size()<<std::endl;
+  if (partitions.size() > 1) return true;
+  else return false;
 }
 
 
@@ -452,11 +516,10 @@ const bool FactBbox::heuristic(const int index1, const int index2, const int goa
   const int dy = std::abs(y1 - y2);
   const int d = dx + dy;
 
-  const int safety_distance = 3;
 
   const bool do_overlap = !(x1_max < x2_min || x2_max < x1_min || y1_max < y2_min || y2_max < y1_min);    // verifies that the bboxes don't overlap
 
-  return d > safety_distance && !do_overlap;   // return true if they are apart enough and if their bbox don't overlap
+  return d > SAFETY_DISTANCE && !do_overlap;   // return true if they are apart enough and if their bbox don't overlap
 }
 
 
@@ -677,9 +740,8 @@ const bool FactOrient::heuristic(const int index1, const int index2, const int g
   const int dyg = std::abs(yg1 - yg2);
   const int dg = dxg + dyg;
 
-  const int safety_distance = 3;
 
-  if (da < safety_distance && dg < safety_distance)
+  if (da < SAFETY_DISTANCE && dg < SAFETY_DISTANCE)
     return false;   
 
   //std::tuple<int, int> agent1 = { x1, y1 };
