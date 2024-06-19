@@ -70,7 +70,7 @@ uint DistTable::get(uint i, uint v_id)
   while (!OPEN[i].empty()) {
     auto&& n = OPEN[i].front();
     OPEN[i].pop();
-    const int d_n = table[i][n->id];
+    const int d_n = table[i][n->id];      // seg fault here ?
     for (auto&& m : n->neighbor) {
       const int d_m = table[i][m->id];
       if (d_n + 1 >= d_m) continue;
@@ -82,4 +82,4 @@ uint DistTable::get(uint i, uint v_id)
   return V_size;
 }
 
-uint DistTable::get(uint i, std::shared_ptr<Vertex> v) { return get(i, v->id); }
+uint DistTable::get(uint i, std::shared_ptr<Vertex> v) { return get(i, v->id); }      // seg fault here also ?

@@ -282,6 +282,9 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
 
   int timestep = empty_solution->solution[ins.enabled[0]].size();
 
+  
+
+
   // Restore the inheried priorities of agents
   if (ins.priority.size() > 1)
   {
@@ -298,6 +301,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
     // check for factorization possibility here. If there 
+
 
     // do not pop here!
     auto H = OPEN.top();  // high-level node
