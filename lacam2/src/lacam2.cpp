@@ -36,7 +36,7 @@ Solution solve_fact(const Instance& ins, std::string& additional_info,
     info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tOpen new instance from OPENSins list");
 
     const Instance I = OPENins.front();
-    std::shared_ptr<const Instance> sharedIns = std::make_shared<const Instance>(I);
+    //std::shared_ptr<const Instance> sharedIns = std::make_shared<const Instance>(I);
     OPENins.pop();
 
     // Print some info

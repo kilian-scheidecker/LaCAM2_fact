@@ -26,7 +26,7 @@ struct Graph {
   uint height;                         // grid height
   Graph();
   Graph(const std::string& filename);  // taking map filename
-  //~Graph();
+  ~Graph() {}
 
   uint size() const;  // the number of vertices
 };

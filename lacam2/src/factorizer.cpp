@@ -210,7 +210,6 @@ void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, 
 
   for (auto enable : partitions) 
   {
-    auto enabled = enable;
     auto C0 = Config(enable.size(), nullptr);
     auto G0 = Config(enable.size(), nullptr);
 
@@ -239,7 +238,7 @@ void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, 
     {
 
       // Create sub-instance
-      auto I0 = Instance(ins.G, C0, G0, enabled, new_agent_map, enabled.size(), priorities_ins);
+      auto I = Instance(ins.G, C0, G0, enable, new_agent_map, enable.size(), priorities_ins);
 
       // print info about the newly created sub-instances
       /*if(verbose > 2)
@@ -253,8 +252,9 @@ void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, 
         std::cout<<"\ngoals : ";
         print_vertices(G0, width);
       }*/
-      info(1, verbose, "Pushed new sub-instance with ", I0.N, " agents.");
-      OPENins.push(I0);
+      info(1, verbose, "Pushed new sub-instance with ", I.N, " agents.");
+      OPENins.push(std::move(I));    // not only push but move
+      //OPENins.push(I);
     }
 
     else 

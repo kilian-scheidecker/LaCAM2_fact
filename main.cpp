@@ -109,8 +109,12 @@ int main(int argc, char* argv[])
     // Generate the agent map, at the start, each agent is mapped to itself
     for (int i = 0; i < N; ++i) agent_map[i] = i;
 
-    // Create the instance
+    // Create the instance, Vertices are assigned here
+    // smarter way : move vertices to be unique_ptr<Vertex>, generate the graph here and pass it by const ref at every instance
+    //Graph G = Graph(map_name);
+
     const auto ins_fact = Instance(scen_name, map_name, v_enable, agent_map, N);
+    
     if (!ins_fact.is_valid(1)) return 1;
 
     // Create the FactAlgo class

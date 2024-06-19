@@ -28,9 +28,12 @@ struct Instance {
   // for MAPF benchmark
   Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, std::map<int, int>& _agent_map, const int _N = 1);
 
-
-
-  ~Instance() {}
+  // Rule of five
+    Instance(const Instance& other);                // Copy constructor
+    Instance(Instance&& other) noexcept;            // Move constructor
+    Instance& operator=(const Instance& other);     // Copy assignment operator
+    Instance& operator=(Instance&& other) noexcept; // Move assignment operator
+    ~Instance();                                    // Destructor
 
   // simple feasibility check of instance
   bool is_valid(const int verbose = 0) const;
