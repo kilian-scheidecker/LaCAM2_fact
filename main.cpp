@@ -128,12 +128,12 @@ int main(int argc, char* argv[])
     else if (strcmp(factorize.c_str(), "FactBbox") == 0)
     {
       // Create a FactDistance object
-      algo = std::make_unique<FactBbox>(ins_fact.G.width);
+      //algo = std::make_unique<FactBbox>(ins_fact.G.width);
     }
     else
     {
       // Create a FactDistance object
-      algo = std::make_unique<FactOrient>(ins_fact.G.width);
+      //algo = std::make_unique<FactOrient>(ins_fact.G.width);
     }
     
     // Reset the infos :

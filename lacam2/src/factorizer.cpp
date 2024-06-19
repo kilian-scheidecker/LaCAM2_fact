@@ -97,7 +97,7 @@ const bool FactDistance::is_factorizable(const Config& C, const Config& goals) c
 }
 
 
-void FactDistance::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins) const {
+void FactDistance::factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::map<int, int>& agent_map) const {
 
   std::vector<std::vector<int>> partitions;         // collection of partitions
 
@@ -177,11 +177,11 @@ void FactDistance::factorize(const Config& C, const Instance& ins, const int ver
   );
 
 
-  split_ins(ins, partitions, C, verbose, priorities, OPENins);
+  split_ins(G, partitions, C, goals, verbose, priorities, OPENins, agent_map);
 }
 
 
-void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins) const 
+void FactDistance::split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::map<int, int>& agent_map) const 
 {
   // printing info about the parititons
   if(verbose > 0)
@@ -220,7 +220,7 @@ void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, 
 
     for (auto prev_id : enable) {
 
-      auto true_id = ins.agent_map.at(prev_id);   // from the agent_map, get the old_id corresponding to the TRUE agent index
+      auto true_id = agent_map.at(prev_id);   // from the agent_map, get the old_id corresponding to the TRUE agent index
       new_agent_map[new_id] = true_id;            // switched here
       //if (index >= int(C_new.size()) || index >= int(ins->goals.size())) {
       //    continue; // Skip this iteration if index is out of bounds
@@ -229,7 +229,7 @@ void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, 
       priorities_ins[new_id] = priorities.at(prev_id);      // transfer priorities to newly created instancse
 
       C0[new_id] = C_new[prev_id];             // Be careful here, the partition order might be of importance / cause some problems ! 
-      G0[new_id] = ins.goals[prev_id];
+      G0[new_id] = goals[prev_id];
       new_id++;
     }
 
@@ -238,10 +238,10 @@ void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, 
     {
 
       // Create sub-instance
-      auto I = Instance(ins.G, C0, G0, enable, new_agent_map, enable.size(), priorities_ins);
+      auto I = Instance(G, C0, G0, enable, new_agent_map, enable.size(), priorities_ins);
 
       // print info about the newly created sub-instances
-      /*if(verbose > 2)
+      if(verbose > 0)
       {
         std::cout<<"\nCreate sub-instance with enabled : ";
         for(auto i : enable)
@@ -251,7 +251,8 @@ void FactDistance::split_ins(const Instance& ins, const Partitions& partitions, 
         print_vertices(C0, width);
         std::cout<<"\ngoals : ";
         print_vertices(G0, width);
-      }*/
+        std::cout<<std::endl;
+      }
       info(1, verbose, "Pushed new sub-instance with ", I.N, " agents.");
       OPENins.push(std::move(I));    // not only push but move
       //OPENins.push(I);
@@ -300,7 +301,7 @@ const int FactDistance::get_manhattan(const int index1, const int index2) const 
  *                          Implementation of the FactBbox class                          *
  \****************************************************************************************/
 
-
+/*
 const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
 {
   std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
@@ -526,7 +527,7 @@ void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, cons
       auto I0 = Instance(ins.G, C0, G0, enabled, new_agent_map, enabled.size(), priorities_ins);
 
       // print info about the newly created sub-instances
-      /*if(verbose > 2)
+      if(verbose > 2)
       {
         std::cout<<"\nCreate sub-instance with enabled : ";
         for(auto i : enable)
@@ -536,7 +537,7 @@ void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, cons
         print_vertices(C0, width);
         std::cout<<"\ngoals : ";
         print_vertices(G0, width);
-      }*/
+      }
 
       info(1, verbose, "Pushed new sub-instance with ", I0.N, " agents.");
       OPENins.push(I0);
@@ -583,12 +584,13 @@ const bool FactBbox::heuristic(const int index1, const int index2, const int goa
 
 
 
-
+*/
 
  /****************************************************************************************\
  *                        Implementation of the FactOrient class                          *
  \****************************************************************************************/
 
+/*
 
 const bool FactOrient::is_factorizable(const Config& C, const Config& goals) const
 {
@@ -756,7 +758,7 @@ void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, co
       auto I0 = Instance(ins.G, C0, G0, enabled, new_agent_map, enabled.size(), priorities_ins);
 
       // print info about the newly created sub-instances
-      /*if(verbose > 2)
+      if(verbose > 2)
       {
         std::cout<<"\nCreate sub-instance with enabled : ";
         for(auto i : enable)
@@ -766,7 +768,7 @@ void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, co
         print_vertices(C0, width);
         std::cout<<"\ngoals : ";
         print_vertices(G0, width);
-      }*/
+      }
 
       info(1, verbose, "Pushed new sub-instance with ", I0.N, " agents.");
       OPENins.push(I0);
@@ -862,5 +864,5 @@ bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<in
 
     return false; // Doesn't fall in any of the above cases
 }
-
+*/
 

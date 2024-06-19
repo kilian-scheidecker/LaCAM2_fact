@@ -274,6 +274,10 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   OPEN.push(H);
   EXPLORED[H->C] = H;
 
+  std::cout<<"Planner created with enabled agents : \n";
+  for (auto elem : ins.enabled) std::cout<<elem<<", ";
+  std::cout<<"\n";
+
   std::vector<Config> solution;
   auto C_new = Config(N, nullptr);  // for new configuration
   HNode* H_goal = nullptr;          // to store goal node
@@ -384,7 +388,8 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     {
       info(1, verbose, "\nProblem is factorizable, factorizing now at timestep ", timestep);
 
-      factalgo.factorize(C_new, ins, verbose, H->priorities, ins.goals, OPENins);
+      auto test = ins.agent_map;
+      factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.agent_map);
       
       backtrack_flag = true;
       
