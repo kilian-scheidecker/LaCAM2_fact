@@ -2,75 +2,71 @@
 // Created by ale on 28/05/24.
 //
 #include "../include/factorizer.hpp"
+
+#include <unordered_set>
+
 #include "../include/instance.hpp"
 #include "../include/utils.hpp"
 
 #define SAFETY_DISTANCE 3
 
- /****************************************************************************************\
- *                        Implementation of the FactDistance class                        *
- \****************************************************************************************/
+/****************************************************************************************\
+*                        Implementation of the FactDistance class                        *
+\****************************************************************************************/
 
 const bool FactDistance::is_factorizable(const Config& C, const Config& goals) const
 {
-  Partitions partitions;         // collection of partitions
+  Partitions partitions;  // collection of partitions
 
   // initialize partitions with single agents
-  for(int j=0; j< (int)C.size(); j++)
-    partitions.push_back({j});
+  for (int j = 0; j < (int)C.size(); j++) partitions.push_back({j});
 
   // loop through every agent in the configuration
-  int i = 0;                        // keep track of agent number 1
-  for(auto agent1_pos : C)
-  {
-    int j = 0;                      // keep track of agent number 2
-    int index1 = agent1_pos.get()->index;     // agent1 vertex index
-    int goal1 = goals[i].get()->index;        // agent1's goal index
-    std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
-  
-    // loop through every agent j in same configuration                 
-    for(auto agent2_pos : C)
-    {
-      int index2 = agent2_pos.get()->index; // agent2 vertex index
-      int goal2 = goals[j].get()->index;        // agent1's goal index
+  int i = 0;  // keep track of agent number 1
+  for (auto agent1_pos : C) {
+    int j = 0;                             // keep track of agent number 2
+    int index1 = agent1_pos.get()->index;  // agent1 vertex index
+    int goal1 = goals[i].get()->index;     // agent1's goal index
+    std::vector<int> taken(C.size());      // taken list to be sure we don't process the same agent twice
 
-      if ( !heuristic(index1, index2, goal1, goal2) and !(std::find(taken.begin(), taken.end(), j) != taken.end()))
-      {
+    // loop through every agent j in same configuration
+    for (auto agent2_pos : C) {
+      int index2 = agent2_pos.get()->index;  // agent2 vertex index
+      int goal2 = goals[j].get()->index;     // agent1's goal index
+
+      if (!heuristic(index1, index2, goal1, goal2) and !(std::find(taken.begin(), taken.end(), j) != taken.end())) {
         int k = 0;
         std::vector<int>* partition1 = nullptr;
         std::vector<int>* partition2 = nullptr;
 
-        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not met for factorization
+        int break_flag = false;  // set break_flag to false for later. Used to break the loop if the conditions are not
+                                 // met for factorization
 
-        for (auto partition : partitions) 
-        {
+        for (auto partition : partitions) {
           bool is_i_in_partition = std::find(partition.begin(), partition.end(), i) != partition.end();
           bool is_j_in_partition = std::find(partition.begin(), partition.end(), j) != partition.end();
 
-          if(is_i_in_partition)
-            partition1 = &partitions[k];
+          if (is_i_in_partition) partition1 = &partitions[k];
 
-          if(is_j_in_partition)
-            partition2 = &partitions[k];
+          if (is_j_in_partition) partition2 = &partitions[k];
 
           // break if both agents are already in the same partition
-          if(is_i_in_partition && is_j_in_partition)
-            break_flag = true;    
+          if (is_i_in_partition && is_j_in_partition) break_flag = true;
 
           k++;
         }
 
-        if(!break_flag)
-        {
-          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 << ")" << " are neighbours";
-          // insert partition2 into partition1
+        if (!break_flag) {
+          // std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 <<
+          // ")" << " are neighbours";
+          //  insert partition2 into partition1
           partition1->insert(partition1->end(), partition2->begin(), partition2->end());
 
           // add agent j to taken list
           taken.push_back(j);
 
           // Add all agents in partition2 to taken list
-          //taken.insert(taken.end(), partition2->begin(), partition2->end());
+          // taken.insert(taken.end(), partition2->begin(), partition2->end());
 
           // clear partition2
           partition2->clear();
@@ -78,77 +74,72 @@ const bool FactDistance::is_factorizable(const Config& C, const Config& goals) c
       }
       j++;
     }
-    i++; 
+    i++;
   }
 
   // remove empty partitions.
   auto& partits = partitions;
-  partits.erase(
-      std::remove_if(partits.begin(), partits.end(), [](const std::vector<int>& partition) {
-          return partition.empty();
-      }),
-      partits.end()
-  );
+  partits.erase(std::remove_if(partits.begin(), partits.end(),
+                               [](const std::vector<int>& partition) { return partition.empty(); }),
+                partits.end());
 
   // return true only if there is an actual split possible
-  //std::cout<<"partitions size : "<<partitions.size()<<std::endl;
-  if (partitions.size() > 1) return true;
-  else return false;
+  // std::cout<<"partitions size : "<<partitions.size()<<std::endl;
+  if (partitions.size() > 1)
+    return true;
+  else
+    return false;
 }
 
-
-void FactDistance::factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::map<int, int>& agent_map) const {
-
-  std::vector<std::vector<int>> partitions;         // collection of partitions
+void FactDistance::factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities,
+                             const Config& goals, std::queue<Instance>& OPENins,
+                             const std::map<int, int>& agent_map) const
+{
+  std::vector<std::vector<int>> partitions;  // collection of partitions
 
   // initialize partitions with single agents
-  for(int j=0; j< (int)C.size(); j++)
-    partitions.push_back({j});
+  for (int j = 0; j < (int)C.size(); j++) partitions.push_back({agent_map.at(j)});
 
   // loop through every agent in the configuration
-  int i = 0;                        // keep track of agent number 1
-  for(auto agent1_pos : C)
-  {
-    int j = 0;                      // keep track of agent number 2
-    int index1 = agent1_pos.get()->index;     // agent1 vertex index
-    int goal1 = goals[i].get()->index;        // agent1's goal index
-    std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
-  
+  int i = 0;  // keep track of agent number 1
+  for (auto agent1_pos : C) {
+    int j = 0;                             // keep track of agent number 2
+    int index1 = agent1_pos.get()->index;  // agent1 vertex index
+    int goal1 = goals[i].get()->index;     // agent1's goal index
+    std::unordered_set<int> taken(C.size());      // taken list to be sure we don't process the same agent twice
 
-    // loop through every agent j in same configuration                 
-    for(auto agent2_pos : C)
-    {
-      int index2 = agent2_pos.get()->index; // agent2 vertex index
-      int goal2 = goals[j].get()->index;        // agent1's goal index
+    // loop through every agent j in same configuration
+    for (auto agent2_pos : C) {
+      if (taken.find(agent_map.at(j)) != taken.end()) {
+        j++;
+        continue;
+      }
+      int index2 = agent2_pos.get()->index;  // agent2 vertex index
+      int goal2 = goals[j].get()->index;     // agent1's goal index
 
-      if ( !heuristic(index1, index2, goal1, goal2) and !(std::find(taken.begin(), taken.end(), j) != taken.end()))
-      {
+      if (!heuristic(index1, index2, goal1, goal2)) {
         int k = 0;
         std::vector<int>* partition1 = nullptr;
         std::vector<int>* partition2 = nullptr;
 
-        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not met for factorization
+        int break_flag = false;  // set break_flag to false for later. Used to break the loop if the conditions are not
+                                 // met for factorization
 
-        for (auto partition : partitions) 
-        {
+        for (auto partition : partitions) {
           bool is_i_in_partition = std::find(partition.begin(), partition.end(), i) != partition.end();
           bool is_j_in_partition = std::find(partition.begin(), partition.end(), j) != partition.end();
 
-          if(is_i_in_partition)
-            partition1 = &partitions[k];
+          if (is_i_in_partition) partition1 = &partitions[k];
 
-          if(is_j_in_partition)
-            partition2 = &partitions[k];
+          if (is_j_in_partition) partition2 = &partitions[k];
 
           // break if both agents are already in the same partition
-          if(is_i_in_partition && is_j_in_partition)
-            break_flag = true;    
+          if (is_i_in_partition && is_j_in_partition) break_flag = true;
 
           k++;
         }
 
-        if(!break_flag)
-        {
+        if (!break_flag) {
           // insert partition2 into partition1
           partition1->insert(partition1->end(), partition2->begin(), partition2->end());
 
@@ -156,7 +147,7 @@ void FactDistance::factorize(const Config& C, const Graph& G, const int verbose,
           taken.push_back(j);
 
           // Add all agents in partition2 to taken list
-          //taken.insert(taken.end(), partition2->begin(), partition2->end());
+          // taken.insert(taken.end(), partition2->begin(), partition2->end());
 
           // clear partition2
           partition2->clear();
@@ -164,42 +155,36 @@ void FactDistance::factorize(const Config& C, const Graph& G, const int verbose,
       }
       j++;
     }
-    i++; 
+    i++;
   }
 
   // remove empty partitions.
   auto& partits = partitions;
-  partits.erase(
-      std::remove_if(partits.begin(), partits.end(), [](const std::vector<int>& partition) {
-          return partition.empty();
-      }),
-      partits.end()
-  );
-
+  partits.erase(std::remove_if(partits.begin(), partits.end(),
+                               [](const std::vector<int>& partition) { return partition.empty(); }),
+                partits.end());
 
   split_ins(G, partitions, C, goals, verbose, priorities, OPENins, agent_map);
 }
 
-
-void FactDistance::split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::map<int, int>& agent_map) const 
+void FactDistance::split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals,
+                             const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins,
+                             const std::map<int, int>& agent_map) const
 {
   // printing info about the parititons
-  if(verbose > 0)
-  {
-    std::cout<<"New partitions :\n";
-    for(auto vec : partitions)
-    {
-      for(auto i : vec)
-      {
-        std::cout<<i<<", ";
+  if (verbose > 0) {
+    std::cout << "New partitions :\n";
+    for (auto vec : partitions) {
+      for (auto i : vec) {
+        std::cout << i << ", ";
       }
-      std::cout<<" // ";
+      std::cout << " // ";
     }
-    std::cout<<" \n";
+    std::cout << " \n";
   }
 
-  //std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
-
+  // std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this
+  // instance.
 
   // just debug print
   /*for(auto it = ins.agent_map.cbegin(); it != ins.agent_map.cend(); ++it)
@@ -207,65 +192,55 @@ void FactDistance::split_ins(const Graph& G, const Partitions& partitions, const
       std::cout << it->first << ": " << it->second << "\n";
   }*/
 
-
-  for (auto enable : partitions) 
-  {
+  for (auto enable : partitions) {
     auto C0 = Config(enable.size(), nullptr);
     auto G0 = Config(enable.size(), nullptr);
 
-    int new_id = 0;   // id of the agents in the new instance
-    std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
+    std::map<int, int>
+        new_agent_map;  // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
 
-    std::vector<float> priorities_ins(enable.size());    // initialize the priority vector to transfer to new instances
+    std::vector<float> priorities_ins(enable.size());  // initialize the priority vector to transfer to new instances
 
+    int new_id = 0;  // id of the agents in the new instance
     for (auto prev_id : enable) {
+      auto true_id = agent_map.at(prev_id);  // from the agent_map, get the old_id corresponding to the TRUE agent index
+      new_agent_map[new_id] = true_id;       // switched here
 
-      auto true_id = agent_map.at(prev_id);   // from the agent_map, get the old_id corresponding to the TRUE agent index
-      new_agent_map[new_id] = true_id;            // switched here
-      //if (index >= int(C_new.size()) || index >= int(ins->goals.size())) {
-      //    continue; // Skip this iteration if index is out of bounds
-      //}
-
-      priorities_ins[new_id] = priorities.at(prev_id);      // transfer priorities to newly created instancse
-
-      C0[new_id] = C_new[prev_id];             // Be careful here, the partition order might be of importance / cause some problems ! 
+      priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
+      // Be careful here, the partition order might be of importance / cause some problems !
+      C0[new_id] = C_new[prev_id];
       G0[new_id] = goals[prev_id];
       new_id++;
     }
 
     // sanity check
-    if(C0.size() > 0)
-    {
-
+    if (C0.size() > 0) {
       // Create sub-instance
       auto I = Instance(G, C0, G0, enable, new_agent_map, enable.size(), priorities_ins);
 
       // print info about the newly created sub-instances
-      if(verbose > 0)
-      {
-        std::cout<<"\nCreate sub-instance with enabled : ";
-        for(auto i : enable)
-          std::cout<<i<<", ";
-        
-        std::cout<<"\nStarts : ";
+      if (verbose > 0) {
+        std::cout << "\nCreate sub-instance with enabled : ";
+        for (auto i : enable) std::cout << i << ", ";
+
+        std::cout << "\nStarts : ";
         print_vertices(C0, width);
-        std::cout<<"\ngoals : ";
+        std::cout << "\ngoals : ";
         print_vertices(G0, width);
-        std::cout<<std::endl;
+        std::cout << std::endl;
       }
       info(1, verbose, "Pushed new sub-instance with ", I.N, " agents.");
-      OPENins.push(std::move(I));    // not only push but move
-      //OPENins.push(I);
+      OPENins.push(std::move(I));  // not only push but move
+      // OPENins.push(I);
     }
 
-    else 
-      std::cerr<<"Something wrong with Instance generation";
+    else
+      std::cerr << "Something wrong with Instance generation";
   }
 }
 
-
-const bool FactDistance::heuristic(const int index1, const int index2, const int goal1, const int goal2) const {
-  
+const bool FactDistance::heuristic(const int index1, const int index2, const int goal1, const int goal2) const
+{
   const int d1 = get_manhattan(index1, goal1);
   const int d2 = get_manhattan(index2, goal2);
   const int da = get_manhattan(index1, index2);
@@ -278,28 +253,24 @@ const bool FactDistance::heuristic(const int index1, const int index2, const int
   // return da > d1 + d2 ??
 }
 
+const int FactDistance::get_manhattan(const int index1, const int index2) const
+{
+  int y1 = (int)index1 / width;  // agent1 y position
+  int x1 = index1 % width;       // agent1 x position
 
-const int FactDistance::get_manhattan(const int index1, const int index2) const {
-
-  int y1 = (int) index1/width;        // agent1 y position
-  int x1 = index1%width;              // agent1 x position
-
-  int y2 = (int) index2/width;        // agent2 y position
-  int x2 = index2%width;              // agent2 x position
+  int y2 = (int)index2 / width;  // agent2 y position
+  int x2 = index2 % width;       // agent2 x position
 
   // Compute the Manhattan distance
   int dx = std::abs(x1 - x2);
   int dy = std::abs(y1 - y2);
 
-        return dx + dy;
+  return dx + dy;
 }
 
-
-
-
- /****************************************************************************************\
- *                          Implementation of the FactBbox class                          *
- \****************************************************************************************/
+/****************************************************************************************\
+*                          Implementation of the FactBbox class                          *
+\****************************************************************************************/
 
 /*
 const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
@@ -319,7 +290,7 @@ const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
     int index1 = agent1_pos.get()->index;     // agent1 vertex index
     int goal1 = goals[i].get()->index;        // agent1's goal index
 
-    // loop through every agent j in same configuration                 
+    // loop through every agent j in same configuration
     for(auto agent2_pos : C)
     {
       int index2 = agent2_pos.get()->index; // agent2 vertex index
@@ -331,9 +302,10 @@ const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
         std::vector<int>* partition1 = nullptr;
         std::vector<int>* partition2 = nullptr;
 
-        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not met for factorization
+        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not
+met for factorization
 
-        for (auto partition : partitions) 
+        for (auto partition : partitions)
         {
           bool is_i_in_partition = std::find(partition.begin(), partition.end(), i) != partition.end();
           bool is_j_in_partition = std::find(partition.begin(), partition.end(), j) != partition.end();
@@ -346,14 +318,15 @@ const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
 
           // break if both agents are already in the same partition
           if(is_i_in_partition && is_j_in_partition)
-            break_flag = true;    
+            break_flag = true;
 
           k++;
         }
 
         if(!break_flag)
         {
-          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 << ")" << " are neighbours";
+          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 <<
+")" << " are neighbours";
           // insert partition2 into partition1
           partition1->insert(partition1->end(), partition2->begin(), partition2->end());
 
@@ -366,7 +339,7 @@ const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
       }
       j++;
     }
-    i++; 
+    i++;
   }
 
   // remove empty partitions.
@@ -383,7 +356,8 @@ const bool FactBbox::is_factorizable(const Config& C, const Config& goals) const
 }
 
 
-void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins) const {
+void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities,
+const Config& goals, std::queue<Instance>& OPENins) const {
 
   std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   std::vector<std::vector<int>> partitions;         // collection of partitions
@@ -400,7 +374,7 @@ void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose
     int index1 = agent1_pos.get()->index;     // agent1 vertex index
     int goal1 = goals[i].get()->index;        // agent1's goal index
 
-    // loop through every agent j in same configuration                 
+    // loop through every agent j in same configuration
     for(auto agent2_pos : C)
     {
       int index2 = agent2_pos.get()->index; // agent2 vertex index
@@ -412,9 +386,10 @@ void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose
         std::vector<int>* partition1 = nullptr;
         std::vector<int>* partition2 = nullptr;
 
-        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not met for factorization
+        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not
+met for factorization
 
-        for (auto partition : partitions) 
+        for (auto partition : partitions)
         {
           bool is_i_in_partition = std::find(partition.begin(), partition.end(), i) != partition.end();
           bool is_j_in_partition = std::find(partition.begin(), partition.end(), j) != partition.end();
@@ -427,14 +402,15 @@ void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose
 
           // break if both agents are already in the same partition
           if(is_i_in_partition && is_j_in_partition)
-            break_flag = true;    
+            break_flag = true;
 
           k++;
         }
 
         if(!break_flag)
         {
-          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 << ")" << " are neighbours";
+          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 <<
+")" << " are neighbours";
           // insert partition2 into partition1
           partition1->insert(partition1->end(), partition2->begin(), partition2->end());
 
@@ -450,7 +426,7 @@ void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose
       }
       j++;
     }
-    i++; 
+    i++;
   }
 
   // remove empty partitions.
@@ -467,7 +443,8 @@ void FactBbox::factorize(const Config& C, const Instance& ins, const int verbose
 }
 
 
-void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins) const 
+void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose,
+const std::vector<float>& priorities, std::queue<Instance>& OPENins) const
 {
   // printing info about the parititons
   if(verbose > 0)
@@ -483,7 +460,8 @@ void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, cons
     }
     std::cout<<" \n";
   }
-  //std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
+  //std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this
+instance.
 
 
   // just debug print
@@ -493,30 +471,30 @@ void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, cons
   }
 
 
-  for (auto enable : partitions) 
+  for (auto enable : partitions)
   {
     auto enabled = enable;
     auto C0 = Config(enable.size(), nullptr);
     auto G0 = Config(enable.size(), nullptr);
 
     int new_id = 0;   // id of the agents in the new instance
-    std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
+    std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this
+instance.
 
     std::vector<float> priorities_ins(enable.size());    // initialize the priority vector to transfer to new instances
 
     for (auto prev_id : enable) {
 
-      auto true_id = ins.agent_map.at(prev_id);   // from the agent_map, get the old_id corresponding to the TRUE agent index
-      new_agent_map[new_id] = true_id;            // switched here
+      auto true_id = ins.agent_map.at(prev_id);   // from the agent_map, get the old_id corresponding to the TRUE agent
+index new_agent_map[new_id] = true_id;            // switched here
       //if (index >= int(C_new.size()) || index >= int(ins->goals.size())) {
       //    continue; // Skip this iteration if index is out of bounds
       //}
 
       priorities_ins[new_id] = priorities.at(prev_id);      // transfer priorities to newly created instancse
 
-      C0[new_id] = C_new[prev_id];             // Be careful here, the partition order might be of importance / cause some problems ! 
-      G0[new_id] = ins.goals[prev_id];
-      new_id++;
+      C0[new_id] = C_new[prev_id];             // Be careful here, the partition order might be of importance / cause
+some problems ! G0[new_id] = ins.goals[prev_id]; new_id++;
     }
 
     // sanity check
@@ -532,7 +510,7 @@ void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, cons
         std::cout<<"\nCreate sub-instance with enabled : ";
         for(auto i : enable)
           std::cout<<i<<", ";
-        
+
         std::cout<<"\nStarts : ";
         print_vertices(C0, width);
         std::cout<<"\ngoals : ";
@@ -543,7 +521,7 @@ void FactBbox::split_ins(const Instance& ins, const Partitions& partitions, cons
       OPENins.push(I0);
     }
 
-    else 
+    else
       std::cerr<<"Something wrong with Instance generation";
   }
 }
@@ -577,7 +555,8 @@ const bool FactBbox::heuristic(const int index1, const int index2, const int goa
   const int d = dx + dy;
 
 
-  const bool do_overlap = !(x1_max < x2_min || x2_max < x1_min || y1_max < y2_min || y2_max < y1_min);    // verifies that the bboxes don't overlap
+  const bool do_overlap = !(x1_max < x2_min || x2_max < x1_min || y1_max < y2_min || y2_max < y1_min);    // verifies
+that the bboxes don't overlap
 
   return d > SAFETY_DISTANCE && !do_overlap;   // return true if they are apart enough and if their bbox don't overlap
 }
@@ -586,9 +565,9 @@ const bool FactBbox::heuristic(const int index1, const int index2, const int goa
 
 */
 
- /****************************************************************************************\
- *                        Implementation of the FactOrient class                          *
- \****************************************************************************************/
+/****************************************************************************************\
+*                        Implementation of the FactOrient class                          *
+\****************************************************************************************/
 
 /*
 
@@ -614,7 +593,8 @@ const bool FactOrient::is_factorizable(const Config& C, const Config& goals) con
 }
 
 
-void FactOrient::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins) const {
+void FactOrient::factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>&
+priorities, const Config& goals, std::queue<Instance>& OPENins) const {
 
   std::vector<int> taken(C.size());                 // taken list to be sure we don't process the same agent twice
   std::vector<std::vector<int>> partitions;         // collection of partitions
@@ -631,7 +611,7 @@ void FactOrient::factorize(const Config& C, const Instance& ins, const int verbo
     int index1 = agent1_pos.get()->index;     // agent1 vertex index
     int goal1 = goals[i].get()->index;        // agent1's goal index
 
-    // loop through every agent j in same configuration                 
+    // loop through every agent j in same configuration
     for(auto agent2_pos : C)
     {
       int index2 = agent2_pos.get()->index; // agent2 vertex index
@@ -643,9 +623,10 @@ void FactOrient::factorize(const Config& C, const Instance& ins, const int verbo
         std::vector<int>* partition1 = nullptr;
         std::vector<int>* partition2 = nullptr;
 
-        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not met for factorization
+        int break_flag = false;   // set break_flag to false for later. Used to break the loop if the conditions are not
+met for factorization
 
-        for (auto partition : partitions) 
+        for (auto partition : partitions)
         {
           bool is_i_in_partition = std::find(partition.begin(), partition.end(), i) != partition.end();
           bool is_j_in_partition = std::find(partition.begin(), partition.end(), j) != partition.end();
@@ -658,14 +639,15 @@ void FactOrient::factorize(const Config& C, const Instance& ins, const int verbo
 
           // break if both agents are already in the same partition
           if(is_i_in_partition && is_j_in_partition)
-            break_flag = true;    
+            break_flag = true;
 
           k++;
         }
 
         if(!break_flag)
         {
-          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 << ")" << " are neighbours";
+          //std::cout << "Agents " << i << " (" << x1 << "," << y1 << ")" << " and " << j << " (" << x2 << "," << y2 <<
+")" << " are neighbours";
           // insert partition2 into partition1
           partition1->insert(partition1->end(), partition2->begin(), partition2->end());
 
@@ -681,7 +663,7 @@ void FactOrient::factorize(const Config& C, const Instance& ins, const int verbo
       }
       j++;
     }
-    i++; 
+    i++;
   }
 
   // remove empty partitions.
@@ -698,7 +680,8 @@ void FactOrient::factorize(const Config& C, const Instance& ins, const int verbo
 }
 
 
-void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins) const 
+void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose,
+const std::vector<float>& priorities, std::queue<Instance>& OPENins) const
 {
   // printing info about the parititons
   if(verbose > 0)
@@ -715,7 +698,8 @@ void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, co
     std::cout<<" \n";
   }
 
-  //std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
+  //std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this
+instance.
 
 
   // just debug print
@@ -724,30 +708,30 @@ void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, co
       std::cout << it->first << ": " << it->second << "\n";
   }
 
-  for (auto enable : partitions) 
+  for (auto enable : partitions)
   {
     auto enabled = enable;
     auto C0 = Config(enable.size(), nullptr);
     auto G0 = Config(enable.size(), nullptr);
 
     int new_id = 0;   // id of the agents in the new instance
-    std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this instance.
+    std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this
+instance.
 
     std::vector<float> priorities_ins(enable.size());    // initialize the priority vector to transfer to new instances
 
     for (auto prev_id : enable) {
 
-      auto true_id = ins.agent_map.at(prev_id);   // from the agent_map, get the old_id corresponding to the TRUE agent index
-      new_agent_map[new_id] = true_id;            // switched here
+      auto true_id = ins.agent_map.at(prev_id);   // from the agent_map, get the old_id corresponding to the TRUE agent
+index new_agent_map[new_id] = true_id;            // switched here
       //if (index >= int(C_new.size()) || index >= int(ins->goals.size())) {
       //    continue; // Skip this iteration if index is out of bounds
       //}
 
       priorities_ins[new_id] = priorities.at(prev_id);      // transfer priorities to newly created instancse
 
-      C0[new_id] = C_new[prev_id];             // Be careful here, the partition order might be of importance / cause some problems ! 
-      G0[new_id] = ins.goals[prev_id];
-      new_id++;
+      C0[new_id] = C_new[prev_id];             // Be careful here, the partition order might be of importance / cause
+some problems ! G0[new_id] = ins.goals[prev_id]; new_id++;
     }
 
     // sanity check
@@ -763,7 +747,7 @@ void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, co
         std::cout<<"\nCreate sub-instance with enabled : ";
         for(auto i : enable)
           std::cout<<i<<", ";
-        
+
         std::cout<<"\nStarts : ";
         print_vertices(C0, width);
         std::cout<<"\ngoals : ";
@@ -774,7 +758,7 @@ void FactOrient::split_ins(const Instance& ins, const Partitions& partitions, co
       OPENins.push(I0);
     }
 
-    else 
+    else
       std::cerr<<"Something wrong with Instance generation";
   }
 }
@@ -803,23 +787,25 @@ const bool FactOrient::heuristic(const int index1, const int index2, const int g
 
 
   if (da < SAFETY_DISTANCE && dg < SAFETY_DISTANCE)
-    return false;   
+    return false;
 
   //std::tuple<int, int> agent1 = { x1, y1 };
   //std::tuple<int, int> goal1 = { xg1, yg1 };
   //std::tuple<int, int> agent2 = { x2, y2 };
   //std::tuple<int, int> goal2 = { xg2, yg2 };
 
-  return !doIntersect(std::make_tuple(x1, y1), std::make_tuple(xg1, yg1), std::make_tuple(x2, y2), std::make_tuple(xg2, yg2)); // return true if they are apart enough and if their vectors don't cross
+  return !doIntersect(std::make_tuple(x1, y1), std::make_tuple(xg1, yg1), std::make_tuple(x2, y2), std::make_tuple(xg2,
+yg2)); // return true if they are apart enough and if their vectors don't cross
 }
 
 
-int FactOrient::orientation(const std::tuple<int, int>& p, const std::tuple<int, int>& q, const std::tuple<int, int>& r) const {
+int FactOrient::orientation(const std::tuple<int, int>& p, const std::tuple<int, int>& q, const std::tuple<int, int>& r)
+const {
     // The function returns:
     // 0 : Collinear points
     // 1 : Clockwise points
     // 2 : Counterclockwise
-    
+
     int val = (std::get<1>(q) - std::get<1>(p)) * (std::get<0>(r) - std::get<0>(q)) -
               (std::get<0>(q) - std::get<0>(p)) * (std::get<1>(r) - std::get<1>(q));
 
@@ -828,16 +814,17 @@ int FactOrient::orientation(const std::tuple<int, int>& p, const std::tuple<int,
 }
 
 
-bool FactOrient::onSegment(const std::tuple<int, int>& p, const std::tuple<int, int>& q, const std::tuple<int, int>& r) const {
-    if (std::get<0>(q) <= std::max(std::get<0>(p), std::get<0>(r)) && std::get<0>(q) >= std::min(std::get<0>(p), std::get<0>(r)) &&
-        std::get<1>(q) <= std::max(std::get<1>(p), std::get<1>(r)) && std::get<1>(q) >= std::min(std::get<1>(p), std::get<1>(r))) {
-        return true;
+bool FactOrient::onSegment(const std::tuple<int, int>& p, const std::tuple<int, int>& q, const std::tuple<int, int>& r)
+const { if (std::get<0>(q) <= std::max(std::get<0>(p), std::get<0>(r)) && std::get<0>(q) >= std::min(std::get<0>(p),
+std::get<0>(r)) && std::get<1>(q) <= std::max(std::get<1>(p), std::get<1>(r)) && std::get<1>(q) >=
+std::min(std::get<1>(p), std::get<1>(r))) { return true;
     }
     return false;
 }
 
 
-bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<int, int>& q1, const std::tuple<int, int>& p2, const std::tuple<int, int>& q2) const {
+bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<int, int>& q1, const std::tuple<int, int>&
+p2, const std::tuple<int, int>& q2) const {
     // Find the four orientations needed for general and special cases
     int o1 = orientation(p1, q1, p2);
     int o2 = orientation(p1, q1, q2);
@@ -865,4 +852,3 @@ bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<in
     return false; // Doesn't fall in any of the above cases
 }
 */
-

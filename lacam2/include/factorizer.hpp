@@ -17,6 +17,7 @@ using PartitionsMap = std::map<int, Partitions>;
 class FactAlgo
 {
 public:
+    // width of the graph
     const int width;
 
     FactAlgo(int width) : width(width) {}

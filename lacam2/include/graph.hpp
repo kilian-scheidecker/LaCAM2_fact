@@ -15,9 +15,10 @@ struct Vertex {
   Vertex(Vertex* v);
 };
 
-
+// Used for the sequence of Vertices of one agent (its path)
 using Vertices = std::vector<std::shared_ptr<Vertex>>;
-using Config = std::vector<std::shared_ptr<Vertex>>;  // locations for all agents
+// locations for all agents
+using Config = std::vector<std::shared_ptr<Vertex>>;
 
 struct Graph {
   Vertices V;                          // without nullptr
