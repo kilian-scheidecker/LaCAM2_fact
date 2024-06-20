@@ -394,14 +394,12 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     }
 
     // Check for factorizability
-    if (H_end != nullptr && factalgo.is_factorizable(C_new, ins.goals))
+    if (H_end != nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled))
     {
       info(1, verbose, "\nProblem is factorizable in the next step, splitting now at timestep ", timestep);
-
-      auto test = ins.agent_map;
-      factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled);
-      
       backtrack_flag = true;
+
+      // The idea would be not to break but overwrite the goal condition and continue refining the solution
       
       break;
     }

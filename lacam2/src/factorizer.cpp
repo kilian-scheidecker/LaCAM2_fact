@@ -91,17 +91,20 @@ const bool FactDistance::is_factorizable(const Config& C, const Config& goals) c
     return false;
 }
 
-void FactDistance::factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities,
-                             const Config& goals, std::queue<Instance>& OPENins,
-                             const std::vector<int>& enabled) const
+bool FactDistance::factorize(const Config& C, const Graph& G, const int verbose, 
+                             const std::vector<float>& priorities, const Config& goals, 
+                             std::queue<Instance>& OPENins, const std::vector<int>& enabled) const
 {
-  std::vector<std::vector<int>> partitions;  // collection of partitions
+  // collection of partitions
+  std::vector<std::vector<int>> partitions; 
+
+  // maps the true id of the agent to its position in the instance to split
+  std::map<int, int> agent_map;
 
   // initialize partitions with single agents corresponding to their true id
   for (int j = 0; j < (int)C.size(); j++) partitions.push_back({enabled.at(j)});
 
-  // maps the true id of the agent to its position in the instance to split
-  std::map<int, int> agent_map;
+  
 
   // loop through every agent in the configuration
   int rel_id_1 = 0;  // keep track of agent number 1
@@ -173,7 +176,15 @@ void FactDistance::factorize(const Config& C, const Graph& G, const int verbose,
                                [](const std::vector<int>& partition) { return partition.empty(); }),
                 partits.end());
 
-  split_ins(G, partitions, C, goals, verbose, priorities, OPENins, enabled, agent_map);
+
+  if (partitions.size() > 1)
+  {   
+    split_ins(G, partitions, C, goals, verbose, priorities, OPENins, enabled, agent_map);
+    return true;
+  }
+  else return false;
+
+  
 }
 
 void FactDistance::split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals,
@@ -181,7 +192,7 @@ void FactDistance::split_ins(const Graph& G, const Partitions& partitions, const
                              const std::vector<int>& enabled, const std::map<int, int>& agent_map) const
 {
   // printing info about the parititons
-  if (verbose > 0) {
+  if (verbose > 2) {
     std::cout << "New partitions :\n";
     for (auto vec : partitions) {
       for (auto i : vec) {
@@ -191,15 +202,6 @@ void FactDistance::split_ins(const Graph& G, const Partitions& partitions, const
     }
     std::cout << " \n";
   }
-
-  // std::map<int, int> new_agent_map; // the idea is to make use of a map that matches enabled_id to agent_id in this
-  // instance.
-
-  // just debug print
-  /*for(auto it = ins.agent_map.cbegin(); it != ins.agent_map.cend(); ++it)
-  {
-      std::cout << it->first << ": " << it->second << "\n";
-  }*/
 
   for (auto new_enabled : partitions) {
     auto C0 = Config(new_enabled.size(), nullptr);
@@ -237,7 +239,6 @@ void FactDistance::split_ins(const Graph& G, const Partitions& partitions, const
       }
       info(2, verbose, "Pushed new sub-instance with ", I.N, " agents.");
       OPENins.push(std::move(I));  // not only push but move
-      // OPENins.push(I);
     }
 
     else
@@ -251,7 +252,7 @@ const bool FactDistance::heuristic(const int index1, const int index2, const int
   const int d2 = get_manhattan(index2, goal2);
   const int da = get_manhattan(index1, index2);
 
-  if (da > d1 + d2)
+  if (da > d1 + d2+1)
     return true;
   else
     return false;

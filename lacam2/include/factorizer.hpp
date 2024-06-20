@@ -26,7 +26,7 @@ public:
     virtual const bool is_factorizable(const Config& C, const Config& goals) const { return !C.empty(); }
 
     //virtual void factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins)  const {};  // Pure virtual function
-    virtual void factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled)  const {};  // Pure virtual function
+    virtual bool factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled)  const {};  // Pure virtual function
 
 
     // could add split_ins as a member of FactAlgo not to declare it thrice
@@ -46,7 +46,7 @@ public:
     
     // Method to factorize the agents and generate the partitions
     //void factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins) const;
-    void factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled) const;
+    bool factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled) const;
 
 
 private:
