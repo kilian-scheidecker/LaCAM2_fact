@@ -65,55 +65,8 @@ HNode::~HNode()
   }
 }
 
-// Planner constructor for the standard version
-/*Planner::Planner(const Instance& _ins, const Deadline* _deadline,
-                 std::mt19937* _MT, const int _verbose,
-                 const Objective _objective, const float _restart_rate)
-    : ins(_ins),
-      deadline(_deadline),
-      MT(_MT),
-      verbose(_verbose),
-      objective(_objective),
-      RESTART_RATE(_restart_rate),
-      N(ins.N),
-      V_size(ins.G.size()),
-      D(DistTable(ins)),
-      loop_cnt(0),
-      C_next(N),
-      tie_breakers(V_size, 0),
-      A(N, nullptr),
-      occupied_now(V_size, nullptr),
-      occupied_next(V_size, nullptr),
-      empty_solution({})                  // initialize with nothing
-{
-}*/
 
-
-// Planner constructor for the factorized version, shared_ptr
-Planner::Planner(std::shared_ptr<const Instance> _ins, const Deadline* _deadline,
-                 std::mt19937* _MT, const int _verbose,
-                 const Objective _objective, const float _restart_rate,
-                 std::shared_ptr<Sol> _empty_solution)
-    : ins(*_ins.get()),
-      deadline(_deadline),
-      MT(_MT),
-      verbose(_verbose),
-      objective(_objective),
-      RESTART_RATE(_restart_rate),
-      N(ins.N),
-      V_size(ins.G.size()),
-      D(DistTable(ins)),
-      loop_cnt(0),
-      C_next(N),
-      tie_breakers(V_size, 0),
-      A(N, nullptr),
-      occupied_now(V_size, nullptr),
-      occupied_next(V_size, nullptr),
-      empty_solution(_empty_solution)
-{
-}
-
-// Planner constructor for the factorized version, const ref
+// Planner constructor
 Planner::Planner(const Instance& _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
                  const Objective _objective, const float _restart_rate,
@@ -278,12 +231,10 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   std::cout<<"\n";*/
 
   std::vector<Config> solution;
-  auto C_new = Config(N, nullptr);  // for new configuration
-  HNode* H_goal = nullptr;          // to store goal node
-  HNode* H_end = nullptr;           // to store end node for backtracking early
-  bool backtrack_flag = false;      // to know when to backtrack
-
-  int timestep = empty_solution->solution[ins.enabled[0]].size()-1;
+  auto C_new = Config(N, nullptr);    // for new configuration
+  HNode* H_goal = nullptr;            // to store goal node
+  Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
+  bool backtrack_flag = false;        // to know when to backtrack
 
   // Restore the inheried priorities of agents
   if (ins.priority.size() > 1)
@@ -319,9 +270,8 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     }
 
     // check goal condition
-    if (H_goal == nullptr && is_same_config(H->C, ins.goals)) {
+    if (H_goal == nullptr && is_same_config(H->C, C_goal_overwrite)) {
       H_goal = H;
-      H_end = H;
       solver_info(1, "found solution, cost: ", H->g);
       if (objective == OBJ_NONE)
       { 
@@ -333,31 +283,30 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
 
     // DEBUG PRINT
     info(2, verbose,"\n-------------------------------------------\n");
-    info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt, ", timestep = ", timestep);
+    info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt);
     if(verbose>2) {
       std::cout<<"\n- Printing current configuration : ";
       print_vertices(H->C, ins.G.width);
       std::cout<<"\n";
-    }
-    // just some printing
-    //if(timestep >= 40 && timestep <= 42){
-    if(false){
-      std::cout<<"\nSolution until now (at t= "<<timestep<<"): \n";
+      /*std::cout<<"\nSolution until now:\n";
       int idd = 0;
       for(auto line : empty_solution->solution)
       {
-        std::cout<<"\tAgent "<<idd<<": ";
+        std::cout<<"Agent "<<idd<<": ";
         print_vertices(line, ins.G.width);
         std::cout<<"\n";
         idd++;
       }
-      std::cout<<"\n";
+      std::cout<<"\n";*/
     }
 
     // create successors at the low-level search
     auto L = H->search_tree.front();
     H->search_tree.pop();
     expand_lowlevel_tree(H, L);
+
+    // deduce timestep from node depth
+    int timestep = L->depth;
 
     // create successors at the high-level search
     const auto res = get_new_config(H, L);
@@ -389,27 +338,21 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       {
         OPEN.push(H_new);
       }
-      // store node for backtracking
-      H_end = H_new;
     }
 
     // Check for factorizability
-    if (H_end != nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled))
+    if (factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, D))
     {
-      info(1, verbose, "\nProblem is factorizable in the next step, splitting now at timestep ", timestep);
+      info(1, verbose, "\nProblem is factorizable in the next step");
       backtrack_flag = true;
-
-      // The idea would be not to break but overwrite the goal condition and continue refining the solution
-      
-      break;
+      C_goal_overwrite = H->C;
+      //break;
     }
-
-    timestep++;
   }
 
-  // backtrack always !!!!!!!
-  if (H_goal != nullptr || backtrack_flag == true) {
-    auto H = H_end;
+  // backtrack
+  if (H_goal != nullptr) {
+    auto H = H_goal;
     while (H != nullptr) {
       solution.push_back(H->C);
       H = H->parent;
@@ -445,18 +388,6 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   // Spaghetti to append the solutions correctly
 
   Solution sol_t = transpose(solution);
-
-  /*for(const auto& [id, true_id] : ins.agent_map)   // for some reason vscode doesnt like this line but compiles all good
-  {
-    //std::cout<<"\nActive agent : "<<active_agent;
-    auto sol_bit = sol_t[id];
-    auto line = &(empty_solution->solution[true_id]);
-
-    for (auto v : sol_bit) 
-    {
-      line->push_back(v);
-    }
-  }*/
 
   for(int id=0; id<int(N); id++)   // for some reason vscode doesnt like this line but compiles all good
   {

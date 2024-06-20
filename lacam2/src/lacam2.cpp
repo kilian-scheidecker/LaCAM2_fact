@@ -36,25 +36,7 @@ Solution solve_fact(const Instance& ins, std::string& additional_info,
     info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tOpen new instance from OPENSins list");
 
     const Instance I = OPENins.front();
-    //std::shared_ptr<const Instance> sharedIns = std::make_shared<const Instance>(I);
     OPENins.pop();
-
-    // Print some info
-    
-    if(verbose > 4){
-      info(2, verbose, "Creating new planner from instance with");
-      std::cout<<"- Starts : ";
-      print_vertices(I.starts, I.G.width);
-
-      std::cout<<"\n- Goals : ";
-      print_vertices(I.goals, I.G.width);
-
-      std::cout<<"\n- Active agents : ";
-      for(auto i : I.enabled)
-        std::cout<<i<<", ";
-      std::cout<<"\n\n";
-
-    }
 
     auto planner = Planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
     planner.solve_fact(additional_info, infos_ptr, factalgo, OPENins);
