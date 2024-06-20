@@ -22,7 +22,7 @@ public:
     virtual ~FactAlgo() = default;
 
     //virtual void factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins)  const {};  // Pure virtual function
-    virtual bool factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled)  const {};  // Pure virtual function
+    virtual bool factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled)  const {return false;};  // Pure virtual function
 
 
     // could add split_ins as a member of FactAlgo not to declare it thrice
