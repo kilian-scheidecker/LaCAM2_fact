@@ -67,12 +67,6 @@ int main(int argc, char* argv[])
       static_cast<Objective>(std::stoi(program.get<std::string>("objective")));
   const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
 
-
-  // Check if factorize argument is valid
-  if (factorize != "no" && factorize != "FactDistance" && factorize != "FactBbox" && factorize != "FactOrient")  {
-      throw std::invalid_argument("-f (factorize) argument must be  \"no\", \"FactDistance\", \"FactBbox\" or \"FactOrient\"");
-  }
-
   // Redirect cout to nullstream if verbose is set to zero
   std::streambuf* coutBuffer = std::cout.rdbuf();   // save cout buffer
   if(verbose == 0)
@@ -127,11 +121,17 @@ int main(int argc, char* argv[])
       // Create a FactDistance object
       algo = std::make_unique<FactBbox>(ins_fact.G.width);
     }
-    else
+    else if (strcmp(factorize.c_str(), "FactOrient") == 0)
     {
       // Create a FactDistance object
       algo = std::make_unique<FactOrient>(ins_fact.G.width);
     }
+    else if (strcmp(factorize.c_str(), "FactAstar") == 0)
+    {
+      // Create a FactDistance object
+      algo = std::make_unique<FactAstar>(ins_fact.G.width);
+    }
+    else throw std::invalid_argument("-f (factorize) argument must be  \"no\", \"FactDistance\", \"FactBbox\" or \"FactOrient\", \"FactAstar\"");
     
     // Reset the infos :
     infos.reset();
