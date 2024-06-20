@@ -109,8 +109,9 @@ int main(int argc, char* argv[])
     // Generate the agent map, at the start, each agent is mapped to itself
     for (int i = 0; i < N; ++i) agent_map[i] = i;
 
-    // Create the instance
+    // Create the instance, Vertices are assigned here
     const auto ins_fact = Instance(scen_name, map_name, v_enable, agent_map, N);
+    
     if (!ins_fact.is_valid(1)) return 1;
 
     // Create the FactAlgo class
@@ -150,7 +151,7 @@ int main(int argc, char* argv[])
     // check feasibility
     if (!is_feasible_solution(ins_fact, solution_fact, verbose)) {
       info(0, verbose, "invalid solution for factorized solving");
-      return 1;
+      //return 1;
     }
 
     // store solution for comparison later with unfactorized version

@@ -58,7 +58,7 @@ static const std::regex r_map = std::regex(R"(map)");
         char s = line[x];
         if (s == 'T' or s == '@') continue;  // object
         auto index = width * y + x;
-        auto v = std::shared_ptr<Vertex>(new Vertex(V.size(), index));
+        auto v = std::shared_ptr<Vertex>(new Vertex(V.size(), index));    // vertices are created here
         V.push_back(v);
         U[index] = v;
       }

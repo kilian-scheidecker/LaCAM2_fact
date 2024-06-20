@@ -3,7 +3,7 @@
 DistTable::DistTable(const Instance& ins)
     : V_size(ins.G.V.size()), table(ins.N, std::vector<uint>(V_size, V_size))
 {
-  setup(&ins);
+  setup(ins);
 }
 
 DistTable::DistTable(const Instance* ins)
@@ -13,24 +13,35 @@ DistTable::DistTable(const Instance* ins)
 }
 
 // DistTable constructor for the factorized algorithm
-DistTable::DistTable(std::shared_ptr<const Instance> ins)
+/*DistTable::DistTable(std::shared_ptr<const Instance> ins)
     : V_size(ins.get()->G.V.size()), table(ins.get()->N, std::vector<uint>(V_size, V_size))
 {
   setup(ins);
-}
+}*/
 
+// this should be ok
 void DistTable::setup(const Instance* ins)
 {
   for (size_t i = 0; i < ins->N; ++i) {
-    OPEN.push_back(std::queue<std::shared_ptr<Vertex>>());
-    auto n = ins->goals[i];
+    OPEN.push_back(std::queue<Vertex*>());
+    auto n = ins->goals[i].get();
+    OPEN[i].push(n);
+    table[i][n->id] = 0;
+  }
+}
+
+void DistTable::setup(const Instance& ins)
+{
+  for (size_t i = 0; i < ins.N; ++i) {
+    OPEN.push_back(std::queue<Vertex*>());
+    auto n = ins.goals[i].get();
     OPEN[i].push(n);
     table[i][n->id] = 0;
   }
 }
 
 // setup for factorized solving
-void DistTable::setup(std::shared_ptr<const Instance> ins)
+/*void DistTable::setup(std::shared_ptr<const Instance> ins)
 {
   const auto inst = *ins.get();
   if (ins.get() == nullptr) {
@@ -51,9 +62,9 @@ void DistTable::setup(std::shared_ptr<const Instance> ins)
     table[i][n->id] = 0;
 }
 
-}
+}*/
 
-
+// this should be ok
 uint DistTable::get(uint i, uint v_id)
 {
   if (table[i][v_id] < V_size) return table[i][v_id];
@@ -68,14 +79,14 @@ uint DistTable::get(uint i, uint v_id)
    */
 
   while (!OPEN[i].empty()) {
-    auto&& n = OPEN[i].front();
+    auto n = OPEN[i].front();
     OPEN[i].pop();
     const int d_n = table[i][n->id];      // seg fault here ?
-    for (auto&& m : n->neighbor) {
-      const int d_m = table[i][m->id];
+    for (auto& m : n->neighbor) {
+      const int d_m = table[i][m.get()->id];
       if (d_n + 1 >= d_m) continue;
       table[i][m->id] = d_n + 1;
-      OPEN[i].push(m);
+      OPEN[i].push(m.get());
     }
     if (n->id == int(v_id)) return d_n;
   }
