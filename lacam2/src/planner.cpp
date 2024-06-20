@@ -272,9 +272,14 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       continue;
     }
 
+    // create successors at the low-level search
+    auto L = H->search_tree.front();
+    H->search_tree.pop();
+    expand_lowlevel_tree(H, L);
+
     // DEBUG PRINT
-    info(2, verbose,"\n-------------------------------------------\n");
-    info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt);
+    info(3, verbose,"\n-------------------------------------------\n");
+    info(3, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt);
     if(verbose>2) {
       std::cout<<"\n- Printing current configuration : ";
       print_vertices(H->C, ins.G.width);
@@ -291,13 +296,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       std::cout<<"\n";*/
     }
 
-    // create successors at the low-level search
-    auto L = H->search_tree.front();
-    H->search_tree.pop();
-    expand_lowlevel_tree(H, L);
-
-    // deduce timestep from node depth
-    int timestep = L->depth;
+    
 
     // create successors at the high-level search
     const auto res = get_new_config(H, L);
@@ -332,9 +331,9 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     }
 
     // Check for factorizability
-    if (N>1 && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, D))
+    if (N>1 && H_goal == nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, D))
     {
-      info(1, verbose, "\nProblem is factorizable");
+      
 
       C_goal_overwrite = H->C;    // set current config as goal configuration
       H_goal = H;                 // set current node as goal node

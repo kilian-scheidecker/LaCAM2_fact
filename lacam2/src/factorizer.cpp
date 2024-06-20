@@ -18,7 +18,7 @@
 bool FactDistance::factorize(const Config& C, const Graph& G, int verbose, 
                              const std::vector<float>& priorities, const Config& goals, 
                              std::queue<Instance>& OPENins, const std::vector<int>& enabled, 
-                             DistTable& D) const
+                             const DistTable& D) const
 {
   // collection of partitions
   std::vector<std::vector<int>> partitions; 
@@ -42,11 +42,18 @@ bool FactDistance::factorize(const Config& C, const Graph& G, int verbose,
 
     // loop through every agent j in same configuration
     for (auto agent2_pos : C) {
-      if (taken.find(rel_id_2) != taken.end()) {
+
+      // if same agent, skip
+      if (agent1_pos == agent2_pos){
         rel_id_2++;
         continue;
       }
 
+      // if agent2 is taken, skip
+      if (taken.find(rel_id_2) != taken.end()) {
+        rel_id_2++;
+        continue;
+      }
       int index2 = agent2_pos.get()->index;  // agent2 vertex index
       int goal2 = goals[rel_id_2].get()->index;     // agent1's goal index
 
@@ -104,6 +111,13 @@ bool FactDistance::factorize(const Config& C, const Graph& G, int verbose,
 
   if (partitions.size() > 1)
   {   
+    info(1, verbose, "\nProblem is factorizable");
+    if (verbose > 2)
+    { 
+      std::cout << " in following configuration :\n";
+      print_vertices(C, G.width);
+      std::cout<<"\n";
+    }
     split_ins(G, partitions, C, goals, verbose, priorities, OPENins, enabled, agent_map);
     return true;
   }
@@ -117,7 +131,7 @@ void FactDistance::split_ins(const Graph& G, const Partitions& partitions, const
                              const std::vector<int>& enabled, const std::map<int, int>& agent_map) const
 {
   // printing info about the parititons
-  if (verbose > 2) {
+  if (verbose > 1) {
     std::cout << "New partitions :\n";
     for (auto vec : partitions) {
       for (auto i : vec) {
@@ -177,7 +191,7 @@ const bool FactDistance::heuristic(int index1, int index2, int goal1, int goal2)
   int d2 = get_manhattan(index2, goal2);
   int da = get_manhattan(index1, index2);
 
-  if (da > d1 + d2+1)
+  if (da > d1 + d2)
     return true;
   else
     return false;
@@ -208,7 +222,7 @@ int FactDistance::get_manhattan(int index1, int index2) const
 bool FactBbox::factorize(const Config& C, const Graph& G, int verbose, 
                              const std::vector<float>& priorities, const Config& goals, 
                              std::queue<Instance>& OPENins, const std::vector<int>& enabled, 
-                             DistTable& D) const
+                             const DistTable& D) const
 {
   // collection of partitions
   std::vector<std::vector<int>> partitions; 
@@ -232,11 +246,18 @@ bool FactBbox::factorize(const Config& C, const Graph& G, int verbose,
 
     // loop through every agent j in same configuration
     for (auto agent2_pos : C) {
-      if (taken.find(rel_id_2) != taken.end()) {
+
+      // if same agent, skip
+      if (agent1_pos == agent2_pos){
         rel_id_2++;
         continue;
       }
 
+      // if agent2 is taken, skip
+      if (taken.find(rel_id_2) != taken.end()) {
+        rel_id_2++;
+        continue;
+      }
       int index2 = agent2_pos.get()->index;  // agent2 vertex index
       int goal2 = goals[rel_id_2].get()->index;     // agent1's goal index
 
@@ -307,7 +328,7 @@ void FactBbox::split_ins(const Graph& G, const Partitions& partitions, const Con
                              const std::vector<int>& enabled, const std::map<int, int>& agent_map) const
 {
   // printing info about the parititons
-  if (verbose > 2) {
+  if (verbose > 1) {
     std::cout << "New partitions :\n";
     for (auto vec : partitions) {
       for (auto i : vec) {
@@ -403,7 +424,7 @@ const bool FactBbox::heuristic(int index1, int index2, int goal1, int goal2) con
 bool FactOrient::factorize(const Config& C, const Graph& G, int verbose, 
                              const std::vector<float>& priorities, const Config& goals, 
                              std::queue<Instance>& OPENins, const std::vector<int>& enabled, 
-                             DistTable& D) const
+                             const DistTable& D) const
 {
   // collection of partitions
   std::vector<std::vector<int>> partitions; 
@@ -427,6 +448,14 @@ bool FactOrient::factorize(const Config& C, const Graph& G, int verbose,
 
     // loop through every agent j in same configuration
     for (auto agent2_pos : C) {
+
+      // if same agent, skip
+      if (agent1_pos == agent2_pos){
+        rel_id_2++;
+        continue;
+      }
+
+      // if agent2 is taken, skip
       if (taken.find(rel_id_2) != taken.end()) {
         rel_id_2++;
         continue;
@@ -503,7 +532,7 @@ void FactOrient::split_ins(const Graph& G, const Partitions& partitions, const C
                              const std::vector<int>& enabled, const std::map<int, int>& agent_map) const
 {
   // printing info about the parititons
-  if (verbose > 2) {
+  if (verbose > 1) {
     std::cout << "New partitions :\n";
     for (auto vec : partitions) {
       for (auto i : vec) {
@@ -652,7 +681,7 @@ bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<in
 bool FactAstar::factorize(const Config& C, const Graph& G, int verbose, 
                              const std::vector<float>& priorities, const Config& goals, 
                              std::queue<Instance>& OPENins, const std::vector<int>& enabled, 
-                             DistTable& D) const
+                             const DistTable& D) const
 {
   // collection of partitions
   std::vector<std::vector<int>> partitions; 
@@ -676,7 +705,15 @@ bool FactAstar::factorize(const Config& C, const Graph& G, int verbose,
 
     // loop through every agent j in same configuration
     for (auto agent2_pos : C) {
-      if (taken.find(rel_id_2) != taken.end()) {
+
+      // if same agent, skip
+      if (agent1_pos == agent2_pos){
+        rel_id_2++;
+        continue;
+      }
+
+      // if true_id of agent2 is taken, skip
+      if (taken.find(enabled[rel_id_2]) != taken.end()) {
         rel_id_2++;
         continue;
       }
@@ -684,7 +721,7 @@ bool FactAstar::factorize(const Config& C, const Graph& G, int verbose,
       int index2 = agent2_pos.get()->index;  // agent2 vertex index
       int goal2 = goals[rel_id_2].get()->index;     // agent1's goal index
 
-      if (!heuristic(rel_id_1, index1, rel_id_2, index2, D)) {
+      if (!heuristic(enabled[rel_id_1], index1, goal1, enabled[rel_id_2], index2, goal2, G, D, enabled.size())) {
         int k = 0;
         std::vector<int>* partition1 = nullptr;
         std::vector<int>* partition2 = nullptr;
@@ -715,10 +752,10 @@ bool FactAstar::factorize(const Config& C, const Graph& G, int verbose,
           partition1->insert(partition1->end(), partition2->begin(), partition2->end());
 
           // add agent j to taken list
-          taken.insert(rel_id_2);
+          //taken.insert(rel_id_2);
 
           // Add all agents in partition2 to taken list
-          // taken.insert(taken.end(), partition2->begin(), partition2->end());
+          taken.insert(partition2->begin(), partition2->end());
 
           // clear partition2
           partition2->clear();
@@ -748,10 +785,10 @@ bool FactAstar::factorize(const Config& C, const Graph& G, int verbose,
 
 void FactAstar::split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals,
                              int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins,
-                             const std::vector<int>& enabled, const std::map<int, int>& agent_map, DistTable& D) const
+                             const std::vector<int>& enabled, const std::map<int, int>& agent_map, const DistTable& D) const
 {
   // printing info about the parititons
-  if (verbose > 2) {
+  if (verbose > 1) {
     std::cout << "New partitions :\n";
     for (auto vec : partitions) {
       for (auto i : vec) {
@@ -807,16 +844,63 @@ void FactAstar::split_ins(const Graph& G, const Partitions& partitions, const Co
 
 
 
-const bool FactAstar::heuristic(int rel_id_1, int index1, int rel_id_2, int index2, DistTable& D) const
+const bool FactAstar::heuristic(int true_id_1, int index1, int goal1, int true_id_2, int index2, int goal2, const Graph& G, const DistTable& D, int N) const
 {
-  const int d1 = D.get(rel_id_1, index1);
-  const int d2 = D.get(rel_id_2, index2);
+  //const float d1 = D.table[rel_id_1][index1]/N;
+  //const float d2 = D.table[rel_id_2][index2]/N;
+  //const float d1 = D.get_length(true_id_1, index1)/N;
+  //const float d2 = D.get_length(true_id_2, index2)/N;
+  int d1 = a_star_path(index1, goal1, G);
+  int d2 = a_star_path(index2, goal2, G);
   const int da = get_manhattan(index1, index2);
+
+  /*std::cout<<"Agent "<<true_id_1<<" at "<<index1<<" and ""Agent "<<true_id_2<<" at "<<index2<<std::endl;
+  std::cout<<"Agent "<<true_id_1<<" distance to goal: "<<d1<<std::endl;
+  std::cout<<"Agent "<<true_id_2<<" distance to goal: "<<d2<<std::endl;
+  std::cout<<"Distance between both agents : "<<da<<"\n"<<std::endl;*/
 
   if (da > d1 + d2)
     return true;
   else
     return false;
+}
+
+
+int FactAstar::a_star_path(int start, int goal, const Graph& G) const {
+    //auto G_copy = G;
+    if (start == goal) return 0;
+    auto start_vertex = G.U.at(start);
+    auto goal_vertex = G.U.at(goal);
+    if (!start_vertex || !goal_vertex) return -1;
+
+    std::priority_queue<Node, std::vector<Node>, std::greater<Node>> open_set;
+    std::unordered_map<int, int> g_score, came_from;
+
+    g_score[start] = 0;
+    open_set.push({start_vertex, 0, get_manhattan(start, goal)});
+
+    while (!open_set.empty()) {
+        auto current = open_set.top().vertex;
+        open_set.pop();
+
+        if (current->index == goal) {
+            int length = 0;
+            for (auto v = goal; v != start; v = came_from[v]) length++;
+            return length;
+        }
+
+        for (auto& neighbor : current->neighbor) {
+            int tentative_g_score = g_score[current->index] + 1;
+            if (g_score.find(neighbor->index) == g_score.end() || tentative_g_score < g_score[neighbor->index]) {
+                came_from[neighbor->index] = current->index;
+                g_score[neighbor->index] = tentative_g_score;
+                int f_score = tentative_g_score + get_manhattan(neighbor->index, goal);
+                open_set.push({neighbor, tentative_g_score, f_score});
+            }
+        }
+    }
+
+    return -1; // No path found
 }
 
 
@@ -834,9 +918,5 @@ int FactAstar::get_manhattan(int index1, int index2) const
 
   return dx + dy;
 }
-
-
-
-
 
 
