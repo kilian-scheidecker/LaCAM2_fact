@@ -213,28 +213,22 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 // factorized solving
 void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const FactAlgo& factalgo, std::queue<Instance>& OPENins)
 {
-  //solver_info(1, "start search");
-
   // setup agents
   for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
 
   // setup search
   auto OPEN = std::stack<HNode*>();
   auto EXPLORED = std::unordered_map<Config, HNode*, ConfigHasher>();
+  
   // insert initial node, 'H': high-level node
   auto H = new HNode(ins.starts, D, nullptr, 0, get_h_value(ins.starts));
   OPEN.push(H);
   EXPLORED[H->C] = H;
 
-  /*std::cout<<"Planner created with enabled agents : \n";
-  for (auto elem : ins.enabled) std::cout<<elem<<", ";
-  std::cout<<"\n";*/
-
   std::vector<Config> solution;
-  auto C_new = Config(N, nullptr);    // for new configuration
-  HNode* H_goal = nullptr;            // to store goal node
+  auto C_new = Config(N, nullptr);      // for new configuration
+  HNode* H_goal = nullptr;              // to store goal node
   Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
-  bool backtrack_flag = false;        // to know when to backtrack
 
   // Restore the inheried priorities of agents
   if (ins.priority.size() > 1)
@@ -251,8 +245,6 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
-    // check for factorization possibility here. If there 
-
 
     // do not pop here!
     auto H = OPEN.top();  // high-level node
@@ -275,7 +267,6 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       solver_info(1, "found solution, cost: ", H->g);
       if (objective == OBJ_NONE)
       { 
-        backtrack_flag = true;
         break;
       }
       continue;
@@ -341,12 +332,16 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     }
 
     // Check for factorizability
-    if (factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, D))
+    if (N>1 && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, D))
     {
-      info(1, verbose, "\nProblem is factorizable in the next step");
-      backtrack_flag = true;
-      C_goal_overwrite = H->C;
-      //break;
+      info(1, verbose, "\nProblem is factorizable");
+
+      C_goal_overwrite = H->C;    // set current config as goal configuration
+      H_goal = H;                 // set current node as goal node
+      if (objective == OBJ_NONE)
+      { 
+        break;
+      }
     }
   }
 
@@ -372,8 +367,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   }
 
   // logging
-  //additional_info +=
-      "optimal=" + std::to_string(H_goal != nullptr && OPEN.empty()) + "\n";
+  //additional_info += "optimal=" + std::to_string(H_goal != nullptr && OPEN.empty()) + "\n";
   //additional_info += "objective=" + std::to_string(objective) + "\n";
   //additional_info += "loop_cnt=" + std::to_string(loop_cnt) + "\n";
   //additional_info += "num_node_gen=" + std::to_string(EXPLORED.size()) + "\n";
