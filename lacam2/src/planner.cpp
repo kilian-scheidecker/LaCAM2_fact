@@ -241,8 +241,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   }
 
   // logging
-  additional_info +=
-      "optimal=" + std::to_string(H_goal != nullptr && OPEN.empty()) + "\n";
+  additional_info +="optimal=" + std::to_string(H_goal != nullptr && OPEN.empty()) + "\n";
   additional_info += "objective=" + std::to_string(objective) + "\n";
   additional_info += "loop_cnt=" + std::to_string(loop_cnt) + "\n";
   additional_info += "num_node_gen=" + std::to_string(EXPLORED.size()) + "\n";
@@ -274,9 +273,9 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   OPEN.push(H);
   EXPLORED[H->C] = H;
 
-  std::cout<<"Planner created with enabled agents : \n";
+  /*std::cout<<"Planner created with enabled agents : \n";
   for (auto elem : ins.enabled) std::cout<<elem<<", ";
-  std::cout<<"\n";
+  std::cout<<"\n";*/
 
   std::vector<Config> solution;
   auto C_new = Config(N, nullptr);  // for new configuration
@@ -284,10 +283,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   HNode* H_end = nullptr;           // to store end node for backtracking early
   bool backtrack_flag = false;      // to know when to backtrack
 
-  int timestep = empty_solution->solution[ins.enabled[0]].size();
-
-  
-
+  int timestep = empty_solution->solution[ins.enabled[0]].size()-1;
 
   // Restore the inheried priorities of agents
   if (ins.priority.size() > 1)
@@ -338,9 +334,23 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     // DEBUG PRINT
     info(2, verbose,"\n-------------------------------------------\n");
     info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt, ", timestep = ", timestep);
-    if(verbose > 1) {
+    if(verbose>2) {
       std::cout<<"\n- Printing current configuration : ";
       print_vertices(H->C, ins.G.width);
+      std::cout<<"\n";
+    }
+    // just some printing
+    //if(timestep >= 40 && timestep <= 42){
+    if(false){
+      std::cout<<"\nSolution until now (at t= "<<timestep<<"): \n";
+      int idd = 0;
+      for(auto line : empty_solution->solution)
+      {
+        std::cout<<"\tAgent "<<idd<<": ";
+        print_vertices(line, ins.G.width);
+        std::cout<<"\n";
+        idd++;
+      }
       std::cout<<"\n";
     }
 
@@ -386,10 +396,10 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     // Check for factorizability
     if (H_end != nullptr && factalgo.is_factorizable(C_new, ins.goals))
     {
-      info(1, verbose, "\nProblem is factorizable, factorizing now at timestep ", timestep);
+      info(1, verbose, "\nProblem is factorizable in the next step, splitting now at timestep ", timestep);
 
       auto test = ins.agent_map;
-      factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.agent_map);
+      factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled);
       
       backtrack_flag = true;
       
@@ -421,11 +431,11 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   }
 
   // logging
-  additional_info +=
+  //additional_info +=
       "optimal=" + std::to_string(H_goal != nullptr && OPEN.empty()) + "\n";
-  additional_info += "objective=" + std::to_string(objective) + "\n";
-  additional_info += "loop_cnt=" + std::to_string(loop_cnt) + "\n";
-  additional_info += "num_node_gen=" + std::to_string(EXPLORED.size()) + "\n";
+  //additional_info += "objective=" + std::to_string(objective) + "\n";
+  //additional_info += "loop_cnt=" + std::to_string(loop_cnt) + "\n";
+  //additional_info += "num_node_gen=" + std::to_string(EXPLORED.size()) + "\n";
 
   // memory management
   for (auto a : A) delete a;
@@ -438,11 +448,23 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
 
   Solution sol_t = transpose(solution);
 
-  for(const auto& [id, true_id] : ins.agent_map)   // for some reason vscode doesnt like this line but compiles all good
+  /*for(const auto& [id, true_id] : ins.agent_map)   // for some reason vscode doesnt like this line but compiles all good
   {
     //std::cout<<"\nActive agent : "<<active_agent;
     auto sol_bit = sol_t[id];
     auto line = &(empty_solution->solution[true_id]);
+
+    for (auto v : sol_bit) 
+    {
+      line->push_back(v);
+    }
+  }*/
+
+  for(int id=0; id<int(N); id++)   // for some reason vscode doesnt like this line but compiles all good
+  {
+    //std::cout<<"\nActive agent : "<<active_agent;
+    auto sol_bit = sol_t[id];
+    auto line = &(empty_solution->solution[ins.enabled[id]]);
 
     for (auto v : sol_bit) 
     {

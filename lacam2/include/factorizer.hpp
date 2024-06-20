@@ -26,7 +26,7 @@ public:
     virtual const bool is_factorizable(const Config& C, const Config& goals) const { return !C.empty(); }
 
     //virtual void factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins)  const {};  // Pure virtual function
-    virtual void factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::map<int, int>& agent_map)  const {};  // Pure virtual function
+    virtual void factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled)  const {};  // Pure virtual function
 
 
     // could add split_ins as a member of FactAlgo not to declare it thrice
@@ -46,14 +46,14 @@ public:
     
     // Method to factorize the agents and generate the partitions
     //void factorize(const Config& C, const Instance& ins, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins) const;
-    void factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::map<int, int>& agent_map) const;
+    void factorize(const Config& C, const Graph& G, const int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled) const;
 
 
 private:
 
     // Helper method to actually split the current instance 
     //void split_ins(const Instance& ins, const Partitions& partitions, const Config& C_new, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins) const;
-    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::map<int, int>& agent_map) const;
+    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, const int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::map<int, int>& agent_map) const;
 
     // Simple heuristic to determine if 2 agents can be factorized based on distance
     const bool heuristic(const int index1, const int index2, const int goal1, const int goal2) const;

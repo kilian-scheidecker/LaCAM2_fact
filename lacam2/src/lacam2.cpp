@@ -41,7 +41,7 @@ Solution solve_fact(const Instance& ins, std::string& additional_info,
 
     // Print some info
     
-    if(verbose > 2){
+    if(verbose > 4){
       info(2, verbose, "Creating new planner from instance with");
       std::cout<<"- Starts : ";
       print_vertices(I.starts, I.G.width);
@@ -57,26 +57,7 @@ Solution solve_fact(const Instance& ins, std::string& additional_info,
     }
 
     auto planner = Planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
-    
-    // get the list of factorized instances. Use a* for single agents
-    //std::queue<Instance> L_fill;
-    /*if (I.enabled.size() == 1) {
-      auto v_start = I.starts[0];
-      auto v_goal = I.goals[0];
-      info(2, verbose, "Planning with A*. Only agent enabled : ", I.enabled[0]);
-      L = planner.a_star(v_start, v_goal, I.G, I.enabled[0]);
-    }
-    else {
-      L = planner.solve_fact(infos_ptr, factalgo);
-    }*/
-
     planner.solve_fact(additional_info, infos_ptr, factalgo, OPENins);
-    
-    /*// add them to OPENins list
-    for(auto inst : L_fill) {
-      info(2, verbose, "Pushing new instance to the instance list. enabled.size() = ", inst.enabled.size());
-      OPENins.push(inst);
-    }*/
 
     // just some printing
     if(verbose > 2){

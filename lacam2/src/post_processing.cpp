@@ -43,10 +43,10 @@ bool is_feasible_solution(const Instance& ins, const Solution& solution,
         // vertex conflicts
         if (v_j_to.get()->index == v_i_to.get()->index) {
           info(0, verbose, "vertex conflict between ", i, " and ", j, " at timestep ", t);
-          std::cout<<"\nFrom : ";
+          std::cout<<"\nAt : ";
           print_vertex(v_j_to, ins.G.width);
-          std::cout<<"\nTo : ";
-          print_vertex(v_i_to, ins.G.width);
+          //std::cout<<"\nTo : ";
+          //print_vertex(v_i_to, ins.G.width);
           std::cout<<"\n";
           return false;
         }
