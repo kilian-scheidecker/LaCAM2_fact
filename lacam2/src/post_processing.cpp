@@ -223,7 +223,7 @@ void make_log(const Instance& ins, const Solution& solution,
 
 // print the stats to a json-like .txt file
 void make_stats(const std::string file_name, const std::string factorize, const int N, 
-                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname)
+                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success)
 { 
   std::ofstream out;
 
@@ -231,6 +231,7 @@ void make_stats(const std::string file_name, const std::string factorize, const 
   out<<"\t{\n";
   out<<"\t\t\"Number of agents\" : \""<<N<<"\",\n";
   out<<"\t\t\"Map name\" : \""<<mapname<<"\",\n";
+  out<<"\t\t\"Success\" : \""<<success<<"\",\n";
   out<<"\t\t\"Computation time (ms)\" : \""<<comp_time_ms<<"\",\n";
   out<<"\t\t\"Makespan\" : \""<<get_makespan(solution)<<"\",\n";
   out<<"\t\t\"Factorized\" : \""<<factorize<<"\",\n";

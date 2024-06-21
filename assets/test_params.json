@@ -1,10 +1,9 @@
 {
   "init": "False",
-  "from": 60,
-  "to": 60,
+  "from": 5,
+  "to": 5,
   "jump": 1,
   "n": 1,
   "map_name": "random-32-32-20",
-  "verbose": 1,
   "factorize": ["no"]
 }

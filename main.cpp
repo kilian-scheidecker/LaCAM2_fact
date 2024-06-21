@@ -76,12 +76,11 @@ int main(int argc, char* argv[])
   auto mapname = map_name.substr(found+1);
   info(1, verbose, "Map name : ", mapname);
 
-  // Other important variables
-  Solution sol_simple;
-  Solution sol_fact;
+  // Other variables
   std::vector<int> v_enable(N);           // keep track of which agent is enabled
   std::map<int, int> agent_map;
   Infos infos;                            // Create Infos structure
+  int success = 1;                        // Determine if solving was successful (1) or not (0)
   auto additional_info = std::string("");
 
 
@@ -147,21 +146,19 @@ int main(int argc, char* argv[])
     // check feasibility
     if (!is_feasible_solution(ins_fact, solution_fact, verbose)) {
       info(0, verbose, "invalid solution for factorized solving");
+      success = 0;
       //return 1;
     }
-
-    // store solution for comparison later with unfactorized version
-    sol_fact = solution_fact;
 
     // post processing
     print_stats(verbose, ins_fact, solution_fact, comp_time_ms_fact);
     make_log(ins_fact, solution_fact, output_name, comp_time_ms_fact, map_name, seed, additional_info, log_short);
-    make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname);
+    make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname, success);
   }
 
 
 // ---------------------------- SOLVE WITHOUT FACTORIZATION -----------------------------------------
-  if( strcmp(factorize.c_str(), "no") == 0)
+  else
   {
     info(0, verbose, "\nStart solving the algorithm WITHOUT factorization\n");
 
@@ -183,15 +180,14 @@ int main(int argc, char* argv[])
     // check feasibility
     if (!is_feasible_solution(ins, solution, verbose)) {
       info(0, verbose, "invalid solution for normal LaCAM");
-      return 1;
+      success = 0;
+      //return 1;
     }
-
-    sol_simple = solution;
 
     // post processing
     print_stats(verbose, ins, solution, comp_time_ms);
     make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, log_short);
-    make_stats("stats_json.txt", "Standard", N, comp_time_ms, infos, solution, mapname);
+    make_stats("stats_json.txt", "Standard", N, comp_time_ms, infos, solution, mapname, success);
 
   }
 
