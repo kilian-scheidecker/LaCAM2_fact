@@ -18,7 +18,7 @@
 bool FactDistance::factorize(const Config& C, const Graph& G, int verbose, 
                              const std::vector<float>& priorities, const Config& goals, 
                              std::queue<Instance>& OPENins, const std::vector<int>& enabled, 
-                             const DistTable& D, const std::vector<std::vector<uint>>& table, const std::map<int, int>& distances) const
+                             const std::map<int, int>& distances) const
 {
   // collection of partitions
   std::vector<std::vector<int>> partitions; 
@@ -222,7 +222,7 @@ int FactDistance::get_manhattan(int index1, int index2) const
 bool FactBbox::factorize(const Config& C, const Graph& G, int verbose, 
                              const std::vector<float>& priorities, const Config& goals, 
                              std::queue<Instance>& OPENins, const std::vector<int>& enabled, 
-                             const DistTable& D, const std::vector<std::vector<uint>>& table, const std::map<int, int>& distances) const
+                             const std::map<int, int>& distances) const
 {
   // collection of partitions
   std::vector<std::vector<int>> partitions; 
@@ -424,7 +424,7 @@ const bool FactBbox::heuristic(int index1, int index2, int goal1, int goal2) con
 bool FactOrient::factorize(const Config& C, const Graph& G, int verbose, 
                              const std::vector<float>& priorities, const Config& goals, 
                              std::queue<Instance>& OPENins, const std::vector<int>& enabled, 
-                             const DistTable& D, const std::vector<std::vector<uint>>& table, const std::map<int, int>& distances) const
+                             const std::map<int, int>& distances) const
 {
   // collection of partitions
   std::vector<std::vector<int>> partitions; 
@@ -683,7 +683,7 @@ bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<in
 bool FactAstar::factorize(const Config& C, const Graph& G, int verbose, 
                              const std::vector<float>& priorities, const Config& goals, 
                              std::queue<Instance>& OPENins, const std::vector<int>& enabled, 
-                             const DistTable& D, const std::vector<std::vector<uint>>& table, const std::map<int, int>& distances) const
+                             const std::map<int, int>& distances) const
 {
   // collection of partitions
   std::vector<std::vector<int>> partitions; 
@@ -702,7 +702,7 @@ bool FactAstar::factorize(const Config& C, const Graph& G, int verbose,
     agent_map[enabled[rel_id_1]] = rel_id_1;
     int rel_id_2 = 0;                             // keep track of agent number 2
     int index1 = agent1_pos.get()->index;         // agent_1 vertex index
-    int goal1 = goals[rel_id_1].get()->index;     // agent_1's goal index
+    //int goal1 = goals[rel_id_1].get()->index;     // agent_1's goal index
     std::unordered_set<int> taken(C.size());      // taken list to be sure we don't process the same agent twice
 
     // loop through every agent j in same configuration
@@ -721,15 +721,14 @@ bool FactAstar::factorize(const Config& C, const Graph& G, int verbose,
       }
 
       int index2 = agent2_pos.get()->index;  // agent2 vertex index
-      int goal2 = goals[rel_id_2].get()->index;     // agent1's goal index
+      //int goal2 = goals[rel_id_2].get()->index;     // agent1's goal index
 
-      if (!heuristic(rel_id_1, index1, goal1, rel_id_2, index2, goal2, G, D, enabled.size(), table, distances)) {
+      if (!heuristic(rel_id_1, index1, rel_id_2, index2, G, distances)) {
         int k = 0;
         std::vector<int>* partition1 = nullptr;
         std::vector<int>* partition2 = nullptr;
 
-        int break_flag = false;  // set break_flag to false for later. Used to break the loop if the conditions are not
-                                 // met for factorization
+        int break_flag = false;  // set break_flag to false for later. Used to break the loop if the conditions are not met for factorization
 
         for (auto partition : partitions) {
           bool is_1_in_partition = std::find(partition.begin(), partition.end(), enabled.at(rel_id_1)) != partition.end();
@@ -846,22 +845,11 @@ void FactAstar::split_ins(const Graph& G, const Partitions& partitions, const Co
 
 
 
-const bool FactAstar::heuristic(int true_id_1, int index1, int goal1, int true_id_2, int index2, int goal2, const Graph& G, const DistTable& D, int N, const std::vector<std::vector<uint>>& table, const std::map<int, int>& distances) const
+const bool FactAstar::heuristic(int rel_id_1, int index1, int rel_id_2, int index2, const Graph& G, const std::map<int, int>& distances) const
 {
-  //const int d1 = table[true_id_1][index1]/N;
-  //const int d2 = table[true_id_2][index2]/N;
-  //const float d1 = D.get_length(true_id_1, index1)/N;
-  //const float d2 = D.get_length(true_id_2, index2)/N;
-  //int d1 = a_star_path(index1, goal1, G);
-  //int d2 = a_star_path(index2, goal2, G);
-  const int d1 = distances.at(true_id_1);
-  const int d2 = distances.at(true_id_2);
+  const int d1 = distances.at(rel_id_1);
+  const int d2 = distances.at(rel_id_2);
   const int da = get_manhattan(index1, index2);
-
-  std::cout<<"Agent "<<true_id_1<<" at "<<index1<<" and ""Agent "<<true_id_2<<" at "<<index2<<std::endl;
-  std::cout<<"Agent "<<true_id_1<<" distance to goal: "<<d1<<std::endl;
-  std::cout<<"Agent "<<true_id_2<<" distance to goal: "<<d2<<std::endl;
-  std::cout<<"Distance between both agents : "<<da<<"\n"<<std::endl;
 
   if (da > d1 + d2)
     return true;
