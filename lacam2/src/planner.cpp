@@ -330,8 +330,12 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       }
     }
 
+    // copy the A* path lengths
+    std::map<int, int> distances;
+    for(int i=0; i<N; i++) distances[i] = D.get(i, C_new[i]);
+
     // Check for factorizability
-    if (N>1 && H_goal == nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, D))
+    if (N>1 && H_goal == nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, D, D.table, distances))
     {
       
 
