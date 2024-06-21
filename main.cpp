@@ -19,12 +19,9 @@ int main(int argc, char* argv[])
   program.add_argument("-t", "--time_limit_sec")
       .help("time limit sec")
       .default_value(std::string("30"));
-  program.add_argument("-os", "--output_standard")
+  program.add_argument("-o", "--output")
       .help("output file")
       .default_value(std::string("./build/result.txt"));
-  program.add_argument("-of", "--output_factorized")
-      .help("output file")
-      .default_value(std::string("./build/result_fact.txt"));
   program.add_argument("-l", "--log_short")
       .default_value(false)
       .implicit_value(true);
@@ -58,8 +55,7 @@ int main(int argc, char* argv[])
   const auto seed = std::stoi(program.get<std::string>("seed"));
   auto MT = std::mt19937(seed);
   const auto map_name = program.get<std::string>("map");
-  const auto output_name = program.get<std::string>("output_standard");
-  const auto output_name_fact = program.get<std::string>("output_factorized");
+  const auto output_name = program.get<std::string>("output");
   const auto log_short = program.get<bool>("log_short");
   const auto N = std::stoi(program.get<std::string>("num"));
   const auto factorize = program.get<std::string>("factorize");
@@ -159,13 +155,13 @@ int main(int argc, char* argv[])
 
     // post processing
     print_stats(verbose, ins_fact, solution_fact, comp_time_ms_fact);
-    make_log(ins_fact, solution_fact, output_name_fact, comp_time_ms_fact, map_name, seed, additional_info, log_short);
+    make_log(ins_fact, solution_fact, output_name, comp_time_ms_fact, map_name, seed, additional_info, log_short);
     make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname);
   }
 
 
 // ---------------------------- SOLVE WITHOUT FACTORIZATION -----------------------------------------
-  if( strcmp(factorize.c_str(), "no") == 0 || strcmp(factorize.c_str(), "all") == 0 )
+  if( strcmp(factorize.c_str(), "no") == 0)
   {
     info(0, verbose, "\nStart solving the algorithm WITHOUT factorization\n");
 

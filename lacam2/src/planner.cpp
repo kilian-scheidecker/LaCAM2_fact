@@ -146,7 +146,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
     expand_lowlevel_tree(H, L);
 
     // create successors at the high-level search
-    const auto res = get_new_config(H, L);
+    const auto res = get_new_config(H, L, infos_ptr);
     delete L;  // free
     if (!res) continue;
 
@@ -204,6 +204,8 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   for (auto itr : EXPLORED) delete itr.second;
 
   infos_ptr->loop_count += loop_cnt;
+  infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
+  infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
   return solution;
 }
@@ -299,7 +301,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     
 
     // create successors at the high-level search
-    const auto res = get_new_config(H, L);
+    const auto res = get_new_config(H, L, infos_ptr);
     delete L;  // free
     if (!res) continue;
 
@@ -379,6 +381,8 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
 
 
   infos_ptr->loop_count += loop_cnt;
+  infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
+  infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
   // Spaghetti to append the solutions correctly
 
@@ -472,7 +476,7 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
 }
 
 // Create a new configuration given some constraints for the next step. Basically the same as in LaCAM
-bool Planner::get_new_config(HNode* H, LNode* L)
+bool Planner::get_new_config(HNode* H, LNode* L, Infos* infos_ptr)
 {
   // setup cache
   for (auto a : A) {
@@ -511,16 +515,19 @@ bool Planner::get_new_config(HNode* H, LNode* L)
   // perform PIBT
   for (int k : H->order) {
     auto a = A[k];
-    if (a->v_next == nullptr && !funcPIBT(a)) return false;  // planning failure
+    if (a->v_next == nullptr && !funcPIBT(a, infos_ptr)) return false;  // planning failure
   }
   return true;
 }
 
 // PIBT planner for the low level node
-bool Planner::funcPIBT(Agent* ai)
+bool Planner::funcPIBT(Agent* ai, Infos* infos_ptr)
 {
   const int i = ai->id;
   const size_t K = ai->v_now->neighbor.size();
+
+  infos_ptr->PIBT_calls++;
+  if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->PIBT_calls_active ++;
 
   // get candidates for next locations. Loop through all neighbouring vertices
   for (size_t k = 0; k < K; ++k) {
@@ -548,6 +555,9 @@ bool Planner::funcPIBT(Agent* ai)
   for (size_t k = 0; k < K + 1; ++k) {
     auto u = C_next[i][k];
 
+    infos_ptr->actions_count++;
+    if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->actions_count_active++; 
+
     // avoid vertex conflicts and skip this vertex
     if (occupied_next[u->id] != nullptr) continue;  //check if some agent already reserved the spot for next move
 
@@ -563,7 +573,7 @@ bool Planner::funcPIBT(Agent* ai)
 
     // priority inheritance
     // if ak is not planned yet and our move leads to deadlock, do not use this move.
-    if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT(ak))
+    if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT(ak, infos_ptr))
       continue;
 
     // success to plan next one step

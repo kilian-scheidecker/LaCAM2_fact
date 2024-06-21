@@ -232,6 +232,7 @@ void make_stats(const std::string file_name, const std::string factorize, const 
   out<<"\t\t\"Number of agents\" : \""<<N<<"\",\n";
   out<<"\t\t\"Map name\" : \""<<mapname<<"\",\n";
   out<<"\t\t\"Computation time (ms)\" : \""<<comp_time_ms<<"\",\n";
+  out<<"\t\t\"Makespan\" : \""<<get_makespan(solution)<<"\",\n";
   out<<"\t\t\"Factorized\" : \""<<factorize<<"\",\n";
   out<<"\t\t\"Loop count\" : \""<<infos.loop_count<<"\",\n";
   out<<"\t\t\"PIBT calls\" : \""<<infos.PIBT_calls<<"\",\n";
