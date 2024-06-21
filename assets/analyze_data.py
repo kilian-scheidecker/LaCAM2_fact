@@ -84,7 +84,7 @@ def compute_averages(data: pd.DataFrame) :
 
 
 # Read data from the json file
-basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))
+basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))            # ../lacam_fact
 
 stats_txt_to_json(basePath + '/stats_json_standard.txt')
 stats_txt_to_json(basePath + '/stats_json_solbased.txt')

@@ -1,10 +1,9 @@
 {
   "init": "False",
-  "from": 60,
+  "from": 50,
   "to": 500,
-  "jump": 3,
+  "jump": 10,
   "n": 1,
   "map_name": "random-32-32-20",
-  "verbose": 0,
-  "factorize": ["FactDistance"]
+  "factorize": ["no"]
 }

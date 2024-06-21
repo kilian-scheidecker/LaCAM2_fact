@@ -65,55 +65,8 @@ HNode::~HNode()
   }
 }
 
-// Planner constructor for the standard version
-/*Planner::Planner(const Instance& _ins, const Deadline* _deadline,
-                 std::mt19937* _MT, const int _verbose,
-                 const Objective _objective, const float _restart_rate)
-    : ins(_ins),
-      deadline(_deadline),
-      MT(_MT),
-      verbose(_verbose),
-      objective(_objective),
-      RESTART_RATE(_restart_rate),
-      N(ins.N),
-      V_size(ins.G.size()),
-      D(DistTable(ins)),
-      loop_cnt(0),
-      C_next(N),
-      tie_breakers(V_size, 0),
-      A(N, nullptr),
-      occupied_now(V_size, nullptr),
-      occupied_next(V_size, nullptr),
-      empty_solution({})                  // initialize with nothing
-{
-}*/
 
-
-// Planner constructor for the factorized version, shared_ptr
-Planner::Planner(std::shared_ptr<const Instance> _ins, const Deadline* _deadline,
-                 std::mt19937* _MT, const int _verbose,
-                 const Objective _objective, const float _restart_rate,
-                 std::shared_ptr<Sol> _empty_solution)
-    : ins(*_ins.get()),
-      deadline(_deadline),
-      MT(_MT),
-      verbose(_verbose),
-      objective(_objective),
-      RESTART_RATE(_restart_rate),
-      N(ins.N),
-      V_size(ins.G.size()),
-      D(DistTable(ins)),
-      loop_cnt(0),
-      C_next(N),
-      tie_breakers(V_size, 0),
-      A(N, nullptr),
-      occupied_now(V_size, nullptr),
-      occupied_next(V_size, nullptr),
-      empty_solution(_empty_solution)
-{
-}
-
-// Planner constructor for the factorized version, const ref
+// Planner constructor
 Planner::Planner(const Instance& _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
                  const Objective _objective, const float _restart_rate,
@@ -193,7 +146,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
     expand_lowlevel_tree(H, L);
 
     // create successors at the high-level search
-    const auto res = get_new_config(H, L);
+    const auto res = get_new_config(H, L, infos_ptr);
     delete L;  // free
     if (!res) continue;
 
@@ -251,6 +204,8 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   for (auto itr : EXPLORED) delete itr.second;
 
   infos_ptr->loop_count += loop_cnt;
+  infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
+  infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
   return solution;
 }
@@ -260,30 +215,22 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 // factorized solving
 void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const FactAlgo& factalgo, std::queue<Instance>& OPENins)
 {
-  //solver_info(1, "start search");
-
   // setup agents
   for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
 
   // setup search
   auto OPEN = std::stack<HNode*>();
   auto EXPLORED = std::unordered_map<Config, HNode*, ConfigHasher>();
+  
   // insert initial node, 'H': high-level node
   auto H = new HNode(ins.starts, D, nullptr, 0, get_h_value(ins.starts));
   OPEN.push(H);
   EXPLORED[H->C] = H;
 
-  /*std::cout<<"Planner created with enabled agents : \n";
-  for (auto elem : ins.enabled) std::cout<<elem<<", ";
-  std::cout<<"\n";*/
-
   std::vector<Config> solution;
-  auto C_new = Config(N, nullptr);  // for new configuration
-  HNode* H_goal = nullptr;          // to store goal node
-  HNode* H_end = nullptr;           // to store end node for backtracking early
-  bool backtrack_flag = false;      // to know when to backtrack
-
-  int timestep = empty_solution->solution[ins.enabled[0]].size()-1;
+  auto C_new = Config(N, nullptr);      // for new configuration
+  HNode* H_goal = nullptr;              // to store goal node
+  Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
 
   // Restore the inheried priorities of agents
   if (ins.priority.size() > 1)
@@ -300,8 +247,6 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
-    // check for factorization possibility here. If there 
-
 
     // do not pop here!
     auto H = OPEN.top();  // high-level node
@@ -319,39 +264,14 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     }
 
     // check goal condition
-    if (H_goal == nullptr && is_same_config(H->C, ins.goals)) {
+    if (H_goal == nullptr && is_same_config(H->C, C_goal_overwrite)) {
       H_goal = H;
-      H_end = H;
       solver_info(1, "found solution, cost: ", H->g);
       if (objective == OBJ_NONE)
       { 
-        backtrack_flag = true;
         break;
       }
       continue;
-    }
-
-    // DEBUG PRINT
-    info(2, verbose,"\n-------------------------------------------\n");
-    info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt, ", timestep = ", timestep);
-    if(verbose>2) {
-      std::cout<<"\n- Printing current configuration : ";
-      print_vertices(H->C, ins.G.width);
-      std::cout<<"\n";
-    }
-    // just some printing
-    //if(timestep >= 40 && timestep <= 42){
-    if(false){
-      std::cout<<"\nSolution until now (at t= "<<timestep<<"): \n";
-      int idd = 0;
-      for(auto line : empty_solution->solution)
-      {
-        std::cout<<"\tAgent "<<idd<<": ";
-        print_vertices(line, ins.G.width);
-        std::cout<<"\n";
-        idd++;
-      }
-      std::cout<<"\n";
     }
 
     // create successors at the low-level search
@@ -359,8 +279,29 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     H->search_tree.pop();
     expand_lowlevel_tree(H, L);
 
+    // DEBUG PRINT
+    info(3, verbose,"\n-------------------------------------------\n");
+    info(3, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt);
+    if(verbose>2) {
+      std::cout<<"\n- Printing current configuration : ";
+      print_vertices(H->C, ins.G.width);
+      std::cout<<"\n";
+      /*std::cout<<"\nSolution until now:\n";
+      int idd = 0;
+      for(auto line : empty_solution->solution)
+      {
+        std::cout<<"Agent "<<idd<<": ";
+        print_vertices(line, ins.G.width);
+        std::cout<<"\n";
+        idd++;
+      }
+      std::cout<<"\n";*/
+    }
+
+    
+
     // create successors at the high-level search
-    const auto res = get_new_config(H, L);
+    const auto res = get_new_config(H, L, infos_ptr);
     delete L;  // free
     if (!res) continue;
 
@@ -389,27 +330,27 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       {
         OPEN.push(H_new);
       }
-      // store node for backtracking
-      H_end = H_new;
     }
+
+    // copy the A* path lengths
+    std::map<int, int> distances;
+    for(uint i=0; i<N; i++) distances[i] = D.get(i, C_new[i]);
 
     // Check for factorizability
-    if (H_end != nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled))
+    if (N>1 && H_goal == nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, distances))
     {
-      info(1, verbose, "\nProblem is factorizable in the next step, splitting now at timestep ", timestep);
-      backtrack_flag = true;
-
-      // The idea would be not to break but overwrite the goal condition and continue refining the solution
-      
-      break;
+      C_goal_overwrite = H->C;    // set current config as goal configuration
+      H_goal = H;                 // set current node as goal node
+      if (objective == OBJ_NONE)
+      { 
+        break;
+      }
     }
-
-    timestep++;
   }
 
-  // backtrack always !!!!!!!
-  if (H_goal != nullptr || backtrack_flag == true) {
-    auto H = H_end;
+  // backtrack
+  if (H_goal != nullptr) {
+    auto H = H_goal;
     while (H != nullptr) {
       solution.push_back(H->C);
       H = H->parent;
@@ -429,8 +370,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   }
 
   // logging
-  //additional_info +=
-      "optimal=" + std::to_string(H_goal != nullptr && OPEN.empty()) + "\n";
+  //additional_info += "optimal=" + std::to_string(H_goal != nullptr && OPEN.empty()) + "\n";
   //additional_info += "objective=" + std::to_string(objective) + "\n";
   //additional_info += "loop_cnt=" + std::to_string(loop_cnt) + "\n";
   //additional_info += "num_node_gen=" + std::to_string(EXPLORED.size()) + "\n";
@@ -441,22 +381,12 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
 
 
   infos_ptr->loop_count += loop_cnt;
+  infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
+  infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
   // Spaghetti to append the solutions correctly
 
   Solution sol_t = transpose(solution);
-
-  /*for(const auto& [id, true_id] : ins.agent_map)   // for some reason vscode doesnt like this line but compiles all good
-  {
-    //std::cout<<"\nActive agent : "<<active_agent;
-    auto sol_bit = sol_t[id];
-    auto line = &(empty_solution->solution[true_id]);
-
-    for (auto v : sol_bit) 
-    {
-      line->push_back(v);
-    }
-  }*/
 
   for(int id=0; id<int(N); id++)   // for some reason vscode doesnt like this line but compiles all good
   {
@@ -546,7 +476,7 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
 }
 
 // Create a new configuration given some constraints for the next step. Basically the same as in LaCAM
-bool Planner::get_new_config(HNode* H, LNode* L)
+bool Planner::get_new_config(HNode* H, LNode* L, Infos* infos_ptr)
 {
   // setup cache
   for (auto a : A) {
@@ -585,16 +515,19 @@ bool Planner::get_new_config(HNode* H, LNode* L)
   // perform PIBT
   for (int k : H->order) {
     auto a = A[k];
-    if (a->v_next == nullptr && !funcPIBT(a)) return false;  // planning failure
+    if (a->v_next == nullptr && !funcPIBT(a, infos_ptr)) return false;  // planning failure
   }
   return true;
 }
 
 // PIBT planner for the low level node
-bool Planner::funcPIBT(Agent* ai)
+bool Planner::funcPIBT(Agent* ai, Infos* infos_ptr)
 {
   const int i = ai->id;
   const size_t K = ai->v_now->neighbor.size();
+
+  infos_ptr->PIBT_calls++;
+  if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->PIBT_calls_active ++;
 
   // get candidates for next locations. Loop through all neighbouring vertices
   for (size_t k = 0; k < K; ++k) {
@@ -622,6 +555,9 @@ bool Planner::funcPIBT(Agent* ai)
   for (size_t k = 0; k < K + 1; ++k) {
     auto u = C_next[i][k];
 
+    infos_ptr->actions_count++;
+    if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->actions_count_active++; 
+
     // avoid vertex conflicts and skip this vertex
     if (occupied_next[u->id] != nullptr) continue;  //check if some agent already reserved the spot for next move
 
@@ -637,7 +573,7 @@ bool Planner::funcPIBT(Agent* ai)
 
     // priority inheritance
     // if ak is not planned yet and our move leads to deadlock, do not use this move.
-    if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT(ak))
+    if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT(ak, infos_ptr))
       continue;
 
     // success to plan next one step

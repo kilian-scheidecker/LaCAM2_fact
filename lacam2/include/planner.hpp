@@ -84,22 +84,7 @@ struct Planner {
   // used for factorization
   std::shared_ptr<Sol> empty_solution;    // pointer to the empty solution
 
-  // constructor for the standard version
-  /*Planner(const Instance& _ins, const Deadline* _deadline, std::mt19937* _MT,
-          const int _verbose = 0,
-          // other parameters
-          const Objective _objective = OBJ_NONE,
-          const float _restart_rate = 0.001);*/
-
-  // constructor for the factorized version
-  Planner(std::shared_ptr<const Instance> _ins, const Deadline* _deadline, std::mt19937* _MT,
-          const int _verbose = 0,
-          // other parameters
-          const Objective _objective = OBJ_NONE,
-          const float _restart_rate = 0.001,
-          std::shared_ptr<Sol> _empty_solution = {});     // shared pointer, no ref
-
-  // constructor for the factorized version, instance ref
+  // constructor
   Planner(const Instance& _ins, const Deadline* _deadline, std::mt19937* _MT,
           const int _verbose = 0,
           // other parameters
@@ -121,8 +106,8 @@ struct Planner {
   uint get_edge_cost(const Config& C1, const Config& C2);
   uint get_edge_cost(HNode* H_from, HNode* H_to);
   uint get_h_value(const Config& C);
-  bool get_new_config(HNode* H, LNode* L);
-  bool funcPIBT(Agent* ai);
+  bool get_new_config(HNode* H, LNode* L, Infos* infos_ptr);
+  bool funcPIBT(Agent* ai, Infos* infos_ptr);
 
   // swap operation
   Agent* swap_possible_and_required(Agent* ai);

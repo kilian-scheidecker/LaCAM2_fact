@@ -18,13 +18,10 @@ int main(int argc, char* argv[])
       .default_value(std::string("0"));
   program.add_argument("-t", "--time_limit_sec")
       .help("time limit sec")
-      .default_value(std::string("10"));
-  program.add_argument("-os", "--output_standard")
+      .default_value(std::string("30"));
+  program.add_argument("-o", "--output")
       .help("output file")
       .default_value(std::string("./build/result.txt"));
-  program.add_argument("-of", "--output_factorized")
-      .help("output file")
-      .default_value(std::string("./build/result_fact.txt"));
   program.add_argument("-l", "--log_short")
       .default_value(false)
       .implicit_value(true);
@@ -58,20 +55,13 @@ int main(int argc, char* argv[])
   const auto seed = std::stoi(program.get<std::string>("seed"));
   auto MT = std::mt19937(seed);
   const auto map_name = program.get<std::string>("map");
-  const auto output_name = program.get<std::string>("output_standard");
-  const auto output_name_fact = program.get<std::string>("output_factorized");
+  const auto output_name = program.get<std::string>("output");
   const auto log_short = program.get<bool>("log_short");
   const auto N = std::stoi(program.get<std::string>("num"));
   const auto factorize = program.get<std::string>("factorize");
   const auto objective =
       static_cast<Objective>(std::stoi(program.get<std::string>("objective")));
   const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
-
-
-  // Check if factorize argument is valid
-  if (factorize != "no" && factorize != "FactDistance" && factorize != "FactBbox" && factorize != "FactOrient")  {
-      throw std::invalid_argument("-f (factorize) argument must be  \"no\", \"FactDistance\", \"FactBbox\" or \"FactOrient\"");
-  }
 
   // Redirect cout to nullstream if verbose is set to zero
   std::streambuf* coutBuffer = std::cout.rdbuf();   // save cout buffer
@@ -86,12 +76,11 @@ int main(int argc, char* argv[])
   auto mapname = map_name.substr(found+1);
   info(1, verbose, "Map name : ", mapname);
 
-  // Other important variables
-  Solution sol_simple;
-  Solution sol_fact;
+  // Other variables
   std::vector<int> v_enable(N);           // keep track of which agent is enabled
   std::map<int, int> agent_map;
   Infos infos;                            // Create Infos structure
+  int success = 1;                        // Determine if solving was successful (1) or not (0)
   auto additional_info = std::string("");
 
 
@@ -127,11 +116,17 @@ int main(int argc, char* argv[])
       // Create a FactDistance object
       algo = std::make_unique<FactBbox>(ins_fact.G.width);
     }
-    else
+    else if (strcmp(factorize.c_str(), "FactOrient") == 0)
     {
       // Create a FactDistance object
       algo = std::make_unique<FactOrient>(ins_fact.G.width);
     }
+    else if (strcmp(factorize.c_str(), "FactAstar") == 0)
+    {
+      // Create a FactDistance object
+      algo = std::make_unique<FactAstar>(ins_fact.G.width);
+    }
+    else throw std::invalid_argument("-f (factorize) argument must be  \"no\", \"FactDistance\", \"FactBbox\" or \"FactOrient\", \"FactAstar\"");
     
     // Reset the infos :
     infos.reset();
@@ -151,21 +146,19 @@ int main(int argc, char* argv[])
     // check feasibility
     if (!is_feasible_solution(ins_fact, solution_fact, verbose)) {
       info(0, verbose, "invalid solution for factorized solving");
+      success = 0;
       //return 1;
     }
 
-    // store solution for comparison later with unfactorized version
-    sol_fact = solution_fact;
-
     // post processing
     print_stats(verbose, ins_fact, solution_fact, comp_time_ms_fact);
-    make_log(ins_fact, solution_fact, output_name_fact, comp_time_ms_fact, map_name, seed, additional_info, log_short);
-    make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname);
+    make_log(ins_fact, solution_fact, output_name, comp_time_ms_fact, map_name, seed, additional_info, log_short);
+    make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname, success);
   }
 
 
 // ---------------------------- SOLVE WITHOUT FACTORIZATION -----------------------------------------
-  if( strcmp(factorize.c_str(), "no") == 0 || strcmp(factorize.c_str(), "all") == 0 )
+  else
   {
     info(0, verbose, "\nStart solving the algorithm WITHOUT factorization\n");
 
@@ -187,15 +180,14 @@ int main(int argc, char* argv[])
     // check feasibility
     if (!is_feasible_solution(ins, solution, verbose)) {
       info(0, verbose, "invalid solution for normal LaCAM");
-      return 1;
+      success = 0;
+      //return 1;
     }
-
-    sol_simple = solution;
 
     // post processing
     print_stats(verbose, ins, solution, comp_time_ms);
     make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, log_short);
-    make_stats("stats_json.txt", "Standard", N, comp_time_ms, infos, solution, mapname);
+    make_stats("stats_json.txt", "Standard", N, comp_time_ms, infos, solution, mapname, success);
 
   }
 
