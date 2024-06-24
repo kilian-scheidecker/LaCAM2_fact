@@ -51,11 +51,14 @@ def update_stats_json(string: str, string_info: str):
 
     with open(file_path, 'r') as file:
         data = file.read()
-    
-    # Remove the trailing comma if it exists and parse the JSON
+
+    # Remove the trailing comma and/or starting bracket if it exists and parse the JSON
     if data.strip().endswith(','):
         data = data.strip()[:-1]
-    
+
+    if data.strip().startswith('['):
+        data = data.strip()[1:]
+
     stats_list = json.loads(f'[{data}]')
 
     # Update the last entry with the maximum resident set size
@@ -63,7 +66,7 @@ def update_stats_json(string: str, string_info: str):
         stats_list[-1][string] = string_info
 
     # Convert back to JSON and add a trailing comma for the next entry
-    updated_data = json.dumps(stats_list, indent=4)[1:-1] + ','
+    updated_data = json.dumps(stats_list, indent=4)[1:-2] + ',\n'
 
     with open(file_path, 'w') as file:
         file.write(updated_data)
@@ -75,38 +78,44 @@ def run_commands_in_ubuntu(commands, directory):
     try :
         # Change directory in WSL
         subprocess.run(['wsl', 'cd', directory], check=True)
-        
-        # Run commands in WSL
-        for command in commands:
-            try :
-                c = ['wsl'] + command.split()
-                result = subprocess.run(c, shell=True, capture_output=True, text=True)
-                if result.returncode == 0:
-                    # Output of the command should contain RAM usage information
-                    output_lines = result.stderr.splitlines()
-                    for line in output_lines:
-                        if "Maximum resident set size" in line :
-                            max_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
-                            update_stats_json("Maximum RAM usage (Mbytes)", str(max_ram_usage))
-                            print(f"- solution found. RAM Usage: {max_ram_usage} Mo\n")
-                        elif "Average resident set size" in line :
-                            avg_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
-                            update_stats_json("Average RAM usage (Mbytes)", str(avg_ram_usage))
-                        elif "Percent of CPU this job got" in line :
-                            cpu_usage = line.split(":")[1].strip()             # in percent
-                            cpu_usage = cpu_usage.rstrip('%')
-                            update_stats_json("CPU usage (percent)", str(cpu_usage))
 
-
-
-            except :
-                # Handle errors if any of the commands fail
-                print("- solving failed. No solution found\n")
-                update_stats_json("Maximum RAM usage (Mbytes)", "-1")
-                update_stats_json("Average RAM usage (Mbytes)", "-1")
-                update_stats_json("CPU usage (percent)", "-1")
     except :
         print("Failed to change directory in WSL")
+        update_stats_json("Maximum RAM usage (Mbytes)", "-1")
+        update_stats_json("Average RAM usage (Mbytes)", "-1")
+        update_stats_json("CPU usage (percent)", "-1")
+        return
+        
+    # Run commands in WSL
+    for command in commands:
+        try :
+            c = ['wsl'] + command.split()
+            result = subprocess.run(c, shell=True, capture_output=True, text=True)
+            if result.returncode == 0:
+                # Output of the command should contain RAM usage information
+                output_lines = result.stderr.splitlines()
+                for line in output_lines:
+                    if "Maximum resident set size" in line :
+                        max_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
+                        update_stats_json("Maximum RAM usage (Mbytes)", str(max_ram_usage))
+                        print(f"- solution found. RAM Usage: {max_ram_usage} Mo\n")
+                    elif "Average resident set size" in line :
+                        avg_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
+                        update_stats_json("Average RAM usage (Mbytes)", str(avg_ram_usage))
+                    elif "Percent of CPU this job got" in line :
+                        cpu_usage = line.split(":")[1].strip()             # in percent
+                        cpu_usage = cpu_usage.rstrip('%')
+                        update_stats_json("CPU usage (percent)", str(cpu_usage))
+
+
+
+        except :
+            # Handle errors if any of the commands fail
+            print("- solving failed. No solution found\n")
+            update_stats_json("Maximum RAM usage (Mbytes)", "-1")
+            update_stats_json("Average RAM usage (Mbytes)", "-1")
+            update_stats_json("CPU usage (percent)", "-1")
+
 
 # Build the environment using make. not required every time
 def initialize(dir: str): 
@@ -151,19 +160,19 @@ def auto_test() :
             total = 0
             success = 0
             for i in range(n) :
-                print("\nTesting with " + str(N) + " agents")
+                print("Testing with " + str(N) + " agents")
                 commmands = create_command(map_name=map_name, N=N, factorize=factorize)
                 #print(commmands)
                 create_scen(N, dir_py, map_name)
                 #total += 1
                 for command in commmands :
                     total += 1
-                    try :
-                        run_commands_in_ubuntu([command], WSL_DIR)
-                        success += 1
-                    except : 
+                    #try :
+                    run_commands_in_ubuntu([command], WSL_DIR)
+                    success += 1
+                    #except : 
                         #print("Solving failed with " + str(N) + " agents")
-                        continue
+                        #continue
 
             #print(f"\nSuccessfully completed {success}/{total} tests\n")
     return
@@ -171,3 +180,5 @@ def auto_test() :
 
 
 auto_test()
+
+# ["no", "FactDistance", "FactBbox", "FactOrient", "FactAstar"]

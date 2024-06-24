@@ -18,18 +18,18 @@ def line_appender(filename, line):
             f.seek(0, 2)
             f.write('\n'.encode('UTF-8') + line.encode('UTF-8'))
         elif lines and lines[-1].strip() == '},'.encode('UTF-8'):
-            f.seek(-2, 2)
+            f.seek(-3, 2)
             f.truncate()
             f.seek(0, 2)
             f.write('\n'.encode('UTF-8') + line.encode('UTF-8'))
 
 
 # Prepend line to file
-def line_prepender(filename, line, cond):
+def line_prepender(filename, line):
     with open(filename, 'r+') as f:
         content = f.read()
         f.seek(0, 0)
-        if content.strip() and content.strip()[0] == cond:
+        if content.strip() and content.strip()[0] == '[':
             # First character is already a bracket, don't prepend the line
             pass
         else:
@@ -45,44 +45,109 @@ def remove_last_bracket(filename):
             f.seek(0, 2)
             f.write(',\n'.encode('UTF-8'))
         elif lines and lines[-1].strip() == ']'.encode('UTF-8'):
-            f.seek(-2, 2)
+            f.seek(-4, 2)
             f.truncate()
             f.seek(0, 2)
-            f.write(',\n'.encode('UTF-8'))
+            f.write('},\n'.encode('UTF-8'))
 
 
 # Reshape the stats_json.txt in json
 def stats_txt_to_json(filename) :
-    line_prepender(filename, '[', '[')
+
+    line_prepender(filename, '[')
     line_appender(filename, ']')
+
+    data = pd.read_json(filename)
+
+    # Remove last bracket from 'stats_json.txt' to be able to add data back
+    remove_last_bracket(filename)
+
+    return data
+
+
+def stats_to_json(filename) :
+
+    basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))            # ../lacam_fact
+
+    with open(basePath + '/' + filename, 'r') as file:
+        original_data = file.read()
+        
+    if original_data.strip().endswith(','):
+        data = original_data.strip()[:-1] + '\n]'
+
+    if original_data.strip().endswith('}'):
+        data = original_data + '\n]'
+    
+    if not original_data.strip().startswith('[') :
+        data = '[\n' + data
+
+    with open(basePath + '/stats.json', 'w+') as file:
+        file.write(data)
+    
+    data = pd.read_json(basePath + '/stats.json')
+
+    return data
 
 
 def compute_averages(data: pd.DataFrame) :
 
     # Average all tests
-    data2 = data.groupby(['Number of agents', 'Map name']).mean().reset_index()
+    data2 = data.groupby(['Number of agents', 'Map name', 'Factorized']).mean().reset_index()
     #data_solbased = data_solbased.groupby(['Number of agents']).mean().reset_index()
 
-    # Normalize by the number of agents
-    costs_average = data[['Sum of costs', 'Active PIBT calls', 'Active action counts', 'PIBT calls', 'Action counts', 'Sum of loss']].div(data['Number of agents'], axis = 0)
+    # Normalize by the number of agents for PIBT calls and action counts and costs/losses
+    costs_average = data[['PIBT calls', 'Active PIBT calls', 'Action counts', 'Active action counts',  'Sum of loss', 'Sum of costs']].div(data['Number of agents'], axis = 0)
 
     # Reisert the averaged data 
     data2.insert(loc=2, column='Average cost', value=costs_average['Sum of costs'])
     data2.insert(loc=2, column='Average loss', value=costs_average['Sum of loss'])
-    data2.insert(loc=2, column='Average active action counts', value=costs_average['Active action counts'])
-    data2.insert(loc=2, column='Average active PIBT calls', value=costs_average['Active PIBT calls'])
-    data2.insert(loc=2, column='Average action counts', value=costs_average['Action counts'])
-    data2.insert(loc=2, column='Average PIBT calls', value=costs_average['PIBT calls'])
+    #data2.insert(loc=2, column='Average active action counts', value=costs_average['Active action counts'])
+    #data2.insert(loc=2, column='Average active PIBT calls', value=costs_average['Active PIBT calls'])
+    #data2.insert(loc=2, column='Average action counts', value=costs_average['Action counts'])
+    #data2.insert(loc=2, column='Average PIBT calls', value=costs_average['PIBT calls'])
 
     # Data to compare action counts vs PIBT calls
-    #further_data = data[['Active action counts']].div(data['Active PIBT calls'], axis = 0)
-    #further_data.insert(loc=0, column='Number of agents', value=data['Number of agents'])
+    further_data = data[['Action counts']].div(data['PIBT calls'], axis = 0).reset_index()
+    data2.insert(loc=2, column='Average action counts', value=further_data['Action counts'])
 
     return data2
 
 
+def compute_success(data: pd.DataFrame) :
+
+    data = data[['Number of agents', 'Map name', 'Factorized', 'Success']]
+    data2 = data.groupby(['Number of agents', 'Map name', 'Factorized']).sum().reset_index()
+
+    #data_success = data2[['Number of agents', 'Map name', 'Factorized', 'Success']]
+    #data_success = data_success.rename(columns={'Success': 'Number of successes'}, inplace=True)
+    return data2
+
+def get_data(map_name: str, update_data: bool):
+
+    # Base path of repo
+    basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))            # ../lacam_fact
+
+    if update_data :
+        # Convert data to json format
+        data = stats_to_json('stats_json.txt')
+    else : 
+        data = pd.read_json(basePath + '/stats.json')
+    
+    # Get readings from particular map
+    data = data[data['Map name'] == map_name]
+
+    # Drop entries where there is no solution
+    data_clipped = data.drop(data[data['Success'] == 0].index)
+
+    data_avg = compute_averages(data_clipped)
+    data_success = compute_success(data)
+
+    #data_avg.insert(loc=2, column='Number of successes', value=data_success['Success'])
+
+    return data_avg, data_success
 
 
+"""
 # Read data from the json file
 basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))            # ../lacam_fact
 
@@ -139,7 +204,7 @@ fig4.add_trace(trace7)
 fig4.add_trace(trace8,secondary_y=False)
 
 fig1.show()
-
+"""
 """# Create comparison PIBT / actions called
 fig2 = px.line(further_data, x="Number of agents", y="Active action counts", title="Actions scanned per active PIBT call")
 #fig2.show()
