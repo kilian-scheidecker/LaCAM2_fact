@@ -38,6 +38,8 @@ int main(int argc, char* argv[])
       .default_value(std::string("0.001"));
   program.add_argument("-f", "--factorize")
       .default_value(std::string("no"));
+  program.add_argument("-mt", "--multi_threading")
+      .default_value(std::string("no"));
 
   try {
     program.parse_known_args(argc, argv);
@@ -59,6 +61,7 @@ int main(int argc, char* argv[])
   const auto log_short = program.get<bool>("log_short");
   const auto N = std::stoi(program.get<std::string>("num"));
   const auto factorize = program.get<std::string>("factorize");
+  const auto multi_threading = program.get<std::string>("multi_threading");
   const auto objective =
       static_cast<Objective>(std::stoi(program.get<std::string>("objective")));
   const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
@@ -134,12 +137,17 @@ int main(int argc, char* argv[])
     // Create the deadline :
     const auto deadline_fact = Deadline(time_limit_sec * 1000);
 
-    // Actual solving procedure. maybe put this inside the FactAlgo class and give it a planner member
-    const auto solution_fact = solve_fact(ins_fact, additional_info, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos, *algo);
-  
+    
+    // Actual solving procedure, depending on multi_threading or not
+    Solution solution_fact;
+    if( strcmp(multi_threading.c_str(), "yes") == 0)
+      solution_fact = solve_fact_MT(ins_fact, additional_info, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos, *algo);
+    else
+      solution_fact = solve_fact(ins_fact, additional_info, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos, *algo);
+    
+    
     const auto comp_time_ms_fact = deadline_fact.elapsed_ms();
 
-    
     // failure
     if (solution_fact.empty()) info(0, verbose, "failed to solve");
 
@@ -153,7 +161,7 @@ int main(int argc, char* argv[])
     // post processing
     print_stats(verbose, ins_fact, solution_fact, comp_time_ms_fact);
     make_log(ins_fact, solution_fact, output_name, comp_time_ms_fact, map_name, seed, additional_info, log_short);
-    make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname, success);
+    make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname, success, multi_threading);
   }
 
 
@@ -187,7 +195,7 @@ int main(int argc, char* argv[])
     // post processing
     print_stats(verbose, ins, solution, comp_time_ms);
     make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, log_short);
-    make_stats("stats_json.txt", "Standard", N, comp_time_ms, infos, solution, mapname, success);
+    make_stats("stats_json.txt", "Standard", N, comp_time_ms, infos, solution, mapname, success, "no");
 
   }
 
