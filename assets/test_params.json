@@ -1,9 +1,9 @@
 {
   "init": "False",
-  "from": 5,
+  "from": 10,
   "to": 120,
   "jump": 5,
   "n": 1,
-  "map_name": "random-32-32-20",
+  "map_name": "warehouse-20-40-10-2-2",
   "factorize": ["no", "FactDistance", "FactBbox", "FactOrient", "FactAstar"]
 }

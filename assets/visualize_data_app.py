@@ -7,10 +7,6 @@ from dash import Dash, dcc, html
 from analyze_data import get_data
 import dash_bootstrap_components as dbc
 import plotly.express as px
-import plotly.graph_objects as go
-import pandas as pd
-import os
-
 
 """
 COLUMN NAMES
@@ -34,157 +30,163 @@ COLUMN NAMES
 }
 """
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-# Create a basic color palette
-colors = {
-    'background': '#5d5e63',           # #666976, #2d2d30
-    'text': '#E9E9E9' 
-}
+def show_plots(map_name: str, update_db: bool) :
 
-# Gather data in specific map
-data, data_success = get_data(map_name="random-32-32-20.map", update_data=True)
+    app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-# Create the line charts
-line_CPU = px.line(data, x="Number of agents", y="CPU usage (percent)", color="Factorized")
-line_RAM = px.line(data, x="Number of agents", y="Maximum RAM usage (Mbytes)", color="Factorized")
-line_time = px.line(data, x="Number of agents", y="Computation time (ms)", color="Factorized")
-line_actions = px.line(data, x="Number of agents", y="Average action counts", color="Factorized")
-line_success = px.line(data_success, x="Number of agents", y="Success", color="Factorized")
+    # Create a basic color palette
+    colors = {
+        'background': '#5d5e63',           # #666976, #2d2d30
+        'text': '#E9E9E9' 
+    }
 
+    # Gather data in specific map
+    data, data_success = get_data(map_name, update_db)
 
-line_CPU.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text'],
-    showlegend=False,
-    title_text="CPU usage (percent)",
-    title_x=0.5,
-    title_xanchor="center",
-    xaxis_title="Number of agents",
-    yaxis_title=None,
-    title=dict(font=dict(size=14)),
-    height=260,
-    width=450,
-)
-
-line_RAM.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text'],
-    showlegend=True,
-    title_text="Maximum RAM usage (Mbytes)",
-    title_x=0.5,
-    title_xanchor="center",
-    xaxis_title="Number of agents",
-    yaxis_title=None,
-    title=dict(font=dict(size=14)),
-    height=260,
-    width=480,
-)
-
-line_time.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text'],
-    showlegend=False,
-    title_text="Computation time (ms)",
-    title_x=0.5,
-    title_xanchor="center",
-    xaxis_title="Number of agents",
-    yaxis_title=None,
-    title=dict(font=dict(size=14)),
-    height=260,
-    width=450,
-)
-
-line_actions.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text'],
-    showlegend=False,
-    title_text="Average action counts",
-    title_x=0.5,
-    title_xanchor="center",
-    xaxis_title="Number of agents",
-    yaxis_title=None,
-    title=dict(font=dict(size=14)),
-    height=260,
-    width=480,
-)
-
-line_success.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text'],
-    showlegend=False,
-    title_text="Successfully solved instances",
-    title_x=0.5,
-    title_xanchor="center",
-    xaxis_title="Number of agents",
-    yaxis_title=None,
-    title=dict(font=dict(size=14)),
-    height=260,
-    width=400,
-)
+    # Create the line charts
+    line_CPU = px.line(data, x="Number of agents", y="CPU usage (percent)", color="Factorized")
+    line_RAM = px.line(data, x="Number of agents", y="Maximum RAM usage (Mbytes)", color="Factorized")
+    line_time = px.line(data, x="Number of agents", y="Computation time (ms)", color="Factorized")
+    line_actions = px.line(data, x="Number of agents", y="Average action counts", color="Factorized")
+    line_success = px.line(data_success, x="Number of agents", y="Success", color="Factorized")
 
 
-# Create the bar charts
-bar_success = px.histogram(data_success, x="Factorized", y="Success", color="Factorized", histfunc='sum', text_auto=True, orientation='v', labels=None)
-bar_success.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text'],
-    showlegend=False,
-    title_text="Successfully solved instances",
-    title_x=0.5,
-    title_xanchor="center",
-    xaxis_title=None,
-    yaxis_title=None,
-    yaxis={'showgrid':False, 'showticklabels':False},
-    title=dict(font=dict(size=14)),
-    height=280,
-    width=400,
-)
+    line_CPU.update_layout(
+        plot_bgcolor=colors['background'],
+        paper_bgcolor=colors['background'],
+        font_color=colors['text'],
+        showlegend=False,
+        title_text="CPU usage (percent)",
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title="Number of agents",
+        yaxis_title=None,
+        title=dict(font=dict(size=14)),
+        height=260,
+        width=450,
+    )
+
+    line_RAM.update_layout(
+        plot_bgcolor=colors['background'],
+        paper_bgcolor=colors['background'],
+        font_color=colors['text'],
+        showlegend=True,
+        title_text="Maximum RAM usage (Mbytes)",
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title="Number of agents",
+        yaxis_title=None,
+        title=dict(font=dict(size=14)),
+        height=260,
+        width=480,
+    )
+
+    line_time.update_layout(
+        plot_bgcolor=colors['background'],
+        paper_bgcolor=colors['background'],
+        font_color=colors['text'],
+        showlegend=False,
+        title_text="Computation time (ms)",
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title="Number of agents",
+        yaxis_title=None,
+        title=dict(font=dict(size=14)),
+        height=260,
+        width=450,
+    )
+
+    line_actions.update_layout(
+        plot_bgcolor=colors['background'],
+        paper_bgcolor=colors['background'],
+        font_color=colors['text'],
+        showlegend=False,
+        title_text="Average action counts",
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title="Number of agents",
+        yaxis_title=None,
+        title=dict(font=dict(size=14)),
+        height=260,
+        width=480,
+    )
+
+    line_success.update_layout(
+        plot_bgcolor=colors['background'],
+        paper_bgcolor=colors['background'],
+        font_color=colors['text'],
+        showlegend=False,
+        title_text="Successfully solved instances",
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title="Number of agents",
+        yaxis_title=None,
+        title=dict(font=dict(size=14)),
+        height=260,
+        width=400,
+    )
 
 
-print("\nDashboard updated")
-
-# Layout of the Dashboard
-app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
-    
-    dbc.Row(dbc.Col(html.Div("Performance overview (random-32-32-20.map)")), style=
-            {'textAlign': 'center',
-            'color': colors['text'],
-            'fontSize': 30,
-            'height' : '50px',
-            }),
-
-    dbc.Row(
-        [
-            #dbc.Col(html.Div(html.P(["", html.Br(), "Map style tested : ", "random-32-32-20.map"])), width=3,
-            #        style={'color': colors['text'],
-            #               'fontSize': 24,
-            #               'padding-left': '2em'}),
-            dbc.Col(dcc.Graph(id='graph1',figure=bar_success), width=3, style={'textAlign': 'center'}),
-            dbc.Col(dcc.Graph(id='graph2',figure=line_CPU), width=4),
-            dbc.Col(dcc.Graph(id='graph3',figure=line_RAM), width=5)
-        ]
-    ),
-    dbc.Row(
-        [
-            dbc.Col(width=3, style={'textAlign': 'center'}),
-            dbc.Col(dcc.Graph(id='graph5',figure=line_time), width=4, style={'textAlign': 'center'}),
-            dbc.Col(dcc.Graph(id='graph6',figure=line_actions), width=5, style={'textAlign': 'center'})
-        ]
-    ),
-
-    #dbc.Row(dbc.Col(html.Div("")), style={'height' : '200px'}),
- 
-])
+    # Create the bar charts
+    bar_success = px.histogram(data_success, x="Factorized", y="Success", color="Factorized", histfunc='sum', text_auto=True, orientation='v', labels=None)
+    bar_success.update_layout(
+        plot_bgcolor=colors['background'],
+        paper_bgcolor=colors['background'],
+        font_color=colors['text'],
+        showlegend=False,
+        title_text="Successfully solved instances",
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title=None,
+        yaxis_title=None,
+        yaxis={'showgrid':False, 'showticklabels':False},
+        title=dict(font=dict(size=14)),
+        height=280,
+        width=400,
+    )
 
 
+    print("\nDashboard updated")
 
-if __name__ == '__main__':
-    app.run(debug=True)
-    
+    # Layout of the Dashboard
+    app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
+        
+        dbc.Row(dbc.Col(html.Div(html.P(["", html.Br(), "Performance overview (", map_name, ")"]))), style=
+                {'textAlign': 'center',
+                'color': colors['text'],
+                'fontSize': 25,
+                'height' : '70px',
+                }),
+
+        dbc.Row(
+            [
+                #dbc.Col(html.Div(html.P(["", html.Br(), "Map style tested : ", "random-32-32-20.map"])), width=3,
+                #        style={'color': colors['text'],
+                #               'fontSize': 24,
+                #               'padding-left': '2em'}),
+                dbc.Col(dcc.Graph(id='graph1',figure=bar_success), width=3, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph2',figure=line_CPU), width=4),
+                dbc.Col(dcc.Graph(id='graph3',figure=line_RAM), width=5)
+            ]
+        ),
+        dbc.Row(
+            [
+                dbc.Col(width=3, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph5',figure=line_time), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph6',figure=line_actions), width=5, style={'textAlign': 'center'})
+            ]
+        ),
+
+        #dbc.Row(dbc.Col(html.Div("")), style={'height' : '200px'}),
+
+    ])
+
+
+
+    if __name__ == '__main__':
+        app.run(debug=True)
+
+
+
+show_plots(map_name="warehouse-20-40-10-2-2.map", update_db=True)
