@@ -114,6 +114,41 @@ public:
 
 private:
 
+    /*// Node structure for A* planning
+    struct Node {
+        std::shared_ptr<Vertex> vertex;
+        int g, f;
+        bool operator>(const Node& other) const { return f > other.f; }
+    };*/
+
+    // Helper method to actually split the current instance 
+    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::map<int, int>& agent_map) const;
+
+    // Simple heuristic to determine if 2 agents can be factorized based on distance
+    const bool heuristic(int rel_id_1, int index1, int rel_id_2, int index2, const Graph& G, const std::map<int, int>& distances) const;
+
+    // A* planning for heuristic computation
+    //int a_star_path(int start, int goal, const Graph& G) const;
+
+    // Manhattan distance computation
+    int get_manhattan(int index1, int index2) const;
+};
+
+
+
+
+class FactDef : public FactAlgo
+{
+public:
+    // Default constructor
+    FactDef() : FactAlgo(0) {}
+    FactDef(int width) : FactAlgo(width) {}
+
+    // Method to factorize the agents and generate the partitions
+    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::map<int, int>& distances) const;
+
+private:
+
     // Node structure for A* planning
     struct Node {
         std::shared_ptr<Vertex> vertex;
@@ -128,10 +163,16 @@ private:
     const bool heuristic(int rel_id_1, int index1, int rel_id_2, int index2, const Graph& G, const std::map<int, int>& distances) const;
 
     // A* planning for heuristic computation
-    int a_star_path(int start, int goal, const Graph& G) const;
+    Config FactDef::a_star_path(int start, int goal, const Graph& G) const;
 
     // Manhattan distance computation
     int get_manhattan(int index1, int index2) const;
+
+    // Helper function to generate partitions recursively
+    void partitionHelper(const std::vector<int>& enabled, int index, std::vector<std::vector<int>> currentPartition, std::list<std::vector<std::vector<int>>>& partitions);
+
+    // Function to generate all partitions of a given set
+    std::list<std::vector<std::vector<int>>> FactDef::generatePartitions(const std::vector<int>& enabled);
 };
 
 

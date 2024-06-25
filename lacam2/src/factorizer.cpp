@@ -21,7 +21,7 @@ bool FactDistance::factorize(const Config& C, const Graph& G, int verbose,
                              const std::map<int, int>& distances) const
 {
   // collection of partitions
-  std::vector<std::vector<int>> partitions; 
+  Partitions partitions; 
 
   // maps the true id of the agent to its position in the instance to split
   std::map<int, int> agent_map;
@@ -225,7 +225,7 @@ bool FactBbox::factorize(const Config& C, const Graph& G, int verbose,
                              const std::map<int, int>& distances) const
 {
   // collection of partitions
-  std::vector<std::vector<int>> partitions; 
+  Partitions partitions; 
 
   // maps the true id of the agent to its position in the instance to split
   std::map<int, int> agent_map;
@@ -427,7 +427,7 @@ bool FactOrient::factorize(const Config& C, const Graph& G, int verbose,
                              const std::map<int, int>& distances) const
 {
   // collection of partitions
-  std::vector<std::vector<int>> partitions; 
+  Partitions partitions; 
 
   // maps the true id of the agent to its position in the instance to split
   std::map<int, int> agent_map;
@@ -686,7 +686,7 @@ bool FactAstar::factorize(const Config& C, const Graph& G, int verbose,
                              const std::map<int, int>& distances) const
 {
   // collection of partitions
-  std::vector<std::vector<int>> partitions; 
+  Partitions partitions; 
 
   // maps the true id of the agent to its position in the instance to split
   std::map<int, int> agent_map;
@@ -857,7 +857,7 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int rel_id_2, int inde
     return false;
 }
 
-
+/*
 int FactAstar::a_star_path(int start, int goal, const Graph& G) const {
     //auto G_copy = G;
     if (start == goal) return 0;
@@ -911,4 +911,100 @@ int FactAstar::get_manhattan(int index1, int index2) const
   return dx + dy;
 }
 
+*/
 
+
+/****************************************************************************************\
+*                        Implementation of the FactDef class                             *
+\****************************************************************************************/
+
+
+
+
+void FactDef::partitionHelper(const std::vector<int>& enabled, int index, 
+                              Partitions currentPartition, std::list<Partitions>& partitions) {
+    if (index == enabled.size()) {
+        partitions.push_back(currentPartition);
+        return;
+    }
+
+    for (size_t i = 0; i < currentPartition.size(); ++i) {
+        currentPartition[i].push_back(enabled[index]);
+        partitionHelper(enabled, index + 1, currentPartition, partitions);
+        currentPartition[i].pop_back();
+    }
+
+    currentPartition.push_back({enabled[index]});
+    partitionHelper(enabled, index + 1, currentPartition, partitions);
+}
+
+
+std::list<Partitions> FactDef::generatePartitions(const std::vector<int>& enabled) {
+    std::list<Partitions> partitions;
+    Partitions currentPartition;
+    
+    partitionHelper(enabled, 0, currentPartition, partitions);
+    partitions.remove({enabled});
+    return partitions;
+}
+
+
+Config FactDef::a_star_path(int start, int goal, const Graph& G) const {
+    Config path;
+    if (start == goal) {
+        path.push_back(G.U.at(start));
+        return path;
+    }
+
+    auto start_vertex = G.U.at(start);
+    auto goal_vertex = G.U.at(goal);
+    if (!start_vertex || !goal_vertex) return path;
+
+    std::priority_queue<Node, std::vector<Node>, std::greater<Node>> open_set;
+    std::unordered_map<int, int> g_score, came_from;
+
+    g_score[start] = 0;
+    open_set.push({start_vertex, 0, get_manhattan(start, goal)});
+
+    while (!open_set.empty()) {
+        auto current = open_set.top().vertex;
+        open_set.pop();
+
+        if (current->index == goal) {
+            for (auto v = goal; v != start; v = came_from[v]) {
+                path.push_back(G.U.at(v));
+            }
+            path.push_back(G.U.at(start));
+            std::reverse(path.begin(), path.end());
+            return path;
+        }
+
+        for (auto& neighbor : current->neighbor) {
+            int tentative_g_score = g_score[current->index] + 1;
+            if (g_score.find(neighbor->index) == g_score.end() || tentative_g_score < g_score[neighbor->index]) {
+                came_from[neighbor->index] = current->index;
+                g_score[neighbor->index] = tentative_g_score;
+                int f_score = tentative_g_score + get_manhattan(neighbor->index, goal);
+                open_set.push({neighbor, tentative_g_score, f_score});
+            }
+        }
+    }
+
+    return path; // No path found, return empty path
+}
+
+
+int FactDef::get_manhattan(int index1, int index2) const
+{
+  int y1 = (int)index1 / width;  // agent1 y position
+  int x1 = index1 % width;       // agent1 x position
+
+  int y2 = (int)index2 / width;  // agent2 y position
+  int x2 = index2 % width;       // agent2 x position
+
+  // Compute the Manhattan distance
+  int dx = std::abs(x1 - x2);
+  int dy = std::abs(y1 - y2);
+
+  return dx + dy;
+}

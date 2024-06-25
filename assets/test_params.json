@@ -1,7 +1,7 @@
 {
   "init": "False",
   "from": 15,
-  "to": 15,
+  "to": 150,
   "jump": 5,
   "n": 1,
   "map_name": "warehouse-20-40-10-2-2",
