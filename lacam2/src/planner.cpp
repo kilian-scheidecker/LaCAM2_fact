@@ -298,8 +298,6 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       std::cout<<"\n";*/
     }
 
-    
-
     // create successors at the high-level search
     const auto res = get_new_config(H, L, infos_ptr);
     delete L;  // free
@@ -333,8 +331,10 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     }
 
     // copy the A* path lengths
-    std::map<int, int> distances;
+    std::vector<int> distances(N);
     for(uint i=0; i<N; i++) distances[i] = D.get(i, C_new[i]);
+
+
 
     // Check for factorizability
     if (N>1 && H_goal == nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, distances))
