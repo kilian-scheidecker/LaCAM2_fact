@@ -30,6 +30,8 @@ std::list<std::vector<std::vector<int>>> generatePartitions(const std::vector<in
 int main() {
     std::vector<int> enabled = {1, 21, 83, 108};
     std::list<std::vector<std::vector<int>>> partitions = generatePartitions(enabled);
+    
+    partitions.remove({enabled});
 
     // Print the partitions
     for (const auto& partition : partitions) {

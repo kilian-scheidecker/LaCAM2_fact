@@ -223,7 +223,7 @@ void make_log(const Instance& ins, const Solution& solution,
 
 // print the stats to a json-like .txt file
 void make_stats(const std::string file_name, const std::string factorize, const int N, 
-                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success)
+                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const std::string multi_threading)
 { 
   std::ofstream out;
 
@@ -235,6 +235,7 @@ void make_stats(const std::string file_name, const std::string factorize, const 
   out<<"\t\t\"Computation time (ms)\" : \""<<comp_time_ms<<"\",\n";
   out<<"\t\t\"Makespan\" : \""<<get_makespan(solution)<<"\",\n";
   out<<"\t\t\"Factorized\" : \""<<factorize<<"\",\n";
+  out<<"\t\t\"Multi threading\" : \""<<multi_threading<<"\",\n";
   out<<"\t\t\"Loop count\" : \""<<infos.loop_count<<"\",\n";
   out<<"\t\t\"PIBT calls\" : \""<<infos.PIBT_calls<<"\",\n";
   out<<"\t\t\"Active PIBT calls\" : \""<<infos.PIBT_calls_active<<"\",\n";

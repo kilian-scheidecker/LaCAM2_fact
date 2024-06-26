@@ -92,7 +92,7 @@ def stats_to_json(filename) :
 def compute_averages(data: pd.DataFrame) :
 
     # Average all tests
-    data2 = data.groupby(['Number of agents', 'Map name', 'Factorized']).mean().reset_index()
+    data2 = data.groupby(['Number of agents', 'Map name', 'Factorized', 'Multi threading']).mean().reset_index()
     #data_solbased = data_solbased.groupby(['Number of agents']).mean().reset_index()
 
     # Normalize by the number of agents for PIBT calls and action counts and costs/losses
@@ -115,8 +115,13 @@ def compute_averages(data: pd.DataFrame) :
 
 def compute_success(data: pd.DataFrame) :
 
-    data = data[['Number of agents', 'Map name', 'Factorized', 'Success']]
-    data2 = data.groupby(['Number of agents', 'Map name', 'Factorized']).sum().reset_index()
+    data = data[['Number of agents', 'Map name', 'Factorized', 'Multi threading', 'Success']]
+    data2 = data.groupby(['Number of agents', 'Map name', 'Factorized', 'Multi threading']).sum().reset_index()
+
+    #n_algos = data.groupby(['Factorized']).size()
+    #n_thread_tests = data.groupby(['Multi threading']).size()
+    
+
 
     #data_success = data2[['Number of agents', 'Map name', 'Factorized', 'Success']]
     #data_success = data_success.rename(columns={'Success': 'Number of successes'}, inplace=True)
@@ -128,19 +133,18 @@ def get_data(map_name: str, update_data: bool):
     basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))            # ../lacam_fact
 
     if update_data :
-        # Convert data to json format
-        data = stats_to_json('stats_json.txt')
+        data = stats_to_json('stats_json.txt')              # Convert data to json format
     else : 
-        data = pd.read_json(basePath + '/stats.json')
+        data = pd.read_json(basePath + '/stats.json')       # Just read the json
     
     # Get readings from particular map
-    data = data[data['Map name'] == map_name]
+    data_full = data[data['Map name'] == map_name]
 
     # Drop entries where there is no solution
-    data_clipped = data.drop(data[data['Success'] == 0].index)
+    data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
 
     data_avg = compute_averages(data_clipped)
-    data_success = compute_success(data)
+    data_success = compute_success(data_full)
 
     #data_avg.insert(loc=2, column='Number of successes', value=data_success['Success'])
 

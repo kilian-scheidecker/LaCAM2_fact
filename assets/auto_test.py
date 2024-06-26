@@ -9,13 +9,18 @@ WSL_DIR = '/mnt/c/Users/kilia/Documents/PC KILIAN - sync/MA 4/League of Robot Ru
 #WSL_DIR = '/mnt/e/Fichiers Kilian/DOCUMENTS/Fichiers Perso/ETHZ/lacam2_fact'
 
 # Creates the command string for a given number of agents N
-def create_command(map_name: str, N: int, factorize: list):
+def create_command(map_name: str, N: int, factorize: list, multi_threading: list):
 
     commands = []
     for algo in factorize :
-        end = ' -v 0' + ' -f ' + algo #+ ' 2>&1 | cgrep "Maximum" | awk \'{print $8}\''
-        command = "/usr/bin/time -v build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + '/' + map_name + ".map -N " + str(N) + end
-        commands.append(command)
+        #end = ' -v 0' + ' -f ' + algo #+ ' 2>&1 | cgrep "Maximum" | awk \'{print $8}\''
+        for thread in multi_threading :
+            if thread == "yes" :
+                end = ' -v 0' + ' -f ' + algo + ' -mt yes'
+            else :
+                end = ' -v 0' + ' -f ' + algo
+            command = "/usr/bin/time -v build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + '/' + map_name + ".map -N " + str(N) + end
+            commands.append(command)
 
     return commands
 
@@ -98,7 +103,7 @@ def run_commands_in_ubuntu(commands, directory):
                     if "Maximum resident set size" in line :
                         max_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
                         update_stats_json("Maximum RAM usage (Mbytes)", str(max_ram_usage))
-                        print(f"- solution found. RAM Usage: {max_ram_usage} Mo\n")
+                        print(f"- test completed. RAM Usage: {max_ram_usage} Mo\n")
                     elif "Average resident set size" in line :
                         avg_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
                         update_stats_json("Average RAM usage (Mbytes)", str(avg_ram_usage))
@@ -111,7 +116,7 @@ def run_commands_in_ubuntu(commands, directory):
 
         except :
             # Handle errors if any of the commands fail
-            print("- solving failed. No solution found\n")
+            print("- solving failed\n")
             update_stats_json("Maximum RAM usage (Mbytes)", "-1")
             update_stats_json("Average RAM usage (Mbytes)", "-1")
             update_stats_json("CPU usage (percent)", "-1")
@@ -140,6 +145,7 @@ def auto_test() :
         n = data.get("n")
         map_name = data.get("map_name")
         factorize = data.get("factorize")
+        multi_threading = data.get("multi_threading")
 
         success = 0
         total = 0
@@ -161,7 +167,7 @@ def auto_test() :
             success = 0
             for i in range(n) :
                 print("Testing with " + str(N) + " agents")
-                commmands = create_command(map_name=map_name, N=N, factorize=factorize)
+                commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
                 #print(commmands)
                 create_scen(N, dir_py, map_name)
                 #total += 1
