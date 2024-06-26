@@ -21,6 +21,9 @@ struct Instance {
   const uint N;                               // number of agents
   const std::vector<float> priority = {0.0};  // priority of agents
 
+  // Default constructor (added explicitly)
+  Instance() : G(Graph()), N(0), priority({}) {}
+
   // for factorization (more robust)
   Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority);
   
