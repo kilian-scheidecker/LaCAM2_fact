@@ -103,7 +103,7 @@ def run_commands_in_ubuntu(commands, directory):
                     if "Maximum resident set size" in line :
                         max_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
                         update_stats_json("Maximum RAM usage (Mbytes)", str(max_ram_usage))
-                        print(f"- test completed. RAM Usage: {max_ram_usage} Mo\n")
+                        print(f"- test completed. RAM Usage: {max_ram_usage} Mo")
                     elif "Average resident set size" in line :
                         avg_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
                         update_stats_json("Average RAM usage (Mbytes)", str(avg_ram_usage))
@@ -166,7 +166,7 @@ def auto_test() :
             total = 0
             success = 0
             for i in range(n) :
-                print("Testing with " + str(N) + " agents")
+                print("\nTesting with " + str(N) + " agents")
                 commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
                 #print(commmands)
                 #create_scen(N, dir_py, map_name)

@@ -92,40 +92,31 @@ def stats_to_json(filename) :
 def compute_averages(data: pd.DataFrame) :
 
     # Average all tests
-    data2 = data.groupby(['Number of agents', 'Map name', 'Factorized', 'Multi threading']).mean().reset_index()
-    #data_solbased = data_solbased.groupby(['Number of agents']).mean().reset_index()
+    data2 = data[['Number of agents', 'Map name', 'Factorized', 'Multi threading', 'Sum of loss', 'Sum of costs', 'CPU usage (percent)', 'Maximum RAM usage (Mbytes)', 'Average RAM usage (Mbytes)', 'Computation time (ms)']]
+    data2 = data2.groupby(['Number of agents', 'Map name', 'Factorized', 'Multi threading']).mean().reset_index()
 
     # Normalize by the number of agents for PIBT calls and action counts and costs/losses
-    costs_average = data[['PIBT calls', 'Active PIBT calls', 'Action counts', 'Active action counts',  'Sum of loss', 'Sum of costs']].div(data['Number of agents'], axis = 0)
+    costs_average = data[['Sum of loss', 'Sum of costs']].div(data['Number of agents'], axis = 0)
 
     # Reisert the averaged data 
     data2.insert(loc=2, column='Average cost', value=costs_average['Sum of costs'])
     data2.insert(loc=2, column='Average loss', value=costs_average['Sum of loss'])
-    #data2.insert(loc=2, column='Average active action counts', value=costs_average['Active action counts'])
-    #data2.insert(loc=2, column='Average active PIBT calls', value=costs_average['Active PIBT calls'])
-    #data2.insert(loc=2, column='Average action counts', value=costs_average['Action counts'])
-    #data2.insert(loc=2, column='Average PIBT calls', value=costs_average['PIBT calls'])
-
-    # Data to compare action counts vs PIBT calls
-    further_data = data[['Action counts']].div(data['PIBT calls'], axis = 0).reset_index()
-    data2.insert(loc=2, column='Average action counts', value=further_data['Action counts'])
 
     return data2
 
 
 def compute_success(data: pd.DataFrame) :
 
+    n_tot = len(data)
+    n_algos = len(data['Factorized'].value_counts())
+    n_mt = len(data['Multi threading'].value_counts())
+
+    n_tests = n_tot/(n_algos)
+
     data = data[['Number of agents', 'Map name', 'Factorized', 'Multi threading', 'Success']]
     data2 = data.groupby(['Number of agents', 'Map name', 'Factorized', 'Multi threading']).sum().reset_index()
 
-    #n_algos = data.groupby(['Factorized']).size()
-    #n_thread_tests = data.groupby(['Multi threading']).size()
-    
-
-
-    #data_success = data2[['Number of agents', 'Map name', 'Factorized', 'Success']]
-    #data_success = data_success.rename(columns={'Success': 'Number of successes'}, inplace=True)
-    return data2
+    return data2, n_tests
 
 def get_data(map_name: str, update_data: bool):
 
@@ -144,8 +135,8 @@ def get_data(map_name: str, update_data: bool):
     data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
 
     data_avg = compute_averages(data_clipped)
-    data_success = compute_success(data_full)
+    data_success, n_tests = compute_success(data_full)
 
     #data_avg.insert(loc=2, column='Number of successes', value=data_success['Success'])
 
-    return data_avg, data_success
+    return data_avg, data_success, n_tests
