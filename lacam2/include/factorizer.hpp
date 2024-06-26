@@ -20,8 +20,10 @@ class FactAlgo
 public:
     // width of the graph
     int width;
+    const bool need_astar;
 
-    FactAlgo(int width) : width(width) {}
+    FactAlgo(int width) : width(width), need_astar(false) {}
+    FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar) {}
     virtual ~FactAlgo() = default;
 
     // Method to factorize the agents and generate the partitions
@@ -96,7 +98,8 @@ class FactAstar : public FactAlgo
 public:
     // Default constructor
     FactAstar() : FactAlgo(0) {}
-    FactAstar(int width) : FactAlgo(width) {}
+    FactAstar(int width) : FactAlgo(width, true) {}
+    //FactAstar(int width, const bool need_astar) : FactAlgo(width, need_astar) {}
 
 private:
 
