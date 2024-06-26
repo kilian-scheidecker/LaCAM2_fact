@@ -127,7 +127,7 @@ int main(int argc, char* argv[])
     else if (strcmp(factorize.c_str(), "FactAstar") == 0)
     {
       // Create a FactDistance object
-      //algo = std::make_unique<FactAstar>(ins_fact.G.width);
+      algo = std::make_unique<FactAstar>(ins_fact.G.width);
     }
     else throw std::invalid_argument("-f (factorize) argument must be  \"no\", \"FactDistance\", \"FactBbox\" or \"FactOrient\", \"FactAstar\"");
     

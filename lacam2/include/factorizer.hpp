@@ -24,11 +24,20 @@ public:
     FactAlgo(int width) : width(width) {}
     virtual ~FactAlgo() = default;
 
-    //virtual void factorize(const Config& C, const Instance& ins, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins)  const {};  // Pure virtual function
-    virtual bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances)  const {return false;};  // Pure virtual function
+    // Method to factorize the agents and generate the partitions
+    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances) const;
 
+    // Helper method to actually split the current instance 
+    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::unordered_map<int, int>& agent_map) const;
 
-    // could add split_ins as a member of FactAlgo not to declare it thrice
+    // Simple manhattan distance computation between two vertices of the map.
+    int get_manhattan(int index1, int index2) const;
+
+private:
+
+    // Specific logic to determine if 2 agents can be factorized
+    virtual const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const = 0;
+  
 };
 
 class FactDistance : public FactAlgo
@@ -38,36 +47,20 @@ public:
     FactDistance() : FactAlgo(0) {}
     FactDistance(int width) : FactAlgo(width) {}
 
-    // Method to factorize the agents and generate the partitions
-    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances) const;
-
 private:
-    // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::unordered_map<int, int>& agent_map) const;
-
     // Simple heuristic to determine if 2 agents can be factorized based on distance
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
-  
-    // Simple manhattan distance computation between two vertices of the map.
-    int get_manhattan(int index1, int index2) const;
 };
 
 
 class FactBbox : public FactAlgo
 {
 public:
-
     // Default cosntructor
     FactBbox() : FactAlgo(0) {}
-
     FactBbox(int width) : FactAlgo(width) {}
 
-    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances) const;
-
 private:
-
-    // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::unordered_map<int, int>& agent_map) const;
 
     // Simple heuristic to determine if 2 agents can be factorized based on bbox overlap
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
@@ -80,17 +73,11 @@ public:
 
     // Default cosntructor
     FactOrient() : FactAlgo(0) {}
-
     FactOrient(int width) : FactAlgo(width) {}
-
-    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances) const;
 
 private:
 
-    // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::unordered_map<int, int>& agent_map) const;
-
-    // Simple heuristic to determine if 2 agents can be factorized based on bbox overlap
+    // Simple heuristic to determine if 2 agents can be factorized based on the orientation of their (position, goal) vectors
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
 
     // Function to find the orientation of the ordered triplet (p, q, r).
@@ -111,20 +98,10 @@ public:
     FactAstar() : FactAlgo(0) {}
     FactAstar(int width) : FactAlgo(width) {}
 
-    // Method to factorize the agents and generate the partitions
-    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances) const;
-
 private:
-
-
-    // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::unordered_map<int, int>& agent_map) const;
 
     // Simple heuristic to determine if 2 agents can be factorized based on distance
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
-
-    // Manhattan distance computation
-    int get_manhattan(int index1, int index2) const;
 };
 
 
