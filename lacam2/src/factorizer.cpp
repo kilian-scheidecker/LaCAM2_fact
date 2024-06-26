@@ -138,7 +138,7 @@ void FactAlgo::split_ins(const Graph& G, const Partitions& partitions, const Con
 
     // sanity check
     if (!C0.empty()) {
-      Instance I(G, C0, G0, new_enabled, new_agent_map, new_enabled.size(), priorities_ins);
+      Instance I(G, C0, G0, new_enabled, new_enabled.size(), priorities_ins);
 
       // print info about the newly created sub-instances
       if (verbose > 4) {

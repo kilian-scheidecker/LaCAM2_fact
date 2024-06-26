@@ -168,8 +168,8 @@ def auto_test() :
             for i in range(n) :
                 print("Testing with " + str(N) + " agents")
                 commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
-                print(commmands)
-                create_scen(N, dir_py, map_name)
+                #print(commmands)
+                #create_scen(N, dir_py, map_name)
                 #total += 1
                 for command in commmands :
                     total += 1

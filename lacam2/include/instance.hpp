@@ -18,15 +18,14 @@ struct Instance {
   Config starts;
   Config goals;
   const std::vector<int> enabled;             // list of enabled agents ("absolute ids of the agents in this instance/partition")
-  const std::map<int, int> agent_map;         // instance_id of the agent to absolute_id (#todo not necessary if enabled is sorted)
   const uint N;                               // number of agents
   const std::vector<float> priority = {0.0};  // priority of agents
 
   // for factorization (more robust)
-  Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, std::map<int, int>& _agent_map, const int _N, const std::vector<float>& _priority);
+  Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority);
   
   // for MAPF benchmark
-  Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, std::map<int, int>& _agent_map, const int _N = 1);
+  Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, const int _N = 1);
 
   // Rule of five
   Instance(const Instance& other);                // Copy constructor

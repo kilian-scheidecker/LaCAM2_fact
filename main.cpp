@@ -81,7 +81,6 @@ int main(int argc, char* argv[])
 
   // Other variables
   std::vector<int> v_enable(N);           // keep track of which agent is enabled
-  std::map<int, int> agent_map;
   Infos infos;                            // Create Infos structure
   int success = 1;                        // Determine if solving was successful (1) or not (0)
   auto additional_info = std::string("");
@@ -98,11 +97,8 @@ int main(int argc, char* argv[])
     // Generate the enabled vector, initialize it to have the indices of agents as content
     std::iota(std::begin(v_enable), std::end(v_enable), 0);
 
-    // Generate the agent map, at the start, each agent is mapped to itself
-    for (int i = 0; i < N; ++i) agent_map[i] = i;
-
     // Create the instance, Vertices are assigned here
-    const auto ins_fact = Instance(scen_name, map_name, v_enable, agent_map, N);
+    const auto ins_fact = Instance(scen_name, map_name, v_enable, N);
     
     if (!ins_fact.is_valid(1)) return 1;
 
@@ -171,7 +167,7 @@ int main(int argc, char* argv[])
     info(0, verbose, "\nStart solving the algorithm WITHOUT factorization\n");
 
     // Create the instance
-    const auto ins = Instance(scen_name, map_name, v_enable, agent_map, N);
+    const auto ins = Instance(scen_name, map_name, v_enable, N);
 
     if (!ins.is_valid(1)) return 1;
     
