@@ -19,13 +19,13 @@ struct Instance {
   Config goals;
   const std::vector<int> enabled;             // list of enabled agents ("absolute ids of the agents in this instance/partition")
   const uint N;                               // number of agents
-  const std::vector<float> priority = {0.0};  // priority of agents
+  //const std::vector<float> priority = {0.0};  // priority of agents
 
   // Default constructor (added explicitly)
-  Instance() : G(Graph()), N(0), priority({}) {}
+  Instance() : G(Graph()), N(0) {}
 
   // for factorization (more robust)
-  Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority);
+  Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N);
   
   // for MAPF benchmark
   Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, const int _N = 1);

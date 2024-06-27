@@ -7,13 +7,13 @@ static const std::regex r_instance =
 
 
 // Constructor for factorization
-Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority)
+Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N)
     : G(_G), 
       starts(std::move(_starts)), 
       goals(std::move(_goals)), 
       enabled(std::move(_enabled)),
-      N(_N), 
-      priority(_priority)       // optional argument to specify the inherited priority of the agents
+      N(_N)
+      //priority(_priority)       // optional argument to specify the inherited priority of the agents
 { 
 }
 
@@ -56,11 +56,11 @@ Instance::Instance(const std::string& scen_filename, const std::string& map_file
 
 // Copy constructor
 Instance::Instance(const Instance& other)
-    : G(other.G), starts(other.starts), goals(other.goals), enabled(other.enabled), N(other.N), priority(other.priority) {}
+    : G(other.G), starts(other.starts), goals(other.goals), enabled(other.enabled), N(other.N) {}
 
 // Move constructor
 Instance::Instance(Instance&& other) noexcept
-    : G(std::move(other.G)), starts(std::move(other.starts)), goals(std::move(other.goals)), enabled(std::move(other.enabled)), N(other.N), priority(std::move(other.priority)) {}
+    : G(std::move(other.G)), starts(std::move(other.starts)), goals(std::move(other.goals)), enabled(std::move(other.enabled)), N(other.N) {}
 
 // Copy assignment operator
 Instance& Instance::operator=(const Instance& other) {
@@ -71,7 +71,6 @@ Instance& Instance::operator=(const Instance& other) {
         goals = other.goals;
         const_cast<std::vector<int>&>(enabled) = other.enabled;
         const_cast<uint&>(N) = other.N;
-        const_cast<std::vector<float>&>(priority) = other.priority;
     }
     return *this;
 }
@@ -85,7 +84,6 @@ Instance& Instance::operator=(Instance&& other) noexcept {
         goals = std::move(other.goals);
         const_cast<std::vector<int>&>(enabled) = std::move(other.enabled);
         const_cast<uint&>(N) = other.N;
-        const_cast<std::vector<float>&>(priority) = std::move(other.priority);
     }
     return *this;
 }

@@ -24,10 +24,10 @@ public:
     FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar) {}
     virtual ~FactAlgo() = default;
 
-    const bool is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances);
+    const bool is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances);
 
     // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const Partitions& partitions) const;
+    void split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const Partitions& partitions) const;
 
     // Simple manhattan distance computation between two vertices of the map.
     int get_manhattan(int index1, int index2) const;

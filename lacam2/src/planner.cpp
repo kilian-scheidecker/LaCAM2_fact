@@ -233,7 +233,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
   Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
 
   // Restore the inheried priorities of agents
-  if (ins.priority.size() > 1)
+  /*if (ins.priority.size() > 1)
   {
     for (int i=0; i<int(N); i++)
       H->priorities[i] = ins.priority[i];
@@ -242,7 +242,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
     std::iota(H->order.begin(), H->order.end(), 0);
     std::sort(H->order.begin(), H->order.end(),
               [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
-  }
+  }*/
 
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
@@ -333,7 +333,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
     }
 
     // Check for factorizability
-    if (N>1 && H_goal == nullptr && factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, H->priorities, OPENins, ins.enabled, distances))
+    if (N>1 && H_goal == nullptr && factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, OPENins, ins.enabled, distances))
     {
       C_goal_overwrite = H->C;    // set current config as goal configuration
       H_goal = H;                 // set current node as goal node

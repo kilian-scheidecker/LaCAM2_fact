@@ -15,7 +15,7 @@
 \****************************************************************************************/
 
 const bool FactAlgo::is_factorizable(const Graph& G, const Config& C, const Config& goals,
-                             int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins,
+                             int verbose, std::queue<Instance>& OPENins,
                              const std::vector<int>& enabled, const std::vector<int>& distances)
 {
   Partitions partitions;
@@ -64,7 +64,7 @@ const bool FactAlgo::is_factorizable(const Graph& G, const Config& C, const Conf
                     partitions.end());
 
   if (partitions.size() > 1) {
-    split_ins(G, C, goals, verbose, priorities, OPENins, enabled, partitions);
+    split_ins(G, C, goals, verbose, OPENins, enabled, partitions);
     return true;
   } else {
     return false;
@@ -72,7 +72,7 @@ const bool FactAlgo::is_factorizable(const Graph& G, const Config& C, const Conf
 }
 
 void FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goals,
-                             int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins,
+                             int verbose, std::queue<Instance>& OPENins,
                              const std::vector<int>& enabled, const Partitions& partitions) const
 {
   // printing info about the partitions
@@ -110,7 +110,7 @@ void FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goal
       // }
 
       int prev_id = it->second;
-      priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
+      //priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
       C0[new_id] = C_new[prev_id];
       G0[new_id] = goals[prev_id];
       //new_agent_map[new_id] = true_id;  // update new agent map
@@ -119,7 +119,7 @@ void FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goal
 
     // sanity check
     if (!C0.empty()) {
-      Instance I(G, C0, G0, new_enabled, new_enabled.size(), priorities_ins);
+      Instance I(G, C0, G0, new_enabled, new_enabled.size());
 
       // print info about the newly created sub-instances
       if (verbose > 4) {
