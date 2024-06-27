@@ -6,10 +6,10 @@ other_scenes/
 
 # Generated data to analyze
 stats_json.txt
-*.json
+#*.json                       # Will not be needed in fine, keep for now
 
 # Files for code profiling
-**/code profiling/
+#**/code profiling/           # Will not be needed in fine, keep for now
 
 ### C++ ###
 # Prerequisites
