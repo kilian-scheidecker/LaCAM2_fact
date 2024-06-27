@@ -44,7 +44,7 @@ def show_plots(map_name: str, update_db: bool) :
 
     # Gather data in specific map
     data, data_success, n_tests = get_data(map_name + '.map', update_db)
-    data_std = data[["Number of agents", 'Multi threading', "Factorized", "Computation time (ms) std"]].drop(data[data['Number of agents']%20 != 0].index)
+    data_std = data.drop(data[data['Number of agents']%50 != 0].index)
 
     #data_cut = data.groupby(['Number of agents', 'Factorized', 'Maximum RAM usage (Mbytes)', 'Computation time (ms)', 'CPU usage (percent)', 'Multi threading']) #.mean().reset_index()
     data1 = data.drop(data[data['Multi threading'] == "no"].index)      # with MT
@@ -56,14 +56,9 @@ def show_plots(map_name: str, update_db: bool) :
     line_RAM = px.line(data2, x="Number of agents", y="Maximum RAM usage (Mbytes)", color="Factorized")
     line_time1 = px.line(data1, x="Number of agents", y="Computation time (ms)", color="Factorized")
     line_time2 = px.line(data2, x="Number of agents", y="Computation time (ms)", color="Factorized")
-    line_time1_std = px.scatter(data1, x="Number of agents", y="Computation time (ms)", color="Factorized", error_y="Computation time (ms) std")
-    line_time2_std = px.scatter(data2, x="Number of agents", y="Computation time (ms)", color="Factorized", error_y="Computation time (ms) std")
+    line_time_std = px.line(data_std, x="Number of agents", y="Computation time (ms)", color="Factorized", error_y="Computation time (ms) std")
+    line_span_std = px.line(data_std, x="Number of agents", y="Makespan", color="Factorized", error_y="Makespan std")
     
-
-
-    #line_actions = px.line(data, x="Number of agents", y="Average action counts", color="Factorized")
-    line_success = px.line(data_success, x="Number of agents", y="Success", color="Factorized")
-
     # Create the bar charts
     bar_success = px.histogram(data_success, x="Factorized", y="Success", color="Factorized", histfunc='sum', text_auto=True, orientation='v', labels=None)
     bar_success.add_hline(y=n_tests, line_color="red", line_width=3, annotation_text="total tests", annotation_position="top left")
@@ -74,7 +69,7 @@ def show_plots(map_name: str, update_db: bool) :
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
         showlegend=False,
-        title_text="CPU usage (percent)",
+        title_text="CPU usage [%]",
         title_x=0.5,
         title_xanchor="center",
         xaxis_title="Number of agents",
@@ -89,7 +84,7 @@ def show_plots(map_name: str, update_db: bool) :
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
         showlegend=True,
-        title_text="Maximum RAM usage (Mbytes) with MT",
+        title_text="Maximum RAM usage [Mbytes] (with MT)",
         title_x=0.5,
         title_xanchor="center",
         xaxis_title="Number of agents",
@@ -104,7 +99,7 @@ def show_plots(map_name: str, update_db: bool) :
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
         showlegend=True,
-        title_text="Maximum RAM usage (Mbytes) no MT",
+        title_text="Maximum RAM usage [Mbytes] (no MT)",
         title_x=0.5,
         title_xanchor="center",
         xaxis_title="Number of agents",
@@ -119,7 +114,7 @@ def show_plots(map_name: str, update_db: bool) :
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
         showlegend=False,
-        title_text="Computation time (ms) with MT",
+        title_text="Computation time [ms] (with MT)",
         title_x=0.5,
         title_xanchor="center",
         xaxis_title="Number of agents",
@@ -134,7 +129,7 @@ def show_plots(map_name: str, update_db: bool) :
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
         showlegend=False,
-        title_text="Computation time (ms) no MT",
+        title_text="Computation time [ms] (no MT)",
         title_x=0.5,
         title_xanchor="center",
         xaxis_title="Number of agents",
@@ -144,12 +139,12 @@ def show_plots(map_name: str, update_db: bool) :
         width=450,
     )
 
-    line_time1_std.update_layout(
+    line_time_std.update_layout(
         plot_bgcolor=colors['background'],
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
         showlegend=False,
-        title_text="Computation time (ms) with MT",
+        title_text="Computation time [ms] (no MT)",
         title_x=0.5,
         title_xanchor="center",
         xaxis_title="Number of agents",
@@ -159,12 +154,12 @@ def show_plots(map_name: str, update_db: bool) :
         width=450,
     )
 
-    line_time2_std.update_layout(
+    line_span_std.update_layout(
         plot_bgcolor=colors['background'],
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
         showlegend=False,
-        title_text="Computation time (ms) no MT",
+        title_text="Makespan (no MT)",
         title_x=0.5,
         title_xanchor="center",
         xaxis_title="Number of agents",
@@ -172,21 +167,6 @@ def show_plots(map_name: str, update_db: bool) :
         title=dict(font=dict(size=14)),
         height=260,
         width=450,
-    )
-
-    line_success.update_layout(
-        plot_bgcolor=colors['background'],
-        paper_bgcolor=colors['background'],
-        font_color=colors['text'],
-        showlegend=False,
-        title_text="Successfully solved instances",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title=None,
-        title=dict(font=dict(size=14)),
-        height=260,
-        width=400,
     )
 
     bar_success.update_layout(
@@ -242,8 +222,8 @@ def show_plots(map_name: str, update_db: bool) :
             [
                 #dbc.Col(width=3, style={'textAlign': 'center'}),
                 dbc.Col(width=3),
-                dbc.Col(dcc.Graph(id='graph8',figure=line_time1_std), width=4, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph9',figure=line_time2_std), width=5, style={'textAlign': 'center'})
+                dbc.Col(dcc.Graph(id='graph8',figure=line_time_std), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph9',figure=line_span_std), width=5, style={'textAlign': 'center'})
             ]
         ),
 

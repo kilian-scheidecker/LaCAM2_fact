@@ -5,15 +5,12 @@
 #ifndef FACTORIZER_HPP
 #define FACTORIZER_HPP
 
-//#include "graph.hpp"
 #include "dist_table.hpp"
 #include "utils.hpp"
-//#include "instance.hpp"
 
 #include <unordered_set>
 
 using Partitions = std::vector<std::vector<int>>;
-using PartitionsMap = std::map<int, Partitions>;
 
 class FactAlgo
 {
@@ -27,19 +24,15 @@ public:
     FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar) {}
     virtual ~FactAlgo() = default;
 
-    const bool is_factorizable(const Config& C, const Config& goals, 
-                             const std::vector<int>& enabled, 
-                             const std::vector<int>& distances);
+    const bool is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances);
 
     // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled) const;
+    void split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const Partitions& partitions) const;
 
     // Simple manhattan distance computation between two vertices of the map.
     int get_manhattan(int index1, int index2) const;
 
 private:
-
-    Partitions partitions;
 
     // Specific logic to determine if 2 agents can be factorized
     virtual const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const = 0;
@@ -103,6 +96,7 @@ public:
     // Default constructor
     FactAstar() : FactAlgo(0) {}
     FactAstar(int width) : FactAlgo(width, true) {}
+    
     //FactAstar(int width, const bool need_astar) : FactAlgo(width, need_astar) {}
 
 private:

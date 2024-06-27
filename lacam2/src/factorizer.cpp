@@ -14,12 +14,12 @@
 *                       Implementation of the FactAlgo base class                        *
 \****************************************************************************************/
 
-const bool FactAlgo::is_factorizable(const Config& C, const Config& goals, 
-                             const std::vector<int>& enabled, 
-                             const std::vector<int>& distances)
+const bool FactAlgo::is_factorizable(const Graph& G, const Config& C, const Config& goals,
+                             int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins,
+                             const std::vector<int>& enabled, const std::vector<int>& distances)
 {
-  // Clear the partitions
-  partitions.clear();
+  // Create the partitions
+  Partitions partitions;
 
   // initialize partitions with single agents corresponding to their true id
   for (int j = 0; j < static_cast<int>(C.size()); ++j) {
@@ -75,6 +75,7 @@ const bool FactAlgo::is_factorizable(const Config& C, const Config& goals,
   }
 
   if (partitions.size() > 1) {
+    split_ins(G, C, goals, verbose, priorities, OPENins, enabled, partitions);
     return true;
   } else {
     return false;
@@ -84,7 +85,7 @@ const bool FactAlgo::is_factorizable(const Config& C, const Config& goals,
 
 void FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goals,
                              int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins,
-                             const std::vector<int>& enabled) const
+                             const std::vector<int>& enabled, const Partitions& partitions) const
 {
   // printing info about the partitions
   if (verbose > 1) {
@@ -98,35 +99,33 @@ void FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goal
     std::cout << " \n";
   }
 
-  // maps the true id of the agent to its position in the instance to split
+  // maps the true id of the agent to its position in the instance to split (reverse enabled vector. Maps true_id to rel_id)
   std::unordered_map<int, int> agent_map;
-
-  // initialize the agent map (reverse enabled vector. Maps true_id to rel_id)
   for (int j = 0; j < static_cast<int>(C_new.size()); ++j) {
     agent_map[enabled[j]] = j;
   }
 
-  for (const auto& new_enabled_set : partitions) {
-    std::vector<int> new_enabled(new_enabled_set.begin(), new_enabled_set.end());
+  for (const auto& new_enabled : partitions) {
+    //std::vector<int> new_enabled(new_enabled_set.begin(), new_enabled_set.end());
     Config C0(new_enabled.size());
     Config G0(new_enabled.size());
 
-    std::map<int, int> new_agent_map;  // map to match enabled_id to agent_id in this instance
+    //std::map<int, int> new_agent_map;  // map to match enabled_id to agent_id in this instance
     std::vector<float> priorities_ins(new_enabled.size());  // priority vector for new instances
 
     int new_id = 0;  // id of the agents in the new instance
     for (int true_id : new_enabled) {
       auto it = agent_map.find(true_id);
-      if (it == agent_map.end()) {
-        std::cerr << "Agent ID not found in agent_map: " << true_id << std::endl;
-        continue;
-      }
+      // if (it == agent_map.end()) {
+      //   std::cerr << "Agent ID not found in agent_map: " << true_id << std::endl;
+      //   continue;
+      // }
 
       int prev_id = it->second;
       priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
       C0[new_id] = C_new[prev_id];
       G0[new_id] = goals[prev_id];
-      new_agent_map[new_id] = true_id;  // update new agent map
+      //new_agent_map[new_id] = true_id;  // update new agent map
       ++new_id;
     }
 
@@ -163,10 +162,7 @@ int FactAlgo::get_manhattan(int index1, int index2) const
   int x2 = index2 % width;       // agent2 x position
 
   // Compute the Manhattan distance
-  int dx = std::abs(x1 - x2);
-  int dy = std::abs(y1 - y2);
-
-  return dx + dy;
+  return std::abs(x1 - x2) + std::abs(y1 - y2);
 }
 
 
@@ -181,12 +177,12 @@ const bool FactDistance::heuristic(int rel_id_1, int index1, int goal1, int rel_
   int d2 = get_manhattan(index2, goal2);
   int da = get_manhattan(index1, index2);
 
-  if (da > d1 + d2)
-    return true;
-  else
-    return false;
+  // if (da > d1 + d2)
+  //   return true;
+  // else
+  //   return false;
 
-  // return da > d1 + d2 ??
+  return da > d1 + d2;
 }
 
 
@@ -333,10 +329,11 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
   const int d2 = distances.at(rel_id_2);
   const int da = get_manhattan(index1, index2);
 
-  if (da > d1 + d2)
-    return true;
-  else
-    return false;
+  // if (da > d1 + d2)
+  //   return true;
+  // else
+  //   return false;
+  return da > d1 + d2;
 }
 
 
