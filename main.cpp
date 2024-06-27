@@ -137,9 +137,9 @@ int main(int argc, char* argv[])
     // Actual solving procedure, depending on multi_threading or not
     Solution solution_fact;
     if( strcmp(multi_threading.c_str(), "yes") == 0)
-      solution_fact = solve_fact_MT(ins_fact, additional_info, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos, *algo);
+      solution_fact = solve_fact_MT(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
     else
-      solution_fact = solve_fact(ins_fact, additional_info, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos, *algo);
+      solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
     
     
     const auto comp_time_ms_fact = deadline_fact.elapsed_ms();

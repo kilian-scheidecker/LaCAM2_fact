@@ -213,7 +213,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 
 
 // factorized solving
-void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const FactAlgo& factalgo, std::queue<Instance>& OPENins)
+void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, std::queue<Instance>& OPENins)
 {
   // setup agents
   for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
@@ -329,8 +329,9 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     }
 
     // Check for factorizability
-    if (N>1 && H_goal == nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, distances))
+    if (N>1 && H_goal == nullptr && factalgo.is_factorizable(C_new, ins.goals, ins.enabled, distances))
     {
+      factalgo.split_ins(ins.G, C_new, ins.goals, verbose, H->priorities, OPENins, ins.enabled);
       C_goal_overwrite = H->C;    // set current config as goal configuration
       H_goal = H;                 // set current node as goal node
       if (objective == OBJ_NONE)

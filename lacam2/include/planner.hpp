@@ -98,7 +98,7 @@ struct Planner {
   // standard solving
   Solution solve(std::string& additional_info, Infos* infos_ptr);
   // factorized solving
-  void solve_fact(std::string& additional_info, Infos* infos_ptr, const FactAlgo& factalgo, std::queue<Instance>& OPENins);
+  void solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, std::queue<Instance>& OPENins);
   
   void expand_lowlevel_tree(HNode* H, LNode* L);
   void rewrite(HNode* H_from, HNode* T, HNode* H_goal,

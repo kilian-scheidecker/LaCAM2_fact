@@ -12,30 +12,34 @@
 
 #include <unordered_set>
 
-using Partitions = std::vector<std::unordered_set<int>>;
+using Partitions = std::vector<std::vector<int>>;
 using PartitionsMap = std::map<int, Partitions>;
 
 class FactAlgo
 {
 public:
     // width of the graph
-    int width;
+    const int width;
     const bool need_astar;
+    
 
     FactAlgo(int width) : width(width), need_astar(false) {}
     FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar) {}
     virtual ~FactAlgo() = default;
 
-    // Method to factorize the agents and generate the partitions
-    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances) const;
+    const bool is_factorizable(const Config& C, const Config& goals, 
+                             const std::vector<int>& enabled, 
+                             const std::vector<int>& distances);
 
     // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::unordered_map<int, int>& agent_map) const;
+    void split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled) const;
 
     // Simple manhattan distance computation between two vertices of the map.
     int get_manhattan(int index1, int index2) const;
 
 private:
+
+    Partitions partitions;
 
     // Specific logic to determine if 2 agents can be factorized
     virtual const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const = 0;

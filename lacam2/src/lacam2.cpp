@@ -110,7 +110,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info,
 void thread_task(const Instance& ins, std::string& additional_info,
                  const int verbose, const Deadline* deadline, std::mt19937* MT,
                  const Objective objective, const float restart_rate,
-                 Infos* infos_ptr, const FactAlgo& factalgo,
+                 Infos* infos_ptr, FactAlgo& factalgo,
                  std::queue<Instance>& OPENins, std::shared_ptr<Sol> empty_solution,
                  std::mutex& queue_mutex)
 {
@@ -140,10 +140,10 @@ void thread_task(const Instance& ins, std::string& additional_info,
     }
 }
 
-Solution solve_fact_MT(const Instance& ins, std::string& additional_info,
+Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAlgo& factalgo,
                     const int verbose, const Deadline* deadline, std::mt19937* MT,
                     const Objective objective, const float restart_rate,
-                    Infos* infos_ptr, const FactAlgo& factalgo)
+                    Infos* infos_ptr)
 {
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving using Multi-Threading...");
 
@@ -191,10 +191,10 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info,
 
 
 
-Solution solve_fact(const Instance& ins, std::string& additional_info,
+Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo& factalgo,
                const int verbose, const Deadline* deadline, std::mt19937* MT, 
                const Objective objective, const float restart_rate, 
-               Infos* infos_ptr, const FactAlgo& factalgo)
+               Infos* infos_ptr)
 {
   // std::cout<<"\n- Entered the 'solve' function";
   info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");

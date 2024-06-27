@@ -14,16 +14,12 @@
 *                       Implementation of the FactAlgo base class                        *
 \****************************************************************************************/
 
-bool FactAlgo::factorize(const Config& C, const Graph& G, int verbose, 
-                             const std::vector<float>& priorities, const Config& goals, 
-                             std::queue<Instance>& OPENins, const std::vector<int>& enabled, 
-                             const std::vector<int>& distances) const
+const bool FactAlgo::is_factorizable(const Config& C, const Config& goals, 
+                             const std::vector<int>& enabled, 
+                             const std::vector<int>& distances)
 {
-  // collection of partitions
-  Partitions partitions; 
-
-  // maps the true id of the agent to its position in the instance to split
-  std::unordered_map<int, int> agent_map;
+  // Clear the partitions
+  partitions.clear();
 
   // initialize partitions with single agents corresponding to their true id
   for (int j = 0; j < static_cast<int>(C.size()); ++j) {
@@ -32,63 +28,53 @@ bool FactAlgo::factorize(const Config& C, const Graph& G, int verbose,
 
   // loop through every agent in the configuration
   for (int rel_id_1 = 0; rel_id_1 < static_cast<int>(C.size()); ++rel_id_1) {
-    agent_map[enabled[rel_id_1]] = rel_id_1;
-    int index1 = C[rel_id_1]->index;         // agent_1 vertex index
-    int goal1 = goals[rel_id_1]->index;      // agent_1's goal index
-    std::unordered_set<int> taken;           // taken list to be sure we don't process the same agent twice
+    int index1 = C[rel_id_1]->index;      // agent_1 vertex index
+    int goal1 = goals[rel_id_1]->index;   // agent_1's goal index
+    int true_id1 = enabled[rel_id_1];     // agent_1's true id
+    std::unordered_set<int> taken;  // taken list to be sure we don't process the same agent twice
 
-    // loop through every agent j in same configuration
-    for (int rel_id_2 = 0; rel_id_2 < static_cast<int>(C.size()); ++rel_id_2) {
-
-      // if same agent or agent2 is taken, skip
-      if (rel_id_1 == rel_id_2 || taken.find(rel_id_2) != taken.end()) {
-        continue;
+    // loop through every agent j in the same configuration
+    for (int rel_id_2 = rel_id_1 + 1; rel_id_2 < static_cast<int>(C.size()); ++rel_id_2) {
+      int true_id2 = enabled[rel_id_2];     // agent_1's true id
+      if (taken.find(true_id2) != taken.end()) {
+          continue;
       }
 
       int index2 = C[rel_id_2]->index;  // agent2 vertex index
       int goal2 = goals[rel_id_2]->index;  // agent2's goal index
 
       if (!heuristic(rel_id_1, index1, goal1, rel_id_2, index2, goal2, distances)) {
-        std::unordered_set<int>* partition1 = nullptr;
-        std::unordered_set<int>* partition2 = nullptr;
-        bool break_flag = false;  // Used to break the loop if the conditions are not met for factorization
+        int partition1 = -1;
+        int partition2 = -1;
 
-        // Loop through partitions to find the partitions of agent1 and agent2
-        for (auto& partition : partitions) {
-          bool is_1_in_partition = partition.find(enabled[rel_id_1]) != partition.end();
-          bool is_2_in_partition = partition.find(enabled[rel_id_2]) != partition.end();
-
-          if (is_1_in_partition) partition1 = &partition;
-          if (is_2_in_partition) partition2 = &partition;
-
-          // break if both agents are already in the same partition
-          if (is_1_in_partition && is_2_in_partition) { 
-            break_flag = true;
+        // Find partitions for agent1 and agent2
+        for (int k = 0; k < static_cast<int>(partitions.size()); ++k) {
+          auto& partition = partitions[k];
+          if (std::find(partition.begin(), partition.end(), true_id1) != partition.end()) {
+            partition1 = k;
+          }
+          if (std::find(partition.begin(), partition.end(), true_id2) != partition.end()) {
+            partition2 = k;
+          }
+          if (partition1 != -1 && partition2 != -1) {
             break;
           }
         }
 
-        if (!break_flag && partition1 && partition2 && partition1 != partition2) {
-          // insert partition2 into partition1
-          partition1->insert(partition2->begin(), partition2->end());
-
-          // add agent2 to taken list
-          taken.insert(rel_id_2);
-
-          // clear partition2
-          partition2->clear();
+        if (partition1 != -1 && partition2 != -1 && partition1 != partition2) {
+          // merge partitions and remove the empty one
+          partitions[partition1].insert(partitions[partition1].end(), partitions[partition2].begin(), partitions[partition2].end());
+          taken.insert(partitions[partition2].begin(), partitions[partition2].end());
+          partitions.erase(partitions.begin() + partition2);
+          if (partition2 < partition1) {
+            partition1--;
+          }
         }
       }
-    }
+      }
   }
 
-  // remove empty partitions
-  partitions.erase(std::remove_if(partitions.begin(), partitions.end(),
-                                  [](const std::unordered_set<int>& partition) { return partition.empty(); }),
-                   partitions.end());
-
-  if (partitions.size() > 1) {   
-    split_ins(G, partitions, C, goals, verbose, priorities, OPENins, enabled, agent_map);
+  if (partitions.size() > 1) {
     return true;
   } else {
     return false;
@@ -96,9 +82,9 @@ bool FactAlgo::factorize(const Config& C, const Graph& G, int verbose,
 }
 
 
-void FactAlgo::split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals,
+void FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goals,
                              int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins,
-                             const std::vector<int>& enabled, const std::unordered_map<int, int>& agent_map) const
+                             const std::vector<int>& enabled) const
 {
   // printing info about the partitions
   if (verbose > 1) {
@@ -110,6 +96,14 @@ void FactAlgo::split_ins(const Graph& G, const Partitions& partitions, const Con
       std::cout << " // ";
     }
     std::cout << " \n";
+  }
+
+  // maps the true id of the agent to its position in the instance to split
+  std::unordered_map<int, int> agent_map;
+
+  // initialize the agent map (reverse enabled vector. Maps true_id to rel_id)
+  for (int j = 0; j < static_cast<int>(C_new.size()); ++j) {
+    agent_map[enabled[j]] = j;
   }
 
   for (const auto& new_enabled_set : partitions) {
