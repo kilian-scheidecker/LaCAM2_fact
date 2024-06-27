@@ -238,4 +238,4 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
 
 
 
-show_plots(map_name="random-32-32-20", update_db=False, read_from='stats_optimized.json')
+show_plots(map_name="warehouse-20-40-10-2-2", update_db=False, read_from='stats_warehouse_latest.json')
