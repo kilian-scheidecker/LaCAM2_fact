@@ -47,7 +47,7 @@ const bool FactAlgo::is_factorizable(const Graph& G, const Config& C, const Conf
         int partition1 = -1;
         int partition2 = -1;
 
-        // Find partitions for agent1 and agent2
+        // Find partitions for agent1 and agent2. Most costly 
         for (int k = 0; k < static_cast<int>(partitions.size()); ++k) {
           auto& partition = partitions[k];
           if (std::find(partition.begin(), partition.end(), true_id1) != partition.end()) {

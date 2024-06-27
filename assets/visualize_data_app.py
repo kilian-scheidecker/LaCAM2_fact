@@ -32,7 +32,7 @@ COLUMN NAMES
 """
 
 
-def show_plots(map_name: str, update_db: bool) :
+def show_plots(map_name: str, update_db: bool, read_from: str=None) :
 
     app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -43,7 +43,7 @@ def show_plots(map_name: str, update_db: bool) :
     }
 
     # Gather data in specific map
-    data, data_success, n_tests = get_data(map_name + '.map', update_db)
+    data, data_success, n_tests = get_data(map_name + '.map', update_db, read_from)
     data_std = data.drop(data[data['Number of agents']%50 != 0].index)
 
     #data_cut = data.groupby(['Number of agents', 'Factorized', 'Maximum RAM usage (Mbytes)', 'Computation time (ms)', 'CPU usage (percent)', 'Multi threading']) #.mean().reset_index()
@@ -238,4 +238,4 @@ def show_plots(map_name: str, update_db: bool) :
 
 
 
-show_plots(map_name="random-32-32-20", update_db=True)
+show_plots(map_name="random-32-32-20", update_db=False, read_from='stats_optimized.json')

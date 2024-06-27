@@ -6,6 +6,10 @@ other_scenes/
 
 # Generated data to analyze
 stats_json.txt
+*.json
+
+# Files for code profiling
+**/code profiling/
 
 ### C++ ###
 # Prerequisites

@@ -122,16 +122,17 @@ def compute_success(data: pd.DataFrame) :
 
     return data2, n_tests
 
-def get_data(map_name: str, update_data: bool):
+def get_data(map_name: str, update_data: bool, read_from: str=None):
 
     # Base path of repo
     basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))            # ../lacam_fact
 
     if update_data :
         data = stats_to_json('stats_json.txt')              # Convert data to json format
-    else : 
+    elif read_from is None : 
         data = pd.read_json(basePath + '/stats.json')       # Just read the json
-    
+    else :
+         data = pd.read_json(basePath + '/' + read_from)       # Just read the json
     # Get readings from particular map
     data_full = data[data['Map name'] == map_name]
     data_full = data_full.drop(data_full[data_full['Factorized'] == 'FactOrient'].index)        # drop FactOrient
