@@ -136,6 +136,7 @@ def get_data(map_name: str, update_data: bool, read_from: str=None):
     # Get readings from particular map
     data_full = data[data['Map name'] == map_name]
     data_full = data_full.drop(data_full[data_full['Factorized'] == 'FactOrient'].index)        # drop FactOrient
+    #data_full = data_full.drop(data_full[data_full['Number of agents'] >= 200].index)  
 
     # Drop entries where there is no solution
     data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
