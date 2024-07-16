@@ -1,5 +1,7 @@
 #include <argparse/argparse.hpp>
 #include <lacam2.hpp>
+#include <easy/profiler.h>
+
 
 int main(int argc, char* argv[])
 {
@@ -40,6 +42,8 @@ int main(int argc, char* argv[])
       .default_value(std::string("no"));
   program.add_argument("-mt", "--multi_threading")
       .default_value(std::string("no"));
+      program.add_argument("-d", "--debug")
+      .default_value(std::string("no"));
 
   try {
     program.parse_known_args(argc, argv);
@@ -65,6 +69,7 @@ int main(int argc, char* argv[])
   const auto objective =
       static_cast<Objective>(std::stoi(program.get<std::string>("objective")));
   const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
+  const auto debug = program.get<std::string>("debug");
 
   // Redirect cout to nullstream if verbose is set to zero
   std::streambuf* coutBuffer = std::cout.rdbuf();   // save cout buffer
@@ -133,14 +138,38 @@ int main(int argc, char* argv[])
     // Create the deadline :
     const auto deadline_fact = Deadline(time_limit_sec * 1000);
 
-    
-    // Actual solving procedure, depending on multi_threading or not
+    // Create the empty solution :
     Solution solution_fact;
-    if( strcmp(multi_threading.c_str(), "yes") == 0)
-      solution_fact = solve_fact_MT(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
-    else
-      solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
     
+    // Decide if debug or not
+    if( strcmp(debug.c_str(), "yes") == 0) {
+
+      EASY_PROFILER_ENABLE;
+      profiler::startListen();
+
+      {
+        EASY_BLOCK("Main Function");
+
+        info(0, verbose, "\nDEBUG mode : ON\n");
+
+        // Actual solving procedure, depending on multi_threading or not
+        if( strcmp(multi_threading.c_str(), "yes") == 0)
+          solution_fact = solve_fact_MT(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
+        else
+          solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
+      }
+      profiler::stopListen();
+      profiler::dumpBlocksToFile("profile.prof");
+    }
+
+    // Without debugging
+    else {
+      if( strcmp(multi_threading.c_str(), "yes") == 0)
+        solution_fact = solve_fact_MT(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
+      else
+        solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
+    }
+
     
     const auto comp_time_ms_fact = deadline_fact.elapsed_ms();
 
