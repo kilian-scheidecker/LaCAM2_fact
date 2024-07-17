@@ -3,7 +3,7 @@ LaCAM2_fact
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![CI](https://github.com/Kei18/lacam2/actions/workflows/ci.yml/badge.svg)](https://github.com/Kei18/lacam2/actions/workflows/ci.yml)
 
-This is a factorized version of the LaCAM* algorithm from Keisuke Okumura.
+This is a factorized version of the LaCAM2 algorithm from Keisuke Okumura.
 
 Do you want the power?
 LaCAM* could be the answer.
@@ -17,17 +17,17 @@ All you need is [CMake](https://cmake.org/) (≥v3.16). The code is written in C
 First, clone this repo with submodules.
 
 ```sh
-git clone --recursive https://github.com/idsc-frazzoli/LaCAM2_fact.git && cd LaCAM2_fact
+git clone https://github.com/idsc-frazzoli/LaCAM2_fact.git && cd LaCAM2_fact
+git submodules init
+git submodules update
 ```
 
 Then, build the project.
 
 ```sh
-cmake -B build && make -C build
+cmake -B build && make -C build -j
 ```
 
-You can also use the [docker](https://www.docker.com/) environment (based on Ubuntu18.04) instead of the native one.
-An example setup is available in `assets/`.
 
 ## Usage
 
@@ -66,27 +66,36 @@ build/main --help
 
 This repository is compatible with [@Kei18/mapf-visualizer](https://github.com/kei18/mapf-visualizer).
 
-## Experiments
+## Data visualization
 
-[![v0.1](https://img.shields.io/badge/tag-v0.1-blue.svg?style=flat)](https://github.com/Kei18/lacam2/releases/tag/v0.1)
+TODO
 
-The experimental script is written in Julia ≥1.7.
-Setup may require around 10 minutes.
+## Debug
+
+You can take advantage of the [Easy Profiler library](https://github.com/yse/easy_profiler) in order to debug the code and dive into the internals of the algorithms. To use the library you need to build the profiler as well.
 
 ```sh
-sh scripts/setup.sh
+cd third_party/easy_profiler
+cmake -B build && make -C build
 ```
 
-Edit the config file as you like.
-Examples are in `scripts/config` .
-The evaluation starts by following commands.
+Note: you might need to install additionnal packages in order to build the profiler. Most likely qt5 :
 
-```
-julia --project=scripts/ --threads=auto
-> include("scripts/eval.jl"); main("scripts/config/mapf-bench.yaml")
+```sh
+sudo apt-get install qtbase5-dev
 ```
 
-LaCAM* variants are available in [tags](https://github.com/Kei18/lacam2/tags).
+
+Once the profiler has been built, you can use the optional argument '-d yes' in the command line when solving an instance. This will set the code into pofiling mode and store the data in a file called profile.prof.
+
+This file can then be vizualised by using the Easy Profiler Visualizer. There should be an executable called 'profiler_gui' in the build directory of the Easy Profiler. You can use this to visualize everything in detail.
+
+```sh
+cd 
+./third_party/easy_profiler/build/bin/profiler_gui
+```
+
+Once you opened the visualizer, you can use the folder icon at the top left to open the 'profile.prof' file.
 
 ## Notes
 
@@ -97,6 +106,9 @@ LaCAM* variants are available in [tags](https://github.com/Kei18/lacam2/tags).
 ```sh
 git config core.hooksPath .githooks && chmod a+x .githooks/pre-commit
 ```
+
+LaCAM* variants are available in [tags](https://github.com/Kei18/lacam2/tags).
+
 
 ## Licence
 
