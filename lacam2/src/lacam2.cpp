@@ -8,6 +8,7 @@
 #include <mutex>
 
 // Assuming these are defined elsewhere
+#include <easy/profiler.h>
 #include "../include/lacam2.hpp"
 
 Solution solve(const Instance& ins, std::string& additional_info,
@@ -196,47 +197,55 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo&
                const Objective objective, const float restart_rate, 
                Infos* infos_ptr)
 {
-  // std::cout<<"\n- Entered the 'solve' function";
-  info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");
+    EASY_FUNCTION(profiler::colors::Amber);
+    
+    info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");
 
-  std::queue<Instance> OPENins;
-  
-  // initialize the empty solution
-  std::shared_ptr<Sol> empty_solution = std::make_shared<Sol>(ins.N);
- 
-  const Instance start_ins = ins;
+    std::queue<Instance> OPENins;
+    
+    // initialize the empty solution
+    std::shared_ptr<Sol> empty_solution = std::make_shared<Sol>(ins.N);
+    
+    const Instance start_ins = ins;
 
-  OPENins.push(start_ins);
-  while (!OPENins.empty())
-  {
+    OPENins.push(start_ins);
 
-    info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tOpen new instance from OPENSins list");
+    EASY_BLOCK("Loop through OPENins");
+    
+    while (!OPENins.empty())
+    {
 
-    const Instance I = OPENins.front();
-    OPENins.pop();
+        info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tOpen new instance from OPENSins list");
 
-    auto planner = Planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
-    planner.solve_fact(additional_info, infos_ptr, factalgo, OPENins);
+        const Instance I = OPENins.front();
+        OPENins.pop();
 
-    // just some printing
-    if(verbose > 2){
-      std::cout<<"\nSolution until now : \n";
-      for(auto line : empty_solution->solution)
-      {
-        print_vertices(line, ins.G.width);
-        std::cout<<"\n";
-      }
-      std::cout<<"\n";
+        auto planner = Planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
+        planner.solve_fact(additional_info, infos_ptr, factalgo, OPENins);
+
+        // just some printing
+        if(verbose > 2){
+            std::cout<<"\nSolution until now : \n";
+            for(auto line : empty_solution->solution)
+            {
+                print_vertices(line, ins.G.width);
+                std::cout<<"\n";
+            }
+            std::cout<<"\n";
+        }
     }
-  }
 
-  // Pad and transpose the solution to return the correct form
-  info(2, verbose, "elapsed:", elapsed_ms(deadline), "ms\tPadding and returning solution");
+    EASY_END_BLOCK;
 
-  padSolution(empty_solution);
 
-  Solution solution = transpose(empty_solution->solution);
+    // Pad and transpose the solution to return the correct form
+    info(2, verbose, "elapsed:", elapsed_ms(deadline), "ms\tPadding and returning solution");
 
-  info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinshed planning");
-  return solution;
+    padSolution(empty_solution);
+
+    Solution solution = transpose(empty_solution->solution);
+
+    info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinshed planning");
+
+    return solution;
 }

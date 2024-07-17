@@ -3,14 +3,18 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/third_party/easy_profiler/easy_profiler_core/include",
+                "${workspaceFolder}/third_party/argparse/include/argparse",
+                "/usr/include/x86_64-linux-gnu/c++/11",
+                "/usr/include/x86_64-linux-gnu"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:\\MinGW\\bin\\gcc.exe",
+            "compilerPath": "/usr/bin/g++-11",
             "cStandard": "c11",
             "cppStandard": "gnu++14",
             "intelliSenseMode": "windows-gcc-x86"

@@ -2,6 +2,7 @@
 // Created by ale on 28/05/24.
 //
 #include "../include/factorizer.hpp"
+#include <easy/profiler.h>
 
 //#include "../include/instance.hpp"
 //#include "../include/dist_table.hpp"
@@ -18,6 +19,7 @@ const bool FactAlgo::is_factorizable(const Graph& G, const Config& C, const Conf
                              int verbose, std::queue<Instance>& OPENins,
                              const std::vector<int>& enabled, const std::vector<int>& distances)
 {
+  EASY_FUNCTION(profiler::colors::Yellow);
   Partitions partitions;
   std::unordered_map<int, int> agent_to_partition;
 
@@ -75,6 +77,7 @@ void FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goal
                              int verbose, std::queue<Instance>& OPENins,
                              const std::vector<int>& enabled, const Partitions& partitions) const
 {
+  EASY_FUNCTION(profiler::colors::Yellow200);
   // printing info about the partitions
   if (verbose > 1) {
     std::cout << "New partitions :\n";
@@ -161,6 +164,8 @@ int FactAlgo::get_manhattan(int index1, int index2) const
 
 const bool FactDistance::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const
 {
+  EASY_FUNCTION(profiler::colors::Yellow500);
+
   int d1 = get_manhattan(index1, goal1);
   int d2 = get_manhattan(index2, goal2);
   int da = get_manhattan(index1, index2);
@@ -179,7 +184,9 @@ const bool FactDistance::heuristic(int rel_id_1, int index1, int goal1, int rel_
 \****************************************************************************************/
 
 
-const bool FactBbox::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const {
+const bool FactBbox::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const 
+{
+  EASY_FUNCTION(profiler::colors::Yellow500);
 
   int y1 = (int) index1/width;        // agent1 y position
   int x1 = index1%width;              // agent1 x position
@@ -218,7 +225,9 @@ const bool FactBbox::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2
 \****************************************************************************************/
 
 
-const bool FactOrient::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const {
+const bool FactOrient::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const 
+{
+  EASY_FUNCTION(profiler::colors::Yellow500);
 
   int y1 = (int) index1/width;    // agent1 y position
   int x1 = index1%width;          // agent1 x position
@@ -313,6 +322,8 @@ bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<in
 
 const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const
 {
+  EASY_FUNCTION(profiler::colors::Yellow500);
+  
   const int d1 = distances.at(rel_id_1);
   const int d2 = distances.at(rel_id_2);
   const int da = get_manhattan(index1, index2);

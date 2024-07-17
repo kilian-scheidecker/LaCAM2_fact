@@ -1,4 +1,5 @@
 #include "../include/planner.hpp"
+#include <easy/profiler.h>
 
 // Define the low level node (aka constraint)
 LNode::LNode(LNode* parent, uint i, std::shared_ptr<Vertex> v) : 
@@ -215,6 +216,8 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 // factorized solving
 void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, std::queue<Instance>& OPENins)
 {
+  EASY_FUNCTION(profiler::colors::Green);
+
   // setup agents
   for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
 
@@ -245,6 +248,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
   }*/
 
   // DFS
+  EASY_BLOCK("Main loop for solving");
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
 
@@ -287,7 +291,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
       print_vertices(H->C, ins.G.width);
       std::cout<<"\n";
     }
-
+    EASY_BLOCK("PIBT and configuration generation");
     // create successors at the high-level search
     const auto res = get_new_config(H, L);
     delete L;  // free
@@ -296,6 +300,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
     // create new configuration
     for (auto a : A) C_new[a->id] = a->v_next;
 
+    EASY_END_BLOCK;
     // check explored list
     const auto iter = EXPLORED.find(C_new);
     if (iter != EXPLORED.end()) {
@@ -320,7 +325,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
       }
     }
 
-
+    EASY_BLOCK("Checking for factorization");
     std::vector<int> distances(N);
     if (factalgo.need_astar)
     {
@@ -340,7 +345,9 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
       if (objective == OBJ_NONE)
         break;
     }
+    EASY_END_BLOCK;
   }
+  EASY_END_BLOCK;
 
   // backtrack
   if (H_goal != nullptr) {

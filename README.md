@@ -81,7 +81,7 @@ Once the profiler has been built, you can use the optional argument '-d yes' in 
 This file can then be vizualised by using the Easy Profiler Visualizer. There should be an executable called 'profiler_gui' in the build directory of the Easy Profiler. You can use this to visualize everything in detail.
 
 ```sh
-./build/third_party/easy_profiler/build/bin/profiler_gui
+./build/third_party/easy_profiler/bin/profiler_gui
 ```
 
 Once you opened the visualizer, you can use the folder icon at the top left to open the 'profile.prof' file.
