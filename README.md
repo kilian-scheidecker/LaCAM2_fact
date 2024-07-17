@@ -34,8 +34,8 @@ cmake -B build && make -C build -j
 no optimization (random starts/goals):
 
 ```sh
-> build/main -v 1 -m assets/random-32-32-20.map -N 400
-solved: 31ms    makespan: 112 (lb=58, ub=1.94)  sum_of_costs: 31373 (lb=9217, ub=3.41)  sum_of_loss: 26001 (lb=9217, ub=2.83)
+> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no
+solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=1.19)   sum_of_loss: 1198 (lb=1098, ub=1.1)
 
 # with the MAPF visualizer mentioned below
 > mapf-visualizer map/random-32-32-20.map build/result.txt

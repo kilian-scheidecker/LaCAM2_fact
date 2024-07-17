@@ -45,7 +45,6 @@ stats_json.txt
 *.exe
 *.out
 *.app
-!**/code profiling/**/*.out   
 
 # End of https://www.toptal.com/developers/gitignore/api/c++
 **/.DS_Store
