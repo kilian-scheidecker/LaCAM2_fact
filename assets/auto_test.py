@@ -5,8 +5,8 @@ import json
 
 import numpy as np
 
-WSL_DIR = '/mnt/c/Users/kilia/Documents/PC KILIAN - sync/MA 4/League of Robot Runners/lacam2_fact'
-#WSL_DIR = '/mnt/e/Fichiers Kilian/DOCUMENTS/Fichiers Perso/ETHZ/lacam2_fact'
+#WSL_DIR = '/mnt/c/Users/kilia/Documents/PC KILIAN - sync/MA 4/League of Robot Runners/lacam2_fact'
+WSL_DIR = 'lacam2_fact'
 
 # Creates the command string for a given number of agents N
 def create_command(map_name: str, N: int, factorize: list, multi_threading: list):
@@ -80,21 +80,22 @@ def update_stats_json(string: str, string_info: str):
 # Runs a set of command lines in Ubuntu environment
 def run_commands_in_ubuntu(commands, directory):
 
-    try :
-        # Change directory in WSL
-        subprocess.run(['wsl', 'cd', directory], check=True)
+    # try :
+    #     # Change directory in WSL
+    #     subprocess.run(['wsl', 'cd', directory], check=True)
 
-    except :
-        print("Failed to change directory in WSL")
-        update_stats_json("Maximum RAM usage (Mbytes)", "-1")
-        update_stats_json("Average RAM usage (Mbytes)", "-1")
-        update_stats_json("CPU usage (percent)", "-1")
-        return
+    # except :
+    #     print("Failed to change directory in WSL")
+    #     update_stats_json("Maximum RAM usage (Mbytes)", "-1")
+    #     update_stats_json("Average RAM usage (Mbytes)", "-1")
+    #     update_stats_json("CPU usage (percent)", "-1")
+    #     return
         
     # Run commands in WSL
     for command in commands:
         try :
-            c = ['wsl'] + command.split()
+            # c = ['wsl'] + command.split()
+            c = command
             result = subprocess.run(c, shell=True, capture_output=True, text=True)
             if result.returncode == 0:
                 # Output of the command should contain RAM usage information

@@ -44,7 +44,7 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
 
     # Gather data in specific map
     data, data_success, n_tests = get_data(map_name + '.map', update_db, read_from)
-    data_std = data.drop(data[data['Number of agents']%100 != 0].index)
+    data_std = data.drop(data[data['Number of agents']%20 != 0].index)
 
     #data_cut = data.groupby(['Number of agents', 'Factorized', 'Maximum RAM usage (Mbytes)', 'Computation time (ms)', 'CPU usage (percent)', 'Multi threading']) #.mean().reset_index()
     data1 = data.drop(data[data['Multi threading'] == "no"].index)      # with MT
@@ -54,10 +54,10 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
     line_CPU = px.line(data, x="Number of agents", y="CPU usage (percent)", color="Factorized")
     line_RAM_MT = px.line(data1, x="Number of agents", y="Maximum RAM usage (Mbytes)", color="Factorized")
     line_RAM = px.line(data2, x="Number of agents", y="Maximum RAM usage (Mbytes)", color="Factorized")
-    line_time1 = px.line(data1, x="Number of agents", y="Computation time (ms)", color="Factorized")
-    line_time2 = px.line(data2, x="Number of agents", y="Computation time (ms)", color="Factorized")
-    line_time_std = px.line(data_std, x="Number of agents", y="Computation time (ms)", color="Factorized", error_y="Computation time (ms) std")
-    line_span_std = px.line(data_std, x="Number of agents", y="Makespan", color="Factorized", error_y="Makespan std")
+    line_time_MT = px.line(data1, x="Number of agents", y="Computation time (ms)", color="Factorized")
+    line_time = px.line(data2, x="Number of agents", y="Computation time (ms)", color="Factorized")
+    line_time_std = px.scatter(data_std, x="Number of agents", y="Computation time (ms)", color="Factorized", error_y="Computation time (ms) std")
+    line_span_std = px.scatter(data_std, x="Number of agents", y="Makespan", color="Factorized", error_y="Makespan std")
     
     # Create the bar charts
     bar_success = px.histogram(data_success, x="Factorized", y="Success", color="Factorized", histfunc='sum', text_auto=True, orientation='v', labels=None)
@@ -116,7 +116,7 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
     line_RAM.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
     line_RAM.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
 
-    line_time1.update_layout(
+    line_time_MT.update_layout(
         plot_bgcolor=colors['background'],
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
@@ -130,10 +130,10 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
         height=260,
         width=450,
     )
-    line_time1.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
-    line_time1.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_time_MT.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_time_MT.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
 
-    line_time2.update_layout(
+    line_time.update_layout(
         plot_bgcolor=colors['background'],
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
@@ -147,8 +147,8 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
         height=260,
         width=450,
     )
-    line_time2.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
-    line_time2.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_time.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_time.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
 
     line_time_std.update_layout(
         plot_bgcolor=colors['background'],
@@ -248,7 +248,7 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
             [
                 #dbc.Col(width=3, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph4',figure=line_CPU), width=3),
-                dbc.Col(dcc.Graph(id='graph5',figure=bar_success_agents), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph8',figure=line_time), width=4, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph6',figure=line_RAM), width=5, style={'textAlign': 'center'})
             ]
         ),
@@ -256,11 +256,12 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
         dbc.Row(
             [
                 #dbc.Col(width=3, style={'textAlign': 'center'}),
-                dbc.Col(width=3),
-                dbc.Col(dcc.Graph(id='graph8',figure=line_time1), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph5',figure=bar_success_agents), width=3, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph8',figure=line_time_MT), width=4, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph9',figure=line_RAM_MT), width=5, style={'textAlign': 'center'})
             ]
         ),
+
 
         #dbc.Row(dbc.Col(html.Div("")), style={'height' : '200px'}),
 
@@ -273,4 +274,4 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
 
 
 
-show_plots(map_name="warehouse-20-40-10-2-2", update_db=False, read_from='stats_warehouse_after7.json')
+show_plots(map_name="random-32-32-20", update_db=True, read_from='stats_warehouse_after7.json')

@@ -129,6 +129,7 @@ def get_data(map_name: str, update_data: bool, read_from: str=None):
 
     if update_data :
         data = stats_to_json('stats_json.txt')              # Convert data to json format
+        read_from = None
     elif read_from is None : 
         data = pd.read_json(basePath + '/stats.json')       # Just read the json
     else :
