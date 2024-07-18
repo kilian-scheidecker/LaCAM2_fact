@@ -21,7 +21,8 @@ void thread_task(const Instance& ins, std::string& additional_info,
                const int verbose, const Deadline* deadline, std::mt19937* MT, 
                const Objective objective, const float restart_rate, 
                Infos* infos_ptr, FactAlgo& factalgo, 
-               std::queue<Instance>& OPENins, std::shared_ptr<Sol> empty_solution);
+               std::queue<Instance>& OPENins, std::shared_ptr<Sol> empty_solution, 
+               bool enable_profiling);
 
 
 // main function for factorized solving with multi-threading

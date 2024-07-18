@@ -34,7 +34,7 @@ cmake -B build && make -C build -j
 no optimization (random starts/goals):
 
 ```sh
-> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no
+> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no -mt no -p no
 solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=1.19)   sum_of_loss: 1198 (lb=1098, ub=1.1)
 
 # with the MAPF visualizer mentioned below
@@ -46,15 +46,15 @@ solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=
 makespan optimization:
 
 ```sh
-> build/main -m assets/loop.map -i assets/loop.scen -N 3 -v 1 --objective 1
-solved: 8ms     makespan: 10 (lb=2, ub=5)       sum_of_costs: 21 (lb=5, ub=4.2) sum_of_loss: 21 (lb=5, ub=4.2)
+> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no --objective 1
+solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=1.19)   sum_of_loss: 1198 (lb=1098, ub=1.1)
 ```
 
 sum-of-loss optimization:
 
 ```sh
-> build/main -m assets/loop.map -i assets/loop.scen -N 3 -v 2 --objective 2
-solved: 1ms     makespan: 11 (lb=2, ub=5.5)     sum_of_costs: 15 (lb=5, ub=3)   sum_of_loss: 15 (lb=5, ub=3)
+> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no --objective 2
+solved: 10258ms makespan: 47 (lb=47, ub=1)      sum_of_costs: 1252 (lb=1098, ub=1.15)   sum_of_loss: 1192 (lb=1098, ub=1.09)
 ```
 
 You can find details of all parameters with:
@@ -70,13 +70,11 @@ This repository is compatible with [@Kei18/mapf-visualizer](https://github.com/k
 
 TODO
 
-## Debug
+## Code Profiling
 
-You can take advantage of the [Easy Profiler library](https://github.com/yse/easy_profiler) in order to debug the code and dive into the internals of the algorithms.
+You can take advantage of the [Easy Profiler library](https://github.com/yse/easy_profiler) in order to analyze the code and dive into the internals of the algorithms.
 
-The 
-
-Once the profiler has been built, you can use the optional argument '-d yes' in the command line when solving an instance. This will set the code into pofiling mode and store the data in a file called profile.prof.
+Once the project has been built, you can use the optional argument '-p yes' in the command line when solving an instance. This will set the code into pofiling mode and store the data in a file called profile.prof.
 
 This file can then be vizualised by using the Easy Profiler Visualizer. There should be an executable called 'profiler_gui' in the build directory of the Easy Profiler. You can use this to visualize everything in detail.
 

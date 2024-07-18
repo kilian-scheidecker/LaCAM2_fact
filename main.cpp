@@ -1,6 +1,5 @@
 #include <argparse/argparse.hpp>
 #include <lacam2.hpp>
-#include <easy/profiler.h>
 
 
 int main(int argc, char* argv[])
@@ -20,7 +19,7 @@ int main(int argc, char* argv[])
       .default_value(std::string("0"));
   program.add_argument("-t", "--time_limit_sec")
       .help("time limit sec")
-      .default_value(std::string("30"));
+      .default_value(std::string("10"));
   program.add_argument("-o", "--output")
       .help("output file")
       .default_value(std::string("./build/result.txt"));
@@ -39,10 +38,13 @@ int main(int argc, char* argv[])
       .help("restart rate")
       .default_value(std::string("0.001"));
   program.add_argument("-f", "--factorize")
+      .help("mode of factorization: [no / FactDistance / FactBbox / Factorient / FactAstar]")
       .default_value(std::string("no"));
   program.add_argument("-mt", "--multi_threading")
+      .help("toggle multi-threading: [yes / no] ")
       .default_value(std::string("no"));
-      program.add_argument("-d", "--debug")
+      program.add_argument("-p", "--profiling")
+      .help("toggle multi-threading: [yes / no] ")
       .default_value(std::string("no"));
 
   try {
@@ -69,7 +71,7 @@ int main(int argc, char* argv[])
   const auto objective =
       static_cast<Objective>(std::stoi(program.get<std::string>("objective")));
   const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
-  const auto debug = program.get<std::string>("debug");
+  const auto profiling = program.get<std::string>("profiling");
 
   // Redirect cout to nullstream if verbose is set to zero
   std::streambuf* coutBuffer = std::cout.rdbuf();   // save cout buffer
@@ -96,7 +98,7 @@ int main(int argc, char* argv[])
 
   if( strcmp(factorize.c_str(), "no") != 0)
   {
-    info(0, verbose, "\nStart solving the algorithm WITH factorization\n");
+    info(0, verbose, "\nStart solving the algorithm with factorization\n");
 
 
     // Generate the enabled vector, initialize it to have the indices of agents as content
@@ -135,41 +137,34 @@ int main(int argc, char* argv[])
     // Reset the infos :
     infos.reset();
 
-    // Create the deadline :
-    const auto deadline_fact = Deadline(time_limit_sec * 1000);
-
     // Create the empty solution :
     Solution solution_fact;
     
-    // Decide if debug or not
-    if( strcmp(debug.c_str(), "yes") == 0) {
+    // Create the deadline :
+    const auto deadline_fact = Deadline(time_limit_sec * 1000);
 
-      EASY_PROFILER_ENABLE;
-      profiler::startListen();
 
-      {
-        EASY_BLOCK("Main Function");
-
-        info(0, verbose, "\nDEBUG mode : ON\n");
-
-        // Actual solving procedure, depending on multi_threading or not
-        if( strcmp(multi_threading.c_str(), "yes") == 0)
-          solution_fact = solve_fact_MT(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
-        else
-          solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
-      }
-      profiler::stopListen();
-      profiler::dumpBlocksToFile("profile.prof");
+    // Check for profiling
+    if( strcmp(profiling.c_str(), "yes") == 0)
+    {
+#ifdef ENABLE_PROFILING
+    profiler::startListen();
+    EASY_PROFILER_ENABLE;
+#endif
+      info(0, verbose, "elapsed:", elapsed_ms(&deadline_fact), "ms\tProfling mode : ON");
     }
 
-    // Without debugging
-    else {
-      if( strcmp(multi_threading.c_str(), "yes") == 0)
-        solution_fact = solve_fact_MT(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
-      else
-        solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
-    }
+    // Actual solving procedure, depending on multi_threading or not
+    if( strcmp(multi_threading.c_str(), "yes") == 0)
+      solution_fact = solve_fact_MT(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
+    else
+      solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
 
+#ifdef ENABLE_PROFILING
+    EASY_END_BLOCK;
+    profiler::stopListen();
+    profiler::dumpBlocksToFile("profile.prof");
+#endif
     
     const auto comp_time_ms_fact = deadline_fact.elapsed_ms();
 
@@ -193,7 +188,7 @@ int main(int argc, char* argv[])
 // ---------------------------- SOLVE WITHOUT FACTORIZATION -----------------------------------------
   else
   {
-    info(0, verbose, "\nStart solving the algorithm WITHOUT factorization\n");
+    info(0, verbose, "\nStart solving the algorithm without factorization\n");
 
     // Create the instance
     const auto ins = Instance(scen_name, map_name, v_enable, N);

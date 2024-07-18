@@ -6,10 +6,14 @@
 #include <string>
 #include <random>
 #include <mutex>
+#include <sched.h>
 
-// Assuming these are defined elsewhere
+
 #include <easy/profiler.h>
 #include "../include/lacam2.hpp"
+#include "../include/cores.hpp"
+
+
 
 Solution solve(const Instance& ins, std::string& additional_info,
                const int verbose, const Deadline* deadline, std::mt19937* MT,
@@ -115,8 +119,15 @@ void thread_task(const Instance& ins, std::string& additional_info,
                  std::queue<Instance>& OPENins, std::shared_ptr<Sol> empty_solution,
                  std::mutex& queue_mutex)
 {
+#ifdef ENABLE_PROFILING
+    EASY_FUNCTION();
+#endif
+
     while (true)
-    {
+    {   
+#ifdef ENABLE_PROFILING
+        EASY_BLOCK("thread job");
+#endif
         Instance I;
         {
             std::lock_guard<std::mutex> lock(queue_mutex);
@@ -138,8 +149,13 @@ void thread_task(const Instance& ins, std::string& additional_info,
             }
             std::cout << "\n";
         }
+#ifdef ENABLE_PROFILING
+        EASY_END_BLOCK;
+#endif
+
     }
 }
+
 
 Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAlgo& factalgo,
                     const int verbose, const Deadline* deadline, std::mt19937* MT,
@@ -147,6 +163,10 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAl
                     Infos* infos_ptr)
 {
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving using Multi-Threading...");
+
+#ifdef ENABLE_PROFILING
+    EASY_FUNCTION(profiler::colors::Amber);
+#endif
 
     std::queue<Instance> OPENins;
     std::mutex queue_mutex; // Mutex to protect shared access to OPENins
@@ -158,12 +178,13 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAl
     OPENins.push(ins);
 
     // Determine the number of threads to use based on hardware concurrency
-    unsigned int num_threads = std::thread::hardware_concurrency();
+    // unsigned int num_threads = std::thread::hardware_concurrency();
+    unsigned int num_threads = count_cores();
     if (num_threads == 0) {
         num_threads = 2; // Default to 2 if hardware_concurrency() returns 0
     }
 
-    info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tUsing", num_threads, " threads.");
+    info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tUsing", num_threads, " cores.");
 
     // Create a vector to hold the threads
     std::vector<std::thread> threads;
@@ -197,7 +218,9 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo&
                const Objective objective, const float restart_rate, 
                Infos* infos_ptr)
 {
+#ifdef ENABLE_PROFILING
     EASY_FUNCTION(profiler::colors::Amber);
+#endif
     
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");
 
@@ -209,8 +232,6 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo&
     const Instance start_ins = ins;
 
     OPENins.push(start_ins);
-
-    EASY_BLOCK("Loop through OPENins");
     
     while (!OPENins.empty())
     {
@@ -234,8 +255,6 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo&
             std::cout<<"\n";
         }
     }
-
-    EASY_END_BLOCK;
 
 
     // Pad and transpose the solution to return the correct form

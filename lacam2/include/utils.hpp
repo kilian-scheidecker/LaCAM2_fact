@@ -28,6 +28,10 @@ typedef unsigned int uint;
 #include <string>
 #include <map>
 
+#ifdef ENABLE_PROFILING
+#include <easy/profiler.h>
+#endif
+
 using Time = std::chrono::steady_clock;
 
 void info(const int level, const int verbose);
