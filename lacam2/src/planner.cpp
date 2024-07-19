@@ -91,6 +91,31 @@ Planner::Planner(const Instance& _ins, const Deadline* _deadline,
 {
 }
 
+
+// Planner constructor
+Planner::Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline,
+                 std::mt19937* _MT, const int _verbose,
+                 const Objective _objective, const float _restart_rate,
+                 std::shared_ptr<Sol> _empty_solution)
+    : ins(*_ins.get()),     // get value stored at memory loc
+      deadline(_deadline),
+      MT(_MT),
+      verbose(_verbose),
+      objective(_objective),
+      RESTART_RATE(_restart_rate),
+      N(ins.N),
+      V_size(ins.G.size()),
+      D(DistTable(ins)),
+      loop_cnt(0),
+      C_next(N),
+      tie_breakers(V_size, 0),
+      A(N, nullptr),
+      occupied_now(V_size, nullptr),
+      occupied_next(V_size, nullptr),
+      empty_solution(_empty_solution)                  // initialize with nothing
+{
+}
+
 Planner::~Planner() {}
 
 // standard solving
@@ -214,7 +239,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 
 
 // factorized solving
-void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, std::queue<Instance>& OPENins)
+std::list<std::shared_ptr<Instance>> Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo)
 {
 // #ifdef ENABLE_PROFILING
 //   EASY_FUNCTION(profiler::colors::Green, "Planner::solve_fact");
@@ -237,6 +262,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
   auto C_new = Config(N, nullptr);      // for new configuration
   HNode* H_goal = nullptr;              // to store goal node
   Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
+  std::list<std::shared_ptr<Instance>> sub_instances;
 
   // Restore the inheried priorities of agents
   /*if (ins.priority.size() > 1)
@@ -338,12 +364,17 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
     }
 
     // Check for factorizability
-    if (N>1 && H_goal == nullptr && factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, OPENins, ins.enabled, distances))
+    if (N>1 && H_goal == nullptr)
     {
-      C_goal_overwrite = H->C;    // set current config as goal configuration
-      H_goal = H;                 // set current node as goal node
-      if (objective == OBJ_NONE)
-        break;
+      sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances);
+      
+      if (sub_instances.size() > 0)
+      {
+        C_goal_overwrite = H->C;    // set current config as goal configuration
+        H_goal = H;                 // set current node as goal node
+        if (objective == OBJ_NONE)
+          break;
+      }
     }
 
   }
@@ -400,6 +431,7 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlg
       line->push_back(v);
     }
   }
+  return sub_instances;
 }
 
 

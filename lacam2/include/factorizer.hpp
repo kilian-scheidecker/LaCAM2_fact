@@ -24,10 +24,10 @@ public:
     FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar) {}
     virtual ~FactAlgo() = default;
 
-    const bool is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances);
+    std::list<std::shared_ptr<Instance>> is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances);
 
     // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const Partitions& partitions) const;
+    std::list<std::shared_ptr<Instance>> split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions) const;
 
     // Simple manhattan distance computation between two vertices of the map.
     int get_manhattan(int index1, int index2) const;
@@ -116,7 +116,7 @@ public:
     FactDef(int width) : FactAlgo(width) {}
 
     // Method to factorize the agents and generate the partitions
-    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::vector<int>& distances) const;
+    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, const std::vector<int>& enabled, const std::vector<int>& distances) const;
 
 private:
 
@@ -128,7 +128,7 @@ private:
     };
 
     // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, std::queue<Instance>& OPENins, const std::vector<int>& enabled, const std::map<int, int>& agent_map) const;
+    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, const std::vector<int>& enabled, const std::map<int, int>& agent_map) const;
 
     // Simple heuristic to determine if 2 agents can be factorized based on distance
     const bool heuristic(int rel_id_1, int index1, int rel_id_2, int index2, const Graph& G, const std::vector<int>& distances) const;

@@ -15,13 +15,10 @@
 *                       Implementation of the FactAlgo base class                        *
 \****************************************************************************************/
 
-const bool FactAlgo::is_factorizable(const Graph& G, const Config& C, const Config& goals,
-                             int verbose, std::queue<Instance>& OPENins,
-                             const std::vector<int>& enabled, const std::vector<int>& distances)
+std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose,
+                                     const std::vector<int>& enabled, const std::vector<int>& distances)
 {
-#ifdef ENABLE_PROFILING
   PROFILE_FUNC(profiler::colors::Yellow);
-#endif
 
   Partitions partitions;
   std::unordered_map<int, int> agent_to_partition;
@@ -69,32 +66,29 @@ const bool FactAlgo::is_factorizable(const Graph& G, const Config& C, const Conf
                     partitions.end());
 
   if (partitions.size() > 1) {
-    split_ins(G, C, goals, verbose, OPENins, enabled, partitions);
-    return true;
+    return split_ins(G, C, goals, verbose, enabled, partitions);    // most expensive
   } else {
-    return false;
+    return {};
   }
 }
 
-void FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goals,
-                             int verbose, std::queue<Instance>& OPENins,
+std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose,
                              const std::vector<int>& enabled, const Partitions& partitions) const
 {
-#ifdef ENABLE_PROFILING
   PROFILE_FUNC(profiler::colors::Yellow200);
-#endif
 
+  PROFILE_BLOCK("initialization");
   // printing info about the partitions
-  if (verbose > 1) {
-    std::cout << "New partitions :\n";
-    for (const auto& set : partitions) {
-      for (auto i : set) {
-        std::cout << i << ", ";
-      }
-      std::cout << " // ";
-    }
-    std::cout << " \n";
-  }
+  // if (verbose > 1) {
+  //   std::cout << "New partitions :\n";
+  //   for (const auto& set : partitions) {
+  //     for (auto i : set) {
+  //       std::cout << i << ", ";
+  //     }
+  //     std::cout << " // ";
+  //   }
+  //   std::cout << " \n";
+  // }
 
   // maps the true id of the agent to its position in the instance to split (reverse enabled vector. Maps true_id to rel_id)
   std::unordered_map<int, int> agent_map;
@@ -102,51 +96,59 @@ void FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goal
     agent_map[enabled[j]] = j;
   }
 
-  for (const auto& new_enabled : partitions) {
+  std::list<std::shared_ptr<Instance>> sub_instances;
+
+  END_BLOCK();
+  PROFILE_BLOCK("loop through partitions");
+  for (const auto& new_enabled : partitions) 
+  {
     //std::vector<int> new_enabled(new_enabled_set.begin(), new_enabled_set.end());
     Config C0(new_enabled.size());
     Config G0(new_enabled.size());
-
     //std::map<int, int> new_agent_map;  // map to match enabled_id to agent_id in this instance
+
     std::vector<float> priorities_ins(new_enabled.size());  // priority vector for new instances
 
     int new_id = 0;  // id of the agents in the new instance
-    for (int true_id : new_enabled) {
-      auto it = agent_map.find(true_id);
-      // if (it == agent_map.end()) {
-      //   std::cerr << "Agent ID not found in agent_map: " << true_id << std::endl;
-      //   continue;
-      // }
 
+    // loop through every agent to emplace correct position back
+    for (int true_id : new_enabled) 
+    {
+      auto it = agent_map.find(true_id);
       int prev_id = it->second;
       //priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
       C0[new_id] = C_new[prev_id];
       G0[new_id] = goals[prev_id];
-      //new_agent_map[new_id] = true_id;  // update new agent map
       ++new_id;
     }
 
     // sanity check
     if (!C0.empty()) {
+
+      PROFILE_BLOCK("create instance");
       Instance I(G, C0, G0, new_enabled, new_enabled.size());
+      END_BLOCK();
 
       // print info about the newly created sub-instances
-      if (verbose > 4) {
-        std::cout << "\nCreate sub-instance with enabled : ";
-        for (int i : new_enabled) std::cout << i << ", ";
+      // if (verbose > 4) {
+      //   std::cout << "\nCreate sub-instance with enabled : ";
+      //   for (int i : new_enabled) std::cout << i << ", ";
 
-        std::cout << "\nStarts : ";
-        print_vertices(C0, width);
-        std::cout << "\ngoals : ";
-        print_vertices(G0, width);
-        std::cout << std::endl;
-      }
+      //   std::cout << "\nStarts : ";
+      //   print_vertices(C0, width);
+      //   std::cout << "\ngoals : ";
+      //   print_vertices(G0, width);
+      //   std::cout << std::endl;
+      // }
       info(2, verbose, "Pushed new sub-instance with ", I.N, " agents.");
-      OPENins.push(std::move(I));  // not only push but move
+      sub_instances.push_back(std::make_shared<Instance>(I));
+      
     } else {
       std::cerr << "Something wrong with Instance generation";
     }
   }
+  END_BLOCK();
+  return sub_instances;
 }
 
 
@@ -170,9 +172,8 @@ int FactAlgo::get_manhattan(int index1, int index2) const
 
 const bool FactDistance::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const
 {
-#ifdef ENABLE_PROFILING
   PROFILE_FUNC(profiler::colors::Yellow500);
-#endif
+
 
   int d1 = get_manhattan(index1, goal1);
   int d2 = get_manhattan(index2, goal2);
@@ -194,9 +195,7 @@ const bool FactDistance::heuristic(int rel_id_1, int index1, int goal1, int rel_
 
 const bool FactBbox::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const 
 {
-#ifdef ENABLE_PROFILING
   PROFILE_FUNC(profiler::colors::Yellow500);
-#endif
 
   int y1 = (int) index1/width;        // agent1 y position
   int x1 = index1%width;              // agent1 x position
@@ -237,9 +236,7 @@ const bool FactBbox::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2
 
 const bool FactOrient::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const 
 {
-#ifdef ENABLE_PROFILING
   PROFILE_FUNC(profiler::colors::Yellow500);
-#endif
 
   int y1 = (int) index1/width;    // agent1 y position
   int x1 = index1%width;          // agent1 x position
@@ -334,9 +331,7 @@ bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<in
 
 const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const
 {
-#ifdef ENABLE_PROFILING
   PROFILE_FUNC(profiler::colors::Yellow500);
-#endif
   
   const int d1 = distances.at(rel_id_1);
   const int d2 = distances.at(rel_id_2);

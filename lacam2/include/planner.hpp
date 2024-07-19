@@ -92,13 +92,21 @@ struct Planner {
           const float _restart_rate = 0.001,
           std::shared_ptr<Sol> _empty_solution = {});
 
+  // cosntructor for MT
+  Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline, std::mt19937* _MT,
+          const int _verbose = 0,
+          // other parameters
+          const Objective _objective = OBJ_NONE,
+          const float _restart_rate = 0.001,
+          std::shared_ptr<Sol> _empty_solution = {});
+
 
   ~Planner();
 
   // standard solving
   Solution solve(std::string& additional_info, Infos* infos_ptr);
   // factorized solving
-  void solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, std::queue<Instance>& OPENins);
+  std::list<std::shared_ptr<Instance>> solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo);
   
   void expand_lowlevel_tree(HNode* H, LNode* L);
   void rewrite(HNode* H_from, HNode* T, HNode* H_goal,
