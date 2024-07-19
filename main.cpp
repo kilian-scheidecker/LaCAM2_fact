@@ -43,6 +43,9 @@ int main(int argc, char* argv[])
   program.add_argument("-mt", "--multi_threading")
       .help("toggle multi-threading: [yes / no] ")
       .default_value(std::string("no"));
+      // program.add_argument("-p", "--profiling")
+      // .help("toggle multi-threading: [yes / no] ")
+      // .default_value(std::string("no"));
 
   try {
     program.parse_known_args(argc, argv);
@@ -68,6 +71,7 @@ int main(int argc, char* argv[])
   const auto objective =
       static_cast<Objective>(std::stoi(program.get<std::string>("objective")));
   const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
+  // const auto profiling = program.get<std::string>("profiling");
 
   // Redirect cout to nullstream if verbose is set to zero
   std::streambuf* coutBuffer = std::cout.rdbuf();   // save cout buffer
@@ -141,12 +145,17 @@ int main(int argc, char* argv[])
 
 
     // Check for profiling
-#ifdef ENABLE_PROFILING
-    profiler::startListen();
-    EASY_PROFILER_ENABLE;
-    info(0, verbose, "elapsed:", elapsed_ms(&deadline_fact), "ms\tProfling mode : ON");
-#endif
+    // if( strcmp(profiling.c_str(), "yes") == 0)
+    // {
+// #ifdef ENABLE_PROFILING
+//     info(0, verbose, "elapsed:", elapsed_ms(&deadline_fact), "ms\tProfling mode : ON");
+//     profiler::startListen();
+//     EASY_PROFILER_ENABLE;
+// #endif
+    //   info(0, verbose, "elapsed:", elapsed_ms(&deadline_fact), "ms\tProfling mode : ON");
+    // }
 
+    START_PROFILING();
 
     // Actual solving procedure, depending on multi_threading or not
     if( strcmp(multi_threading.c_str(), "yes") == 0)
@@ -154,11 +163,13 @@ int main(int argc, char* argv[])
     else
       solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
 
-#ifdef ENABLE_PROFILING
-    profiler::stopListen();
-    profiler::dumpBlocksToFile("code_profiling/profile.prof");
-    info(0, verbose, "elapsed:", elapsed_ms(&deadline_fact), "ms\tSaved profiling data to 'profile.prof'");
-#endif
+// #ifdef ENABLE_PROFILING
+//     EASY_END_BLOCK;
+//     profiler::stopListen();
+//     profiler::dumpBlocksToFile("code_profiling/profile.prof");
+// #endif
+
+    STOP_PROFILING();
     
     const auto comp_time_ms_fact = deadline_fact.elapsed_ms();
 

@@ -1,5 +1,5 @@
 #include "../include/planner.hpp"
-#include <easy/profiler.h>
+// #include <easy/profiler.h>
 
 // Define the low level node (aka constraint)
 LNode::LNode(LNode* parent, uint i, std::shared_ptr<Vertex> v) : 
@@ -216,9 +216,10 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 // factorized solving
 void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, std::queue<Instance>& OPENins)
 {
-#ifdef ENABLE_PROFILING
-  EASY_FUNCTION(profiler::colors::Green);
-#endif
+// #ifdef ENABLE_PROFILING
+//   EASY_FUNCTION(profiler::colors::Green, "Planner::solve_fact");
+// #endif
+  PROFILE_FUNC(profiler::colors::Green);
 
   // setup agents
   for (uint i = 0; i < N; ++i) A[i] = new Agent(i);

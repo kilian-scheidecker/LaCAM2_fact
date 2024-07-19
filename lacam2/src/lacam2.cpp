@@ -9,7 +9,7 @@
 #include <sched.h>
 
 
-#include <easy/profiler.h>
+// #include <easy/profiler.h>
 #include "../include/lacam2.hpp"
 #include "../include/cores.hpp"
 
@@ -119,9 +119,10 @@ void thread_task(const Instance& ins, std::string& additional_info,
                  std::queue<Instance>& OPENins, std::shared_ptr<Sol> empty_solution,
                  std::mutex& queue_mutex)
 {
-#ifdef ENABLE_PROFILING
-    EASY_FUNCTION();
-#endif
+// #ifdef ENABLE_PROFILING
+//     EASY_FUNCTION();
+// #endif
+    PROFILE_FUNC(profiler::colors::Amber400);
 
     while (true)
     {   
@@ -164,9 +165,11 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAl
 {
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving using Multi-Threading...");
 
-#ifdef ENABLE_PROFILING
-    EASY_FUNCTION(profiler::colors::Amber);
-#endif
+// #ifdef ENABLE_PROFILING
+//     EASY_FUNCTION(profiler::colors::Amber);
+// #endif
+
+    PROFILE_FUNC(profiler::colors::Amber);
 
     std::queue<Instance> OPENins;
     std::mutex queue_mutex; // Mutex to protect shared access to OPENins
@@ -218,9 +221,10 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo&
                const Objective objective, const float restart_rate, 
                Infos* infos_ptr)
 {
-#ifdef ENABLE_PROFILING
-    EASY_FUNCTION(profiler::colors::Amber);
-#endif
+// #ifdef ENABLE_PROFILING
+//     EASY_FUNCTION(profiler::colors::Amber);
+// #endif
+    PROFILE_FUNC(profiler::colors::Amber);
     
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");
 
