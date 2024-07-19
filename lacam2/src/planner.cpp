@@ -479,9 +479,11 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
 // Create a new configuration given some constraints for the next step. Basically the same as in LaCAM
 bool Planner::get_new_config(HNode* H, LNode* L)
 {
-#ifdef ENABLE_PROFILING
-  EASY_FUNCTION();
-#endif
+// #ifdef ENABLE_PROFILING
+//   EASY_FUNCTION();
+// #endif
+  PROFILE_FUNC(profiler::colors::Yellow);
+  // RENAME("configuration generation (inc. PIBT)");
 
 
   // setup cache
