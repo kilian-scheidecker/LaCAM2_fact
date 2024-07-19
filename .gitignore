@@ -9,7 +9,7 @@ stats_json.txt
 #*.json                       # Will not be needed in fine, keep for now
 
 # Files for code profiling
-#**/code profiling/           # Will not be needed in fine, keep for now
+**/code_profiling/          # Will not be needed in fine, keep for now
 
 
 ### C++ ###

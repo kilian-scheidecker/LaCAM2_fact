@@ -8,6 +8,13 @@ add_subdirectory(third_party/easy_profiler)
 add_subdirectory(lacam2)
 add_subdirectory(third_party/argparse)
 
+# Add options for profiling
+option(ENABLE_PROFILING "Enable profiling" OFF)
+
+if(ENABLE_PROFILING)
+    add_definitions(-DENABLE_PROFILING)
+endif()
+
 # Add the main executable
 add_executable(main main.cpp)
 

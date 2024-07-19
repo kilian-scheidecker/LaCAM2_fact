@@ -25,7 +25,7 @@ git submodules update
 Then, build the project.
 
 ```sh
-cmake -B build && make -C build -j
+cmake -B build && make -C build -j4
 ```
 
 
@@ -74,7 +74,14 @@ TODO
 
 You can take advantage of the [Easy Profiler library](https://github.com/yse/easy_profiler) in order to analyze the code and dive into the internals of the algorithms.
 
-Once the project has been built, you can use the optional argument '-p yes' in the command line when solving an instance. This will set the code into pofiling mode and store the data in a file called profile.prof.
+To use the profiling, the project needs to be built in profiler mode. Clean build the project using the following command :
+
+```sh
+cmake -DENABLE_PROFILING=ON -B build
+make -C build -j4
+```
+
+This will set the code into pofiling mode. At every run, the collected data will be stored in the file called 'profile.prof'.
 
 This file can then be vizualised by using the Easy Profiler Visualizer. There should be an executable called 'profiler_gui' in the build directory of the Easy Profiler. You can use this to visualize everything in detail.
 
@@ -83,6 +90,8 @@ This file can then be vizualised by using the Easy Profiler Visualizer. There sh
 ```
 
 Once you opened the visualizer, you can use the folder icon at the top left to open the 'profile.prof' file.
+
+To stop profiling, clean build the project again using the instructions in the 'Building' section.
 
 
 ## Notes
