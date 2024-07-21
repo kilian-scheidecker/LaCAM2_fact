@@ -28,7 +28,7 @@ typedef unsigned int uint;
 #include <string>
 #include <map>
 
-#define ENABLE_PROFILING
+// #define ENABLE_PROFILING
 
 #ifdef ENABLE_PROFILING
 #include <easy/profiler.h>

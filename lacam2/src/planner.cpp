@@ -67,6 +67,18 @@ HNode::~HNode()
 }
 
 
+Bundle::Bundle()
+  : instances({}),
+    solution({})
+{
+}
+
+// Bundle::~Bundle()
+//   : instances({}),
+//     solution({})
+// {
+// }
+
 // Planner constructor
 Planner::Planner(const Instance& _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
@@ -239,7 +251,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 
 
 // factorized solving
-std::list<std::shared_ptr<Instance>> Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo)
+Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo)
 {
 // #ifdef ENABLE_PROFILING
 //   EASY_FUNCTION(profiler::colors::Green, "Planner::solve_fact");
@@ -263,6 +275,7 @@ std::list<std::shared_ptr<Instance>> Planner::solve_fact(std::string& additional
   HNode* H_goal = nullptr;              // to store goal node
   Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
   std::list<std::shared_ptr<Instance>> sub_instances;
+  Bundle bundle = Bundle();
 
   // Restore the inheried priorities of agents
   /*if (ins.priority.size() > 1)
@@ -372,6 +385,7 @@ std::list<std::shared_ptr<Instance>> Planner::solve_fact(std::string& additional
       {
         C_goal_overwrite = H->C;    // set current config as goal configuration
         H_goal = H;                 // set current node as goal node
+        bundle.instances = sub_instances;
         if (objective == OBJ_NONE)
           break;
       }
@@ -388,6 +402,7 @@ std::list<std::shared_ptr<Instance>> Planner::solve_fact(std::string& additional
       H = H->parent;
     }
     std::reverse(solution.begin(), solution.end());
+    bundle.solution = solution;
   }
 
   // print result
@@ -418,20 +433,26 @@ std::list<std::shared_ptr<Instance>> Planner::solve_fact(std::string& additional
 
   // Spaghetti to append the solutions correctly
 
-  Solution sol_t = transpose(solution);
+  
 
-  for(int id=0; id<int(N); id++)   // for some reason vscode doesnt like this line but compiles all good
-  {
-    //std::cout<<"\nActive agent : "<<active_agent;
-    auto sol_bit = sol_t[id];
-    auto line = &(empty_solution->solution[ins.enabled[id]]);
 
-    for (auto v : sol_bit) 
-    {
-      line->push_back(v);
-    }
-  }
-  return sub_instances;
+  // Solution sol_t = transpose(solution);
+
+  // for(int id=0; id<int(N); id++)   // for some reason vscode doesnt like this line but compiles all good
+  // {
+  //   //std::cout<<"\nActive agent : "<<active_agent;
+  //   auto sol_bit = sol_t[id];
+  //   auto line = &(empty_solution->solution[ins.enabled[id]]);
+
+  //   for (auto v : sol_bit) 
+  //   {
+  //     line->push_back(v);
+  //   }
+  // }
+  // return sub_instances;
+
+  // return a pointer to bundle
+  return bundle;
 }
 
 

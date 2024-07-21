@@ -58,6 +58,16 @@ struct HNode {
 };
 using HNodes = std::vector<HNode*>;
 
+// return structure for planner::sove_fact
+struct Bundle{
+  std::list<std::shared_ptr<Instance>> instances;
+  Solution solution;
+
+  // constructor
+  Bundle();
+  // ~Bundle();
+};
+
 struct Planner {
   const Instance& ins;
   const Deadline* deadline;
@@ -106,7 +116,7 @@ struct Planner {
   // standard solving
   Solution solve(std::string& additional_info, Infos* infos_ptr);
   // factorized solving
-  std::list<std::shared_ptr<Instance>> solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo);
+  Bundle solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo);
   
   void expand_lowlevel_tree(HNode* H, LNode* L);
   void rewrite(HNode* H_from, HNode* T, HNode* H_goal,

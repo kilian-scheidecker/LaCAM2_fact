@@ -25,6 +25,8 @@ void thread_task(const Instance& ins, std::string& additional_info,
                bool enable_profiling);
 
 
+void write_sol(const Solution &solution, const std::vector<int> &enabled, std::shared_ptr<Sol> empty_solution, int N);
+
 // main function for factorized solving with multi-threading
 Solution solve_fact_MT(const Instance& ins, std::string& additional_info,
                FactAlgo& factalgo, const int verbose = 0, const Deadline* deadline = nullptr,
