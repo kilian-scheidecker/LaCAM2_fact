@@ -20,20 +20,23 @@ Solution solve(const Instance& ins, std::string& additional_info,
 void thread_task(const Instance& ins, std::string& additional_info,
                const int verbose, const Deadline* deadline, std::mt19937* MT, 
                const Objective objective, const float restart_rate, 
-               Infos* infos_ptr, const FactAlgo& factalgo, 
-               std::queue<Instance>& OPENins, std::shared_ptr<Sol> empty_solution);
+               Infos* infos_ptr, FactAlgo& factalgo, 
+               std::queue<Instance>& OPENins, std::shared_ptr<Sol> empty_solution, 
+               bool enable_profiling);
 
+
+void write_sol(const Solution &solution, const std::vector<int> &enabled, std::shared_ptr<Sol> empty_solution, int N);
 
 // main function for factorized solving with multi-threading
 Solution solve_fact_MT(const Instance& ins, std::string& additional_info,
-               const int verbose = 0, const Deadline* deadline = nullptr,
+               FactAlgo& factalgo, const int verbose = 0, const Deadline* deadline = nullptr,
                std::mt19937* MT = nullptr, const Objective objective = OBJ_NONE,
                const float restart_rate = 0.001,
-               Infos* infos = nullptr,  const FactAlgo& factalgo = FactDistance());
+               Infos* infos = nullptr);
 
 // main function for factorized solving without multi-threading
 Solution solve_fact(const Instance& ins, std::string& additional_info,
-               const int verbose = 0, const Deadline* deadline = nullptr,
+               FactAlgo& factalgo, const int verbose = 0, const Deadline* deadline = nullptr,
                std::mt19937* MT = nullptr, const Objective objective = OBJ_NONE,
                const float restart_rate = 0.001,
-               Infos* infos = nullptr,  const FactAlgo& factalgo = FactDistance());
+               Infos* infos = nullptr);

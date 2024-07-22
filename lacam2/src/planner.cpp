@@ -1,4 +1,5 @@
 #include "../include/planner.hpp"
+// #include <easy/profiler.h>
 
 // Define the low level node (aka constraint)
 LNode::LNode(LNode* parent, uint i, std::shared_ptr<Vertex> v) : 
@@ -66,12 +67,49 @@ HNode::~HNode()
 }
 
 
+// Bundle::Bundle()
+//   : instances({}),
+//     solution({})
+// {
+// }
+
+// Bundle::~Bundle()
+//   : instances({}),
+//     solution({})
+// {
+// }
+
 // Planner constructor
 Planner::Planner(const Instance& _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
                  const Objective _objective, const float _restart_rate,
                  std::shared_ptr<Sol> _empty_solution)
     : ins(_ins),
+      deadline(_deadline),
+      MT(_MT),
+      verbose(_verbose),
+      objective(_objective),
+      RESTART_RATE(_restart_rate),
+      N(ins.N),
+      V_size(ins.G.size()),
+      D(DistTable(ins)),
+      loop_cnt(0),
+      C_next(N),
+      tie_breakers(V_size, 0),
+      A(N, nullptr),
+      occupied_now(V_size, nullptr),
+      occupied_next(V_size, nullptr),
+      empty_solution(_empty_solution)                  // initialize with nothing
+{
+}
+
+
+// Planner constructor
+Planner::Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline,
+                 std::mt19937* _MT, const int _verbose,
+                 const Objective _objective, const float _restart_rate,
+                 std::shared_ptr<Sol> _empty_solution)
+    : ins(*_ins.get()),     // get value stored at memory loc
       deadline(_deadline),
       MT(_MT),
       verbose(_verbose),
@@ -146,7 +184,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
     expand_lowlevel_tree(H, L);
 
     // create successors at the high-level search
-    const auto res = get_new_config(H, L, infos_ptr);
+    const auto res = get_new_config(H, L);
     delete L;  // free
     if (!res) continue;
 
@@ -203,9 +241,9 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   for (auto a : A) delete a;
   for (auto itr : EXPLORED) delete itr.second;
 
-  infos_ptr->loop_count += loop_cnt;
-  infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
-  infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
+  //infos_ptr->loop_count += loop_cnt;
+  //infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
+  //infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
   return solution;
 }
@@ -213,8 +251,13 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 
 
 // factorized solving
-void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const FactAlgo& factalgo, std::queue<Instance>& OPENins)
+Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo)
 {
+// #ifdef ENABLE_PROFILING
+//   EASY_FUNCTION(profiler::colors::Green, "Planner::solve_fact");
+// #endif
+  PROFILE_FUNC(profiler::colors::Green);
+
   // setup agents
   for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
 
@@ -227,13 +270,15 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   OPEN.push(H);
   EXPLORED[H->C] = H;
 
-  std::vector<Config> solution;
+  Solution solution;
   auto C_new = Config(N, nullptr);      // for new configuration
   HNode* H_goal = nullptr;              // to store goal node
-  Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
+  // Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
+  std::list<std::shared_ptr<Instance>> sub_instances;
+  // Bundle bundle = Bundle();
 
   // Restore the inheried priorities of agents
-  if (ins.priority.size() > 1)
+  /*if (ins.priority.size() > 1)
   {
     for (int i=0; i<int(N); i++)
       H->priorities[i] = ins.priority[i];
@@ -242,8 +287,8 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     std::iota(H->order.begin(), H->order.end(), 0);
     std::sort(H->order.begin(), H->order.end(),
               [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
-  }
-
+  }*/
+  
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
@@ -264,14 +309,12 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
     }
 
     // check goal condition
-    if (H_goal == nullptr && is_same_config(H->C, C_goal_overwrite)) {
+    if (H_goal == nullptr && is_same_config(H->C, ins.goals)) {
       H_goal = H;
       solver_info(1, "found solution, cost: ", H->g);
-      if (objective == OBJ_NONE)
-      { 
-        break;
-      }
-      continue;
+      // if (objective == OBJ_NONE) break;
+      // continue;
+      break;
     }
 
     // create successors at the low-level search
@@ -286,22 +329,10 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       std::cout<<"\n- Printing current configuration : ";
       print_vertices(H->C, ins.G.width);
       std::cout<<"\n";
-      /*std::cout<<"\nSolution until now:\n";
-      int idd = 0;
-      for(auto line : empty_solution->solution)
-      {
-        std::cout<<"Agent "<<idd<<": ";
-        print_vertices(line, ins.G.width);
-        std::cout<<"\n";
-        idd++;
-      }
-      std::cout<<"\n";*/
     }
 
-    
-
     // create successors at the high-level search
-    const auto res = get_new_config(H, L, infos_ptr);
+    const auto res = get_new_config(H, L);
     delete L;  // free
     if (!res) continue;
 
@@ -332,21 +363,34 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
       }
     }
 
-    // copy the A* path lengths
-    std::map<int, int> distances;
-    for(uint i=0; i<N; i++) distances[i] = D.get(i, C_new[i]);
+    // Prepare the distances for A_star planner if needed
+    std::vector<int> distances(N);
+    if (factalgo.need_astar)
+      for(uint i=0; i<N; i++) distances[i] = D.get(i, C_new[i]);    // copy the A* path lengths
 
     // Check for factorizability
-    if (N>1 && H_goal == nullptr && factalgo.factorize(C_new, ins.G, verbose, H->priorities, ins.goals, OPENins, ins.enabled, distances))
+    if (N>1 && H_goal == nullptr)
     {
-      C_goal_overwrite = H->C;    // set current config as goal configuration
-      H_goal = H;                 // set current node as goal node
-      if (objective == OBJ_NONE)
-      { 
+      sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances);
+      
+      if (sub_instances.size() > 0)
+      {
+        H_goal = H;  
         break;
       }
+
+      // idea for recovering optimality
+      // {
+      //   C_goal_overwrite = H->C;    // set current config as goal configuration
+      //   H_goal = H;                 // set current node as goal node
+        
+      //   if (objective == OBJ_NONE)
+      //     break;
+      // }
     }
+
   }
+
 
   // backtrack
   if (H_goal != nullptr) {
@@ -364,9 +408,9 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   } else if (H_goal != nullptr) {
     solver_info(1, "solved sub-optimally, objective: ", objective);
   } else if (OPEN.empty()) {
-    solver_info(1, "no solution");
+    solver_info(0, "no solution");
   } else if (is_expired(deadline)) {
-    solver_info(1, "timeout");
+    solver_info(0, "timeout");
   }
 
   // logging
@@ -380,25 +424,34 @@ void Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, const F
   for (auto itr : EXPLORED) delete itr.second;
 
 
-  infos_ptr->loop_count += loop_cnt;
-  infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
-  infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
+  //infos_ptr->loop_count += loop_cnt;
+  //infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
+  //infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
   // Spaghetti to append the solutions correctly
 
-  Solution sol_t = transpose(solution);
+  
 
-  for(int id=0; id<int(N); id++)   // for some reason vscode doesnt like this line but compiles all good
-  {
-    //std::cout<<"\nActive agent : "<<active_agent;
-    auto sol_bit = sol_t[id];
-    auto line = &(empty_solution->solution[ins.enabled[id]]);
 
-    for (auto v : sol_bit) 
-    {
-      line->push_back(v);
-    }
-  }
+  // Solution sol_t = transpose(solution);
+
+  // for(int id=0; id<int(N); id++)   // for some reason vscode doesnt like this line but compiles all good
+  // {
+  //   //std::cout<<"\nActive agent : "<<active_agent;
+  //   auto sol_bit = sol_t[id];
+  //   auto line = &(empty_solution->solution[ins.enabled[id]]);
+
+  //   for (auto v : sol_bit) 
+  //   {
+  //     line->push_back(v);
+  //   }
+  // }
+  // return sub_instances;
+
+  // return a bundle
+
+  // std::cout<<"size of solution : "<<solution.size();
+  return Bundle(transpose(solution), sub_instances);
 }
 
 
@@ -476,8 +529,15 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
 }
 
 // Create a new configuration given some constraints for the next step. Basically the same as in LaCAM
-bool Planner::get_new_config(HNode* H, LNode* L, Infos* infos_ptr)
+bool Planner::get_new_config(HNode* H, LNode* L)
 {
+// #ifdef ENABLE_PROFILING
+//   EASY_FUNCTION();
+// #endif
+  PROFILE_FUNC(profiler::colors::Yellow);
+  // RENAME("configuration generation (inc. PIBT)");
+
+
   // setup cache
   for (auto a : A) {
     // clear previous cache
@@ -515,19 +575,19 @@ bool Planner::get_new_config(HNode* H, LNode* L, Infos* infos_ptr)
   // perform PIBT
   for (int k : H->order) {
     auto a = A[k];
-    if (a->v_next == nullptr && !funcPIBT(a, infos_ptr)) return false;  // planning failure
+    if (a->v_next == nullptr && !funcPIBT(a)) return false;  // planning failure
   }
   return true;
 }
 
 // PIBT planner for the low level node
-bool Planner::funcPIBT(Agent* ai, Infos* infos_ptr)
+bool Planner::funcPIBT(Agent* ai)
 {
   const int i = ai->id;
   const size_t K = ai->v_now->neighbor.size();
 
-  infos_ptr->PIBT_calls++;
-  if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->PIBT_calls_active ++;
+  //infos_ptr->PIBT_calls++;
+  //if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->PIBT_calls_active ++;
 
   // get candidates for next locations. Loop through all neighbouring vertices
   for (size_t k = 0; k < K; ++k) {
@@ -555,8 +615,8 @@ bool Planner::funcPIBT(Agent* ai, Infos* infos_ptr)
   for (size_t k = 0; k < K + 1; ++k) {
     auto u = C_next[i][k];
 
-    infos_ptr->actions_count++;
-    if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->actions_count_active++; 
+    //infos_ptr->actions_count++;
+    //if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->actions_count_active++; 
 
     // avoid vertex conflicts and skip this vertex
     if (occupied_next[u->id] != nullptr) continue;  //check if some agent already reserved the spot for next move
@@ -573,7 +633,7 @@ bool Planner::funcPIBT(Agent* ai, Infos* infos_ptr)
 
     // priority inheritance
     // if ak is not planned yet and our move leads to deadlock, do not use this move.
-    if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT(ak, infos_ptr))
+    if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT(ak))
       continue;
 
     // success to plan next one step
@@ -688,9 +748,13 @@ std::ostream& operator<<(std::ostream& os, const Objective obj)
 
 
 
-// To transpose Sol.solution type objects
+// To transpose a a matrix
 Solution transpose(const Solution& matrix) {
-    if (matrix.empty() || matrix[0].empty()) return {};
+    if (matrix.empty() || matrix[0].empty())
+    { 
+      std::cout<<"\nempty matrix";
+      return {};
+    }
 
     size_t numRows = matrix.size();
     size_t numCols = matrix[0].size();

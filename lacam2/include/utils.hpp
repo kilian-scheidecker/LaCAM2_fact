@@ -28,6 +28,25 @@ typedef unsigned int uint;
 #include <string>
 #include <map>
 
+// #define ENABLE_PROFILING
+
+#ifdef ENABLE_PROFILING
+#include <easy/profiler.h>
+#define PROFILE_FUNC(color) EASY_FUNCTION(color)
+#define PROFILE_BLOCK(name) EASY_BLOCK(name)
+#define END_BLOCK() EASY_END_BLOCK
+#define THREAD_SCOPE(name) EASY_THREAD_SCOPE(name)
+#define START_PROFILING() info(0, verbose, "elapsed:", elapsed_ms(&deadline_fact), "ms\tProfling mode : ON"); profiler::startListen(); EASY_PROFILER_ENABLE; EASY_BLOCK("main")
+#define STOP_PROFILING() EASY_END_BLOCK; profiler::stopListen(); profiler::dumpBlocksToFile("code_profiling/profile.prof")
+#else
+#define PROFILE_FUNC(color)
+#define PROFILE_BLOCK(name)
+#define END_BLOCK() 
+#define THREAD_SCOPE(name)
+#define START_PROFILING()
+#define STOP_PROFILING()
+#endif
+
 using Time = std::chrono::steady_clock;
 
 void info(const int level, const int verbose);
