@@ -111,16 +111,10 @@ def compute_averages(data: pd.DataFrame) :
 
 def compute_success(data: pd.DataFrame) :
 
-    n_tot = len(data)
-    n_algos = len(data['Factorized'].value_counts())
-    n_mt = len(data['Multi threading'].value_counts())
-
-    n_tests = n_tot/(n_algos)
-
     data = data[['Number of agents', 'Map name', 'Factorized', 'Multi threading', 'Success']]
     data2 = data.groupby(['Number of agents', 'Map name', 'Factorized', 'Multi threading']).sum().reset_index()
 
-    return data2, n_tests
+    return data2
 
 def get_data(map_name: str, update_data: bool, read_from: str=None):
 
@@ -128,23 +122,33 @@ def get_data(map_name: str, update_data: bool, read_from: str=None):
     basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))            # ../lacam_fact
 
     if update_data :
-        data = stats_to_json('stats_json.txt')              # Convert data to json format
-        read_from = None
+        data = stats_to_json('stats_json.txt')              # Read data from stats_json.txt directly and convert it to 'stats.json'.
     elif read_from is None : 
-        data = pd.read_json(basePath + '/stats.json')       # Just read the json
+        data = pd.read_json(basePath + '/stats.json')       # Read from previously formatted file 'stats.json'.
     else :
-         data = pd.read_json(basePath + '/' + read_from)       # Just read the json
+         data = pd.read_json(basePath + '/' + read_from)    # Read from specified file.
+    
     # Get readings from particular map
     data_full = data[data['Map name'] == map_name]
-    data_full = data_full.drop(data_full[data_full['Factorized'] == 'FactOrient'].index)        # drop FactOrient
-    #data_full = data_full.drop(data_full[data_full['Number of agents'] >= 200].index)  
+    
+    # Further filter for better visualization
+    # data_full = data_full.drop(data_full[data_full['Factorized'] == 'FactOrient'].index)        # drop FactOrient
+    # data_full = data_full.drop(data_full[data_full['Number of agents'] >= 200].index)  
+    
+    # Get the total number of tests
+    n_tot = len(data)
+    n_algos = len(data['Factorized'].value_counts())
+    n_tests = n_tot/n_algos
 
     # Drop entries where there is no solution
     data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
     
+    # Compute averages and successes
     data_avg = compute_averages(data_clipped)
-    data_success, n_tests = compute_success(data_full)
+    data_success = compute_success(data_full)
 
     #data_avg.insert(loc=2, column='Number of successes', value=data_success['Success'])
+
+    print(n_tests)
 
     return data_avg, data_success, n_tests

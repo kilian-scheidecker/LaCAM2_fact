@@ -1,10 +1,10 @@
 {
   "init": "False",
-  "from": 50,
-  "to": 200,
-  "jump": 5,
-  "n": 5,
+  "from": 3,
+  "to": 3,
+  "jump": 100,
+  "n": 1,
   "map_name": ["random-32-32-20"],
-  "factorize": ["FactAstar"],
-  "multi_threading": ["no", "yes"]
+  "factorize": ["no"],
+  "multi_threading": ["no"]
 }

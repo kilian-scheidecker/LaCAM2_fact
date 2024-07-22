@@ -67,11 +67,11 @@ HNode::~HNode()
 }
 
 
-Bundle::Bundle()
-  : instances({}),
-    solution({})
-{
-}
+// Bundle::Bundle()
+//   : instances({}),
+//     solution({})
+// {
+// }
 
 // Bundle::~Bundle()
 //   : instances({}),
@@ -270,12 +270,12 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
   OPEN.push(H);
   EXPLORED[H->C] = H;
 
-  std::vector<Config> solution;
+  Solution solution;
   auto C_new = Config(N, nullptr);      // for new configuration
   HNode* H_goal = nullptr;              // to store goal node
-  Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
+  // Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
   std::list<std::shared_ptr<Instance>> sub_instances;
-  Bundle bundle = Bundle();
+  // Bundle bundle = Bundle();
 
   // Restore the inheried priorities of agents
   /*if (ins.priority.size() > 1)
@@ -309,14 +309,12 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     }
 
     // check goal condition
-    if (H_goal == nullptr && is_same_config(H->C, C_goal_overwrite)) {
+    if (H_goal == nullptr && is_same_config(H->C, ins.goals)) {
       H_goal = H;
       solver_info(1, "found solution, cost: ", H->g);
-      if (objective == OBJ_NONE)
-      { 
-        break;
-      }
-      continue;
+      // if (objective == OBJ_NONE) break;
+      // continue;
+      break;
     }
 
     // create successors at the low-level search
@@ -365,16 +363,10 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       }
     }
 
+    // Prepare the distances for A_star planner if needed
     std::vector<int> distances(N);
     if (factalgo.need_astar)
-    {
-      // copy the A* path lengths
-      for(uint i=0; i<N; i++) distances[i] = D.get(i, C_new[i]);
-    }
-    else
-    {
-
-    }
+      for(uint i=0; i<N; i++) distances[i] = D.get(i, C_new[i]);    // copy the A* path lengths
 
     // Check for factorizability
     if (N>1 && H_goal == nullptr)
@@ -383,12 +375,18 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       
       if (sub_instances.size() > 0)
       {
-        C_goal_overwrite = H->C;    // set current config as goal configuration
-        H_goal = H;                 // set current node as goal node
-        bundle.instances = sub_instances;
-        if (objective == OBJ_NONE)
-          break;
+        H_goal = H;  
+        break;
       }
+
+      // idea for recovering optimality
+      // {
+      //   C_goal_overwrite = H->C;    // set current config as goal configuration
+      //   H_goal = H;                 // set current node as goal node
+        
+      //   if (objective == OBJ_NONE)
+      //     break;
+      // }
     }
 
   }
@@ -402,7 +400,6 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       H = H->parent;
     }
     std::reverse(solution.begin(), solution.end());
-    bundle.solution = solution;
   }
 
   // print result
@@ -411,9 +408,9 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
   } else if (H_goal != nullptr) {
     solver_info(1, "solved sub-optimally, objective: ", objective);
   } else if (OPEN.empty()) {
-    solver_info(1, "no solution");
+    solver_info(0, "no solution");
   } else if (is_expired(deadline)) {
-    solver_info(1, "timeout");
+    solver_info(0, "timeout");
   }
 
   // logging
@@ -451,8 +448,10 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
   // }
   // return sub_instances;
 
-  // return a pointer to bundle
-  return bundle;
+  // return a bundle
+
+  // std::cout<<"size of solution : "<<solution.size();
+  return Bundle(transpose(solution), sub_instances);
 }
 
 
@@ -749,9 +748,13 @@ std::ostream& operator<<(std::ostream& os, const Objective obj)
 
 
 
-// To transpose Sol.solution type objects
+// To transpose a a matrix
 Solution transpose(const Solution& matrix) {
-    if (matrix.empty() || matrix[0].empty()) return {};
+    if (matrix.empty() || matrix[0].empty())
+    { 
+      std::cout<<"\nempty matrix";
+      return {};
+    }
 
     size_t numRows = matrix.size();
     size_t numCols = matrix[0].size();

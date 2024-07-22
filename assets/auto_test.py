@@ -181,7 +181,7 @@ def auto_test() :
                         run_commands_in_ubuntu([command], WSL_DIR)
                         total += 1
 
-            print(f"\nSuccessfully completed {total} tests with {N} agents.\n")
+            print(f"\nSuccessfully completed {total} tests.\n")
     return
 
 

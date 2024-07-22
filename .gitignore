@@ -3,6 +3,7 @@
 
 # Generated test scenes
 other_scenes/
+temp/
 
 # Generated data to analyze
 stats_json.txt

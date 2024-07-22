@@ -60,12 +60,13 @@ using HNodes = std::vector<HNode*>;
 
 // return structure for planner::sove_fact
 struct Bundle{
-  std::list<std::shared_ptr<Instance>> instances;
   Solution solution;
+  std::list<std::shared_ptr<Instance>> instances;
 
   // constructor
-  Bundle();
-  // ~Bundle();
+  Bundle(const Solution& sol, std::list<std::shared_ptr<Instance>> ins) 
+    : solution(sol),
+      instances(ins) {}
 };
 
 struct Planner {
