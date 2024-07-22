@@ -1,6 +1,7 @@
 import os
+import numpy as np
 from itertools import combinations, chain
-from typing import Iterable
+from typing import Iterable, List, Tuple
 
 
 def create_command(map_name: str, N: int):
@@ -89,6 +90,21 @@ def is_valid_solution(solution):
     # Placeholder for checking if the concatenated solution is valid
     return True
 
+def write_sol(solution, enabled, empty_solution, N):
+
+    for id in range(N):
+        sol_bit = solution[id]              # Access the solution at index id
+        line = empty_solution[enabled[id]]
+
+        for v in sol_bit:
+            line.append(v)  # Append each vertex to the line
+
+
+class Instance :
+    starts: List[Tuple[int]]
+    goals: List[Tuple[int]]
+    enabled: List[int]
+
 
 def main_loop(map_name, N):
 
@@ -97,35 +113,36 @@ def main_loop(map_name, N):
 
     # Create dict for the glabal solution
     empty_solution= {}
-    timestep = 0
 
     # Write first step to solution
     result = parse_file('result.txt')
     empty_solution[0] = result['starts']
+    
+    OPENins = List[Instance]
 
+    # Create first instance and push it to open list
+    starts = result['starts']
+    goals = result['goals']
+    enabled = np.linspace(0,N-1, N)
+    OPENins.append(Instance(starts, goals, enabled))
 
+    while len(OPENins) > 0 :
 
-    while True:
+        ins = OPENins.pop()
 
-        # # Extract result
-        # result = parse_file('result.txt')
-        # starts = result['starts']
-        # goals = result['goals']
-        # solution = result['solution']
-        # step1 = solution[1][1]          # position of all agents in the next timestep
-
-        step1 = empty_solution[timestep]
-
-        for partition in get_partitions(range(len(starts))):
+        for partition in get_partitions(ins.enabled):
+            local_solution = []
             for enabled in partition :
 
                 # Create a temporary scenario for the current partition
-                temp_scenario = create_temp_scenario(enabled, step1, goals, map_name)
+                temp_scenario = create_temp_scenario(enabled, ins.starts, goals, map_name)
                 
                 # Solve the MAPF for the current partition
-                # TODO launch here using func
+                # TODO launch here using the temp_scenario
+
                 temp_result = parse_file('result.txt')
                 temp_solution = temp_result['solution']
+                temp_solution = [[row[i] for row in temp_solution] for i in range(len(temp_solution[0]))]   # transpose the solution
             
 
 
