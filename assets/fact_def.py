@@ -1,20 +1,21 @@
 import os
 from itertools import combinations, chain
 from collections import defaultdict
-from typing import Iterable, List, Tuple
+from typing import Iterable, List, Tuple, Dict
 from src.testing import run_commands_in_ubuntu
 
 import numpy as np
 
 
-class Instance :
-    starts: List[Tuple[int]]
-    goals: List[Tuple[int]]
-    enabled: List[int]
-
+class Instance:
+    def __init__(self, starts: List[Tuple[int, int]], goals: List[Tuple[int, int]], enabled: List[int], time_start: int):
+        self.starts = starts
+        self.goals = goals
+        self.enabled = enabled
+        self.time_start = time_start
 
 def create_command(map_name: str, N: int):
-    command = "build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 0 -f no"
+    command = "build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no"
     return command
 
 
@@ -38,7 +39,17 @@ def get_partitions(iterable: Iterable):
     return sorted(partitions, key=len, reverse=True)
 
 
-def parse_file(filename: str):
+def extract_width(filepath: str) -> int:
+    with open(filepath, 'r') as file:
+        for line in file:
+            line = line.strip()
+            if line.startswith("width"):
+                # Split the line by space and extract the width value
+                _, width_value = line.split()
+                return int(width_value)
+    raise ValueError("Width not found in the file")
+
+def parse_file(filename: str) -> Dict[str, any]:
     data = {}
     solution = []
     in_solution = False
@@ -53,7 +64,7 @@ def parse_file(filename: str):
                 if ':' in line:
                     step, positions = line.split(':')
                     positions = positions.strip().split('),')
-                    positions = [pos.strip() + ')' for pos in positions if pos]
+                    positions = [tuple(map(int, pos.strip().strip('()').split(','))) for pos in positions if pos]
                     solution.append((int(step), positions))
                 continue
             if '=' in line:
@@ -62,7 +73,7 @@ def parse_file(filename: str):
                 value = value.strip()
                 if key in ["starts", "goals"]:
                     value = value.split('),')
-                    value = [v.strip() + ')' for v in value if v]
+                    value = [tuple(map(int, v.strip().strip('()').split(','))) for v in value if v]
                 data[key] = value
             else:
                 continue
@@ -71,28 +82,31 @@ def parse_file(filename: str):
     return data
 
 
-def create_temp_scenario(enabled, step1, goals, map_name):
+def create_temp_scenario(enabled, starts, goals, map_name):
     base_path = os.path.dirname(os.path.abspath(__file__))      # LaCAM2_fact/assets
     temp_filepath = base_path + '/temp/temp_scenario.scen'      # LaCAM2_fact/assets/temp/temp_scenario.scen
     with open(temp_filepath, 'w') as new_file:
-        for agents in enumerate(enabled):
-            for agent in agents:
-                start = step1[agent]
-                goal = goals[agent]
+        for agent in enabled:
+            start = starts[agent]
+            goal = goals[agent]
 
-                if map_name == 'warehouse_small' :
-                        new_file.write('1\twarehouse_small.map\t33\t57\t'+ start + '\t' + goal + '\t1\n')
+            start_s = f"{start[0]}\t{start[1]}"
+            goal_s = f"{goal[0]}\t{goal[1]}"
 
-                elif map_name == 'warehouse_large' :
-                        new_file.write('1\twarehouse_large.map\t140\t500\t'+ start + '\t' + goal + '\t1\n')
 
-                elif map_name == 'warehouse-20-40-10-2-2' :
-                        new_file.write('1\twarehouse-20-40-10-2-2.map\t164\t340\t'+ start + '\t' + goal + '\t1\n')
+            if map_name == 'warehouse_small' :
+                new_file.write('1\twarehouse_small.map\t33\t57\t'+ start_s + '\t' + goal_s + '\t1\n')
 
-                elif map_name in ["random-32-32-10", "random-32-32-20"] :
-                    new_file.write('1\t' + map_name + '.map\t32\t32\t'+ start + '\t' + goal + '\t1\n')
-                else :
-                    raise ValueError("Mapname is not supported")
+            elif map_name == 'warehouse_large' :
+                new_file.write('1\twarehouse_large.map\t140\t500\t'+ start_s + '\t' + goal_s + '\t1\n')
+
+            elif map_name == 'warehouse-20-40-10-2-2' :
+                new_file.write('1\twarehouse-20-40-10-2-2.map\t164\t340\t'+ start_s + '\t' + goal_s + '\t1\n')
+
+            elif map_name in ["random-32-32-10", "random-32-32-20"] :
+                new_file.write('1\t' + map_name + '.map\t32\t32\t'+ start_s + '\t' + goal_s + '\t1\n')
+            else :
+                raise ValueError("Mapname is not supported")
 
     return 
 
@@ -110,7 +124,7 @@ def write_sol(solution, enabled, empty_solution, N):
             line.append(v)  # Append each vertex to the line
 
 
-def update_local_solution(temp_solution, local_solution, enabled_agents):
+def update_local_solution(temp_solution, local_solution, enabled_agents, N):
     """
     Updates the local solution with the temporary solution of enabled agents.
     
@@ -121,7 +135,7 @@ def update_local_solution(temp_solution, local_solution, enabled_agents):
     """
     for step, positions in temp_solution:
         if step not in local_solution:
-            local_solution[step] = {}
+            local_solution[step] = [(-1, -1)]*N
         
         for idx, pos in enumerate(positions):
             agent_id = enabled_agents[idx]
@@ -129,7 +143,7 @@ def update_local_solution(temp_solution, local_solution, enabled_agents):
 
 
 
-def pad_local_solution(local_solution, enabled_agents, goals):
+def pad_local_solution(local_solution, n, goals):
     """
     Pads the local solution for agents that have reached their goals.
     
@@ -138,30 +152,34 @@ def pad_local_solution(local_solution, enabled_agents, goals):
         enabled_agents (list): List of enabled agent IDs.
         goals (list): List of goal positions for all agents.
     """
-    for step in local_solution:
-        for agent_id in enabled_agents:
-            if agent_id not in local_solution[step]:
-                # If the agent is not in the local solution for this step, add its goal position
-                local_solution[step][agent_id] = goals[agent_id]
+    for step, positions in local_solution.items():
+        if step != 0 :
+            for agent_id in range(n):
+                if positions[agent_id] == (-1,-1):
+                    # If the agent is not in the local solution for this step, add its goal position
+                    local_solution[step][agent_id] = goals[agent_id]
 
 
-def is_neighbor(v1, v2, width):
+
+def is_neighbor(pos1, pos2, width):
     """
-    Check if two positions (v1, v2) are neighbors on a grid with given width.
+    Check if pos1 and pos2 are neighbors in a grid of given width.
     
     Args:
-        v1 (tuple): Position 1 (x1, y1).
-        v2 (tuple): Position 2 (x2, y2).
+        pos1 (tuple): Position (x, y) of the first point.
+        pos2 (tuple): Position (x, y) of the second point.
         width (int): Width of the grid.
     
     Returns:
-        bool: True if v1 and v2 are neighbors, False otherwise.
+        bool: True if the positions are neighbors, False otherwise.
     """
-    x1, y1 = v1
-    x2, y2 = v2
-    return (abs(x1 - x2) + abs(y1 - y2)) == 1
+    x1, y1 = pos1
+    x2, y2 = pos2
+    if abs(x1 - x2) + abs(y1 - y2) == 1:  # Manhattan distance should be 1
+        return True
+    return False
 
-def is_valid_solution(local_solution, starts, goals, width):
+def is_valid_solution(local_solution, start, goal, width):
     """
     Validates the solution by checking for vertex collisions, edge collisions,
     correct start and goals, and connectivity.
@@ -176,116 +194,136 @@ def is_valid_solution(local_solution, starts, goals, width):
         bool: True if the solution is valid, False otherwise.
     """
     # Check that agents start at their designated start positions
-    for agent_id, start_pos in enumerate(starts):
+    for agent_id, start_pos in enumerate(start):
         if local_solution[0][agent_id] != start_pos:
             print("Invalid starts")
             return False
     
-    last_positions = {agent_id: start_pos for agent_id, start_pos in enumerate(starts)}
-    for step in sorted(local_solution.keys()):
+    # Check that agents end at their designated goal positions
+    final_step = max(local_solution.keys())
+    for agent_id, goal_pos in enumerate(goal):
+        if local_solution[final_step][agent_id] != goal_pos:
+            print("Invalid goals")
+            return False
+    
+    # Check for vertex and edge collisions, and connectivity
+    last_positions = start
+    for step in range(1, final_step + 1):
         current_positions = {}
         
-        # Check for vertex collisions
-        for agent_id, pos in local_solution[step].items():
+        for agent_id, pos in enumerate(local_solution[step]):
+            # Check for vertex collisions
             if pos in current_positions.values():
                 print(f"Vertex conflict at step {step} between agents")
                 return False
             current_positions[agent_id] = pos
+            
+            # Check connectivity
+            last_pos = last_positions[agent_id]
+            if pos != last_pos and not is_neighbor(last_pos, pos, width):
+                print(f"Invalid move for agent {agent_id} from {last_pos} to {pos} at step {step}")
+                return False
         
-        # Check for edge collisions and connectivity
-        for agent_id, pos in current_positions.items():
-            if agent_id in last_positions and last_positions[agent_id] != goals[agent_id]:
-                if pos == last_positions[agent_id] and current_positions[agent_id] == last_positions[agent_id]:
-                    print(f"Edge conflict at step {step} for agent {agent_id}")
-                    return False
-                for other_agent_id, other_pos in current_positions.items():
-                    if other_pos == last_positions[agent_id] and last_positions[other_agent_id] == pos:
-                        print(f"Edge conflict at step {step} between agents {agent_id} and {other_agent_id}")
-                        return False
-                # Check connectivity
-                if not is_neighbor(last_positions[agent_id], pos, width):
-                    print(f"Invalid move from {last_positions[agent_id]} to {pos} for agent {agent_id}")
+        # Check for edge collisions (swap conflicts)
+        for i in range(len(local_solution[step])):
+            for j in range(i + 1, len(local_solution[step])):
+                if (local_solution[step][i] == last_positions[j] and 
+                    local_solution[step][j] == last_positions[i]):
+                    print(f"Edge conflict between agents {i} and {j} at step {step}")
                     return False
         
         last_positions = current_positions
-    
-    # Check that agents reach their designated goal positions
-    for agent_id, goal_pos in enumerate(goals):
-        if last_positions[agent_id] != goal_pos:
-            print("Invalid goals")
-            return False
 
     return True
 
 
 def main_loop(map_name, N):
 
-    # Launch lacam first
-    dir_py = os.path.dirname(os.path.abspath(__file__))       #/lacam_fact/assets
+    # Setup directories
+    dir_assets = os.path.dirname(os.path.abspath(__file__))                                     #/LaCAM2_fact/assets/
+    base_path = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))    # LaCAM2_fact/
+    res_path = os.path.join(base_path, 'build', 'result.txt')
+    map_path = os.path.join(base_path, 'assets', map_name, map_name + '.map')
+    width = extract_width(map_path)
+
+    # Launch lacam a first time and parse result
     start_comm = create_command(map_name, N)
-    run_commands_in_ubuntu(start_comm, dir_py)
+    run_commands_in_ubuntu([start_comm], dir_assets)
+    result = parse_file(res_path)
 
-    # Dictionnary for the glabal solution
-    global_solution= {}
-    # Dictionary to store partitions per timestep
-    partitions_per_timestep = defaultdict(list)
-
-    # Write first step to solution
-    result = parse_file('result.txt')
-    global_solution[0] = result['starts']
-    
-    OPENins = List[Instance]
+    OPENins = []
 
     # Create first instance and push it to open list
     starts = result['starts']
     goals = result['goals']
-    enabled = np.linspace(0,N-1, N)
-    OPENins.append(Instance(starts, goals, enabled))
+    enabled = list(range(N))
+
+    start_ins = Instance(starts, goals, enabled, 0)
+    OPENins.append(start_ins)
+
+    # Dictionnary for the glabal solution and store first step
+    global_solution= {}
+    # global_solution[0] = [(-1,-1)]*N
+    
+    # Dictionary to store partitions per timestep
+    partitions_per_timestep = defaultdict(list)
 
     while len(OPENins) > 0 :
 
         ins = OPENins.pop()
-
+    
         for partition in get_partitions(ins.enabled):
-            local_solution = []
+            local_solution = {}
             for enabled in partition :
 
                 # Create a temporary scenario for the current partition
-                temp_scenario = create_temp_scenario(enabled, ins.starts, goals, map_name)
+                create_temp_scenario(enabled, ins.starts, ins.goals, map_name)
                 temp_command = "build/main -i assets/temp/temp_scenario.scen -m assets/" + map_name + "/" + map_name + ".map -N "+ str(len(enabled)) + " -v 0 -f no"
-                
-                # Solve the MAPF for the current partition
-                run_commands_in_ubuntu(temp_command, dir_py)
+                # build/main -i assets/temp/temp_scenario.scen -m assets/random-32-32-20/random-32-32-20.map -N 1 -v 0 -f no
 
-                temp_result = parse_file('result.txt')
+
+                # Solve the MAPF for the current partition
+                run_commands_in_ubuntu([temp_command], dir_assets)
+
+                temp_result = parse_file(res_path)
                 temp_solution = temp_result['solution']
 
                 # Write temp solution to local_solution by taking care of agent id
-                update_local_solution(temp_solution, local_solution, enabled)
-                pad_local_solution(local_solution, enabled, temp_result['goals'])
+                update_local_solution(temp_solution, local_solution, enabled, len(ins.enabled))
+            
+            # pas solution
+            pad_local_solution(local_solution, len(ins.enabled), goals)
 
             # Check if the local_solution solution is valid
-            if is_valid_solution(local_solution, starts, goals):
+            if is_valid_solution(local_solution, ins.starts, ins.goals, width):
                 print("Valid solution found for partition")
+
+                ts = ins.time_start
 
                 # Append the valid local_solution to the global_solution
                 for step, positions in local_solution.items():
-                    if step not in global_solution:
-                        global_solution[step] = {}
-                    global_solution[step].update(positions)
-
-                # Push sub_instances to OPENins
-                for enabled_agents in partition:
-                    sub_instance = Instance(
-                        [ins.starts[i] for i in enabled_agents],
-                        [goals[i] for i in enabled_agents],
-                        enabled_agents
-                    )
-                    OPENins.append(sub_instance)
+                    if step + ts not in global_solution:
+                        global_solution[step + ts] = [(-1,-1)]*N
+                        for id, true_id in enumerate(ins.enabled) :
+                            global_solution[step + ts][true_id] = positions[id]
 
                 # Record the partitions used for the current timestep
+                partitions_per_timestep[ts].append(partition)
 
-                partitions_per_timestep[step].append(partition)
+                if len(partition) == len(ins.enabled) :
+                    break
+                # Push sub_instances to OPENins
+                for enabled_agents in partition:
+                    if len(enabled_agents) > 1 :
+                        sub_instance = Instance(
+                            [global_solution[ts+1][i] for i in enabled_agents],
+                            [goals[i] for i in enabled_agents],
+                            enabled_agents,
+                            ts+1
+                        )
+                        OPENins.append(sub_instance)
+
+                
                 break
 
 
@@ -293,4 +331,6 @@ def main_loop(map_name, N):
 
 
 
-main_loop("random-32-32-20", 4)
+partitions = main_loop("random-32-32-20", 4)
+
+print(partitions)

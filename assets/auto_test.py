@@ -51,7 +51,7 @@ def create_scen(N: int, path: str, map_name: str):
 # Function to update the stats_json.txt file
 def update_stats_json(string: str, string_info: str):
 
-    basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))
+    basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))    # LaCAM2_fact directory
     file_path = basePath + '/stats_json.txt'
 
     with open(file_path, 'r') as file:
