@@ -4,7 +4,7 @@
 
 
 from dash import Dash, dcc, html
-from analyze_data import get_data
+from assets.src.data import get_data
 import dash_bootstrap_components as dbc
 import plotly.express as px
 

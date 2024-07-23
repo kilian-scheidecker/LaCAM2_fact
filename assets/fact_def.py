@@ -1,13 +1,20 @@
 import os
-import numpy as np
 from itertools import combinations, chain
+from collections import defaultdict
 from typing import Iterable, List, Tuple
+from src.testing import run_commands_in_ubuntu
+
+import numpy as np
+
+
+class Instance :
+    starts: List[Tuple[int]]
+    goals: List[Tuple[int]]
+    enabled: List[int]
 
 
 def create_command(map_name: str, N: int):
-
-    command = "build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no"
-
+    command = "build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 0 -f no"
     return command
 
 
@@ -65,8 +72,9 @@ def parse_file(filename: str):
 
 
 def create_temp_scenario(enabled, step1, goals, map_name):
-    temp_filename = 'temp_scenario.scen'
-    with open(temp_filename, 'w') as new_file:
+    base_path = os.path.dirname(os.path.abspath(__file__))      # LaCAM2_fact/assets
+    temp_filepath = base_path + '/temp/temp_scenario.scen'      # LaCAM2_fact/assets/temp/temp_scenario.scen
+    with open(temp_filepath, 'w') as new_file:
         for agents in enumerate(enabled):
             for agent in agents:
                 start = step1[agent]
@@ -86,6 +94,8 @@ def create_temp_scenario(enabled, step1, goals, map_name):
                 else :
                     raise ValueError("Mapname is not supported")
 
+    return 
+
 def is_valid_solution(solution):
     # Placeholder for checking if the concatenated solution is valid
     return True
@@ -100,23 +110,129 @@ def write_sol(solution, enabled, empty_solution, N):
             line.append(v)  # Append each vertex to the line
 
 
-class Instance :
-    starts: List[Tuple[int]]
-    goals: List[Tuple[int]]
-    enabled: List[int]
+def update_local_solution(temp_solution, local_solution, enabled_agents):
+    """
+    Updates the local solution with the temporary solution of enabled agents.
+    
+    Args:
+        temp_solution (list): List of tuples representing the solution steps for enabled agents.
+        local_solution (dict): Dictionary representing the global solution steps.
+        enabled_agents (list): List of enabled agent IDs.
+    """
+    for step, positions in temp_solution:
+        if step not in local_solution:
+            local_solution[step] = {}
+        
+        for idx, pos in enumerate(positions):
+            agent_id = enabled_agents[idx]
+            local_solution[step][agent_id] = pos
+
+
+
+def pad_local_solution(local_solution, enabled_agents, goals):
+    """
+    Pads the local solution for agents that have reached their goals.
+    
+    Args:
+        local_solution (dict): Dictionary representing the global solution steps.
+        enabled_agents (list): List of enabled agent IDs.
+        goals (list): List of goal positions for all agents.
+    """
+    for step in local_solution:
+        for agent_id in enabled_agents:
+            if agent_id not in local_solution[step]:
+                # If the agent is not in the local solution for this step, add its goal position
+                local_solution[step][agent_id] = goals[agent_id]
+
+
+def is_neighbor(v1, v2, width):
+    """
+    Check if two positions (v1, v2) are neighbors on a grid with given width.
+    
+    Args:
+        v1 (tuple): Position 1 (x1, y1).
+        v2 (tuple): Position 2 (x2, y2).
+        width (int): Width of the grid.
+    
+    Returns:
+        bool: True if v1 and v2 are neighbors, False otherwise.
+    """
+    x1, y1 = v1
+    x2, y2 = v2
+    return (abs(x1 - x2) + abs(y1 - y2)) == 1
+
+def is_valid_solution(local_solution, starts, goals, width):
+    """
+    Validates the solution by checking for vertex collisions, edge collisions,
+    correct start and goals, and connectivity.
+    
+    Args:
+        local_solution (dict): Dictionary representing the global solution steps.
+        starts (list): List of start positions for all agents.
+        goals (list): List of goal positions for all agents.
+        width (int): Width of the grid.
+    
+    Returns:
+        bool: True if the solution is valid, False otherwise.
+    """
+    # Check that agents start at their designated start positions
+    for agent_id, start_pos in enumerate(starts):
+        if local_solution[0][agent_id] != start_pos:
+            print("Invalid starts")
+            return False
+    
+    last_positions = {agent_id: start_pos for agent_id, start_pos in enumerate(starts)}
+    for step in sorted(local_solution.keys()):
+        current_positions = {}
+        
+        # Check for vertex collisions
+        for agent_id, pos in local_solution[step].items():
+            if pos in current_positions.values():
+                print(f"Vertex conflict at step {step} between agents")
+                return False
+            current_positions[agent_id] = pos
+        
+        # Check for edge collisions and connectivity
+        for agent_id, pos in current_positions.items():
+            if agent_id in last_positions and last_positions[agent_id] != goals[agent_id]:
+                if pos == last_positions[agent_id] and current_positions[agent_id] == last_positions[agent_id]:
+                    print(f"Edge conflict at step {step} for agent {agent_id}")
+                    return False
+                for other_agent_id, other_pos in current_positions.items():
+                    if other_pos == last_positions[agent_id] and last_positions[other_agent_id] == pos:
+                        print(f"Edge conflict at step {step} between agents {agent_id} and {other_agent_id}")
+                        return False
+                # Check connectivity
+                if not is_neighbor(last_positions[agent_id], pos, width):
+                    print(f"Invalid move from {last_positions[agent_id]} to {pos} for agent {agent_id}")
+                    return False
+        
+        last_positions = current_positions
+    
+    # Check that agents reach their designated goal positions
+    for agent_id, goal_pos in enumerate(goals):
+        if last_positions[agent_id] != goal_pos:
+            print("Invalid goals")
+            return False
+
+    return True
 
 
 def main_loop(map_name, N):
 
     # Launch lacam first
-    # TODO launch here using func
+    dir_py = os.path.dirname(os.path.abspath(__file__))       #/lacam_fact/assets
+    start_comm = create_command(map_name, N)
+    run_commands_in_ubuntu(start_comm, dir_py)
 
-    # Create dict for the glabal solution
-    empty_solution= {}
+    # Dictionnary for the glabal solution
+    global_solution= {}
+    # Dictionary to store partitions per timestep
+    partitions_per_timestep = defaultdict(list)
 
     # Write first step to solution
     result = parse_file('result.txt')
-    empty_solution[0] = result['starts']
+    global_solution[0] = result['starts']
     
     OPENins = List[Instance]
 
@@ -136,26 +252,45 @@ def main_loop(map_name, N):
 
                 # Create a temporary scenario for the current partition
                 temp_scenario = create_temp_scenario(enabled, ins.starts, goals, map_name)
+                temp_command = "build/main -i assets/temp/temp_scenario.scen -m assets/" + map_name + "/" + map_name + ".map -N "+ str(len(enabled)) + " -v 0 -f no"
                 
                 # Solve the MAPF for the current partition
-                # TODO launch here using the temp_scenario
+                run_commands_in_ubuntu(temp_command, dir_py)
 
                 temp_result = parse_file('result.txt')
                 temp_solution = temp_result['solution']
-                temp_solution = [[row[i] for row in temp_solution] for i in range(len(temp_solution[0]))]   # transpose the solution
-            
 
+                # Write temp solution to local_solution by taking care of agent id
+                update_local_solution(temp_solution, local_solution, enabled)
+                pad_local_solution(local_solution, enabled, temp_result['goals'])
 
-            # Check if the concatenated solution is valid
-            if is_valid_solution(temp_solution):
+            # Check if the local_solution solution is valid
+            if is_valid_solution(local_solution, starts, goals):
                 print("Valid solution found for partition")
+
+                # Append the valid local_solution to the global_solution
+                for step, positions in local_solution.items():
+                    if step not in global_solution:
+                        global_solution[step] = {}
+                    global_solution[step].update(positions)
+
+                # Push sub_instances to OPENins
+                for enabled_agents in partition:
+                    sub_instance = Instance(
+                        [ins.starts[i] for i in enabled_agents],
+                        [goals[i] for i in enabled_agents],
+                        enabled_agents
+                    )
+                    OPENins.append(sub_instance)
+
+                # Record the partitions used for the current timestep
+
+                partitions_per_timestep[step].append(partition)
                 break
 
-        N += 1  # Increment N for the next iteration if not solved
+
+    return partitions_per_timestep
 
 
-basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))        # lacam2_fact
-file = basePath + "/build/result.txt"
-test = parse_file(file)
 
-print(74)
+main_loop("random-32-32-20", 4)
