@@ -7,7 +7,8 @@
                 "${workspaceFolder}/third_party/easy_profiler/easy_profiler_core/include",
                 "${workspaceFolder}/third_party/argparse/include/argparse",
                 "/usr/include/x86_64-linux-gnu/c++/11",
-                "/usr/include/x86_64-linux-gnu"
+                "/usr/include/x86_64-linux-gnu",
+                "${workspaceFolder}/third_party/json/include"
             ],
             "defines": [
                 "_DEBUG",

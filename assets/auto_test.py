@@ -5,6 +5,8 @@ import json
 
 import numpy as np
 
+from fact_def import max_fact_partitions
+
 #WSL_DIR = '/mnt/c/Users/kilia/Documents/PC KILIAN - sync/MA 4/League of Robot Runners/lacam2_fact'
 WSL_DIR = 'lacam2_fact'
 
@@ -178,10 +180,12 @@ def auto_test() :
                     commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
                     create_scen(N, dir_py, map_name)
                     for command in commmands :
+                        if 'FactDef' in command :
+                            max_partitions = max_fact_partitions(map_name=map_name, N=N)
                         run_commands_in_ubuntu([command], WSL_DIR)
                         total += 1
 
-            print(f"\nSuccessfully completed {success} tests.\n")
+            print(f"\nSuccessfully completed {total} tests.\n")
     return
 
 

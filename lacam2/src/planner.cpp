@@ -371,8 +371,20 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     // Check for factorizability
     if (N>1 && H_goal == nullptr)
     {
-      sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances);
-      
+        
+      if (factalgo.use_def)
+      {
+        Partitions split = factalgo.is_factorizable_def(1, ins.enabled);
+        if (!split.empty())
+          sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split);
+        else
+          sub_instances = {};
+      }
+      else 
+      {
+        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances);
+      }
+
       if (sub_instances.size() > 0)
       {
         H_goal = H;  

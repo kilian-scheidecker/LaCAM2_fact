@@ -19,25 +19,46 @@ def create_command(map_name: str, N: int):
     return command
 
 
-def get_partitions(iterable: Iterable):
-    s = list(iterable)
-    n = len(s)
-    partitions = []
+# def get_partitions(iterable: Iterable):
+#     s = list(iterable)
+#     n = len(s)
+#     partitions = []
     
-    # Generate all possible ways to partition the set
-    for k in range(1, n + 1):
-        for indices in combinations(range(1, n), k - 1):
-            parts = []
-            previous_index = 0
-            for index in chain(indices, [n]):
-                parts.append(s[previous_index:index])
-                previous_index = index
+#     # Generate all possible ways to partition the set
+#     for k in range(1, n + 1):
+#         for indices in combinations(range(1, n), k - 1):
+#             parts = []
+#             previous_index = 0
+#             for index in chain(indices, [n]):
+#                 parts.append(s[previous_index:index])
+#                 previous_index = index
             
-            partitions.append(parts)
+#             partitions.append(parts)
 
+#     # Return the partitions in decreasing order of cardinality
+#     return sorted(partitions, key=len, reverse=True)
+
+
+def get_partitions(iterable: Iterable) -> List[List[List[int]]]:
+    def partitions(s):
+        if not s:
+            return [[]]
+        first, *rest = s
+        rest_partitions = partitions(rest)
+        result = []
+        for partition in rest_partitions:
+            # Adding the first element as a new subset
+            result.append([[first]] + partition)
+            # Adding the first element to each existing subset
+            for i in range(len(partition)):
+                new_partition = partition[:i] + [[first] + partition[i]] + partition[i+1:]
+                result.append(new_partition)
+        return result
+    
+    s = list(iterable)
+    all_partitions = partitions(s)
     # Return the partitions in decreasing order of cardinality
-    return sorted(partitions, key=len, reverse=True)
-
+    return sorted(all_partitions, key=len, reverse=True)
 
 def extract_width(filepath: str) -> int:
     with open(filepath, 'r') as file:
@@ -214,14 +235,14 @@ def is_valid_solution(local_solution, start, goal, width):
         for agent_id, pos in enumerate(local_solution[step]):
             # Check for vertex collisions
             if pos in current_positions.values():
-                print(f"Vertex conflict at step {step} between agents")
+                # print(f"Vertex conflict at step {step} between agents")
                 return False
             current_positions[agent_id] = pos
             
             # Check connectivity
             last_pos = last_positions[agent_id]
             if pos != last_pos and not is_neighbor(last_pos, pos, width):
-                print(f"Invalid move for agent {agent_id} from {last_pos} to {pos} at step {step}")
+                # print(f"Invalid move for agent {agent_id} from {last_pos} to {pos} at step {step}")
                 return False
         
         # Check for edge collisions (swap conflicts)
@@ -229,7 +250,7 @@ def is_valid_solution(local_solution, start, goal, width):
             for j in range(i + 1, len(local_solution[step])):
                 if (local_solution[step][i] == last_positions[j] and 
                     local_solution[step][j] == last_positions[i]):
-                    print(f"Edge conflict between agents {i} and {j} at step {step}")
+                    # print(f"Edge conflict between agents {i} and {j} at step {step}")
                     return False
         
         last_positions = current_positions
@@ -237,7 +258,35 @@ def is_valid_solution(local_solution, start, goal, width):
     return True
 
 
-def main_loop(map_name, N):
+def clean_partition_dict(partition_dict):
+    """
+    Cleans the partition dictionary by removing entries where the partitions do not change
+    from one timestep to the next.
+
+    Args:
+        partition_dict (dict): Dictionary with timesteps as keys and partition lists as values.
+
+    Returns:
+        dict: Cleaned dictionary with only the entries where partitions change.
+    """
+
+    cleaned_dict = {}
+    prev_partition = None
+
+    for timestep, partitions in partition_dict.items():
+        if partitions != prev_partition:
+            cleaned_dict[timestep] = partitions
+            prev_partition = partitions
+
+    return cleaned_dict
+
+    # Remove entries with empty lists
+    super_cleaned_dict = {k: v for k, v in super_cleaned_dict.items() if v}
+
+    return super_cleaned_dict
+
+
+def max_fact_partitions(map_name, N):
 
     # Setup directories
     dir_assets = os.path.dirname(os.path.abspath(__file__))                                     #/LaCAM2_fact/assets/
@@ -248,6 +297,7 @@ def main_loop(map_name, N):
 
     # Launch lacam a first time and parse result
     start_comm = create_command(map_name, N)
+    print(start_comm)
     run_commands_in_ubuntu([start_comm], dir_assets)
     result = parse_file(res_path)
 
@@ -308,7 +358,7 @@ def main_loop(map_name, N):
                             global_solution[step + ts][true_id] = positions[id]
 
                 # Record the partitions used for the current timestep
-                partitions_per_timestep[ts].append(partition)
+                partitions_per_timestep[ts] = partition
 
                 if len(partition) == len(ins.enabled) :
                     break
@@ -326,11 +376,14 @@ def main_loop(map_name, N):
                 
                 break
 
-
+    # partitions_clean = clean_partition_dict(partitions_per_timestep)
     return partitions_per_timestep
 
 
 
-partitions = main_loop("random-32-32-20", 4)
+# partitions = get_partitions([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 ,19, 20])
 
-print(partitions)
+# for value in partitions :
+#     print(f'{value}, ')
+
+# print(len(partitions))

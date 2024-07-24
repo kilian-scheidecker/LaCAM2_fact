@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
       .help("restart rate")
       .default_value(std::string("0.001"));
   program.add_argument("-f", "--factorize")
-      .help("mode of factorization: [no / FactDistance / FactBbox / Factorient / FactAstar]")
+      .help("mode of factorization: [no / FactDistance / FactBbox / Factorient / FactAstar / FactDef]")
       .default_value(std::string("no"));
   program.add_argument("-mt", "--multi_threading")
       .help("toggle multi-threading: [yes / no] ")
@@ -132,7 +132,12 @@ int main(int argc, char* argv[])
       // Create a FactDistance object
       algo = std::make_unique<FactAstar>(ins_fact.G.width);
     }
-    else throw std::invalid_argument("-f (factorize) argument must be  \"no\", \"FactDistance\", \"FactBbox\" or \"FactOrient\", \"FactAstar\"");
+    else if (strcmp(factorize.c_str(), "FactAstar") == 0)
+    {
+      // Create a FactDistance object
+      algo = std::make_unique<FactDef>(ins_fact.G.width);
+    }
+    else throw std::invalid_argument("-f (factorize) argument must be  \"no\", \"FactDistance\", \"FactBbox\" or \"FactOrient\", \"FactAstar\", \"FactDef\"");
     
     // Reset the infos :
     infos.reset();
