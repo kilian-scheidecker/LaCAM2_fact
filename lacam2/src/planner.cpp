@@ -273,21 +273,24 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
   Solution solution;
   auto C_new = Config(N, nullptr);      // for new configuration
   HNode* H_goal = nullptr;              // to store goal node
+
   // Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
   std::list<std::shared_ptr<Instance>> sub_instances;
-  // Bundle bundle = Bundle();
+
+  int timestep = empty_solution->solution[ins.enabled[0]].size();
 
   // Restore the inheried priorities of agents
-  /*if (ins.priority.size() > 1)
-  {
-    for (int i=0; i<int(N); i++)
-      H->priorities[i] = ins.priority[i];
+  // TODO
+  // if (ins.priority.size() > 1)
+  // {
+  //   for (int i=0; i<int(N); i++)
+  //     H->priorities[i] = ins.priority[i];
 
-    // set order in decreasing priority 
-    std::iota(H->order.begin(), H->order.end(), 0);
-    std::sort(H->order.begin(), H->order.end(),
-              [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
-  }*/
+  //   // set order in decreasing priority 
+  //   std::iota(H->order.begin(), H->order.end(), 0);
+  //   std::sort(H->order.begin(), H->order.end(),
+  //             [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
+  // }
   
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
@@ -374,7 +377,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
         
       if (factalgo.use_def)
       {
-        Partitions split = factalgo.is_factorizable_def(1, ins.enabled);
+        Partitions split = factalgo.is_factorizable_def(timestep, ins.enabled);
         if (!split.empty())
           sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split);
         else
@@ -400,6 +403,8 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       //     break;
       // }
     }
+
+    timestep += 1;
 
   }
 
