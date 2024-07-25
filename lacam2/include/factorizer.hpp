@@ -7,7 +7,6 @@
 
 #include "dist_table.hpp"
 #include "utils.hpp"
-#include <nlohmann/json.hpp>
 
 #include <unordered_set>
 

@@ -1,11 +1,7 @@
-import os
-from itertools import combinations, chain
+import os, json
 from collections import defaultdict
 from typing import Iterable, List, Tuple, Dict
 from src.testing import run_commands_in_ubuntu
-
-import numpy as np
-
 
 class Instance:
     def __init__(self, starts: List[Tuple[int, int]], goals: List[Tuple[int, int]], enabled: List[int], time_start: int):
@@ -17,26 +13,6 @@ class Instance:
 def create_command(map_name: str, N: int):
     command = "build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no"
     return command
-
-
-# def get_partitions(iterable: Iterable):
-#     s = list(iterable)
-#     n = len(s)
-#     partitions = []
-    
-#     # Generate all possible ways to partition the set
-#     for k in range(1, n + 1):
-#         for indices in combinations(range(1, n), k - 1):
-#             parts = []
-#             previous_index = 0
-#             for index in chain(indices, [n]):
-#                 parts.append(s[previous_index:index])
-#                 previous_index = index
-            
-#             partitions.append(parts)
-
-#     # Return the partitions in decreasing order of cardinality
-#     return sorted(partitions, key=len, reverse=True)
 
 
 def get_partitions(iterable: Iterable) -> List[List[List[int]]]:
@@ -313,7 +289,6 @@ def max_fact_partitions(map_name, N):
 
     # Dictionnary for the glabal solution and store first step
     global_solution= {}
-    # global_solution[0] = [(-1,-1)]*N
     
     # Dictionary to store partitions per timestep
     partitions_per_timestep = defaultdict(list)
@@ -329,8 +304,6 @@ def max_fact_partitions(map_name, N):
                 # Create a temporary scenario for the current partition
                 create_temp_scenario(enabled, ins.starts, ins.goals, map_name)
                 temp_command = "build/main -i assets/temp/temp_scenario.scen -m assets/" + map_name + "/" + map_name + ".map -N "+ str(len(enabled)) + " -v 0 -f no"
-                # build/main -i assets/temp/temp_scenario.scen -m assets/random-32-32-20/random-32-32-20.map -N 1 -v 0 -f no
-
 
                 # Solve the MAPF for the current partition
                 run_commands_in_ubuntu([temp_command], dir_assets)
@@ -362,6 +335,7 @@ def max_fact_partitions(map_name, N):
 
                 if len(partition) == len(ins.enabled) :
                     break
+
                 # Push sub_instances to OPENins
                 for enabled_agents in partition:
                     if len(enabled_agents) > 1 :
@@ -376,7 +350,11 @@ def max_fact_partitions(map_name, N):
                 
                 break
 
-    # partitions_clean = clean_partition_dict(partitions_per_timestep)
+    # Save partitions_per_timestep to a JSON file
+    partitions_file_path = os.path.join(base_path, 'assets', 'temp', 'partitions.json')
+    with open(partitions_file_path, 'w') as file:
+        json.dump(partitions_per_timestep, file, indent=3)
+
     return partitions_per_timestep
 
 
@@ -387,3 +365,6 @@ def max_fact_partitions(map_name, N):
 #     print(f'{value}, ')
 
 # print(len(partitions))
+
+
+max_fact_partitions("random-32-32-20", 4)

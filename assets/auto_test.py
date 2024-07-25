@@ -181,7 +181,9 @@ def auto_test() :
                     create_scen(N, dir_py, map_name)
                     for command in commmands :
                         if 'FactDef' in command :
-                            max_partitions = max_fact_partitions(map_name=map_name, N=N)
+                            # Determine the max factorizability and store it assets/temp/partitions.json
+                            max_fact_partitions(map_name=map_name, N=N)
+                        
                         run_commands_in_ubuntu([command], WSL_DIR)
                         total += 1
 
