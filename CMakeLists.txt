@@ -3,7 +3,6 @@ project(lacam2_project CXX)
 
 # Add the easy_profiler subdirectory first
 add_subdirectory(third_party/easy_profiler)
-add_subdirectory(third_party/json)
 
 # Add the lacam2 and argparse subdirectories
 add_subdirectory(lacam2)
@@ -25,4 +24,4 @@ add_executable(main main.cpp)
 target_compile_features(main PUBLIC cxx_std_17)
 
 # Link libraries to the main executable
-target_link_libraries(main lacam2 argparse easy_profiler json ${OpenMP_LIB})
+target_link_libraries(main lacam2 argparse easy_profiler ${OpenMP_LIB})

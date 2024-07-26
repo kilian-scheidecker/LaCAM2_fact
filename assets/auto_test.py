@@ -51,7 +51,7 @@ def create_scen(N: int, path: str, map_name: str):
 
 
 # Function to update the stats_json.txt file
-def update_stats_json(string: str, string_info: str):
+def update_stats_json(s: str, string_info: str):
 
     basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))    # LaCAM2_fact directory
     file_path = basePath + '/stats_json.txt'
@@ -70,7 +70,7 @@ def update_stats_json(string: str, string_info: str):
 
     # Update the last entry with the maximum resident set size
     if stats_list:
-        stats_list[-1][string] = string_info
+        stats_list[-1][s] = string_info
 
     # Convert back to JSON and add a trailing comma for the next entry
     updated_data = json.dumps(stats_list, indent=4)[1:-2] + ',\n'

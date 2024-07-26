@@ -28,6 +28,8 @@ typedef unsigned int uint;
 #include <string>
 #include <map>
 
+#include "nlohmann/json.hpp"
+
 
 #define ENABLE_PROFILING
 
@@ -47,8 +49,6 @@ typedef unsigned int uint;
 #define START_PROFILING()
 #define STOP_PROFILING()
 #endif
-
-#include <nlohmann/json.hpp>
 
 using Time = std::chrono::steady_clock;
 

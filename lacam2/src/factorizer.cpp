@@ -355,7 +355,7 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
 
 FactDef::FactDef(int width) : FactAlgo(width, false, true) {
     // Constructor with width, handle partitions_map initialization
-    std::string path = "root/assets/temp/partitions.json";
+    std::string path = "assets/temp/partitions.json";
     std::ifstream file(path);
 
     if (!file.is_open()) {
@@ -363,12 +363,15 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
         return;
     }
 
-    json j;
-    file >> j;
-    
-    // Convert JSON to PartitionsMap
     try {
-        partitions_map = j.get<PartitionsMap>();
+        json j;
+        file >> j;
+
+        for (auto& [key, value] : j.items()) {
+            int map_key = std::stoi(key); // Convert JSON key to integer
+            Partitions map_value = value.get<Partitions>();
+            partitions_map[map_key] = map_value;
+        }
     } catch (const json::exception& e) {
         std::cerr << "JSON parsing error: " << e.what() << std::endl;
     }
@@ -396,5 +399,30 @@ const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<in
 
     // No numbers in enabled were found in any partition for the given timestep
     return {};
+}
+
+
+
+/****************************************************************************************\
+*                        Implementation of the Factory pattern                           *
+\****************************************************************************************/
+
+
+// Factory function to create FactAlgo objects
+std::unique_ptr<FactAlgo> createFactAlgo(const std::string& type, int width) {
+    static const std::unordered_map<std::string, std::function<std::unique_ptr<FactAlgo>(int)>> factory_map = {
+        {"FactDistance", [](int width) { return std::make_unique<FactDistance>(width); }},
+        {"FactBbox",     [](int width) { return std::make_unique<FactBbox>(width); }},
+        {"FactOrient",   [](int width) { return std::make_unique<FactOrient>(width); }},
+        {"FactAstar",    [](int width) { return std::make_unique<FactAstar>(width); }},
+        {"FactDef",      [](int width) { return std::make_unique<FactDef>(width); }}
+    };
+
+    auto it = factory_map.find(type);
+    if (it != factory_map.end()) {
+        return it->second(width);
+    } else {
+        throw std::invalid_argument("Invalid factorize type: " + type);
+    }
 }
 

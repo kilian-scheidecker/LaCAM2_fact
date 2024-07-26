@@ -18,7 +18,6 @@ add_library(${PROJECT_NAME} STATIC ${SRCS})
 # Set the path to easy_profiler include directory
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}/../third_party/easy_profiler/easy_profiler_core/include
-    ${CMAKE_SOURCE_DIR}/../third_party/json/include
 )
 target_include_directories(lacam2 PUBLIC ${CMAKE_SOURCE_DIR}/lacam2/src/include)
 
@@ -29,4 +28,4 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_include_directories(${PROJECT_NAME} INTERFACE ./include)
 
 # Link EasyProfiler and OpenMP libraries
-target_link_libraries(${PROJECT_NAME} PUBLIC easy_profiler json ${OpenMP_LIB})
+target_link_libraries(${PROJECT_NAME} PUBLIC easy_profiler ${OpenMP_LIB})
