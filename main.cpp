@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
       .help("restart rate")
       .default_value(std::string("0.001"));
   program.add_argument("-f", "--factorize")
-      .help("mode of factorization: [no / FactDistance / FactBbox / Factorient / FactAstar]")
+      .help("mode of factorization: [no / FactDistance / FactBbox / Factorient / FactAstar / FactDef]")
       .default_value(std::string("no"));
   program.add_argument("-mt", "--multi_threading")
       .help("toggle multi-threading: [yes / no] ")
@@ -109,31 +109,17 @@ int main(int argc, char* argv[])
     
     if (!ins_fact.is_valid(1)) return 1;
 
-    // Create the FactAlgo class
+    // Create the FactAlgo class and use the factory function to create the appropriate FactAlgo object
     std::unique_ptr<FactAlgo> algo;
+    try {
+      algo = createFactAlgo(factorize, ins_fact.G.width);
+    }
+    catch (const std::exception& e) 
+    {
+      std::cerr << "Error: " << e.what() << std::endl;
+      return 1;
+    }
 
-    if (strcmp(factorize.c_str(), "FactDistance") == 0)
-    {
-      // Create a FactDistance object
-      algo = std::make_unique<FactDistance>(ins_fact.G.width);
-    }
-    else if (strcmp(factorize.c_str(), "FactBbox") == 0)
-    {
-      // Create a FactDistance object
-      algo = std::make_unique<FactBbox>(ins_fact.G.width);
-    }
-    else if (strcmp(factorize.c_str(), "FactOrient") == 0)
-    {
-      // Create a FactDistance object
-      algo = std::make_unique<FactOrient>(ins_fact.G.width);
-    }
-    else if (strcmp(factorize.c_str(), "FactAstar") == 0)
-    {
-      // Create a FactDistance object
-      algo = std::make_unique<FactAstar>(ins_fact.G.width);
-    }
-    else throw std::invalid_argument("-f (factorize) argument must be  \"no\", \"FactDistance\", \"FactBbox\" or \"FactOrient\", \"FactAstar\"");
-    
     // Reset the infos :
     infos.reset();
 
@@ -143,18 +129,6 @@ int main(int argc, char* argv[])
     // Create the deadline :
     const auto deadline_fact = Deadline(time_limit_sec * 1000);
 
-
-    // Check for profiling
-    // if( strcmp(profiling.c_str(), "yes") == 0)
-    // {
-// #ifdef ENABLE_PROFILING
-//     info(0, verbose, "elapsed:", elapsed_ms(&deadline_fact), "ms\tProfling mode : ON");
-//     profiler::startListen();
-//     EASY_PROFILER_ENABLE;
-// #endif
-    //   info(0, verbose, "elapsed:", elapsed_ms(&deadline_fact), "ms\tProfling mode : ON");
-    // }
-
     START_PROFILING();
 
     // Actual solving procedure, depending on multi_threading or not
@@ -162,12 +136,6 @@ int main(int argc, char* argv[])
       solution_fact = solve_fact_MT(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
     else
       solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
-
-// #ifdef ENABLE_PROFILING
-//     EASY_END_BLOCK;
-//     profiler::stopListen();
-//     profiler::dumpBlocksToFile("code_profiling/profile.prof");
-// #endif
 
     STOP_PROFILING();
     

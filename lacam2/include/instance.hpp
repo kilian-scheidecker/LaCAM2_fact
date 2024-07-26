@@ -24,17 +24,18 @@ struct Instance {
   // Default constructor (added explicitly)
   Instance() : G(Graph()), N(0) {}
 
-  // for factorization (more robust)
+  // for factorization (more robust) 
   Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N);
+  // Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority);
   
   // for MAPF benchmark
   Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, const int _N = 1);
 
   // Rule of five
-  Instance(const Instance& other);                // Copy constructor
-  Instance(Instance&& other) noexcept;            // Move constructor
-  Instance& operator=(const Instance& other);     // Copy assignment operator
-  Instance& operator=(Instance&& other) noexcept; // Move assignment operator
+  // Instance(const Instance& other);                // Copy constructor
+  // Instance(Instance&& other) noexcept;            // Move constructor
+  // Instance& operator=(const Instance& other);     // Copy assignment operator
+  // Instance& operator=(Instance&& other) noexcept; // Move assignment operator
   ~Instance();                                    // Destructor
 
   // simple feasibility check of instance

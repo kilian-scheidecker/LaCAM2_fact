@@ -16,7 +16,11 @@ endif()
 add_library(${PROJECT_NAME} STATIC ${SRCS})
 
 # Set the path to easy_profiler include directory
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/../third_party/easy_profiler/easy_profiler_core/include)
+target_include_directories(${PROJECT_NAME} PUBLIC
+    ${CMAKE_SOURCE_DIR}/../third_party/easy_profiler/easy_profiler_core/include
+)
+target_include_directories(lacam2 PUBLIC ${CMAKE_SOURCE_DIR}/lacam2/src/include)
+
 
 # Compile options
 target_compile_options(${PROJECT_NAME} PUBLIC -O3 -Wall -g)

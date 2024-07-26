@@ -273,21 +273,24 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
   Solution solution;
   auto C_new = Config(N, nullptr);      // for new configuration
   HNode* H_goal = nullptr;              // to store goal node
+
   // Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
   std::list<std::shared_ptr<Instance>> sub_instances;
-  // Bundle bundle = Bundle();
+
+  int timestep = empty_solution->solution[ins.enabled[0]].size();
 
   // Restore the inheried priorities of agents
-  /*if (ins.priority.size() > 1)
-  {
-    for (int i=0; i<int(N); i++)
-      H->priorities[i] = ins.priority[i];
+  // TODO
+  // if (ins.priority.size() > 1)
+  // {
+  //   for (int i=0; i<int(N); i++)
+  //     H->priorities[i] = ins.priority[i];
 
-    // set order in decreasing priority 
-    std::iota(H->order.begin(), H->order.end(), 0);
-    std::sort(H->order.begin(), H->order.end(),
-              [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
-  }*/
+  //   // set order in decreasing priority 
+  //   std::iota(H->order.begin(), H->order.end(), 0);
+  //   std::sort(H->order.begin(), H->order.end(),
+  //             [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
+  // }
   
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
@@ -371,8 +374,20 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     // Check for factorizability
     if (N>1 && H_goal == nullptr)
     {
-      sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances);
-      
+        
+      if (factalgo.use_def)
+      {
+        Partitions split = factalgo.is_factorizable_def(timestep, ins.enabled);
+        if (!split.empty())
+          sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split);
+        else
+          sub_instances = {};
+      }
+      else 
+      {
+        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances);
+      }
+
       if (sub_instances.size() > 0)
       {
         H_goal = H;  
@@ -388,6 +403,8 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       //     break;
       // }
     }
+
+    timestep += 1;
 
   }
 
@@ -574,8 +591,8 @@ bool Planner::get_new_config(HNode* H, LNode* L)
 
   // perform PIBT
   for (int k : H->order) {
-    auto a = A[k];
-    if (a->v_next == nullptr && !funcPIBT(a)) return false;  // planning failure
+    auto a = A[k];              // changed to PIBT_fact for rule_based decision making
+    if (a->v_next == nullptr && !funcPIBT_fact(a)) return false;  // planning failure
   }
   return true;
 }
@@ -585,7 +602,7 @@ bool Planner::funcPIBT(Agent* ai)
 {
   const int i = ai->id;
   const size_t K = ai->v_now->neighbor.size();
-
+  
   //infos_ptr->PIBT_calls++;
   //if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->PIBT_calls_active ++;
 
@@ -651,6 +668,125 @@ bool Planner::funcPIBT(Agent* ai)
   ai->v_next = ai->v_now;
   return false;
 }
+
+
+// PIBT planner for the low level node
+bool Planner::funcPIBT_fact(Agent* ai)
+{
+  const int i = ai->id;
+  const size_t K = ai->v_now->neighbor.size();
+  const auto pos = ai->v_now.get()->index;
+  
+  //infos_ptr->PIBT_calls++;
+  //if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->PIBT_calls_active ++;
+
+  std::map<int, float> distances;
+
+  // get candidates for next locations. Loop through all neighbouring vertices
+  for (size_t k = 0; k < K; ++k) {
+    auto u = ai->v_now->neighbor[k];
+    C_next[i][k] = u;
+
+    int x_now = pos%ins.G.width;                     // added for rule-based
+    int y_now = (int) pos/ins.G.width;               // added for rule-based
+    int x_next = u.get()->index%ins.G.width;         // added for rule-based
+    int y_next = (int) u.get()->index/ins.G.width;   // added for rule-based
+
+    // if (MT != nullptr)
+    //   tie_breakers[u->id] = get_random_float(MT);  // set tie-breaker
+
+    // move right
+    if (x_now < x_next)
+      tie_breakers[u.get()->id] = 0.1;
+
+    // move up
+    else if (y_now > y_next)
+      tie_breakers[u.get()->id] = 0.2;
+
+    // move left
+    else if (x_now > x_next)
+      tie_breakers[u.get()->id] = 0.3;
+
+    // move down
+    else if (y_now < y_next)
+      tie_breakers[u.get()->id] = 0.4;
+
+
+    distances[u.get()->id] = D.get(i, C_next[i][k]) + tie_breakers[C_next[i][k].get()->id];
+    
+  }
+  
+  // add stay as possible next location
+  C_next[i][K] = ai->v_now;
+  tie_breakers[ai->v_now.get()->id] = 0.5; // set tie breaker for staying
+  distances[C_next[i][K].get()->id] = D.get(i, C_next[i][K]) + tie_breakers[C_next[i][K].get()->id];
+
+
+  // sort in ascending descending order of priority
+  std::sort(C_next[i].begin(), C_next[i].begin() + K + 1,
+            [&](std::shared_ptr<Vertex> const v, std::shared_ptr<Vertex> const u) {
+              return D.get(i, v) + tie_breakers[v->id] <
+                     D.get(i, u) + tie_breakers[u->id];
+            });
+
+  //DEBUG PRINT
+  if(verbose > 2)
+  {
+    Config C_next_vector2(C_next[i].begin(), C_next[i].end());
+    info(2, verbose, "-- Order of preference for actions for agent ", i, " : ");
+    for (size_t k=0; k<=K; k++)
+    {
+      print_vertex(C_next[i][k], ins.G.width);
+      std::cout<<" (d="<<distances[C_next[i][k].get()->id]<<") // ";
+    }
+    std::cout<<"\n";
+  }
+
+  Agent* swap_agent = swap_possible_and_required(ai);
+  if (swap_agent != nullptr)
+    std::reverse(C_next[i].begin(), C_next[i].begin() + K + 1);
+
+  // main operation. loop through the actions starting from prefered one and check if it is possible. If so, reserve the spot
+  for (size_t k = 0; k < K + 1; ++k) {
+    auto u = C_next[i][k];
+
+    //infos_ptr->actions_count++;
+    //if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->actions_count_active++; 
+
+    // avoid vertex conflicts and skip this vertex
+    if (occupied_next[u->id] != nullptr) continue;  //check if some agent already reserved the spot for next move
+
+    auto& ak = occupied_now[u->id];   // ak = agent occupying NOW the vertex we want to go NEXT
+
+    // avoid swap conflicts and skip this vertex
+    if (ak != nullptr && ak->v_next == ai->v_now) continue;   // check if ak wants to go where we want to go
+
+    // if it's all good, we can proceed to the reservation of next step
+    // reserve next location
+    occupied_next[u->id] = ai;        // reserve the next vertex
+    ai->v_next = u;                   // store move as next vertex
+
+    // priority inheritance
+    // if ak is not planned yet and our move leads to deadlock, do not use this move.
+    if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT_fact(ak))
+      continue;
+
+    // success to plan next one step
+    // pull swap_agent when applicable
+    if (k == 0 && swap_agent != nullptr && swap_agent->v_next == nullptr &&
+        occupied_next[ai->v_now->id] == nullptr) {
+      swap_agent->v_next = ai->v_now;
+      occupied_next[swap_agent->v_next->id] = swap_agent;
+    }
+    return true;
+  }
+
+  // failed to secure node
+  occupied_next[ai->v_now->id] = ai;
+  ai->v_next = ai->v_now;
+  return false;
+}
+
 
 // Define the swap operation
 Agent* Planner::swap_possible_and_required(Agent* ai)

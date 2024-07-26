@@ -28,7 +28,10 @@ typedef unsigned int uint;
 #include <string>
 #include <map>
 
-// #define ENABLE_PROFILING
+#include "nlohmann/json.hpp"
+
+
+#define ENABLE_PROFILING
 
 #ifdef ENABLE_PROFILING
 #include <easy/profiler.h>

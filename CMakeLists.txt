@@ -8,6 +8,7 @@ add_subdirectory(third_party/easy_profiler)
 add_subdirectory(lacam2)
 add_subdirectory(third_party/argparse)
 
+
 # Find and set up OpenMP
 find_package(OpenMP REQUIRED)
 if (OpenMP_CXX_FOUND)

@@ -57,24 +57,22 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAl
                        Infos* infos_ptr)
 {
     PROFILE_FUNC(profiler::colors::Amber);
-
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving using Multi-Threading...");
 
-    std::queue<std::shared_ptr<Instance>> OPENins;
+    // Mutex for thread management
     std::mutex queue_mutex;
     std::mutex solution_mutex;
 
-    // Initialize the empty solution
+    // Initialize the empty solution and OPENins list
     std::shared_ptr<Sol> empty_solution = std::make_shared<Sol>(ins.N);
+    std::queue<std::shared_ptr<Instance>> OPENins;
     
-    // Push the first instance
+    // Push the first instance safely by locking mutex
     {
         std::lock_guard<std::mutex> lock(queue_mutex);
         OPENins.push(std::make_shared<Instance>(ins));
     }
 
-    // Set the number of threads to be used
-    // unsigned int num_threads = omp_get_max_threads();
     unsigned int num_threads = std::thread::hardware_concurrency()/2;
     // num_threads = 2;
 
@@ -84,6 +82,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAl
     std::atomic<int> running(0);
     std::atomic<bool> stop(false);
 
+    // Parallel region using OMP
     #pragma omp parallel num_threads(num_threads)
     {
         PROFILE_BLOCK("thread online");
@@ -147,17 +146,13 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAl
         }
         END_BLOCK();
     }
-
-    // Pad and transpose the solution to return the correct form
     info(2, verbose, "elapsed:", elapsed_ms(deadline), "ms\tPadding and returning solution");
 
     padSolution(empty_solution);
 
-    Solution solution = transpose(empty_solution->solution);
-
     info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinished planning");
 
-    return solution;
+    return transpose(empty_solution->solution);
 }
 
 
@@ -168,44 +163,35 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo&
                Infos* infos_ptr)
 {
     PROFILE_FUNC(profiler::colors::Amber);
-    
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");
-
-    std::queue<std::shared_ptr<Instance>> OPENins;
     
-    // initialize the empty solution
+    // Initialize the empty solution
     std::shared_ptr<Sol> empty_solution = std::make_shared<Sol>(ins.N);
-    
-    // Instance start_ins = ins;
-    // TODOOOOO
+
+    // Create OPENins and push first instance
+    std::queue<std::shared_ptr<Instance>> OPENins;
     OPENins.push(std::make_shared<Instance>(ins));
     
     while (!OPENins.empty())
     {
-
         info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tOpen new instance from OPENSins list");
 
+        // Pop the top of OPENins to get the instance
         std::shared_ptr<Instance> I = OPENins.front();
         OPENins.pop();
 
-        // solve
+        // Solve the instance
         auto planner = Planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
-        // std::list<std::shared_ptr<Instance>> sub_instances = planner.solve_fact(additional_info, infos_ptr, factalgo);
-
-        // // push back sub instances
-        // for (auto ins : sub_instances)
-        //     OPENins.push(ins);
-
-
         Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo);
 
+        // Push instances to open list
         for (const auto& sub_ins : bundle.instances)
             OPENins.push(sub_ins);
 
+        // Write solution until now
         write_sol(bundle.solution, I->enabled, empty_solution, I->N);
 
-
-        // just some printing
+        // Just some printing for debug.
         if(verbose > 3){
             std::cout<<"\nSolution until now : \n";
             for(auto line : empty_solution->solution)
@@ -216,16 +202,11 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo&
             std::cout<<"\n";
         }
     }
-
-
-    // Pad and transpose the solution to return the correct form
     info(2, verbose, "elapsed:", elapsed_ms(deadline), "ms\tPadding and returning solution");
 
     padSolution(empty_solution);
-
-    Solution solution = transpose(empty_solution->solution);
-
+    
     info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinshed planning");
 
-    return solution;
+    return transpose(empty_solution->solution);
 }

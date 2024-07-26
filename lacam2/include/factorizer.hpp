@@ -11,6 +11,8 @@
 #include <unordered_set>
 
 using Partitions = std::vector<std::vector<int>>;
+using PartitionsMap = std::map<int, Partitions>;
+using json = nlohmann::json;
 
 class FactAlgo
 {
@@ -18,12 +20,15 @@ public:
     // width of the graph
     const int width;
     const bool need_astar;
-    
+    PartitionsMap partitions_map;
+    const bool use_def;
 
-    FactAlgo(int width) : width(width), need_astar(false) {}
-    FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar) {}
+    FactAlgo(int width) : width(width), need_astar(false), partitions_map({}), use_def(false) {}
+    FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar), partitions_map({}), use_def(false) {}
+    FactAlgo(int width, bool need_astar, bool use_def) : width(width), need_astar(need_astar), partitions_map({}), use_def(use_def) {}
     virtual ~FactAlgo() = default;
 
+    // Determine if a problem is factorizable at a given timestep
     std::list<std::shared_ptr<Instance>> is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances);
 
     // Helper method to actually split the current instance 
@@ -31,6 +36,9 @@ public:
 
     // Simple manhattan distance computation between two vertices of the map.
     int get_manhattan(int index1, int index2) const;
+
+    // virtual function to be used by the FactDef class. Allows to factorize according to the definition
+    virtual const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const = 0;
 
 private:
 
@@ -46,6 +54,9 @@ public:
     FactDistance() : FactAlgo(0) {}
     FactDistance(int width) : FactAlgo(width) {}
 
+    // Placeholder for the virtual function
+    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const {return {};};
+
 private:
     // Simple heuristic to determine if 2 agents can be factorized based on distance
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
@@ -55,9 +66,12 @@ private:
 class FactBbox : public FactAlgo
 {
 public:
-    // Default cosntructor
+    // Default constructor
     FactBbox() : FactAlgo(0) {}
     FactBbox(int width) : FactAlgo(width) {}
+
+    // Placeholder for the virtual function
+    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const {return {};};
 
 private:
 
@@ -70,9 +84,13 @@ class FactOrient : public FactAlgo
 {
 public:
 
-    // Default cosntructor
+    // Default constructor
     FactOrient() : FactAlgo(0) {}
     FactOrient(int width) : FactAlgo(width) {}
+
+    // Placeholder for the virtual function
+    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const {return {};};
+
 
 private:
 
@@ -96,6 +114,10 @@ public:
     // Default constructor
     FactAstar() : FactAlgo(0) {}
     FactAstar(int width) : FactAlgo(width, true) {}
+
+    // Placeholder for the virtual function
+    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const {return {};};
+
     
     //FactAstar(int width, const bool need_astar) : FactAlgo(width, need_astar) {}
 
@@ -106,45 +128,23 @@ private:
 };
 
 
-
-/*
 class FactDef : public FactAlgo
 {
 public:
     // Default constructor
     FactDef() : FactAlgo(0) {}
-    FactDef(int width) : FactAlgo(width) {}
+    FactDef(int width);
 
-    // Method to factorize the agents and generate the partitions
-    bool factorize(const Config& C, const Graph& G, int verbose, const std::vector<float>& priorities, const Config& goals, const std::vector<int>& enabled, const std::vector<int>& distances) const;
+    // Applies the precomputed partitions to minimize time spent in factorization
+    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const override;
 
-private:
+private :
 
-    // Node structure for A* planning
-    struct Node {
-        std::shared_ptr<Vertex> vertex;
-        int g, f;
-        bool operator>(const Node& other) const { return f > other.f; }
-    };
-
-    // Helper method to actually split the current instance 
-    void split_ins(const Graph& G, const Partitions& partitions, const Config& C_new, const Config& goals, int verbose, const std::vector<float>& priorities, const std::vector<int>& enabled, const std::map<int, int>& agent_map) const;
-
-    // Simple heuristic to determine if 2 agents can be factorized based on distance
-    const bool heuristic(int rel_id_1, int index1, int rel_id_2, int index2, const Graph& G, const std::vector<int>& distances) const;
-
-    // A* planning for heuristic computation
-    Config FactDef::a_star_path(int start, int goal, const Graph& G) const;
-
-    // Manhattan distance computation
-    int get_manhattan(int index1, int index2) const;
-
-    // Helper function to generate partitions recursively
-    void partitionHelper(const std::vector<int>& enabled, int index, std::vector<std::vector<int>> currentPartition, std::list<std::vector<std::vector<int>>>& partitions);
-
-    // Function to generate all partitions of a given set
-    std::list<std::vector<std::vector<int>>> FactDef::generatePartitions(const std::vector<int>& enabled);
+    const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const {return 0;};
 };
-*/
+
+
+// Factory function to create FactAlgo according to specified argument
+std::unique_ptr<FactAlgo> createFactAlgo(const std::string& type, int width);
 
 #endif // FACTORIZER_HPP

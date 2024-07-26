@@ -127,6 +127,7 @@ struct Planner {
   uint get_h_value(const Config& C);
   bool get_new_config(HNode* H, LNode* L);
   bool funcPIBT(Agent* ai);
+  bool funcPIBT_fact(Agent* ai);
 
   // swap operation
   Agent* swap_possible_and_required(Agent* ai);

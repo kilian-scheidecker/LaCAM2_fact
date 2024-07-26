@@ -5,8 +5,6 @@ import json
 
 import numpy as np
 
-from fact_def import max_fact_partitions
-
 #WSL_DIR = '/mnt/c/Users/kilia/Documents/PC KILIAN - sync/MA 4/League of Robot Runners/lacam2_fact'
 WSL_DIR = 'lacam2_fact'
 
@@ -51,9 +49,9 @@ def create_scen(N: int, path: str, map_name: str):
 
 
 # Function to update the stats_json.txt file
-def update_stats_json(s: str, string_info: str):
+def update_stats_json(string: str, string_info: str):
 
-    basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))    # LaCAM2_fact directory
+    basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))
     file_path = basePath + '/stats_json.txt'
 
     with open(file_path, 'r') as file:
@@ -70,7 +68,7 @@ def update_stats_json(s: str, string_info: str):
 
     # Update the last entry with the maximum resident set size
     if stats_list:
-        stats_list[-1][s] = string_info
+        stats_list[-1][string] = string_info
 
     # Convert back to JSON and add a trailing comma for the next entry
     updated_data = json.dumps(stats_list, indent=4)[1:-2] + ',\n'
@@ -130,68 +128,3 @@ def initialize(dir: str):
     init = "make -C build -j"
     run_commands_in_ubuntu([init], dir)
     return
-
-
-# Main function that creates random tests and runs them automatically
-def auto_test() :
-       
-    dir_py = os.path.dirname(os.path.abspath(__file__))       #/lacam_fact/assets
-
-    with open(dir_py + '/test_params.json', 'r') as file:
-        data = json.load(file)
-
-        # Assign variables
-        init = data.get("init")
-        from_ = data.get("from")
-        to_ = data.get("to")
-        jump = data.get("jump")
-        n = data.get("n")
-        maps = data.get("map_name")
-        factorize = data.get("factorize")
-        multi_threading = data.get("multi_threading")
-
-        success = 0
-        total = 0
-
-        # verify the content of the map list
-        for map_name in maps :
-            if map_name not in ['random-32-32-10', 'random-32-32-20', 'warehouse_small', 'warehouse_large', 'warehouse-20-40-10-2-2']:
-                raise ValueError("This map is not supported (yet), please select from : 'random-32-32-10', 'random-32-32-20', 'warehouse_small', 'warehouse_large', 'warehouse-20-40-10-2-2'")
-        
-        if init == 1:
-            initialize(WSL_DIR)
-
-        if from_ == to_ :
-            n_agents = [from_]
-        else : 
-            n_agents = np.arange(from_, to_+1, jump).tolist()
-
-        total = 0
-        for map_name in maps :
-            for N in n_agents :
-
-                if map_name == "warehouse_small" and N > 380 :
-                    break
-                if map_name == "random-32-32-20" and N > 700 :
-                    break
-
-                print(f"\nTesting with {N} agents in {map_name}")
-                for i in range(n) :
-                    commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
-                    create_scen(N, dir_py, map_name)
-                    for command in commmands :
-                        if 'FactDef' in command :
-                            # Determine the max factorizability and store it assets/temp/partitions.json
-                            max_fact_partitions(map_name=map_name, N=N)
-                        
-                        run_commands_in_ubuntu([command], WSL_DIR)
-                        total += 1
-
-            print(f"\nSuccessfully completed {total} tests.\n")
-    return
-
-
-
-auto_test()
-
-# ["no", "FactDistance", "FactBbox", "FactOrient", "FactAstar"]

@@ -16,6 +16,15 @@ Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::
       //priority(_priority)       // optional argument to specify the inherited priority of the agents
 { 
 }
+// Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority)
+//     : G(_G), 
+//       starts(std::move(_starts)), 
+//       goals(std::move(_goals)), 
+//       enabled(std::move(_enabled)),
+//       N(_N)
+//       priority(_priority)       // optional argument to specify the inherited priority of the agents
+// { 
+// }
 
 // For MAPF benchmark, first instance of factorized version as well
 Instance::Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, const int _N)
@@ -55,38 +64,38 @@ Instance::Instance(const std::string& scen_filename, const std::string& map_file
 }
 
 // Copy constructor
-Instance::Instance(const Instance& other)
-    : G(other.G), starts(other.starts), goals(other.goals), enabled(other.enabled), N(other.N) {}
+// Instance::Instance(const Instance& other)
+//     : G(other.G), starts(other.starts), goals(other.goals), enabled(other.enabled), N(other.N) {}
 
-// Move constructor
-Instance::Instance(Instance&& other) noexcept
-    : G(std::move(other.G)), starts(std::move(other.starts)), goals(std::move(other.goals)), enabled(std::move(other.enabled)), N(other.N) {}
+// // Move constructor
+// Instance::Instance(Instance&& other) noexcept
+//     : G(std::move(other.G)), starts(std::move(other.starts)), goals(std::move(other.goals)), enabled(std::move(other.enabled)), N(other.N) {}
 
-// Copy assignment operator
-Instance& Instance::operator=(const Instance& other) {
-    if (this != &other) {
-        // Copy all non-const members
-        const_cast<Graph&>(G) = other.G;
-        starts = other.starts;
-        goals = other.goals;
-        const_cast<std::vector<int>&>(enabled) = other.enabled;
-        const_cast<uint&>(N) = other.N;
-    }
-    return *this;
-}
+// // Copy assignment operator
+// Instance& Instance::operator=(const Instance& other) {
+//     if (this != &other) {
+//         // Copy all non-const members
+//         const_cast<Graph&>(G) = other.G;
+//         starts = other.starts;
+//         goals = other.goals;
+//         const_cast<std::vector<int>&>(enabled) = other.enabled;
+//         const_cast<uint&>(N) = other.N;
+//     }
+//     return *this;
+// }
 
-// Move assignment operator
-Instance& Instance::operator=(Instance&& other) noexcept {
-    if (this != &other) {
-        // Move all non-const members
-        const_cast<Graph&>(G) = std::move(other.G);
-        starts = std::move(other.starts);
-        goals = std::move(other.goals);
-        const_cast<std::vector<int>&>(enabled) = std::move(other.enabled);
-        const_cast<uint&>(N) = other.N;
-    }
-    return *this;
-}
+// // Move assignment operator
+// Instance& Instance::operator=(Instance&& other) noexcept {
+//     if (this != &other) {
+//         // Move all non-const members
+//         const_cast<Graph&>(G) = std::move(other.G);
+//         starts = std::move(other.starts);
+//         goals = std::move(other.goals);
+//         const_cast<std::vector<int>&>(enabled) = std::move(other.enabled);
+//         const_cast<uint&>(N) = other.N;
+//     }
+//     return *this;
+// }
 
 // Destructor
 Instance::~Instance() {}
