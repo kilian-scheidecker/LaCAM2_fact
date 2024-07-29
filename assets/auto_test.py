@@ -14,15 +14,18 @@ WSL_DIR = 'lacam2_fact'
 def create_command(map_name: str, N: int, factorize: list, multi_threading: list):
 
     commands = []
-    for algo in factorize :
+    for factalgo in factorize :
         #end = ' -v 0' + ' -f ' + algo #+ ' 2>&1 | cgrep "Maximum" | awk \'{print $8}\''
-        for thread in multi_threading :
-            if thread == "yes" :
-                end = ' -v 0' + ' -f ' + algo + ' -mt yes'
-            else :
-                end = ' -v 0' + ' -f ' + algo
-            command = "/usr/bin/time -v build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + '/' + map_name + ".map -N " + str(N) + end
-            commands.append(command)
+            for thread in multi_threading :
+                if thread == "yes":
+                    if factalgo != "no" :
+                        end = ' -v 0' + ' -f ' + factalgo + ' -mt yes'
+                    else :
+                        break
+                else :
+                    end = ' -v 0' + ' -f ' + factalgo
+                command = "/usr/bin/time -v build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + '/' + map_name + ".map -N " + str(N) + end
+                commands.append(command)
 
     return commands
 
