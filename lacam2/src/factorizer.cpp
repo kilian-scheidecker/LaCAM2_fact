@@ -187,7 +187,7 @@ const bool FactDistance::heuristic(int rel_id_1, int index1, int goal1, int rel_
     // else
     //   return false;
 
-    return da > d1 + d2;
+    return da > d1 + d2 + SAFETY_DISTANCE;
 }
 
 
@@ -344,7 +344,7 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
   //   return true;
   // else
   //   return false;
-  return da > d1 + d2;
+  return da > d1 + d2 + SAFETY_DISTANCE;
 }
 
 
