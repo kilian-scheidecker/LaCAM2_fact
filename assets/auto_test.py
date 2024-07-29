@@ -181,7 +181,7 @@ def auto_test() :
                 print(f"\nTesting with {N} agents in {map_name}")
                 for i in range(n) :
                     commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
-                    create_scen(N, dir_py, map_name)
+                    # create_scen(N, dir_py, map_name)
                     for command in commmands :
                         if 'FactDef' in command :
                             # Determine the max factorizability and store it assets/temp/partitions.json

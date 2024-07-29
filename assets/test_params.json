@@ -1,10 +1,10 @@
 {
   "init": "False",
-  "from": 100,
-  "to": 700,
-  "jump": 100,
-  "n": 20,
-  "map_name": ["random-32-32-20", "warehouse_large"],
-  "factorize": ["no", "FactDistance", "FactBbox", "FactOrient", "FactAstar"],
-  "multi_threading": ["no", "yes"]
+  "from": 2,
+  "to": 5,
+  "jump": 1,
+  "n": 1,
+  "map_name": ["random-32-32-20"],
+  "factorize": ["no", "FactDef"],
+  "multi_threading": ["no"]
 }
