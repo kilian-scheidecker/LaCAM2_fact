@@ -367,4 +367,4 @@ def max_fact_partitions(map_name, N):
 # print(len(partitions))
 
 
-max_fact_partitions("random-32-32-20", 4)
+# max_fact_partitions("random-32-32-20", 4)
