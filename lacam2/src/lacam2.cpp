@@ -76,7 +76,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAl
     unsigned int num_threads = std::thread::hardware_concurrency()/2;
     // num_threads = 2;
 
-    info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tUsing ", num_threads, " threads.");
+    info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tUsing ", num_threads, " cores out of ", num_threads*2, " threads.");
 
     // Atomic counter to track the number of active threads
     std::atomic<int> running(0);

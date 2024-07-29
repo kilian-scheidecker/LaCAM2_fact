@@ -34,7 +34,7 @@ cmake -B build && make -C build -j4
 no optimization (random starts/goals):
 
 ```sh
-> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no -mt no -p no
+> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no -mt no
 solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=1.19)   sum_of_loss: 1198 (lb=1098, ub=1.1)
 
 # with the MAPF visualizer mentioned below
@@ -74,14 +74,15 @@ TODO
 
 You can take advantage of the [Easy Profiler library](https://github.com/yse/easy_profiler) in order to analyze the code and dive into the internals of the algorithms.
 
-To use the profiling, the project needs to be built in profiler mode. Clean build the project using the following command :
+To use the profiling, the variable ENABLE_PROFILING needs to be defined in utils.hpp (line 34). De-comment the line to define the variable and set the code in profiling mdoe. Be aware that toggling the profiler may affect performances.
+
+Once you changed the definition of ENABLE_PROFILING, you need to rebuild the project. 
 
 ```sh
-cmake -DENABLE_PROFILING=ON -B build
 make -C build -j4
 ```
 
-This will set the code into pofiling mode. At every run, the collected data will be stored in the file called 'profile.prof'.
+At every run, the collected data will be stored in the file called 'profile.prof'.
 
 This file can then be vizualised by using the Easy Profiler Visualizer. There should be an executable called 'profiler_gui' in the build directory of the Easy Profiler. You can use this to visualize everything in detail.
 
