@@ -3,6 +3,7 @@ import numpy as np
 from collections import defaultdict
 from typing import Iterable, List, Tuple, Dict
 from src.testing import run_commands_in_ubuntu
+from src.utils import parse_file
 
 class Instance:
     def __init__(self, starts: List[Tuple[int, int]], goals: List[Tuple[int, int]], enabled: List[int], time_start: int):
@@ -48,37 +49,7 @@ def extract_width(filepath: str) -> int:
                 return int(width_value)
     raise ValueError("Width not found in the file")
 
-def parse_file(filename: str) -> Dict[str, any]:
-    data = {}
-    solution = []
-    in_solution = False
 
-    with open(filename, 'r') as file:
-        for line in file:
-            line = line.strip()
-            if line.startswith("solution="):
-                in_solution = True
-                continue
-            if in_solution:
-                if ':' in line:
-                    step, positions = line.split(':')
-                    positions = positions.strip().split('),')
-                    positions = [tuple(map(int, pos.strip().strip('()').split(','))) for pos in positions if pos]
-                    solution.append((int(step), positions))
-                continue
-            if '=' in line:
-                key, value = line.split('=', 1)
-                key = key.strip()
-                value = value.strip()
-                if key in ["starts", "goals"]:
-                    value = value.split('),')
-                    value = [tuple(map(int, v.strip().strip('()').split(','))) for v in value if v]
-                data[key] = value
-            else:
-                continue
-
-    data["solution"] = solution
-    return data
 
 
 def create_temp_scenario(enabled, starts, goals, map_name):
@@ -285,7 +256,7 @@ def max_fact_partitions(map_name, N):
 
     # Launch lacam a first time and parse result
     start_comm = create_command(map_name, N)
-    print(start_comm)
+    # print(start_comm)
     run_commands_in_ubuntu([start_comm], dir_assets)
     result = parse_file(res_path)
 

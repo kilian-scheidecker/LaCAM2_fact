@@ -34,7 +34,7 @@ cmake -B build && make -C build -j4
 no optimization (random starts/goals):
 
 ```sh
-> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no -mt no
+> build/main -i assets/maps/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/maps/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no -mt no
 solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=1.19)   sum_of_loss: 1198 (lb=1098, ub=1.1)
 
 # with the MAPF visualizer mentioned below
@@ -46,14 +46,14 @@ solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=
 makespan optimization:
 
 ```sh
-> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no --objective 1
+> build/main -i assets/maps/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/maps/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no --objective 1
 solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=1.19)   sum_of_loss: 1198 (lb=1098, ub=1.1)
 ```
 
 sum-of-loss optimization:
 
 ```sh
-> build/main -i assets/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no --objective 2
+> build/main -i assets/maps/random-32-32-20/other_scenes/random-32-32-20-50.scen -m assets/maps/random-32-32-20/random-32-32-20.map -N 50 -v 1 -f no --objective 2
 solved: 10258ms makespan: 47 (lb=47, ub=1)      sum_of_costs: 1252 (lb=1098, ub=1.15)   sum_of_loss: 1192 (lb=1098, ub=1.09)
 ```
 
@@ -97,7 +97,7 @@ To stop profiling, clean build the project again using the instructions in the '
 
 ## Notes
 
-- The grid maps and scenarios in `assets/` are from [MAPF benchmarks](https://movingai.com/benchmarks/mapf.html).
+- The grid maps and scenarios in `assets/maps/` are from [MAPF benchmarks](https://movingai.com/benchmarks/mapf.html).
 - `tests/` is not comprehensive. It was used in early developments.
 - Auto formatting (clang-format) when committing:
 

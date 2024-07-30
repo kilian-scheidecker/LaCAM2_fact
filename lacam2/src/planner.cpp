@@ -245,6 +245,27 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   //infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
   //infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
+
+  /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
+  // Open a file in write mode
+  std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
+
+  outFile << loop_cnt-1 <<" : [[";
+  // Write the timestep data to the file
+  for (uint i = 0; i < N; i++) 
+  {
+    outFile << i;
+    if (i < N -1)
+    {  
+      outFile <<", ";
+    }
+  }
+  outFile <<"]]\n";
+
+  // Close the file
+  outFile.close();
+  /******************************************************************************************/
+
   return solution;
 }
 
@@ -393,7 +414,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
         H_goal = H;
 
 
-        /******************************************************************************************/
+        /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
         // Open a file in write mode
         std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
 
@@ -419,7 +440,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
 
         // Close the file
         outFile.close();
-        /******************************************************************************************/
+        /**********************************************************************************************************************/
         break;
       }
 

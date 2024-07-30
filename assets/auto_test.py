@@ -6,6 +6,7 @@ import json
 import numpy as np
 
 from fact_def import max_fact_partitions
+from src.utils import parse_file
 
 #WSL_DIR = '/mnt/c/Users/kilia/Documents/PC KILIAN - sync/MA 4/League of Robot Runners/lacam2_fact'
 WSL_DIR = 'lacam2_fact'
@@ -24,7 +25,7 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
                         break
                 else :
                     end = ' -v 0' + ' -f ' + factalgo
-                command = "/usr/bin/time -v build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + '/' + map_name + ".map -N " + str(N) + end
+                command = "/usr/bin/time -v build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + '/' + map_name + ".map -N " + str(N) + end
                 commands.append(command)
 
     return commands
@@ -138,7 +139,16 @@ def initialize(dir: str):
 # Compute the complexity score
 def complexity_score(data_dict):
     # Find the maximum key in the dictionary
-    max_key = max(data_dict.keys())
+    # max_key = max(data_dict.keys())
+
+    print(data_dict)
+
+    base_path = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))    # LaCAM2_fact/
+    res_path = os.path.join(base_path, 'build', 'result.txt')
+
+    result = parse_file(res_path)
+
+    makespan = int(result['makespan'])
 
     # Initialize the score
     score = 1
@@ -146,22 +156,26 @@ def complexity_score(data_dict):
     # Iterate over each key and its partitions in the dictionary
     for key, partitions in data_dict.items():
         # Calculate the exponent (max_key - current key)
-        exponent = max_key - key
+        exponent = key + 1 
         
         # Calculate the sum of cardinality raised to the exponent for each partition
         partition_sum = sum(len(partition) ** exponent for partition in partitions)
         
         # Multiply by the key and update the score
-        score *= (key+1) * partition_sum
+        score *= partition_sum
 
     return score
 
 
 # Get the score given a particular factorization
-def get_score():
+def get_score(partitions_per_timestep = None):
 
     dir_py = os.path.dirname(os.path.abspath(__file__))       #/lacam_fact/assets
     filename = os.path.join(dir_py, 'temp', 'partitions.txt')
+
+    if partitions_per_timestep is not None :
+        open(filename, 'w').close()
+        return complexity_score(partitions_per_timestep)
     
     # Open the file and read its contents
     with open(filename, 'r') as file:
@@ -237,13 +251,19 @@ def auto_test() :
                     commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
                     # create_scen(N, dir_py, map_name)
                     for command in commmands :
-                        print(command)
+                        # print(command)
+
                         if 'FactDef' in command :
                             # Determine the max factorizability and store it assets/temp/partitions.json
-                            max_fact_partitions(map_name=map_name, N=N)
-                        
+                            partitions_per_timestep = max_fact_partitions(map_name=map_name, N=N)
+                            
                         run_commands_in_ubuntu([command], WSL_DIR)
-                        score = get_score()
+                        
+                        if 'FactDef' in command :
+                            score = complexity_score(partitions_per_timestep)
+                        else :
+                            score = get_score()
+
                         update_stats_json("Complexity score", str(score))
 
                         total += 1
