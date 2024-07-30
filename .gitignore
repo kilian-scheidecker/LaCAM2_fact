@@ -5,6 +5,9 @@
 other_scenes/
 temp/
 
+# Python cache
+**/__pycache__/
+
 # Generated data to analyze
 stats_json.txt
 #*.json                       # Will not be needed in fine, keep for now
