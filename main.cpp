@@ -43,9 +43,9 @@ int main(int argc, char* argv[])
   program.add_argument("-mt", "--multi_threading")
       .help("toggle multi-threading: [yes / no] ")
       .default_value(std::string("no"));
-      // program.add_argument("-p", "--profiling")
-      // .help("toggle multi-threading: [yes / no] ")
-      // .default_value(std::string("no"));
+  program.add_argument("-sp", "--stat_print")
+      .help("save stats about run: [yes / no] ")
+      .default_value(std::string("yes"));
 
   try {
     program.parse_known_args(argc, argv);
@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
   const auto objective =
       static_cast<Objective>(std::stoi(program.get<std::string>("objective")));
   const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
-  // const auto profiling = program.get<std::string>("profiling");
+  const auto stat_print = program.get<std::string>("stat_print");
 
   // Redirect cout to nullstream if verbose is set to zero
   std::streambuf* coutBuffer = std::cout.rdbuf();   // save cout buffer
@@ -154,7 +154,10 @@ int main(int argc, char* argv[])
     // post processing
     print_stats(verbose, ins_fact, solution_fact, comp_time_ms_fact);
     make_log(ins_fact, solution_fact, output_name, comp_time_ms_fact, map_name, seed, additional_info, log_short);
-    make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname, success, multi_threading);
+    if( strcmp(stat_print.c_str(), "yes") == 0)
+    {
+      make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname, success, multi_threading);
+    }
   }
 
 
@@ -188,8 +191,10 @@ int main(int argc, char* argv[])
     // post processing
     print_stats(verbose, ins, solution, comp_time_ms);
     make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, log_short);
-    make_stats("stats_json.txt", "Standard", N, comp_time_ms, infos, solution, mapname, success, "no");
-
+    if( strcmp(stat_print.c_str(), "yes") == 0)
+    {
+      make_stats("stats_json.txt", "Standard", N, comp_time_ms, infos, solution, mapname, success, "no");
+    }
   }
 
   // resume cout

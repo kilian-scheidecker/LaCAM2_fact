@@ -1,10 +1,10 @@
 {
   "init": "False",
-  "from": 4,
+  "from": 6,
   "to": 6,
   "jump": 1,
   "n": 1,
   "map_name": ["random-32-32-20"],
-  "factorize": ["no", "FactDistance"],
-  "multi_threading": ["no", "yes"]
+  "factorize": ["FactDef"],
+  "multi_threading": ["no"]
 }

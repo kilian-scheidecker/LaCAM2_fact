@@ -6,10 +6,10 @@ import random
 def map_to_locs(map_name: str) :        # use map_name = 'random-32-32-10'
 
     basePath = os.path.dirname(os.path.abspath(__file__))
-    mapPath = basePath + '/' + map_name + '/' + map_name + '-empty.map'
+    mapPath = basePath + '/maps/' + map_name + '/' + map_name + '-empty.map'
     
-    new_loc_path = basePath + '/' + map_name + '/' + map_name + '-locations-unfolded.txt'
-    new_loc_path2 = basePath + '/' + map_name + '/' + map_name + '-locations.txt'
+    new_loc_path = basePath + '/maps/' + map_name + '/' + map_name + '-locations-unfolded.txt'
+    new_loc_path2 = basePath + '/maps/' + map_name + '/' + map_name + '-locations.txt'
 
 
     file = open(mapPath)
@@ -60,8 +60,8 @@ def create_base_scen(map_name: str):
     
     else :  
         basePath = os.path.dirname(os.path.abspath(__file__))
-        locs_path = basePath + '/' + map_name + '/' + map_name + '-locations-unfolded.txt'
-        new_scen_path = basePath + '/' + map_name + '/' + map_name + '-scen-base.scen'
+        locs_path = basePath + '/maps/' + map_name + '/' + map_name + '-locations-unfolded.txt'
+        new_scen_path = basePath + '/maps/' + map_name + '/' + map_name + '-scen-base.scen'
         file = open(locs_path)
         new_file = open(new_scen_path, 'w+')
 
@@ -89,9 +89,9 @@ def create_base_scen(map_name: str):
 def create_base_scen_startfinish(map_name: str):
 
     basePath = os.path.dirname(os.path.abspath(__file__))
-    new_scen_path = basePath + '/' + map_name + '/' + map_name + '-scen-base.scen'
-    start = open(basePath + '/' + map_name + '/' + map_name + '-start-locations-unfolded.txt')
-    finish = open(basePath + '/' + map_name + '/' + map_name + '-goal-locations-unfolded.txt')
+    new_scen_path = basePath + '/maps/' + map_name + '/' + map_name + '-scen-base.scen'
+    start = open(basePath + '/maps/' + map_name + '/' + map_name + '-start-locations-unfolded.txt')
+    finish = open(basePath + '/maps/' + map_name + '/' + map_name + '-goal-locations-unfolded.txt')
     new_file = open(new_scen_path, 'w+')
 
     start_content = start.readlines()
@@ -121,11 +121,11 @@ def create_base_scen_startfinish(map_name: str):
     return
 
 
-# Generate a list of unfolded locations from a locations file. From linear to 2d indexing
+"""# Generate a list of unfolded locations from a locations file. From linear to 2d indexing
 def unfold_locations(loc_path: str, map_name: str, width: int):
 
     locs = open(loc_path)
-    new_locs_path = os.path.dirname(os.path.abspath(__file__)) + '/' + map_name + '/' + map_name + '-goal-locations-unfolded.txt'
+    new_locs_path = os.path.dirname(os.path.abspath(__file__)) + '/maps/' + map_name + '/' + map_name + '-goal-locations-unfolded.txt'
     new_locs = open(new_locs_path, 'w+')
 
     locs_line = locs.readlines()
@@ -137,7 +137,11 @@ def unfold_locations(loc_path: str, map_name: str, width: int):
         new_locs.write(new_line)
 
 
-    return
+    return"""
+
+def setup(mapname: str) :
+    map_to_locs(mapname)
+    create_base_scen(mapname)
 
 
-create_base_scen('warehouse-20-40-10-2-2')
+# setup('test-5-5')

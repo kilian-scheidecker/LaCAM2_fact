@@ -19,7 +19,7 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
                 end = ' -v 0' + ' -f ' + algo + ' -mt yes'
             else :
                 end = ' -v 0' + ' -f ' + algo
-            command = "/usr/bin/time -v build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + '/' + map_name + ".map -N " + str(N) + end
+            command = "/usr/bin/time -v build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + '/' + map_name + ".map -N " + str(N) + end
             commands.append(command)
 
     return commands
@@ -28,12 +28,12 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
 def create_scen(N: int, path: str, map_name: str):
 
     basePath = path
-    baseScenPath = basePath + '/' + map_name + '/' + map_name + '-scen-'
-    new_scen_path = basePath + '/' + map_name + '/other_scenes/' + map_name + '-' + str(N) + '.scen'
+    baseScenPath = basePath + '/maps/' + map_name + '/' + map_name + '-scen-'
+    new_scen_path = basePath + '/maps/' + map_name + '/other_scenes/' + map_name + '-' + str(N) + '.scen'
 
     # Need to create directory if doesn't exist
-    if not os.path.exists(basePath + '/' + map_name + '/other_scenes'): 
-        os.makedirs(basePath + '/' + map_name + '/other_scenes')
+    if not os.path.exists(basePath + '/maps/' + map_name + '/other_scenes'): 
+        os.makedirs(basePath + '/maps/' + map_name + '/other_scenes')
 
     
     file = open(baseScenPath + 'base.scen')

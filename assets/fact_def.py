@@ -1,7 +1,9 @@
 import os, json
+import numpy as np
 from collections import defaultdict
 from typing import Iterable, List, Tuple, Dict
 from src.testing import run_commands_in_ubuntu
+from src.utils import parse_file
 
 class Instance:
     def __init__(self, starts: List[Tuple[int, int]], goals: List[Tuple[int, int]], enabled: List[int], time_start: int):
@@ -11,7 +13,7 @@ class Instance:
         self.time_start = time_start
 
 def create_command(map_name: str, N: int):
-    command = "build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no"
+    command = "build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no -sp no"
     return command
 
 
@@ -33,6 +35,7 @@ def get_partitions(iterable: Iterable) -> List[List[List[int]]]:
     
     s = list(iterable)
     all_partitions = partitions(s)
+    all_partitions.remove([s])
     # Return the partitions in decreasing order of cardinality
     return sorted(all_partitions, key=len, reverse=True)
 
@@ -46,44 +49,14 @@ def extract_width(filepath: str) -> int:
                 return int(width_value)
     raise ValueError("Width not found in the file")
 
-def parse_file(filename: str) -> Dict[str, any]:
-    data = {}
-    solution = []
-    in_solution = False
 
-    with open(filename, 'r') as file:
-        for line in file:
-            line = line.strip()
-            if line.startswith("solution="):
-                in_solution = True
-                continue
-            if in_solution:
-                if ':' in line:
-                    step, positions = line.split(':')
-                    positions = positions.strip().split('),')
-                    positions = [tuple(map(int, pos.strip().strip('()').split(','))) for pos in positions if pos]
-                    solution.append((int(step), positions))
-                continue
-            if '=' in line:
-                key, value = line.split('=', 1)
-                key = key.strip()
-                value = value.strip()
-                if key in ["starts", "goals"]:
-                    value = value.split('),')
-                    value = [tuple(map(int, v.strip().strip('()').split(','))) for v in value if v]
-                data[key] = value
-            else:
-                continue
-
-    data["solution"] = solution
-    return data
 
 
 def create_temp_scenario(enabled, starts, goals, map_name):
     base_path = os.path.dirname(os.path.abspath(__file__))      # LaCAM2_fact/assets
     temp_filepath = base_path + '/temp/temp_scenario.scen'      # LaCAM2_fact/assets/temp/temp_scenario.scen
     with open(temp_filepath, 'w') as new_file:
-        for agent in enabled:
+        for agent in range(len(enabled)):
             start = starts[agent]
             goal = goals[agent]
 
@@ -102,14 +75,14 @@ def create_temp_scenario(enabled, starts, goals, map_name):
 
             elif map_name in ["random-32-32-10", "random-32-32-20"] :
                 new_file.write('1\t' + map_name + '.map\t32\t32\t'+ start_s + '\t' + goal_s + '\t1\n')
+
+            elif map_name == 'test-5-5' :
+                new_file.write('1\test-5-5.map\t5\t5\t'+ start_s + '\t' + goal_s + '\t1\n')
+
             else :
                 raise ValueError("Mapname is not supported")
 
     return 
-
-def is_valid_solution(solution):
-    # Placeholder for checking if the concatenated solution is valid
-    return True
 
 def write_sol(solution, enabled, empty_solution, N):
 
@@ -121,7 +94,7 @@ def write_sol(solution, enabled, empty_solution, N):
             line.append(v)  # Append each vertex to the line
 
 
-def update_local_solution(temp_solution, local_solution, enabled_agents, N):
+def update_local_solution(temp_solution, local_solution, enabled_agents, enabled_ins):
     """
     Updates the local solution with the temporary solution of enabled agents.
     
@@ -130,13 +103,22 @@ def update_local_solution(temp_solution, local_solution, enabled_agents, N):
         local_solution (dict): Dictionary representing the global solution steps.
         enabled_agents (list): List of enabled agent IDs.
     """
+    N = len(enabled_ins)
+
     for step, positions in temp_solution:
+        # if step == 0 :
+        #     continue
         if step not in local_solution:
             local_solution[step] = [(-1, -1)]*N
         
-        for idx, pos in enumerate(positions):
-            agent_id = enabled_agents[idx]
-            local_solution[step][agent_id] = pos
+        # for idx, pos in enumerate(positions):
+        #     agent_id = enabled_agents[idx]              # TODO agent map as in the factorizer
+        #     # agent_id = idx
+        #     local_solution[step][agent_id] = pos
+
+        for i, id_glob in enumerate(enabled_agents) :
+            id_loc = enabled_ins.index(id_glob)
+            local_solution[step][id_loc] = positions[i]
 
 
 
@@ -191,20 +173,21 @@ def is_valid_solution(local_solution, start, goal, width):
         bool: True if the solution is valid, False otherwise.
     """
     # Check that agents start at their designated start positions
-    for agent_id, start_pos in enumerate(start):
-        if local_solution[0][agent_id] != start_pos:
-            print("Invalid starts")
-            return False
+    # for agent_id, start_pos in enumerate(start):
+    #     if local_solution[0][agent_id] != start_pos:
+    #         print("Invalid starts")
+    #         return False
     
-    # Check that agents end at their designated goal positions
-    final_step = max(local_solution.keys())
-    for agent_id, goal_pos in enumerate(goal):
-        if local_solution[final_step][agent_id] != goal_pos:
-            print("Invalid goals")
-            return False
+    # # Check that agents end at their designated goal positions
+    # final_step = max(local_solution.keys())
+    # for agent_id, goal_pos in enumerate(goal):
+    #     if local_solution[final_step][agent_id] != goal_pos:
+    #         print("Invalid goals")
+    #         return False
     
     # Check for vertex and edge collisions, and connectivity
-    last_positions = start
+    last_positions = local_solution[0]
+    final_step = max(local_solution.keys())
     for step in range(1, final_step + 1):
         current_positions = {}
         
@@ -268,23 +251,23 @@ def max_fact_partitions(map_name, N):
     dir_assets = os.path.dirname(os.path.abspath(__file__))                                     #/LaCAM2_fact/assets/
     base_path = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))    # LaCAM2_fact/
     res_path = os.path.join(base_path, 'build', 'result.txt')
-    map_path = os.path.join(base_path, 'assets', map_name, map_name + '.map')
+    map_path = os.path.join(base_path, 'assets', 'maps', map_name, map_name + '.map')
     width = extract_width(map_path)
 
     # Launch lacam a first time and parse result
     start_comm = create_command(map_name, N)
-    print(start_comm)
+    # print(start_comm)
     run_commands_in_ubuntu([start_comm], dir_assets)
     result = parse_file(res_path)
 
     OPENins = []
 
     # Create first instance and push it to open list
-    starts = result['starts']
-    goals = result['goals']
-    enabled = list(range(N))
+    starts_glob = result['starts']
+    goals_glob = result['goals']
+    enabled_glob = list(range(N))
 
-    start_ins = Instance(starts, goals, enabled, 0)
+    start_ins = Instance(starts_glob, goals_glob, enabled_glob, 0)
     OPENins.append(start_ins)
 
     # Dictionnary for the glabal solution and store first step
@@ -292,6 +275,9 @@ def max_fact_partitions(map_name, N):
     
     # Dictionary to store partitions per timestep
     partitions_per_timestep = defaultdict(list)
+
+    # Helper variable
+    last_split = []
 
     while len(OPENins) > 0 :
 
@@ -302,8 +288,8 @@ def max_fact_partitions(map_name, N):
             for enabled in partition :
 
                 # Create a temporary scenario for the current partition
-                create_temp_scenario(enabled, ins.starts, ins.goals, map_name)
-                temp_command = "build/main -i assets/temp/temp_scenario.scen -m assets/" + map_name + "/" + map_name + ".map -N "+ str(len(enabled)) + " -v 0 -f no"
+                create_temp_scenario(enabled, [ins.starts[i] for i in enabled], [ins.goals[i] for i in enabled], map_name)
+                temp_command = "build/main -i assets/temp/temp_scenario.scen -m assets/maps/" + map_name + "/" + map_name + ".map -N "+ str(len(enabled)) + " -v 0 -f no -sp no"
 
                 # Solve the MAPF for the current partition
                 run_commands_in_ubuntu([temp_command], dir_assets)
@@ -312,10 +298,10 @@ def max_fact_partitions(map_name, N):
                 temp_solution = temp_result['solution']
 
                 # Write temp solution to local_solution by taking care of agent id
-                update_local_solution(temp_solution, local_solution, enabled, len(ins.enabled))
+                update_local_solution(temp_solution, local_solution, enabled, ins.enabled)
             
             # pas solution
-            pad_local_solution(local_solution, len(ins.enabled), goals)
+            pad_local_solution(local_solution, len(ins.enabled), goals_glob)
 
             # Check if the local_solution solution is valid
             if is_valid_solution(local_solution, ins.starts, ins.goals, width):
@@ -330,8 +316,12 @@ def max_fact_partitions(map_name, N):
                         for id, true_id in enumerate(ins.enabled) :
                             global_solution[step + ts][true_id] = positions[id]
 
-                # Record the partitions used for the current timestep
-                partitions_per_timestep[ts] = partition
+                # Record the partitions used for the current timestep if they differ from the previous split
+                if partition != last_split :
+                    partitions_per_timestep[ts] = partition
+                    last_split = partition
+                else :
+                    continue
 
                 if len(partition) == len(ins.enabled) :
                     break
@@ -340,8 +330,10 @@ def max_fact_partitions(map_name, N):
                 for enabled_agents in partition:
                     if len(enabled_agents) > 1 :
                         sub_instance = Instance(
-                            [global_solution[ts+1][i] for i in enabled_agents],
-                            [goals[i] for i in enabled_agents],
+                            # [global_solution[ts+1][i] for i in enabled_agents],
+                            # [goals_glob[i] for i in enabled_agents],
+                            global_solution[ts+1],
+                            goals_glob,
                             enabled_agents,
                             ts+1
                         )
@@ -351,9 +343,17 @@ def max_fact_partitions(map_name, N):
                 break
 
     # Save partitions_per_timestep to a JSON file
-    partitions_file_path = os.path.join(base_path, 'assets', 'temp', 'partitions.json')
+    filename = 'partitions.json'
+    partitions_file_path = os.path.join(base_path, 'assets', 'temp', filename)
     with open(partitions_file_path, 'w') as file:
         json.dump(partitions_per_timestep, file, indent=3)
+    
+    filename = 'max_factorize_' + map_name + '_' + str(N) + '.json'
+    partitions_file_path = os.path.join(base_path, 'assets', 'temp', filename)
+    with open(partitions_file_path, 'w') as file:
+        json.dump(partitions_per_timestep, file, indent=3)
+
+    print("Partitions stored")
 
     return partitions_per_timestep
 

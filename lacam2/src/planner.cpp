@@ -245,6 +245,27 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   //infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
   //infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
+
+  /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
+  // Open a file in write mode
+  std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
+
+  outFile << loop_cnt-1 <<" : [[";
+  // Write the timestep data to the file
+  for (uint i = 0; i < N; i++) 
+  {
+    outFile << i;
+    if (i < N -1)
+    {  
+      outFile <<", ";
+    }
+  }
+  outFile <<"]]\n";
+
+  // Close the file
+  outFile.close();
+  /******************************************************************************************/
+
   return solution;
 }
 
@@ -281,16 +302,16 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
 
   // Restore the inheried priorities of agents
   // TODO
-  // if (ins.priority.size() > 1)
-  // {
-  //   for (int i=0; i<int(N); i++)
-  //     H->priorities[i] = ins.priority[i];
+  if (ins.priority.size() > 1)
+  {
+    for (int i=0; i<int(N); i++)
+      H->priorities[i] = ins.priority[i];
 
-  //   // set order in decreasing priority 
-  //   std::iota(H->order.begin(), H->order.end(), 0);
-  //   std::sort(H->order.begin(), H->order.end(),
-  //             [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
-  // }
+    // set order in decreasing priority 
+    std::iota(H->order.begin(), H->order.end(), 0);
+    std::sort(H->order.begin(), H->order.end(),
+              [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
+  }
   
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
@@ -379,20 +400,50 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       {
         Partitions split = factalgo.is_factorizable_def(timestep, ins.enabled);
         if (!split.empty())
-          sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split);
+          sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split, H->priorities);
         else
           sub_instances = {};
       }
       else 
       {
-        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances);
+        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, H->priorities);
       }
 
       if (sub_instances.size() > 0)
       {
-        H_goal = H;  
+        H_goal = H;
+
+
+        /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
+        // Open a file in write mode
+        std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
+
+        outFile << timestep<<" : [";
+        // Write the timestep data to the file
+        size_t cnt0 = 0;
+        for (const auto& ins : sub_instances) {
+          outFile << "[";
+          size_t cnt = 0;
+          for (const auto i : ins.get()->enabled) {
+            outFile << i;
+            if (cnt < ins.get()->N -1)
+              outFile <<", ";
+
+            cnt++;
+
+          }
+          outFile << "]";
+          if (cnt0 < sub_instances.size()-1)
+            outFile <<", ";
+        }
+        outFile <<"]\n";
+
+        // Close the file
+        outFile.close();
+        /**********************************************************************************************************************/
         break;
       }
+
 
       // idea for recovering optimality
       // {
@@ -407,6 +458,9 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     timestep += 1;
 
   }
+
+
+  
 
 
   // backtrack
