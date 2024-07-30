@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 project(lacam2_project CXX)
 
+# Option to enable profiling
+option(ENABLE_PROFILING "Enable profiling support" OFF)
+
+if (ENABLE_PROFILING)
+    add_definitions(-DENABLE_PROFILING)
+endif()
+
 # Add the easy_profiler subdirectory first
 add_subdirectory(third_party/easy_profiler)
 
