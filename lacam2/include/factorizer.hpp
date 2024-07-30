@@ -29,10 +29,10 @@ public:
     virtual ~FactAlgo() = default;
 
     // Determine if a problem is factorizable at a given timestep
-    std::list<std::shared_ptr<Instance>> is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances);
+    std::list<std::shared_ptr<Instance>> is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities);
 
     // Helper method to actually split the current instance 
-    std::list<std::shared_ptr<Instance>> split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions) const;
+    std::list<std::shared_ptr<Instance>> split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
 
     // Simple manhattan distance computation between two vertices of the map.
     int get_manhattan(int index1, int index2) const;

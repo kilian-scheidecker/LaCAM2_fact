@@ -24,7 +24,7 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
                         break
                 else :
                     end = ' -v 0' + ' -f ' + factalgo
-                command = "/usr/bin/time -v build/main -i assets/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + '/' + map_name + ".map -N " + str(N) + end
+                command = "/usr/bin/time -v build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/" + map_name + '/' + map_name + ".map -N " + str(N) + end
                 commands.append(command)
 
     return commands
@@ -33,12 +33,12 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
 def create_scen(N: int, path: str, map_name: str):
 
     basePath = path
-    baseScenPath = basePath + '/' + map_name + '/' + map_name + '-scen-'
-    new_scen_path = basePath + '/' + map_name + '/other_scenes/' + map_name + '-' + str(N) + '.scen'
+    baseScenPath = basePath + '/maps/' + map_name + '/' + map_name + '-scen-'
+    new_scen_path = basePath + '/maps/' + map_name + '/other_scenes/' + map_name + '-' + str(N) + '.scen'
 
     # Need to create directory if doesn't exist
-    if not os.path.exists(basePath + '/' + map_name + '/other_scenes'): 
-        os.makedirs(basePath + '/' + map_name + '/other_scenes')
+    if not os.path.exists(basePath + '/maps/' + map_name + '/other_scenes'): 
+        os.makedirs(basePath + '/maps/' + map_name + '/other_scenes')
 
     
     file = open(baseScenPath + 'base.scen')
@@ -135,6 +135,58 @@ def initialize(dir: str):
     return
 
 
+# Compute the complexity score
+def complexity_score(data_dict):
+    # Find the maximum key in the dictionary
+    max_key = max(data_dict.keys())
+
+    # Initialize the score
+    score = 1
+
+    # Iterate over each key and its partitions in the dictionary
+    for key, partitions in data_dict.items():
+        # Calculate the exponent (max_key - current key)
+        exponent = max_key - key
+        
+        # Calculate the sum of cardinality raised to the exponent for each partition
+        partition_sum = sum(len(partition) ** exponent for partition in partitions)
+        
+        # Multiply by the key and update the score
+        score *= (key+1) * partition_sum
+
+    return score
+
+
+# Get the score given a particular factorization
+def get_score():
+
+    dir_py = os.path.dirname(os.path.abspath(__file__))       #/lacam_fact/assets
+    filename = os.path.join(dir_py, 'temp', 'partitions.txt')
+    
+    # Open the file and read its contents
+    with open(filename, 'r') as file:
+        data = file.read()
+
+    # Initialize the dictionary to store the result
+    data_dict = {}
+    
+    # Parse the content of the file line by line
+    for line in data.strip().split("\n"):
+        key, value = line.split(" : ")
+        key = int(key.strip())
+        # Convert the string representation to a Python list of sets
+        value = eval(value)  # Assuming the format uses square brackets for lists
+        data_dict[key] = value
+
+    # Clear the content of the file
+    open(filename, 'w').close()
+
+    # Complexity score :
+    score = complexity_score(data_dict)
+
+    return score
+
+
 # Main function that creates random tests and runs them automatically
 def auto_test() :
        
@@ -158,8 +210,8 @@ def auto_test() :
 
         # verify the content of the map list
         for map_name in maps :
-            if map_name not in ['random-32-32-10', 'random-32-32-20', 'warehouse_small', 'warehouse_large', 'warehouse-20-40-10-2-2']:
-                raise ValueError("This map is not supported (yet), please select from : 'random-32-32-10', 'random-32-32-20', 'warehouse_small', 'warehouse_large', 'warehouse-20-40-10-2-2'")
+            if map_name not in ['random-32-32-10', 'random-32-32-20', 'warehouse_small', 'warehouse_large', 'warehouse-20-40-10-2-2', 'test-5-5']:
+                raise ValueError("This map is not supported (yet), please select from : 'random-32-32-10', 'random-32-32-20', 'warehouse_small', 'warehouse_large', 'warehouse-20-40-10-2-2', 'test-5-5'")
         
         if init == 1:
             initialize(WSL_DIR)
@@ -177,17 +229,23 @@ def auto_test() :
                     break
                 if map_name == "random-32-32-20" and N > 700 :
                     break
+                if map_name == "test-5-5" and N > 10 :
+                    break
 
                 print(f"\nTesting with {N} agents in {map_name}")
                 for i in range(n) :
                     commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
                     # create_scen(N, dir_py, map_name)
                     for command in commmands :
+                        print(command)
                         if 'FactDef' in command :
                             # Determine the max factorizability and store it assets/temp/partitions.json
                             max_fact_partitions(map_name=map_name, N=N)
                         
                         run_commands_in_ubuntu([command], WSL_DIR)
+                        score = get_score()
+                        update_stats_json("Complexity score", str(score))
+
                         total += 1
 
             print(f"\nSuccessfully completed {total} tests.\n")

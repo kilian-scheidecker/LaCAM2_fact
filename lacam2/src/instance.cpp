@@ -7,24 +7,25 @@ static const std::regex r_instance =
 
 
 // Constructor for factorization
-Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N)
-    : G(_G), 
-      starts(std::move(_starts)), 
-      goals(std::move(_goals)), 
-      enabled(std::move(_enabled)),
-      N(_N)
-      //priority(_priority)       // optional argument to specify the inherited priority of the agents
-{ 
-}
-// Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority)
+// Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N)
 //     : G(_G), 
 //       starts(std::move(_starts)), 
 //       goals(std::move(_goals)), 
 //       enabled(std::move(_enabled)),
 //       N(_N)
-//       priority(_priority)       // optional argument to specify the inherited priority of the agents
+//       //priority(_priority)       // optional argument to specify the inherited priority of the agents
 // { 
 // }
+
+Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority)
+    : G(_G), 
+      starts(std::move(_starts)), 
+      goals(std::move(_goals)), 
+      enabled(std::move(_enabled)),
+      N(_N),
+      priority(_priority)       // optional argument to specify the inherited priority of the agents
+{ 
+}
 
 // For MAPF benchmark, first instance of factorized version as well
 Instance::Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, const int _N)

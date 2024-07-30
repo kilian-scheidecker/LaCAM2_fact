@@ -8,7 +8,7 @@
 //#include "../include/dist_table.hpp"
 //#include "../include/utils.hpp"
 
-#define SAFETY_DISTANCE 3
+#define SAFETY_DISTANCE 0
 
 
 /****************************************************************************************\
@@ -16,7 +16,7 @@
 \****************************************************************************************/
 
 std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose,
-                                     const std::vector<int>& enabled, const std::vector<int>& distances)
+                                     const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities)
 {
   PROFILE_FUNC(profiler::colors::Yellow);
 
@@ -66,29 +66,29 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, c
                     partitions.end());
 
   if (partitions.size() > 1) {
-    return split_ins(G, C, goals, verbose, enabled, partitions);    // most expensive
+    return split_ins(G, C, goals, verbose, enabled, partitions, priorities);    // most expensive
   } else {
     return {};
   }
 }
 
 std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose,
-                             const std::vector<int>& enabled, const Partitions& partitions) const
+                             const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const
 {
     PROFILE_FUNC(profiler::colors::Yellow200);
     PROFILE_BLOCK("initialization");
 
     // printing info about the partitions
-    // if (verbose > 1) {
-    //   std::cout << "New partitions :\n";
-    //   for (const auto& set : partitions) {
-    //     for (auto i : set) {
-    //       std::cout << i << ", ";
-    //     }
-    //     std::cout << " // ";
-    //   }
-    //   std::cout << " \n";
-    // }
+    if (verbose > 1) {
+      std::cout << "New partitions :\n";
+      for (const auto& set : partitions) {
+        for (auto i : set) {
+          std::cout << i << ", ";
+        }
+        std::cout << " // ";
+      }
+      std::cout << " \n";
+    }
 
     // maps the true id of the agent to its position in the instance to split (reverse enabled vector. Maps true_id to rel_id)
     std::unordered_map<int, int> agent_map;
@@ -116,7 +116,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
         {
             auto it = agent_map.find(true_id);
             int prev_id = it->second;
-            //priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
+            priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
             C0[new_id] = C_new[prev_id];
             G0[new_id] = goals[prev_id];
             ++new_id;
@@ -126,7 +126,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
         if (!C0.empty()) {
 
             PROFILE_BLOCK("create instance");
-            Instance I(G, C0, G0, new_enabled, new_enabled.size());
+            Instance I(G, C0, G0, new_enabled, new_enabled.size(), priorities_ins);
             END_BLOCK();
 
             // print info about the newly created sub-instances
