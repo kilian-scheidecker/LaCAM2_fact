@@ -5,6 +5,6 @@
   "jump": 1,
   "n": 1,
   "map_name": ["random-32-32-20"],
-  "factorize": ["FactDistance", "FactBbox", "FactOrient", "FactAstar", "FactDef"],
+  "factorize": ["FactDistance"],
   "multi_threading": ["no"]
 }
