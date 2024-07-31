@@ -139,9 +139,31 @@ def unfold_locations(loc_path: str, map_name: str, width: int):
 
     return"""
 
+
+# Creates the agent file based on random sampling of the max_agent number test case
+def create_scen(N: int, path: str, map_name: str):
+
+    basePath = path
+    baseScenPath = basePath + '/maps/' + map_name + '/' + map_name + '-scen-'
+    new_scen_path = basePath + '/maps/' + map_name + '/other_scenes/' + map_name + '-' + str(N) + '.scen'
+
+    # Need to create directory if doesn't exist
+    if not os.path.exists(basePath + '/maps/' + map_name + '/other_scenes'): 
+        os.makedirs(basePath + '/maps/' + map_name + '/other_scenes')
+
+    
+    file = open(baseScenPath + 'base.scen')
+    content = file.readlines()
+    sampled = random.sample(population=content, k=N)
+
+    new_file = open(new_scen_path, 'w+')
+    new_file.writelines(sampled)
+    file.close()
+    new_file.close()
+
+    return
+
 def setup(mapname: str) :
     map_to_locs(mapname)
     create_base_scen(mapname)
 
-
-# setup('test-5-5')
