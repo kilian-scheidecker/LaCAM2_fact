@@ -27,7 +27,8 @@ COLUMN NAMES
     "Sum of loss": "2782",
     "CPU usage (percent)": "57",
     "Maximum RAM usage (Mbytes)": "5.112",
-    "Average RAM usage (Mbytes)": "0.0"
+    "Average RAM usage (Mbytes)": "0.0",
+    "Complexity score": 1255
 }
 """
 

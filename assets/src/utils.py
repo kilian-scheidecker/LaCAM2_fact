@@ -11,10 +11,11 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
     for factalgo in factorize :
         for thread in multi_threading :
             if thread == "yes":
-                if factalgo != "no" :
+                if factalgo not in ["no", "FactDef"] :
                     end = ' -v 0' + ' -f ' + factalgo + ' -mt yes'
                 else :
-                    break
+                    print("Cannot use multi threading on standard or FactDef LaCAM")
+                    continue
             else :
                 end = ' -v 0' + ' -f ' + factalgo
             command = "/usr/bin/time -v build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + '/' + map_name + ".map -N " + str(N) + end
