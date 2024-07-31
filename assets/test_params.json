@@ -1,10 +1,9 @@
 {
-  "init": "False",
-  "from": 6,
-  "to": 6,
+  "from": 3,
+  "to": 3,
   "jump": 1,
   "n": 1,
   "map_name": ["random-32-32-20"],
-  "factorize": ["FactDef"],
+  "factorize": ["no", "FactDef"],
   "multi_threading": ["no"]
 }

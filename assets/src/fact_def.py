@@ -1,9 +1,8 @@
 import os, json
-import numpy as np
+from os.path import join, dirname as up
 from collections import defaultdict
 from typing import Iterable, List, Tuple, Dict
-from src.testing import run_commands_in_ubuntu
-from src.utils import parse_file
+from src.utils import run_commands_in_ubuntu, parse_file
 
 class Instance:
     def __init__(self, starts: List[Tuple[int, int]], goals: List[Tuple[int, int]], enabled: List[int], time_start: int):
@@ -11,11 +10,7 @@ class Instance:
         self.goals = goals
         self.enabled = enabled
         self.time_start = time_start
-
-def create_command(map_name: str, N: int):
-    command = "build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no -sp no"
-    return command
-
+        
 
 def get_partitions(iterable: Iterable) -> List[List[List[int]]]:
     def partitions(s):
@@ -39,6 +34,7 @@ def get_partitions(iterable: Iterable) -> List[List[List[int]]]:
     # Return the partitions in decreasing order of cardinality
     return sorted(all_partitions, key=len, reverse=True)
 
+
 def extract_width(filepath: str) -> int:
     with open(filepath, 'r') as file:
         for line in file:
@@ -51,10 +47,9 @@ def extract_width(filepath: str) -> int:
 
 
 
-
 def create_temp_scenario(enabled, starts, goals, map_name):
-    base_path = os.path.dirname(os.path.abspath(__file__))      # LaCAM2_fact/assets
-    temp_filepath = base_path + '/temp/temp_scenario.scen'      # LaCAM2_fact/assets/temp/temp_scenario.scen
+    assets_path = up(up(__file__))      # LaCAM2_fact/assets
+    temp_filepath = join(assets_path, 'temp', 'temp_scenario.scen')      # LaCAM2_fact/assets/temp/temp_scenario.scen
     with open(temp_filepath, 'w') as new_file:
         for agent in range(len(enabled)):
             start = starts[agent]
@@ -106,15 +101,9 @@ def update_local_solution(temp_solution, local_solution, enabled_agents, enabled
     N = len(enabled_ins)
 
     for step, positions in temp_solution:
-        # if step == 0 :
-        #     continue
+
         if step not in local_solution:
             local_solution[step] = [(-1, -1)]*N
-        
-        # for idx, pos in enumerate(positions):
-        #     agent_id = enabled_agents[idx]              # TODO agent map as in the factorizer
-        #     # agent_id = idx
-        #     local_solution[step][agent_id] = pos
 
         for i, id_glob in enumerate(enabled_agents) :
             id_loc = enabled_ins.index(id_glob)
@@ -158,6 +147,9 @@ def is_neighbor(pos1, pos2, width):
         return True
     return False
 
+
+
+
 def is_valid_solution(local_solution, start, goal, width):
     """
     Validates the solution by checking for vertex collisions, edge collisions,
@@ -172,19 +164,7 @@ def is_valid_solution(local_solution, start, goal, width):
     Returns:
         bool: True if the solution is valid, False otherwise.
     """
-    # Check that agents start at their designated start positions
-    # for agent_id, start_pos in enumerate(start):
-    #     if local_solution[0][agent_id] != start_pos:
-    #         print("Invalid starts")
-    #         return False
-    
-    # # Check that agents end at their designated goal positions
-    # final_step = max(local_solution.keys())
-    # for agent_id, goal_pos in enumerate(goal):
-    #     if local_solution[final_step][agent_id] != goal_pos:
-    #         print("Invalid goals")
-    #         return False
-    
+
     # Check for vertex and edge collisions, and connectivity
     last_positions = local_solution[0]
     final_step = max(local_solution.keys())
@@ -239,25 +219,19 @@ def clean_partition_dict(partition_dict):
 
     return cleaned_dict
 
-    # Remove entries with empty lists
-    super_cleaned_dict = {k: v for k, v in super_cleaned_dict.items() if v}
-
-    return super_cleaned_dict
-
 
 def max_fact_partitions(map_name, N):
 
-    # Setup directories
-    dir_assets = os.path.dirname(os.path.abspath(__file__))                                     #/LaCAM2_fact/assets/
-    base_path = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))    # LaCAM2_fact/
-    res_path = os.path.join(base_path, 'build', 'result.txt')
-    map_path = os.path.join(base_path, 'assets', 'maps', map_name, map_name + '.map')
+    # Setup directories 
+    base_path = up(up(up(__file__)))     # LaCAM2_fact/
+    res_path = join(base_path, 'build', 'result.txt')
+    map_path = join(base_path, 'assets', 'maps', map_name, map_name + '.map')
     width = extract_width(map_path)
 
     # Launch lacam a first time and parse result
-    start_comm = create_command(map_name, N)
+    start_comm = "build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no -sp no"
     # print(start_comm)
-    run_commands_in_ubuntu([start_comm], dir_assets)
+    run_commands_in_ubuntu([start_comm])
     result = parse_file(res_path)
 
     OPENins = []
@@ -292,7 +266,7 @@ def max_fact_partitions(map_name, N):
                 temp_command = "build/main -i assets/temp/temp_scenario.scen -m assets/maps/" + map_name + "/" + map_name + ".map -N "+ str(len(enabled)) + " -v 0 -f no -sp no"
 
                 # Solve the MAPF for the current partition
-                run_commands_in_ubuntu([temp_command], dir_assets)
+                run_commands_in_ubuntu([temp_command])
 
                 temp_result = parse_file(res_path)
                 temp_solution = temp_result['solution']
@@ -344,27 +318,16 @@ def max_fact_partitions(map_name, N):
 
     # Save partitions_per_timestep to a JSON file
     filename = 'partitions.json'
-    partitions_file_path = os.path.join(base_path, 'assets', 'temp', filename)
+    partitions_file_path = join(base_path, 'assets', 'temp', filename)
     with open(partitions_file_path, 'w') as file:
         json.dump(partitions_per_timestep, file, indent=3)
     
-    filename = 'max_factorize_' + map_name + '_' + str(N) + '.json'
-    partitions_file_path = os.path.join(base_path, 'assets', 'temp', filename)
-    with open(partitions_file_path, 'w') as file:
-        json.dump(partitions_per_timestep, file, indent=3)
+    # Just for logging  
+    # filename = 'max_factorize_' + map_name + '_' + str(N) + '.json'
+    # partitions_file_path = join(base_path, 'assets', 'temp', filename)
+    # with open(partitions_file_path, 'w') as file:
+    #     json.dump(partitions_per_timestep, file, indent=3)
 
     print("Partitions stored")
 
     return partitions_per_timestep
-
-
-
-# partitions = get_partitions([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 ,19, 20])
-
-# for value in partitions :
-#     print(f'{value}, ')
-
-# print(len(partitions))
-
-
-# max_fact_partitions("random-32-32-20", 4)
