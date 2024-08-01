@@ -89,34 +89,69 @@ def parse_file(filename: str) -> Dict[str, any]:
 
 
 # Runs a set of command lines in Ubuntu environment
-def run_commands_in_ubuntu(commands):
+def run_command_in_ubuntu(command: str) -> int :
         
-    # Run commands in WSL
-    for command in commands:
-        try :
-            c = command
-            result = subprocess.run(c, shell=True, capture_output=True, text=True)
-            if result.returncode == 0:
-                # Output of the command should contain RAM usage information
-                output_lines = result.stderr.splitlines()
-                for line in output_lines:
-                    if "Maximum resident set size" in line :
-                        max_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
-                        update_stats_json("Maximum RAM usage (Mbytes)", str(max_ram_usage))
-                        print(f"- test completed. RAM Usage: {max_ram_usage} Mo")
-                    elif "Average resident set size" in line :
-                        avg_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
-                        update_stats_json("Average RAM usage (Mbytes)", str(avg_ram_usage))
-                    elif "Percent of CPU this job got" in line :
-                        cpu_usage = line.split(":")[1].strip()             # in percent
-                        cpu_usage = cpu_usage.rstrip('%')
-                        update_stats_json("CPU usage (percent)", str(cpu_usage))
+    # Run command in WSL
+    try :
+        c = command
+        result = subprocess.run(c, shell=True, capture_output=True, text=True)
+        if result.returncode == 0:
+            # Output of the command should contain RAM usage information
+            output_lines = result.stderr.splitlines()
+            for line in output_lines:
+                if "Maximum resident set size" in line :
+                    max_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
+                    update_stats_json("Maximum RAM usage (Mbytes)", str(max_ram_usage))
+                    print(f"- test completed. RAM Usage: {max_ram_usage} Mo")
+                elif "Average resident set size" in line :
+                    avg_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
+                    update_stats_json("Average RAM usage (Mbytes)", str(avg_ram_usage))
+                elif "Percent of CPU this job got" in line :
+                    cpu_usage = line.split(":")[1].strip()             # in percent
+                    cpu_usage = cpu_usage.rstrip('%')
+                    update_stats_json("CPU usage (percent)", str(cpu_usage))
+        return 1
+
+
+    except :
+        # Handle errors if any of the commands fail
+        print("- solving failed\n")
+        update_stats_json("Maximum RAM usage (Mbytes)", "-1")
+        update_stats_json("Average RAM usage (Mbytes)", "-1")
+        update_stats_json("CPU usage (percent)", "-1")
+        return 0
 
 
 
-        except :
-            # Handle errors if any of the commands fail
-            print("- solving failed\n")
-            update_stats_json("Maximum RAM usage (Mbytes)", "-1")
-            update_stats_json("Average RAM usage (Mbytes)", "-1")
-            update_stats_json("CPU usage (percent)", "-1")
+def get_partitions_txt(filepath) :
+
+    # Open the file and read its contents
+    with open(filepath, 'r') as file:
+        data = file.read()
+
+    # Initialize the dictionary to store the result
+    data_dict = {}
+    
+    # Parse the content of the file line by line
+    for line in data.strip().split("\n"):
+        key, value = line.split(" : ")
+        key = int(key.strip())
+        # Convert the string representation to a Python list of sets
+        value = eval(value)  # Assuming the format uses square brackets for lists
+        data_dict[key] = value
+
+    return data_dict
+
+
+
+
+def partitions_txt_to_json():
+
+    dir_py = up(up(__file__))    # LaCAM2_fact/assets
+    filename = join(dir_py, 'temp', 'partitions.txt')
+    data_dict = get_partitions_txt(filename)
+
+
+    partitions_file_path = join(dir_py, 'temp', 'partitions.json')
+    with open(partitions_file_path, 'w') as file:
+        json.dump(data_dict, file, indent=3)

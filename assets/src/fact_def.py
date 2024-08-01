@@ -2,7 +2,7 @@ import os, json
 from os.path import join, dirname as up
 from collections import defaultdict
 from typing import Iterable, List, Tuple, Dict
-from src.utils import run_commands_in_ubuntu, parse_file
+from src.utils import run_command_in_ubuntu, parse_file
 
 class Instance:
     def __init__(self, starts: List[Tuple[int, int]], goals: List[Tuple[int, int]], enabled: List[int], time_start: int):
@@ -231,7 +231,7 @@ def max_fact_partitions(map_name, N):
     # Launch lacam a first time and parse result
     start_comm = "build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no -sp no"
     # print(start_comm)
-    run_commands_in_ubuntu([start_comm])
+    run_command_in_ubuntu(start_comm)
     result = parse_file(res_path)
 
     OPENins = []
@@ -266,7 +266,7 @@ def max_fact_partitions(map_name, N):
                 temp_command = "build/main -i assets/temp/temp_scenario.scen -m assets/maps/" + map_name + "/" + map_name + ".map -N "+ str(len(enabled)) + " -v 0 -f no -sp no"
 
                 # Solve the MAPF for the current partition
-                run_commands_in_ubuntu([temp_command])
+                run_command_in_ubuntu(temp_command)
 
                 temp_result = parse_file(res_path)
                 temp_solution = temp_result['solution']

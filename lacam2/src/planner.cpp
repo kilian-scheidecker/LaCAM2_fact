@@ -441,6 +441,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
         // Close the file
         outFile.close();
         /**********************************************************************************************************************/
+        
         break;
       }
 
