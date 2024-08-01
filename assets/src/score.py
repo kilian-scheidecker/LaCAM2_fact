@@ -2,7 +2,7 @@ from os.path import join, dirname as up
 from src.utils import parse_file
 
 
-# Compute the complexity score
+
 def complexity_score(data_dict):
 
     print(data_dict)
@@ -12,13 +12,14 @@ def complexity_score(data_dict):
     result = parse_file(res_path)
 
     makespan = int(result['makespan'])
+    N = int(result['agents'])
     a = 5   # action space of the agents
 
     prev_t = {}
 
     score = 0
 
-    for timestep in sorted(data_dict):
+    for timestep in reversed(sorted(data_dict)):
 
         agent_count = sum(len(sublist) for sublist in data_dict[timestep])
 
@@ -27,18 +28,18 @@ def complexity_score(data_dict):
 
                 # compute the delta_t from previous split to current timestep
                 if enabled not in prev_t.keys() :
-                    delta_t = timestep
-                elif prev_t[enabled] < timestep :
-                    delta_t = timestep - prev_t[enabled]
+                    delta_t = makespan - timestep
+                elif prev_t[enabled] > timestep :
+                    delta_t = prev_t[enabled] - timestep
                 # update previous timestep
                 prev_t[enabled] = timestep
 
-            # for solo agents, compute score after split
-            if len(partition) == 1 :
-                score += (makespan - timestep)*a
+            score += delta_t*a**len(partition)
 
-        score += delta_t*a**agent_count
-    
+        if agent_count == N:
+            delta_t = prev_t[0]
+            score += delta_t*a**N
+
     return score
 
 
