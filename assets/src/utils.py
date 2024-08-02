@@ -60,6 +60,7 @@ def parse_file(filename: str) -> Dict[str, any]:
     solution = []
     in_solution = False
 
+    # TODO complete this to support partitions as well. Goal is to get rid of the partitions.txt
     with open(filename, 'r') as file:
         for line in file:
             line = line.strip()

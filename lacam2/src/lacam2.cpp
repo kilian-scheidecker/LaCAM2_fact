@@ -18,14 +18,14 @@
 
 
 
-Solution solve(const Instance& ins, std::string& additional_info,
+Solution solve(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep,
                const int verbose, const Deadline* deadline, std::mt19937* MT,
                const Objective objective, const float restart_rate,
                Infos* infos_ptr)
 {
     // setup the initial planner. as soon as it recognizes factorization, it stops and returns the subproblems. if it does not recognize any factorization, it returns the solution
     auto planner = Planner(ins, deadline, MT, verbose, objective, restart_rate);
-    return planner.solve(additional_info, infos_ptr);
+    return planner.solve(additional_info, infos_ptr, partitions_per_timestep);
 }
 
 
@@ -51,7 +51,7 @@ void write_sol(const Solution &solution, const std::vector<int> &enabled, std::s
 }
 
 // solve_fact_MT function
-Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAlgo& factalgo,
+Solution solve_fact_MT(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo,
                        const int verbose, const Deadline* deadline, std::mt19937* MT,
                        const Objective objective, const float restart_rate,
                        Infos* infos_ptr)
@@ -111,7 +111,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAl
                 info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tthread n° ", thread_num, " is solving a problem");
 
                 Planner planner(*I, deadline, MT, verbose, objective, restart_rate, empty_solution);
-                Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo);
+                Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep);
 
                 {
                     std::lock_guard<std::mutex> lock(queue_mutex);
@@ -157,7 +157,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, FactAl
 
 
 
-Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo& factalgo,
+Solution solve_fact(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo,
                const int verbose, const Deadline* deadline, std::mt19937* MT, 
                const Objective objective, const float restart_rate, 
                Infos* infos_ptr)
@@ -182,7 +182,7 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, FactAlgo&
 
         // Solve the instance
         auto planner = Planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
-        Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo);
+        Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep);
 
         // Push instances to open list
         for (const auto& sub_ins : bundle.instances)

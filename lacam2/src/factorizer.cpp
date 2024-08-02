@@ -16,7 +16,7 @@
 \****************************************************************************************/
 
 std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose,
-                                     const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities)
+                                     const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities, Partitions& partitions_at_timestep)
 {
   PROFILE_FUNC(profiler::colors::Yellow);
 
@@ -66,6 +66,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, c
                     partitions.end());
 
   if (partitions.size() > 1) {
+    partitions_at_timestep = partitions;
     return split_ins(G, C, goals, verbose, enabled, partitions, priorities);    // most expensive
   } else {
     return {};

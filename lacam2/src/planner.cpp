@@ -131,7 +131,7 @@ Planner::Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline,
 Planner::~Planner() {}
 
 // standard solving
-Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
+Solution Planner::solve(std::string& additional_info, Infos* infos_ptr, PartitionsMap& partitions_per_timestep)
 {
   solver_info(1, "start search");
 
@@ -272,7 +272,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 
 
 // factorized solving
-Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo)
+Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep)
 {
 // #ifdef ENABLE_PROFILING
 //   EASY_FUNCTION(profiler::colors::Green, "Planner::solve_fact");
@@ -406,13 +406,12 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       }
       else 
       {
-        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, H->priorities);
+        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, H->priorities, partitions_per_timestep[timestep]);
       }
 
       if (sub_instances.size() > 0)
       {
         H_goal = H;
-
 
         /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
         // Open a file in write mode

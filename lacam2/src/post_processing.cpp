@@ -167,7 +167,8 @@ static const std::regex r_map_name = std::regex(R"(.+/(.+))");
 void make_log(const Instance& ins, const Solution& solution,
               const std::string& output_name, const double comp_time_ms,
               const std::string& map_name, const int seed,
-              const std::string& additional_info, const bool log_short)
+              const std::string& additional_info, PartitionsMap& partitions_per_timestep,
+              const bool log_short)
 {
   // map name
   std::smatch results;
@@ -216,6 +217,21 @@ void make_log(const Instance& ins, const Solution& solution,
       log << "(" << get_x(v->index) << "," << get_y(v->index) << "),";
     }
     log << "\n";
+  }
+  log << "\npartitions_per_timestep=\n";
+  for (auto &t_partits : partitions_per_timestep) {
+    if (t_partits.second.size() > 0) {
+      log << t_partits.first << ":";
+      log << "[";
+      for (auto enabled : t_partits.second) {
+        log << "[";
+        for (auto i : enabled) {
+          log << i << ", ";
+        }
+        log << "], ";
+      }
+      log << "]\n";
+    }
   }
   log.close();
 }
