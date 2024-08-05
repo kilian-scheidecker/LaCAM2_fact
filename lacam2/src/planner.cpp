@@ -248,22 +248,22 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr, Partitio
 
   /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
   // Open a file in write mode
-  std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
+  // std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
 
-  outFile << loop_cnt-1 <<" : [[";
-  // Write the timestep data to the file
-  for (uint i = 0; i < N; i++) 
-  {
-    outFile << i;
-    if (i < N -1)
-    {  
-      outFile <<", ";
-    }
-  }
-  outFile <<"]]\n";
+  // outFile << loop_cnt-1 <<" : [[";
+  // // Write the timestep data to the file
+  // for (uint i = 0; i < N; i++) 
+  // {
+  //   outFile << i;
+  //   if (i < N -1)
+  //   {  
+  //     outFile <<", ";
+  //   }
+  // }
+  // outFile <<"]]\n";
 
-  // Close the file
-  outFile.close();
+  // // Close the file
+  // outFile.close();
   /******************************************************************************************/
 
   return solution;
@@ -400,7 +400,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       {
         Partitions split = factalgo.is_factorizable_def(timestep, ins.enabled);
         if (!split.empty())
-          sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split, H->priorities);
+          sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split, H->priorities, partitions_per_timestep[timestep]);
         else
           sub_instances = {};
       }
@@ -415,30 +415,30 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
 
         /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
         // Open a file in write mode
-        std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
+        // std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
 
-        outFile << timestep<<" : [";
-        // Write the timestep data to the file
-        size_t cnt0 = 0;
-        for (const auto& ins : sub_instances) {
-          outFile << "[";
-          size_t cnt = 0;
-          for (const auto i : ins.get()->enabled) {
-            outFile << i;
-            if (cnt < ins.get()->N -1)
-              outFile <<", ";
+        // outFile << timestep<<" : [";
+        // // Write the timestep data to the file
+        // size_t cnt0 = 0;
+        // for (const auto& ins : sub_instances) {
+        //   outFile << "[";
+        //   size_t cnt = 0;
+        //   for (const auto i : ins.get()->enabled) {
+        //     outFile << i;
+        //     if (cnt < ins.get()->N -1)
+        //       outFile <<", ";
 
-            cnt++;
+        //     cnt++;
 
-          }
-          outFile << "]";
-          if (cnt0 < sub_instances.size()-1)
-            outFile <<", ";
-        }
-        outFile <<"]\n";
+        //   }
+        //   outFile << "]";
+        //   if (cnt0 < sub_instances.size()-1)
+        //     outFile <<", ";
+        // }
+        // outFile <<"]\n";
 
-        // Close the file
-        outFile.close();
+        // // Close the file
+        // outFile.close();
         /**********************************************************************************************************************/
         
         break;

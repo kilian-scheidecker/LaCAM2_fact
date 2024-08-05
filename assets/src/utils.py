@@ -1,6 +1,5 @@
-import json
-import subprocess
-from typing import Dict
+import json, subprocess, ast
+from typing import Dict, List, Any
 from os.path import join, dirname as up
 
 
@@ -55,18 +54,25 @@ def update_stats_json(s: str, string_info: str):
 
 
 
-def parse_file(filename: str) -> Dict[str, any]:
+def parse_file(filename: str) -> Dict[str, Any]:
     data = {}
     solution = []
+    partitions_per_timestep = {}
     in_solution = False
+    in_partitions = False
 
-    # TODO complete this to support partitions as well. Goal is to get rid of the partitions.txt
     with open(filename, 'r') as file:
         for line in file:
             line = line.strip()
             if line.startswith("solution="):
                 in_solution = True
+                in_partitions = False
                 continue
+            elif line.startswith("partitions_per_timestep="):
+                in_partitions = True
+                in_solution = False
+                continue
+
             if in_solution:
                 if ':' in line:
                     step, positions = line.split(':')
@@ -74,6 +80,16 @@ def parse_file(filename: str) -> Dict[str, any]:
                     positions = [tuple(map(int, pos.strip().strip('()').split(','))) for pos in positions if pos]
                     solution.append((int(step), positions))
                 continue
+            elif in_partitions:
+                if ':' in line:
+                    timestep, partitions = line.split(':')
+                    timestep = int(timestep.strip())
+                    partitions = ast.literal_eval(partitions)
+                    # partitions = partitions.strip().strip('[]').split('],')
+                    # partitions = [list(map(int, p.strip('[]').split(','))) for p in partitions if p]
+                    partitions_per_timestep[timestep] = partitions
+                continue
+
             if '=' in line:
                 key, value = line.split('=', 1)
                 key = key.strip()
@@ -81,11 +97,14 @@ def parse_file(filename: str) -> Dict[str, any]:
                 if key in ["starts", "goals"]:
                     value = value.split('),')
                     value = [tuple(map(int, v.strip().strip('()').split(','))) for v in value if v]
+                elif key in ["solved", "soc", "soc_lb", "makespan", "makespan_lb", "sum_of_loss", "sum_of_loss_lb", "comp_time", "seed", "optimal", "objective", "loop_cnt", "num_node_gen"]:
+                    value = int(value)
                 data[key] = value
             else:
                 continue
 
     data["solution"] = solution
+    data["partitions_per_timestep"] = partitions_per_timestep
     return data
 
 
@@ -148,11 +167,14 @@ def get_partitions_txt(filepath) :
 
 def partitions_txt_to_json():
 
-    dir_py = up(up(__file__))    # LaCAM2_fact/assets
-    filename = join(dir_py, 'temp', 'partitions.txt')
-    data_dict = get_partitions_txt(filename)
+    dir_base = up(up(up(__file__)))    # LaCAM2_fact/
+    res = join(dir_base, 'build', 'result.txt')
+    result = parse_file(res)
+    data_dict = result['partitions_per_timestep']
 
 
-    partitions_file_path = join(dir_py, 'temp', 'partitions.json')
+    partitions_file_path = join(dir_base, 'assets', 'temp', 'partitions.json')
     with open(partitions_file_path, 'w') as file:
-        json.dump(data_dict, file, indent=3)
+        # json.dump(data_dict, file, indent=3)
+        json.dump(data_dict, file, indent=4, sort_keys=True, separators=(',', ': '))
+

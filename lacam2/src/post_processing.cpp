@@ -223,12 +223,18 @@ void make_log(const Instance& ins, const Solution& solution,
     if (t_partits.second.size() > 0) {
       log << t_partits.first << ":";
       log << "[";
-      for (auto enabled : t_partits.second) {
+      for (size_t i=0; i<t_partits.second.size(); i++) {
+        auto enabled = t_partits.second[i];
         log << "[";
-        for (auto i : enabled) {
-          log << i << ", ";
+
+        for (size_t j=0; j<enabled.size(); j++) {
+          log << enabled[j];
+          if (j < enabled.size()-1)
+             log << ", ";
         }
-        log << "], ";
+        log << "]";
+        if (i < t_partits.second.size()-1)
+          log << ", ";
       }
       log << "]\n";
     }
