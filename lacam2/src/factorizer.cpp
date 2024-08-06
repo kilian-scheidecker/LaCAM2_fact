@@ -80,7 +80,10 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
     PROFILE_BLOCK("initialization");
 
     // log partitions
-    partitions_at_timestep = partitions;
+    if (partitions_at_timestep.size() > 0)
+        std::copy(partitions.begin(), partitions.end(), std::back_inserter(partitions_at_timestep));
+    else
+        partitions_at_timestep = partitions;
 
     // printing info about the partitions
     if (verbose > 1) {
@@ -119,7 +122,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
         for (int true_id : new_enabled) 
         {
             auto it = agent_map.find(true_id);
-            int prev_id = it->second;
+            int prev_id = it->second;                           // segfault???
             priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
             C0[new_id] = C_new[prev_id];
             G0[new_id] = goals[prev_id];
@@ -392,17 +395,32 @@ const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<in
 
     // Check if any number in enabled is contained in any of the partitions at timestep
     const auto& partitions = it->second;  // Partitions for the given timestep
+    // for (const auto& partition : partitions) {
+    //     for (int num : enabled) {
+    //         if (std::find(partition.begin(), partition.end(), num) != partition.end()) {
+    //             // Found a number in enabled that is contained in the partition
+    //             return partitions;
+    //         }
+    //     }
+    // }
+
+    // // No numbers in enabled were found in any partition for the given timestep
+    // return {};
+    Partitions filtered_partitions;
+
     for (const auto& partition : partitions) {
-        for (int num : enabled) {
-            if (std::find(partition.begin(), partition.end(), num) != partition.end()) {
-                // Found a number in enabled that is contained in the partition
-                return partitions;
+        std::vector<int> filtered_partition;
+        for (int num : partition) {
+            if (std::find(enabled.begin(), enabled.end(), num) != enabled.end()) {
+                filtered_partition.push_back(num);
             }
+        }
+        if (!filtered_partition.empty()) {
+            filtered_partitions.push_back(filtered_partition);
         }
     }
 
-    // No numbers in enabled were found in any partition for the given timestep
-    return {};
+    return filtered_partitions;
 }
 
 

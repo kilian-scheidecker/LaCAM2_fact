@@ -87,6 +87,8 @@ struct Infos {    // store information
   int actions_count;
   int actions_count_active;
 
+  Infos();
+
   void reset()
   {
     loop_count = 0;

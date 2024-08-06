@@ -400,7 +400,9 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       {
         Partitions split = factalgo.is_factorizable_def(timestep, ins.enabled);
         if (!split.empty())
+        {
           sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split, H->priorities, partitions_per_timestep[timestep]);
+        }
         else
           sub_instances = {};
       }
@@ -412,6 +414,8 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       if (sub_instances.size() > 0)
       {
         H_goal = H;
+
+        info(0, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep);
 
         /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
         // Open a file in write mode
