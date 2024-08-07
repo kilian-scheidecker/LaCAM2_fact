@@ -27,7 +27,8 @@ HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, cons
       f(g + h),
       priorities(C.size()),
       order(C.size(), 0),
-      search_tree(std::queue<LNode*>())
+      search_tree(std::queue<LNode*>()),
+      depth(_parent == nullptr ? 0 : _parent->depth + 1)  // Initialize depth
 {
   ++HNODE_CNT;
 
@@ -153,10 +154,15 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr, Partitio
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
-    // check for factorization possibility here. If there 
 
     // do not pop here!
     auto H = OPEN.top();  // high-level node
+
+
+    // DEBUG print
+    // std::cout<<"\nPriorities : ";
+    // for (auto i : H->order)
+    // std::cout<<H->priorities[i]<<", ";
 
     // low-level search end
     if (H->search_tree.empty()) {
@@ -298,10 +304,9 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
   // Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
   std::list<std::shared_ptr<Instance>> sub_instances;
 
-  int timestep = empty_solution->solution[ins.enabled[0]].size();
+  uint start_time = empty_solution->solution[ins.enabled[0]].size();
 
   // Restore the inheried priorities of agents
-  // TODO
   if (ins.priority.size() > 1)
   {
     for (int i=0; i<int(N); i++)
@@ -312,13 +317,20 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     std::sort(H->order.begin(), H->order.end(),
               [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
   }
-  
+
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
 
     // do not pop here!
     auto H = OPEN.top();  // high-level node
+
+    
+
+    // DEBUG print
+    // std::cout<<"\nPriorities : ";
+    // for (auto i : H->order)
+    // std::cout<<H->priorities[i]<<", ";  
 
     // low-level search end
     if (H->search_tree.empty()) {
@@ -392,15 +404,24 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     if (factalgo.need_astar)
       for(uint i=0; i<N; i++) distances[i] = D.get(i, C_new[i]);    // copy the A* path lengths
 
+    uint timestep = start_time + H->depth+1;
+
     // Check for factorizability
     if (N>1 && H_goal == nullptr)
     {
         
       if (factalgo.use_def)
       {
-        Partitions split = factalgo.is_factorizable_def(timestep, ins.enabled);
+        const Partitions split = factalgo.is_factorizable_def(timestep, ins.enabled);
         if (!split.empty())
         {
+          for (size_t i = 0; i < N; ++i) {
+            if (distances[i] != 0) {
+              H->priorities[i] += 1;
+            } 
+            else
+            H->priorities[i] = 0;
+          }
           sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split, H->priorities, partitions_per_timestep[timestep]);
         }
         else
@@ -408,6 +429,13 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       }
       else 
       {
+        for (size_t i = 0; i < N; ++i) {
+          if (distances[i] != 0) {
+            H->priorities[i] += 1;
+          } 
+          else
+            H->priorities[i] = 0;
+        }
         sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, H->priorities, partitions_per_timestep[timestep]);
       }
 
@@ -416,34 +444,6 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
         H_goal = H;
 
         info(0, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep);
-
-        /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
-        // Open a file in write mode
-        // std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
-
-        // outFile << timestep<<" : [";
-        // // Write the timestep data to the file
-        // size_t cnt0 = 0;
-        // for (const auto& ins : sub_instances) {
-        //   outFile << "[";
-        //   size_t cnt = 0;
-        //   for (const auto i : ins.get()->enabled) {
-        //     outFile << i;
-        //     if (cnt < ins.get()->N -1)
-        //       outFile <<", ";
-
-        //     cnt++;
-
-        //   }
-        //   outFile << "]";
-        //   if (cnt0 < sub_instances.size()-1)
-        //     outFile <<", ";
-        // }
-        // outFile <<"]\n";
-
-        // // Close the file
-        // outFile.close();
-        /**********************************************************************************************************************/
         
         break;
       }
@@ -458,14 +458,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       //     break;
       // }
     }
-
-    timestep += 1;
-
   }
-
-
-  
-
 
   // backtrack
   if (H_goal != nullptr) {
@@ -503,29 +496,6 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
   //infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
   //infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
-  // Spaghetti to append the solutions correctly
-
-  
-
-
-  // Solution sol_t = transpose(solution);
-
-  // for(int id=0; id<int(N); id++)   // for some reason vscode doesnt like this line but compiles all good
-  // {
-  //   //std::cout<<"\nActive agent : "<<active_agent;
-  //   auto sol_bit = sol_t[id];
-  //   auto line = &(empty_solution->solution[ins.enabled[id]]);
-
-  //   for (auto v : sol_bit) 
-  //   {
-  //     line->push_back(v);
-  //   }
-  // }
-  // return sub_instances;
-
-  // return a bundle
-
-  // std::cout<<"size of solution : "<<solution.size();
   return Bundle(transpose(solution), sub_instances);
 }
 
@@ -598,7 +568,7 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
   auto C = H->C[i]->neighbor;
   C.push_back(H->C[i]);
   // randomize
-  if (MT != nullptr) std::shuffle(C.begin(), C.end(), *MT);
+  // if (MT != nullptr) std::shuffle(C.begin(), C.end(), *MT);   // not ramdomize
   // insert
   for (auto v : C) H->search_tree.push(new LNode(L, i, v));
 }
@@ -606,12 +576,7 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
 // Create a new configuration given some constraints for the next step. Basically the same as in LaCAM
 bool Planner::get_new_config(HNode* H, LNode* L)
 {
-// #ifdef ENABLE_PROFILING
-//   EASY_FUNCTION();
-// #endif
   PROFILE_FUNC(profiler::colors::Yellow);
-  // RENAME("configuration generation (inc. PIBT)");
-
 
   // setup cache
   for (auto a : A) {

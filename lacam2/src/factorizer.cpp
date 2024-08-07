@@ -8,7 +8,7 @@
 //#include "../include/dist_table.hpp"
 //#include "../include/utils.hpp"
 
-#define SAFETY_DISTANCE 0
+#define SAFETY_DISTANCE 2
 
 
 /****************************************************************************************\
@@ -122,7 +122,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
         for (int true_id : new_enabled) 
         {
             auto it = agent_map.find(true_id);
-            int prev_id = it->second;                           // segfault???
+            int prev_id = it->second;
             priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
             C0[new_id] = C_new[prev_id];
             G0[new_id] = goals[prev_id];
@@ -378,11 +378,55 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
             int map_key = std::stoi(key); // Convert JSON key to integer
             Partitions map_value = value.get<Partitions>();
             partitions_map[map_key] = map_value;
+            std::cout<<"\nFound timestep "<< map_key;
         }
     } catch (const json::exception& e) {
         std::cerr << "JSON parsing error: " << e.what() << std::endl;
     }
 }
+
+
+// const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<int>& enabled) const {
+//     // Check if timestep corresponds to a key in the partitions_map
+//     auto it = partitions_map.find(timestep);
+//     if (it == partitions_map.end()) {
+//         // Timestep not found in the partitions map
+//         // std::cout<<"\nTimestep not found";
+//         return {};
+//     }
+
+//     // Check if any number in enabled is contained in any of the partitions at timestep
+//     const auto& partitions = it->second;  // Partitions for the given timestep
+//     // Partitions filtered_partitions;
+//     // for (const auto& partition : partitions) {
+//     //     for (int num : enabled) {
+//     //         if (std::find(partition.begin(), partition.end(), num) != partition.end()) {
+//     //             // Found a number in enabled that is contained in the partition
+//     //             return partitions;
+//     //         }
+//     //     }
+//     // }
+
+//     // No numbers in enabled were found in any partition for the given timestep
+//     return {};
+//     Partitions filtered_partitions;
+//     std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());  // Create a set for fast lookups
+
+//     for (const auto& partition : partitions) {
+//         std::vector<int> filtered_partition;
+//         for (int num : partition) {
+//             if (enabled_set.find(num) != enabled_set.end()) {
+//                 filtered_partitions.push_back(partition);
+//                 break;  // Break inner loop to avoid unnecessary checks
+//             }
+//         }
+//         // if (!filtered_partition.empty()) {
+//         //     filtered_partitions.push_back(filtered_partition);
+//         // }
+//     }
+
+//     return filtered_partitions;
+// }
 
 
 const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<int>& enabled) const {
@@ -395,28 +439,18 @@ const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<in
 
     // Check if any number in enabled is contained in any of the partitions at timestep
     const auto& partitions = it->second;  // Partitions for the given timestep
-    // for (const auto& partition : partitions) {
-    //     for (int num : enabled) {
-    //         if (std::find(partition.begin(), partition.end(), num) != partition.end()) {
-    //             // Found a number in enabled that is contained in the partition
-    //             return partitions;
-    //         }
-    //     }
-    // }
 
-    // // No numbers in enabled were found in any partition for the given timestep
-    // return {};
     Partitions filtered_partitions;
+    // std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());  // Create a set for fast lookups
+
+    std::cout<<"\nLooking up partitions for timestep "<<timestep;
 
     for (const auto& partition : partitions) {
-        std::vector<int> filtered_partition;
         for (int num : partition) {
             if (std::find(enabled.begin(), enabled.end(), num) != enabled.end()) {
-                filtered_partition.push_back(num);
+                filtered_partitions.push_back(partition);
+                break;  // Break inner loop to avoid unnecessary checks
             }
-        }
-        if (!filtered_partition.empty()) {
-            filtered_partitions.push_back(filtered_partition);
         }
     }
 

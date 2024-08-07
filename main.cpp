@@ -115,10 +115,12 @@ int main(int argc, char* argv[])
     }
   }
 
-  // Create the deadline
-  const auto deadline = Deadline(time_limit_sec * 1000);
+  
 
   START_PROFILING();
+
+  // Create the deadline
+  const auto deadline = Deadline(time_limit_sec * 1000);
   
   if( strcmp(factorize.c_str(), "no") != 0)
   {

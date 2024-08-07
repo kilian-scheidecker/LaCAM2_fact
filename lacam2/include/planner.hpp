@@ -51,6 +51,7 @@ struct HNode {
   std::vector<float> priorities;
   std::vector<uint> order;
   std::queue<LNode*> search_tree;
+  uint depth;
 
   HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g,
         const uint _h);

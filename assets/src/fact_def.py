@@ -292,7 +292,10 @@ def max_fact_partitions(map_name, N):
 
                 # Record the partitions used for the current timestep if they differ from the previous split
                 if partition != last_split and len(partition[0]) != len(ins.enabled) :
-                    partitions_per_timestep[ts] = partition
+                    if len(partitions_per_timestep[ts]) > 0 :
+                        partitions_per_timestep[ts].append(partition)
+                    else :
+                        partitions_per_timestep[ts] = partition
                     last_split = partition
                     print(f"Instance is factorizable at timestep {ts}")
                 # else :
