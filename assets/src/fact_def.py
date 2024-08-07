@@ -326,4 +326,4 @@ def max_fact_partitions(map_name, N):
 
     print("Partitions stored")
 
-    return partitions_per_timestep
+    return

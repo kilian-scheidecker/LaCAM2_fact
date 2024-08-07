@@ -217,70 +217,49 @@ void make_log(const Instance& ins, const Solution& solution,
         }
         log << "\n";
     }
-    log << "\npartitions_per_timestep=\n";
-    for (auto &t_partits : partitions_per_timestep) {
-        if (t_partits.second.size() > 0) {
-            log << t_partits.first << ":";
-            log << "[";
-            for (size_t i=0; i<t_partits.second.size(); i++) {
-                auto enabled = t_partits.second[i];
-                log << "[";
+    // log << "\npartitions_per_timestep=\n";
+    // for (auto &t_partits : partitions_per_timestep) {
+    //     if (t_partits.second.size() > 0) {
+    //         log << t_partits.first << ":";
+    //         log << "[";
+    //         for (size_t i=0; i<t_partits.second.size(); i++) {
+    //             auto enabled = t_partits.second[i];
+    //             log << "[";
 
-                for (size_t j=0; j<enabled.size(); j++) {
-                    log << enabled[j];
-                    if (j < enabled.size()-1)
-                        log << ", ";
-                }
-                log << "]";
-                if (i < t_partits.second.size()-1)
-                    log << ", ";
-            }
-            log << "]\n";
-        }
-    }
+    //             for (size_t j=0; j<enabled.size(); j++) {
+    //                 log << enabled[j];
+    //                 if (j < enabled.size()-1)
+    //                     log << ", ";
+    //             }
+    //             log << "]";
+    //             if (i < t_partits.second.size()-1)
+    //                 log << ", ";
+    //         }
+    //         log << "]\n";
+    //     }
+    // }
     log.close();
 }
 
 
-// print the stats to a json-like .txt file
-// void make_stats(const std::string file_name, const std::string factorize, const int N, 
-//                 const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const std::string multi_threading)
-// { 
-//   std::ofstream out;
-
-//   out.open(file_name, std::ios::app);
-//   out<<"\t{\n";
-//   out<<"\t\t\"Number of agents\" : \""<<N<<"\",\n";
-//   out<<"\t\t\"Map name\" : \""<<mapname<<"\",\n";
-//   out<<"\t\t\"Success\" : \""<<success<<"\",\n";
-//   out<<"\t\t\"Computation time (ms)\" : \""<<comp_time_ms<<"\",\n";
-//   out<<"\t\t\"Makespan\" : \""<<get_makespan(solution)<<"\",\n";
-//   out<<"\t\t\"Factorized\" : \""<<factorize<<"\",\n";
-//   out<<"\t\t\"Multi threading\" : \""<<multi_threading<<"\",\n";
-//   out<<"\t\t\"Loop count\" : \""<<infos.loop_count<<"\",\n";
-//   out<<"\t\t\"PIBT calls\" : \""<<infos.PIBT_calls<<"\",\n";
-//   out<<"\t\t\"Active PIBT calls\" : \""<<infos.PIBT_calls_active<<"\",\n";
-//   out<<"\t\t\"Action counts\" : \""<<infos.actions_count<<"\",\n";
-//   out<<"\t\t\"Active action counts\" : \""<<infos.actions_count_active<<"\",\n";
-//   out<<"\t\t\"Sum of costs\" : \""<<get_sum_of_costs(solution)<<"\",\n";          // length of all the solutions
-//   out<<"\t\t\"Sum of loss\" : \""<<get_sum_of_costs(solution)<<"\"\n";            // number of vertex transitions. NO COMMA HEREAFTER
-//   out<<"\t},\n";
-
-//   out.close();
-// }
 
 void make_stats(const std::string file_name, const std::string factorize, const int N, 
                 const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const std::string multi_threading)
 { 
     json j;
 
-    // Open and read the existing JSON file if it exists
+    // Try to open and read the existing JSON file if it exists
     std::ifstream infile(file_name);
     if (infile.is_open()) {
-        infile >> j;
+        try {
+            infile >> j;
+        } catch (json::parse_error& e) {
+            std::cerr << "Warning: Failed to parse existing file 'stats.json'. It may be empty or malformed : overwriting the file!" << std::endl;
+            j = json::array();  // Reset to an empty JSON array
+        }
         infile.close();
     } else {
-        // If the file does not exist or is empty, create a new JSON array
+        // If the file does not exist, create a new JSON array
         j = json::array();
     }
 
@@ -323,6 +302,13 @@ void make_stats(const std::string file_name, const std::string factorize, const 
 
 void write_partitions(const std::map<int, std::vector<std::vector<int>>>& partitions_per_timestep) {
     json j;
+
+    // Populate the JSON object with the data from the partitions
+    for (const auto& [timestep, partitions] : partitions_per_timestep) {
+        if (!partitions.empty()) {
+            j[std::to_string(timestep)] = partitions;
+        }
+    }
 
     // Populate the JSON object with the data from the partitions
     for (const auto& [timestep, partitions] : partitions_per_timestep) {

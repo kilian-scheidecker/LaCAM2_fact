@@ -1,9 +1,9 @@
 {
-  "from": 300,
-  "to": 300,
+  "from": 90,
+  "to": 90,
   "jump": 1,
   "n": 1,
   "map_name": ["random-32-32-20"],
-  "factorize": ["FactAstar", "FactDef"],
+  "factorize": ["no", "FactAstar", "FactDef"],
   "multi_threading": ["no"]
 }

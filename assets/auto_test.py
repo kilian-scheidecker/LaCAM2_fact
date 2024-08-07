@@ -63,13 +63,13 @@ def auto_test(compute_score=False, use_heuristics=False) :
 
                     if 'FactDef' in command and not use_heuristics :
                         # Determine the max factorizability and store it assets/temp/def_partitions.json
-                        partitions_per_timestep = max_fact_partitions(map_name=map_name, N=N)
+                        max_fact_partitions(map_name=map_name, N=N)
 
 
                     success += run_command_in_ubuntu(command)
 
                     if compute_score :
-                        score = complexity_score(partitions_per_timestep)
+                        score = complexity_score()
                     else :
                         score = -1
 

@@ -378,7 +378,7 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
             int map_key = std::stoi(key); // Convert JSON key to integer
             Partitions map_value = value.get<Partitions>();
             partitions_map[map_key] = map_value;
-            std::cout<<"\nFound timestep "<< map_key;
+            // std::cout<<"\nFound timestep "<< map_key;
         }
     } catch (const json::exception& e) {
         std::cerr << "JSON parsing error: " << e.what() << std::endl;
@@ -429,7 +429,37 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
 // }
 
 
-const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<int>& enabled) const {
+// Bugged version
+// const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<int>& enabled) const {
+//     // Check if timestep corresponds to a key in the partitions_map
+//     auto it = partitions_map.find(timestep);
+//     if (it == partitions_map.end()) {
+//         // Timestep not found in the partitions map
+//         return {};
+//     }
+
+//     // Check if any number in enabled is contained in any of the partitions at timestep
+//     const auto& partitions = it->second;  // Partitions for the given timestep
+
+//     Partitions filtered_partitions;
+//     // std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());  // Create a set for fast lookups
+
+//     std::cout<<"\nLooking up partitions for timestep "<<timestep;
+
+//     for (const auto& partition : partitions) {
+//         for (int num : partition) {
+//             if (std::find(enabled.begin(), enabled.end(), num) != enabled.end()) {
+//                 filtered_partitions.push_back(partition);
+//                 break;  // Break inner loop to avoid unnecessary checks
+//             }
+//         }
+//     }
+
+//     return filtered_partitions;
+// }
+
+
+std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {
     // Check if timestep corresponds to a key in the partitions_map
     auto it = partitions_map.find(timestep);
     if (it == partitions_map.end()) {
@@ -437,24 +467,31 @@ const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<in
         return {};
     }
 
-    // Check if any number in enabled is contained in any of the partitions at timestep
+    // Create a set for quick lookups
+    std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());
+
     const auto& partitions = it->second;  // Partitions for the given timestep
 
     Partitions filtered_partitions;
-    // std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());  // Create a set for fast lookups
+    // std::cout << "\nLooking up partitions for timestep " << timestep << "\n";
 
-    std::cout<<"\nLooking up partitions for timestep "<<timestep;
-
+    // Iterate through each partition
     for (const auto& partition : partitions) {
+        // Check if any element in the partition is in the enabled_set
         for (int num : partition) {
-            if (std::find(enabled.begin(), enabled.end(), num) != enabled.end()) {
+            if (enabled_set.find(num) != enabled_set.end()) {
                 filtered_partitions.push_back(partition);
                 break;  // Break inner loop to avoid unnecessary checks
             }
         }
     }
-
-    return filtered_partitions;
+    
+    if (filtered_partitions.size() > 1) {
+        return split_ins(G, C_new, goals, verbose, enabled, filtered_partitions, priorities, partitions_at_timestep);    // most expensive
+    } 
+    else {
+        return {};
+    }
 }
 
 

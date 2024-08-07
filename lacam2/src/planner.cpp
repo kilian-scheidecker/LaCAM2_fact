@@ -202,10 +202,13 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr, Partitio
     if (iter != EXPLORED.end()) {
       // case found
       rewrite(H, iter->second, H_goal, OPEN);
-      // re-insert or random-restart
-      auto H_insert = (MT != nullptr && get_random_float(MT) >= RESTART_RATE)
-                          ? iter->second
-                          : H_init;
+      
+      // re-insert or random-restart. Needed to remove for deterministic behavior
+      // auto H_insert = (MT != nullptr && get_random_float(MT) >= RESTART_RATE)
+      //                     ? iter->second
+      //                     : H;
+      auto H_insert = iter->second; // Always re-insert the found node
+
       if (H_goal == nullptr || H_insert->f < H_goal->f) OPEN.push(H_insert);
     } else {
       // insert new search node
@@ -375,17 +378,23 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     // create new configuration
     for (auto a : A) C_new[a->id] = a->v_next;
 
+    std::vector<float> priorities_copy;
+
     // check explored list
     const auto iter = EXPLORED.find(C_new);
     if (iter != EXPLORED.end()) {
       // case found
       rewrite(H, iter->second, H_goal, OPEN);
-      // re-insert or random-restart
-      auto H_insert = (MT != nullptr && get_random_float(MT) >= RESTART_RATE)
-                          ? iter->second
-                          : H;
+
+      // re-insert or random-restart. Needed to remove for deterministic behavior
+      // auto H_insert = (MT != nullptr && get_random_float(MT) >= RESTART_RATE)
+      //                     ? iter->second
+      //                     : H;
+      auto H_insert = iter->second; // Always re-insert the found node
+
       if (H_goal == nullptr || H_insert->f < H_goal->f) 
       {
+        priorities_copy = H_insert->priorities;
         OPEN.push(H_insert);
       }
     } else {
@@ -395,6 +404,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       EXPLORED[H_new->C] = H_new;
       if (H_goal == nullptr || H_new->f < H_goal->f)
       {
+        priorities_copy = H_new->priorities;
         OPEN.push(H_new);
       }
     }
@@ -408,36 +418,20 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
 
     // Check for factorizability
     if (N>1 && H_goal == nullptr)
-    {
-        
+    { 
+      // // update priorities
+      // for (size_t i = 0; i < N; ++i) {
+      //   if (distances[i] != 0) {
+      //     H->priorities[i] += 1;
+      //   } 
+      //   else
+      //     H->priorities[i] = (ins.enabled[i]+1)/(N+1);  // retrieve original priority
+      // }
+
       if (factalgo.use_def)
-      {
-        const Partitions split = factalgo.is_factorizable_def(timestep, ins.enabled);
-        if (!split.empty())
-        {
-          for (size_t i = 0; i < N; ++i) {
-            if (distances[i] != 0) {
-              H->priorities[i] += 1;
-            } 
-            else
-            H->priorities[i] = 0;
-          }
-          sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split, H->priorities, partitions_per_timestep[timestep]);
-        }
-        else
-          sub_instances = {};
-      }
+        sub_instances = factalgo.is_factorizable_def(ins.G, C_new, ins.goals, verbose, ins.enabled, priorities_copy, partitions_per_timestep[timestep], timestep);
       else 
-      {
-        for (size_t i = 0; i < N; ++i) {
-          if (distances[i] != 0) {
-            H->priorities[i] += 1;
-          } 
-          else
-            H->priorities[i] = 0;
-        }
-        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, H->priorities, partitions_per_timestep[timestep]);
-      }
+        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, priorities_copy, partitions_per_timestep[timestep]);
 
       if (sub_instances.size() > 0)
       {
@@ -621,7 +615,7 @@ bool Planner::get_new_config(HNode* H, LNode* L)
 }
 
 // PIBT planner for the low level node
-bool Planner::funcPIBT(Agent* ai)
+/*bool Planner::funcPIBT(Agent* ai)
 {
   const int i = ai->id;
   const size_t K = ai->v_now->neighbor.size();
@@ -693,6 +687,9 @@ bool Planner::funcPIBT(Agent* ai)
 }
 
 
+*/
+
+
 // PIBT planner for the low level node
 bool Planner::funcPIBT_fact(Agent* ai)
 {
@@ -715,9 +712,6 @@ bool Planner::funcPIBT_fact(Agent* ai)
     int x_next = u.get()->index%ins.G.width;         // added for rule-based
     int y_next = (int) u.get()->index/ins.G.width;   // added for rule-based
 
-    // if (MT != nullptr)
-    //   tie_breakers[u->id] = get_random_float(MT);  // set tie-breaker
-
     // move right
     if (x_now < x_next)
       tie_breakers[u.get()->id] = 0.1;
@@ -733,7 +727,6 @@ bool Planner::funcPIBT_fact(Agent* ai)
     // move down
     else if (y_now < y_next)
       tie_breakers[u.get()->id] = 0.4;
-
 
     distances[u.get()->id] = D.get(i, C_next[i][k]) + tie_breakers[C_next[i][k].get()->id];
     
