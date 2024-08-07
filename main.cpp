@@ -161,7 +161,8 @@ int main(int argc, char* argv[])
   make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, partitions_per_timestep, log_short);
   if( strcmp(stat_print.c_str(), "yes") == 0)
   {
-    make_stats("stats_json.txt", factorize, N, comp_time_ms, infos, solution, mapname, success, "no");
+    make_stats("stats.json", factorize, N, comp_time_ms, infos, solution, mapname, success, multi_threading);
+    write_partitions(partitions_per_timestep);
   }
 
   // resume cout

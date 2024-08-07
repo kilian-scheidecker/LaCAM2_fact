@@ -6,7 +6,7 @@ import numpy as np
 
 from src.fact_def import max_fact_partitions
 from src.score import complexity_score
-from src.utils import create_command, update_stats_json, run_command_in_ubuntu, partitions_txt_to_json
+from src.utils import create_command, update_stats, run_command_in_ubuntu, partitions_txt_to_json
 from src.scenario_generator import create_scen
 
 
@@ -62,14 +62,9 @@ def auto_test(compute_score=False, use_heuristics=False) :
                     partitions_per_timestep = None
 
                     if 'FactDef' in command and not use_heuristics :
-                        # Determine the max factorizability and store it assets/temp/partitions.json
+                        # Determine the max factorizability and store it assets/temp/def_partitions.json
                         partitions_per_timestep = max_fact_partitions(map_name=map_name, N=N)
-                    #     if exists(join(dir_py, 'temp', 'partitions.txt')) : remove(join(dir_py, 'temp', 'partitions.txt'))
-                    elif 'FactDef' in command and use_heuristics : 
-                        partitions_txt_to_json()
-                    # else : 
-                    #     if exists(join(dir_py, 'temp', 'partitions.txt')) : remove(join(dir_py, 'temp', 'partitions.txt'))
-                    
+
 
                     success += run_command_in_ubuntu(command)
 
@@ -78,7 +73,7 @@ def auto_test(compute_score=False, use_heuristics=False) :
                     else :
                         score = -1
 
-                    update_stats_json("Complexity score", str(score))
+                    update_stats("Complexity score", score)
 
                     total += 1
 

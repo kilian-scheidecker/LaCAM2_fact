@@ -362,7 +362,7 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
 
 FactDef::FactDef(int width) : FactAlgo(width, false, true) {
     // Constructor with width, handle partitions_map initialization
-    std::string path = "assets/temp/partitions.json";
+    std::string path = "assets/temp/temp_partitions.json";
     std::ifstream file(path);
 
     if (!file.is_open()) {

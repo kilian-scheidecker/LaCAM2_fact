@@ -319,16 +319,10 @@ def max_fact_partitions(map_name, N):
                 break
 
     # Save partitions_per_timestep to a JSON file
-    filename = 'partitions.json'
-    partitions_file_path = join(base_path, 'assets', 'temp', filename)
-    with open(partitions_file_path, 'w') as file:
-        json.dump(partitions_per_timestep, file, indent=3)
-    
-    # Just for logging  
-    # filename = 'max_factorize_' + map_name + '_' + str(N) + '.json'
-    # partitions_file_path = join(base_path, 'assets', 'temp', filename)
-    # with open(partitions_file_path, 'w') as file:
-    #     json.dump(partitions_per_timestep, file, indent=3)
+    for filename in ['def_partitions.json'] :
+        partitions_file_path = join(base_path, 'assets', 'temp', filename)
+        with open(partitions_file_path, 'w') as file:
+            json.dump(partitions_per_timestep, file, indent=4)
 
     print("Partitions stored")
 

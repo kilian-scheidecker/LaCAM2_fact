@@ -1,5 +1,5 @@
 import json, subprocess, ast
-from typing import Dict, List, Any
+from typing import Dict, Any
 from os.path import join, dirname as up
 
 
@@ -51,6 +51,39 @@ def update_stats_json(s: str, string_info: str):
 
     with open(file_path, 'w') as file:
         file.write(updated_data)
+
+
+# Function to update the stats_json.txt file
+def update_stats(key: str, value: float):
+
+    base_path = up(up(up(__file__)))    # /LaCAM2_fact 
+    file_path = join(base_path, 'stats.json')
+
+    with open(file_path, 'r+') as file:
+        # Read the entire file content
+        file_content = file.read()
+        
+        # Try to parse the file content as JSON
+        try:
+            data = json.loads(file_content)
+        except json.JSONDecodeError as e:
+            raise ValueError("Error parsing JSON file: " + str(e))
+        
+        # Ensure data is a list and not empty
+        if isinstance(data, list) and data:
+            # Update the RAM usage in the last entry
+            data[-1][key] = value
+        else:
+            raise ValueError("The JSON data is not a list or is empty")
+
+        # Move the file pointer to the beginning and truncate the file
+        file.seek(0)
+        file.truncate()
+        
+        # Write the updated JSON data back to the file
+        file.write(json.dumps(data, indent=4))
+
+
 
 
 
@@ -121,24 +154,21 @@ def run_command_in_ubuntu(command: str) -> int :
             for line in output_lines:
                 if "Maximum resident set size" in line :
                     max_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
-                    update_stats_json("Maximum RAM usage (Mbytes)", str(max_ram_usage))
+                    update_stats("Maximum RAM usage (Mbytes)", max_ram_usage)
                     print(f"- test completed. RAM Usage: {max_ram_usage} Mo")
                 elif "Average resident set size" in line :
                     avg_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
-                    update_stats_json("Average RAM usage (Mbytes)", str(avg_ram_usage))
+                    update_stats("Average RAM usage (Mbytes)", avg_ram_usage)
                 elif "Percent of CPU this job got" in line :
                     cpu_usage = line.split(":")[1].strip()             # in percent
                     cpu_usage = cpu_usage.rstrip('%')
-                    update_stats_json("CPU usage (percent)", str(cpu_usage))
+                    update_stats("CPU usage (percent)", float(cpu_usage))
         return 1
 
 
     except :
         # Handle errors if any of the commands fail
         print("- solving failed\n")
-        update_stats_json("Maximum RAM usage (Mbytes)", "-1")
-        update_stats_json("Average RAM usage (Mbytes)", "-1")
-        update_stats_json("CPU usage (percent)", "-1")
         return 0
 
 
@@ -173,8 +203,7 @@ def partitions_txt_to_json():
     data_dict = result['partitions_per_timestep']
 
 
-    partitions_file_path = join(dir_base, 'assets', 'temp', 'partitions.json')
+    partitions_file_path = join(dir_base, 'assets', 'temp', 'def_partitions.json')
     with open(partitions_file_path, 'w') as file:
         # json.dump(data_dict, file, indent=3)
         json.dump(data_dict, file, indent=4, sort_keys=True, separators=(',', ': '))
-

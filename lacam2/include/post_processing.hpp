@@ -33,3 +33,6 @@ void make_log(const Instance& ins, const Solution& solution,
 
 void make_stats(const std::string file_name, const std::string factorize, const int N, 
                 const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const std::string multi_threading);
+
+
+void write_partitions(const PartitionsMap& partitions_per_timestep);
