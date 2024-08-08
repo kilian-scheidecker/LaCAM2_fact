@@ -1,5 +1,4 @@
-from os.path import join, exists, dirname as up
-from os import remove
+from os.path import dirname as up
 import json
 
 import numpy as np
@@ -11,7 +10,7 @@ from src.scenario_generator import create_scen
 
 
 # Main function that creates random tests and runs them automatically
-def auto_test(compute_score=False, use_heuristics=False) :
+def auto_test(use_heuristics=False) :
        
     dir_py = up(__file__)       #/lacam_fact/assets
 
@@ -55,26 +54,16 @@ def auto_test(compute_score=False, use_heuristics=False) :
             print(f"\nTesting with {N} agents in {map_name}")
             for i in range(n) :
                 commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
-                # create_scen(N, dir_py, map_name)
+                create_scen(N, dir_py, map_name)
                 for command in commmands :
 
-                    print(command)
-                    partitions_per_timestep = None
-
+                    # print(command)
                     if 'FactDef' in command and not use_heuristics :
                         # Determine the max factorizability and store it assets/temp/def_partitions.json
                         max_fact_partitions(map_name=map_name, N=N)
 
-
                     success += run_command_in_ubuntu(command)
-
-                    if compute_score :
-                        score = complexity_score()
-                    else :
-                        score = -1
-
-                    update_stats("Complexity score", score)
-
+                    update_stats("Complexity score", complexity_score())
                     total += 1
 
         print(f"\nSuccessfully completed {success}/{total} tests.\n")
@@ -82,4 +71,4 @@ def auto_test(compute_score=False, use_heuristics=False) :
 
 
 
-auto_test(compute_score=True, use_heuristics=True)
+auto_test(use_heuristics=True)

@@ -1,7 +1,7 @@
 {
-  "from": 90,
-  "to": 90,
-  "jump": 1,
+  "from": 30,
+  "to": 30,
+  "jump": 10,
   "n": 1,
   "map_name": ["random-32-32-20"],
   "factorize": ["no", "FactAstar", "FactDef"],

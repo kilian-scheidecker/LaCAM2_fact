@@ -27,8 +27,8 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
 # Function to update the stats_json.txt file
 def update_stats_json(s: str, string_info: str):
 
-    basePath = up(up(up(__file__)))    # /LaCAM2_fact 
-    file_path = join(basePath, 'stats_json.txt')
+    base_path = up(up(up(__file__)))    # /LaCAM2_fact 
+    file_path = join(base_path, 'stats_json.txt')
 
     with open(file_path, 'r') as file:
         data = file.read()

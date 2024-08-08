@@ -6,11 +6,11 @@ import random
 # Generate a list of empty locations from a map
 def map_to_locs(map_name: str) :        # use map_name = 'random-32-32-10'
 
-    basePath = up(__file__)
-    mapPath = join(basePath, 'maps', map_name, map_name + '-empty.map')
+    base_path = up(__file__)
+    mapPath = join(base_path, 'maps', map_name, map_name + '-empty.map')
     
-    new_loc_path = join(basePath, 'maps', map_name, map_name + '-locations-unfolded.txt')
-    # new_loc_path2 = join(basePath, 'maps', map_name, map_name + '-locations.txt')
+    new_loc_path = join(base_path, 'maps', map_name, map_name + '-locations-unfolded.txt')
+    # new_loc_path2 = join(base_path, 'maps', map_name, map_name + '-locations.txt')
 
 
     file = open(mapPath)
@@ -60,9 +60,9 @@ def create_base_scen(map_name: str):
         return
     
     else :  
-        basePath = up(__file__)
-        locs_path = join(basePath, 'maps', map_name, map_name + '-locations-unfolded.txt')
-        new_scen_path = join(basePath, 'maps', map_name, map_name + '-scen-base.scen')
+        base_path = up(__file__)
+        locs_path = join(base_path, 'maps', map_name, map_name + '-locations-unfolded.txt')
+        new_scen_path = join(base_path, 'maps', map_name, map_name + '-scen-base.scen')
 
         # Get the possible locations
         with open (locs_path) as file :
@@ -86,12 +86,12 @@ def create_base_scen(map_name: str):
 # create the base scen from 'unfolded' locations but with specified start/finish
 def create_base_scen_startfinish(map_name: str):
 
-    basePath = up(__file__)
-    new_scen_path = join(basePath, 'maps', map_name, map_name + '-scen-base.scen')
+    base_path = up(__file__)
+    new_scen_path = join(base_path, 'maps', map_name, map_name + '-scen-base.scen')
 
-    with open(join(basePath, 'maps', map_name, map_name + '-start-locations-unfolded.txt')) as start :
+    with open(join(base_path, 'maps', map_name, map_name + '-start-locations-unfolded.txt')) as start :
         start_content = start.readlines()
-    with open(join(basePath, 'maps', map_name, map_name + '-goal-locations-unfolded.txt')) as finish :
+    with open(join(base_path, 'maps', map_name, map_name + '-goal-locations-unfolded.txt')) as finish :
         finish_content = finish.readlines()
 
     start_locs = random.sample(population=start_content, k=len(start_content))
@@ -121,13 +121,13 @@ def create_base_scen_startfinish(map_name: str):
 # Creates the agent file based on random sampling of the max_agent number test case
 def create_scen(N: int, path: str, map_name: str):
 
-    basePath = path
-    baseScenPath = basePath + '/maps/' + map_name + '/' + map_name + '-scen-'
-    new_scen_path = basePath + '/maps/' + map_name + '/other_scenes/' + map_name + '-' + str(N) + '.scen'
+    base_path = path
+    baseScenPath = base_path + '/maps/' + map_name + '/' + map_name + '-scen-'
+    new_scen_path = base_path + '/maps/' + map_name + '/other_scenes/' + map_name + '-' + str(N) + '.scen'
 
     # Need to create directory if doesn't exist
-    if not exists(join(basePath, 'maps', map_name + '/other_scenes')): 
-        makedirs(join(basePath, 'maps', map_name + '/other_scenes'))
+    if not exists(join(base_path, 'maps', map_name + '/other_scenes')): 
+        makedirs(join(base_path, 'maps', map_name + '/other_scenes'))
 
     with open(baseScenPath + 'base.scen') as file :
         content = file.readlines()
