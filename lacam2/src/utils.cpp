@@ -49,3 +49,11 @@ int get_random_int(std::mt19937* MT, int from, int to)
   std::uniform_int_distribution<int> r(from, to);
   return r(*MT);
 }
+
+Infos::Infos() :
+  loop_count(0),
+  PIBT_calls(0),
+  PIBT_calls_active(0),
+  actions_count(0),
+  actions_count_active(0)
+{}

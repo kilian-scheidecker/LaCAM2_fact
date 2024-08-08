@@ -1,22 +1,27 @@
+import json
 from os.path import join, dirname as up
-from src.utils import parse_file, get_partitions_txt
+from src.utils import parse_file
+from math import log
 
 
 
-def complexity_score(data_dict):
+def complexity_score():
 
-    # print(data_dict)
-    
+
     base_path = up(up(up(__file__)))    # LaCAM2_fact/
     res_path = join(base_path, 'build', 'result.txt')
     result = parse_file(res_path)
+    partitions_path = join(base_path, 'assets', 'temp', 'temp_partitions.json')
 
-    makespan = int(result['makespan'])
-    N = int(result['agents'])
-    a = 5   # action space of the agents
+    # data_dict = result['partitions_per_timestep']
+    
+    with open(partitions_path) as f :
+        data_dict = json.load(f, object_hook=lambda d: {int(k) if k.lstrip('-').isdigit() else k: v for k, v in d.items()})
 
+    makespan = int(result['makespan'])      # makespan
+    N = int(result['agents'])               # number of agents
+    a = 5                                   # action space of the agents
     prev_t = {}
-
     score = 0
 
     for timestep in reversed(sorted(data_dict)):
@@ -40,26 +45,5 @@ def complexity_score(data_dict):
             delta_t = prev_t[0]
             score += delta_t*a**N
 
-    return score
-
-
-
-
-
-
-# Get the score given a particular factorization
-def get_score(partitions_per_timestep = None):
-
-    dir_py = up(up(__file__))    # LaCAM2_fact/assets
-    filename = join(dir_py, 'temp', 'partitions.txt')
-
-    if partitions_per_timestep is not None :
-        open(filename, 'w').close()
-        return complexity_score(partitions_per_timestep)
-    
-    data_dict = get_partitions_txt(filename)
-
-    # Complexity score :
-    score = complexity_score(data_dict)
-
-    return score
+    return log(score/makespan, N)
+    # return score

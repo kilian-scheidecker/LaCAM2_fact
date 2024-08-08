@@ -30,7 +30,7 @@ def get_partitions(iterable: Iterable) -> List[List[List[int]]]:
     
     s = list(iterable)
     all_partitions = partitions(s)
-    all_partitions.remove([s])
+    # all_partitions.remove([s])
     # Return the partitions in decreasing order of cardinality
     return sorted(all_partitions, key=len, reverse=True)
 
@@ -279,7 +279,7 @@ def max_fact_partitions(map_name, N):
 
             # Check if the local_solution solution is valid
             if is_valid_solution(local_solution, ins.starts, ins.goals, width):
-                print("Valid solution found for partition")
+                # print("Valid solution found for partition")
 
                 ts = ins.time_start
 
@@ -291,21 +291,23 @@ def max_fact_partitions(map_name, N):
                             global_solution[step + ts][true_id] = positions[id]
 
                 # Record the partitions used for the current timestep if they differ from the previous split
-                if partition != last_split :
-                    partitions_per_timestep[ts] = partition
+                if partition != last_split and len(partition[0]) != len(ins.enabled) :
+                    if len(partitions_per_timestep[ts]) > 0 :
+                        partitions_per_timestep[ts].append(partition)
+                    else :
+                        partitions_per_timestep[ts] = partition
                     last_split = partition
-                else :
-                    continue
+                    print(f"Instance is factorizable at timestep {ts}")
+                # else :
+                #     continue
 
-                if len(partition) == len(ins.enabled) :
-                    break
+                # if len(partition) == len(ins.enabled) :
+                #     break
 
                 # Push sub_instances to OPENins
                 for enabled_agents in partition:
                     if len(enabled_agents) > 1 :
                         sub_instance = Instance(
-                            # [global_solution[ts+1][i] for i in enabled_agents],
-                            # [goals_glob[i] for i in enabled_agents],
                             global_solution[ts+1],
                             goals_glob,
                             enabled_agents,
@@ -317,17 +319,11 @@ def max_fact_partitions(map_name, N):
                 break
 
     # Save partitions_per_timestep to a JSON file
-    filename = 'partitions.json'
-    partitions_file_path = join(base_path, 'assets', 'temp', filename)
-    with open(partitions_file_path, 'w') as file:
-        json.dump(partitions_per_timestep, file, indent=3)
-    
-    # Just for logging  
-    # filename = 'max_factorize_' + map_name + '_' + str(N) + '.json'
-    # partitions_file_path = join(base_path, 'assets', 'temp', filename)
-    # with open(partitions_file_path, 'w') as file:
-    #     json.dump(partitions_per_timestep, file, indent=3)
+    for filename in ['def_partitions.json'] :
+        partitions_file_path = join(base_path, 'assets', 'temp', filename)
+        with open(partitions_file_path, 'w') as file:
+            json.dump(partitions_per_timestep, file, indent=4)
 
     print("Partitions stored")
 
-    return partitions_per_timestep
+    return

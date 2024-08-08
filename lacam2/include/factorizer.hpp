@@ -29,16 +29,16 @@ public:
     virtual ~FactAlgo() = default;
 
     // Determine if a problem is factorizable at a given timestep
-    std::list<std::shared_ptr<Instance>> is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities);
+    std::list<std::shared_ptr<Instance>> is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities, Partitions& partitions_at_timestep);
 
     // Helper method to actually split the current instance 
-    std::list<std::shared_ptr<Instance>> split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
+    std::list<std::shared_ptr<Instance>> split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities, Partitions& partitions_at_timestep) const;
 
     // Simple manhattan distance computation between two vertices of the map.
     int get_manhattan(int index1, int index2) const;
 
     // virtual function to be used by the FactDef class. Allows to factorize according to the definition
-    virtual const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const = 0;
+    virtual std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const = 0;
 
 private:
 
@@ -55,7 +55,7 @@ public:
     FactDistance(int width) : FactAlgo(width) {}
 
     // Placeholder for the virtual function
-    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const {return {};};
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {return {};};
 
 private:
     // Simple heuristic to determine if 2 agents can be factorized based on distance
@@ -71,7 +71,7 @@ public:
     FactBbox(int width) : FactAlgo(width) {}
 
     // Placeholder for the virtual function
-    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const {return {};};
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {return {};};
 
 private:
 
@@ -89,7 +89,7 @@ public:
     FactOrient(int width) : FactAlgo(width) {}
 
     // Placeholder for the virtual function
-    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const {return {};};
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {return {};};
 
 
 private:
@@ -116,7 +116,7 @@ public:
     FactAstar(int width) : FactAlgo(width, true) {}
 
     // Placeholder for the virtual function
-    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const {return {};};
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {return {};};
 
     
     //FactAstar(int width, const bool need_astar) : FactAlgo(width, need_astar) {}
@@ -136,7 +136,7 @@ public:
     FactDef(int width);
 
     // Applies the precomputed partitions to minimize time spent in factorization
-    const Partitions is_factorizable_def(int timestep, const std::vector<int>& enabled) const override;
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const override;
 
 private :
 

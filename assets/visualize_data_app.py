@@ -4,7 +4,7 @@
 
 
 from dash import Dash, dcc, html
-from assets.src.data import get_data
+from src.data import get_data
 import dash_bootstrap_components as dbc
 import plotly.express as px
 
@@ -33,7 +33,7 @@ COLUMN NAMES
 """
 
 
-def show_plots(map_name: str, update_db: bool, read_from: str=None) :
+def show_plots(map_name: str, read_from: str=None) :
 
     app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -44,7 +44,7 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
     }
 
     # Gather data in specific map
-    data, data_success, n_tests = get_data(map_name + '.map', update_db, read_from)
+    data, data_success, n_tests = get_data(map_name + '.map', read_from)
     data_std = data.drop(data[data['Number of agents']%20 != 0].index)
 
     #data_cut = data.groupby(['Number of agents', 'Factorized', 'Maximum RAM usage (Mbytes)', 'Computation time (ms)', 'CPU usage (percent)', 'Multi threading']) #.mean().reset_index()
@@ -275,4 +275,4 @@ def show_plots(map_name: str, update_db: bool, read_from: str=None) :
 
 
 
-show_plots(map_name="warehouse-20-40-10-2-2", update_db=False, read_from='stats_2000.json')
+show_plots(map_name="random-32-32-20", read_from='stats.json')

@@ -1,15 +1,12 @@
-import plotly.express as px
 import pandas as pd
-import os
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
+from os.path import dirname as up
 
 # Append line to file
 """def line_appender(filename, line):
     with open(filename, 'a') as f:
         f.write(line + '\n')"""
 
-def line_appender(filename, line):
+"""def line_appender(filename, line):
     with open(filename, 'rb+') as f:
         lines = f.readlines()
         if lines and lines[-2].strip() == '},'.encode('UTF-8'):
@@ -67,9 +64,9 @@ def stats_txt_to_json(filename) :
 
 def stats_to_json(filename) :
 
-    basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))            # ../lacam_fact
+    base_path = up(up(up(__file__)))            # ../LaCAM2_fact
 
-    with open(basePath + '/' + filename, 'r') as file:
+    with open(base_path + '/' + filename, 'r') as file:
         original_data = file.read()
         
     if original_data.strip().endswith(','):
@@ -81,13 +78,13 @@ def stats_to_json(filename) :
     if not original_data.strip().startswith('[') :
         data = '[\n' + data
 
-    with open(basePath + '/stats.json', 'w+') as file:
+    with open(base_path + '/stats.json', 'w+') as file:
         file.write(data)
     
-    data = pd.read_json(basePath + '/stats.json')
+    data = pd.read_json(base_path + '/stats.json')
 
     return data
-
+"""
 
 def compute_averages(data: pd.DataFrame) :
 
@@ -116,17 +113,16 @@ def compute_success(data: pd.DataFrame) :
 
     return data2
 
-def get_data(map_name: str, update_data: bool, read_from: str=None):
+def get_data(map_name: str, read_from: str=None):
 
     # Base path of repo
-    basePath = os.path.dirname(os.path.normpath(os.path.dirname(os.path.abspath(__file__))))            # ../lacam_fact
+    base_path = up(up(up(__file__)))            # ../LaCAM2_fact
 
-    if update_data :
-        data = stats_to_json('stats_json.txt')              # Read data from stats_json.txt directly and convert it to 'stats.json'.
-    elif read_from is None : 
-        data = pd.read_json(basePath + '/stats.json')       # Read from previously formatted file 'stats.json'.
+    
+    if read_from is None : 
+        data = pd.read_json(base_path + '/stats.json')       # Read from previously formatted file 'stats.json'.
     else :
-         data = pd.read_json(basePath + '/' + read_from)    # Read from specified file.
+        data = pd.read_json(base_path + '/' + read_from)    # Read from specified file.
     
     # Get readings from particular map
     data_full = data[data['Map name'] == map_name]

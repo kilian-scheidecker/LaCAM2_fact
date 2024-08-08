@@ -1,6 +1,5 @@
-import json
-import subprocess
-from typing import Dict
+import json, subprocess, ast
+from typing import Dict, Any
 from os.path import join, dirname as up
 
 
@@ -11,7 +10,7 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
     for factalgo in factorize :
         for thread in multi_threading :
             if thread == "yes":
-                if factalgo not in ["no", "FactDef"] :
+                if factalgo not in ["no"] :
                     end = ' -v 0' + ' -f ' + factalgo + ' -mt yes'
                 else :
                     print("Cannot use multi threading on standard or FactDef LaCAM")
@@ -28,8 +27,8 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
 # Function to update the stats_json.txt file
 def update_stats_json(s: str, string_info: str):
 
-    basePath = up(up(up(__file__)))    # /LaCAM2_fact 
-    file_path = join(basePath, 'stats_json.txt')
+    base_path = up(up(up(__file__)))    # /LaCAM2_fact 
+    file_path = join(base_path, 'stats_json.txt')
 
     with open(file_path, 'r') as file:
         data = file.read()
@@ -54,18 +53,59 @@ def update_stats_json(s: str, string_info: str):
         file.write(updated_data)
 
 
+# Function to update the stats_json.txt file
+def update_stats(key: str, value: float):
 
-def parse_file(filename: str) -> Dict[str, any]:
+    base_path = up(up(up(__file__)))    # /LaCAM2_fact 
+    file_path = join(base_path, 'stats.json')
+
+    with open(file_path, 'r+') as file:
+        # Read the entire file content
+        file_content = file.read()
+        
+        # Try to parse the file content as JSON
+        try:
+            data = json.loads(file_content)
+        except json.JSONDecodeError as e:
+            raise ValueError("Error parsing JSON file: " + str(e))
+        
+        # Ensure data is a list and not empty
+        if isinstance(data, list) and data:
+            # Update the RAM usage in the last entry
+            data[-1][key] = value
+        else:
+            raise ValueError("The JSON data is not a list or is empty")
+
+        # Move the file pointer to the beginning and truncate the file
+        file.seek(0)
+        file.truncate()
+        
+        # Write the updated JSON data back to the file
+        file.write(json.dumps(data, indent=4))
+
+
+
+
+
+def parse_file(filename: str) -> Dict[str, Any]:
     data = {}
     solution = []
+    partitions_per_timestep = {}
     in_solution = False
+    in_partitions = False
 
     with open(filename, 'r') as file:
         for line in file:
             line = line.strip()
             if line.startswith("solution="):
                 in_solution = True
+                in_partitions = False
                 continue
+            elif line.startswith("partitions_per_timestep="):
+                in_partitions = True
+                in_solution = False
+                continue
+
             if in_solution:
                 if ':' in line:
                     step, positions = line.split(':')
@@ -73,6 +113,16 @@ def parse_file(filename: str) -> Dict[str, any]:
                     positions = [tuple(map(int, pos.strip().strip('()').split(','))) for pos in positions if pos]
                     solution.append((int(step), positions))
                 continue
+            elif in_partitions:
+                if ':' in line:
+                    timestep, partitions = line.split(':')
+                    timestep = int(timestep.strip())
+                    partitions = ast.literal_eval(partitions)
+                    # partitions = partitions.strip().strip('[]').split('],')
+                    # partitions = [list(map(int, p.strip('[]').split(','))) for p in partitions if p]
+                    partitions_per_timestep[timestep] = partitions
+                continue
+
             if '=' in line:
                 key, value = line.split('=', 1)
                 key = key.strip()
@@ -80,11 +130,14 @@ def parse_file(filename: str) -> Dict[str, any]:
                 if key in ["starts", "goals"]:
                     value = value.split('),')
                     value = [tuple(map(int, v.strip().strip('()').split(','))) for v in value if v]
+                elif key in ["solved", "soc", "soc_lb", "makespan", "makespan_lb", "sum_of_loss", "sum_of_loss_lb", "comp_time", "seed", "optimal", "objective", "loop_cnt", "num_node_gen"]:
+                    value = int(value)
                 data[key] = value
             else:
                 continue
 
     data["solution"] = solution
+    data["partitions_per_timestep"] = partitions_per_timestep
     return data
 
 
@@ -101,24 +154,21 @@ def run_command_in_ubuntu(command: str) -> int :
             for line in output_lines:
                 if "Maximum resident set size" in line :
                     max_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
-                    update_stats_json("Maximum RAM usage (Mbytes)", str(max_ram_usage))
+                    update_stats("Maximum RAM usage (Mbytes)", max_ram_usage)
                     print(f"- test completed. RAM Usage: {max_ram_usage} Mo")
                 elif "Average resident set size" in line :
                     avg_ram_usage = int(line.split(":")[1].strip())/1000    # RAM use in MBytes
-                    update_stats_json("Average RAM usage (Mbytes)", str(avg_ram_usage))
+                    update_stats("Average RAM usage (Mbytes)", avg_ram_usage)
                 elif "Percent of CPU this job got" in line :
                     cpu_usage = line.split(":")[1].strip()             # in percent
                     cpu_usage = cpu_usage.rstrip('%')
-                    update_stats_json("CPU usage (percent)", str(cpu_usage))
+                    update_stats("CPU usage (percent)", float(cpu_usage))
         return 1
 
 
     except :
         # Handle errors if any of the commands fail
         print("- solving failed\n")
-        update_stats_json("Maximum RAM usage (Mbytes)", "-1")
-        update_stats_json("Average RAM usage (Mbytes)", "-1")
-        update_stats_json("CPU usage (percent)", "-1")
         return 0
 
 
@@ -147,11 +197,13 @@ def get_partitions_txt(filepath) :
 
 def partitions_txt_to_json():
 
-    dir_py = up(up(__file__))    # LaCAM2_fact/assets
-    filename = join(dir_py, 'temp', 'partitions.txt')
-    data_dict = get_partitions_txt(filename)
+    dir_base = up(up(up(__file__)))    # LaCAM2_fact/
+    res = join(dir_base, 'build', 'result.txt')
+    result = parse_file(res)
+    data_dict = result['partitions_per_timestep']
 
 
-    partitions_file_path = join(dir_py, 'temp', 'partitions.json')
+    partitions_file_path = join(dir_base, 'assets', 'temp', 'def_partitions.json')
     with open(partitions_file_path, 'w') as file:
-        json.dump(data_dict, file, indent=3)
+        # json.dump(data_dict, file, indent=3)
+        json.dump(data_dict, file, indent=4, sort_keys=True, separators=(',', ': '))

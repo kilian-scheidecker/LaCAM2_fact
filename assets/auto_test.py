@@ -1,21 +1,20 @@
-from os.path import join, exists, dirname as up
-from os import remove
+from os.path import join, dirname as up
 import json
 
 import numpy as np
 
 from src.fact_def import max_fact_partitions
-from src.score import get_score
-from src.utils import create_command, update_stats_json, run_command_in_ubuntu, partitions_txt_to_json
+from src.score import complexity_score
+from src.utils import create_command, update_stats, run_command_in_ubuntu, partitions_txt_to_json
 from src.scenario_generator import create_scen
 
 
 # Main function that creates random tests and runs them automatically
-def auto_test(compute_score=False, use_heuristics=False) :
+def auto_test(use_heuristics=False) :
        
     dir_py = up(__file__)       #/lacam_fact/assets
 
-    with open(dir_py + '/test_params.json', 'r') as file:
+    with open(join(dir_py, 'test_params.json'), 'r') as file:
         data = json.load(file)
 
         # Assign variables
@@ -58,28 +57,13 @@ def auto_test(compute_score=False, use_heuristics=False) :
                 create_scen(N, dir_py, map_name)
                 for command in commmands :
 
-                    print(command)
-                    partitions_per_timestep = None
-
+                    # print(command)
                     if 'FactDef' in command and not use_heuristics :
-                        # Determine the max factorizability and store it assets/temp/partitions.json
-                        partitions_per_timestep = max_fact_partitions(map_name=map_name, N=N)
-                        if exists(join(dir_py, 'temp', 'partitions.txt')) : remove(join(dir_py, 'temp', 'partitions.txt'))
-                    elif 'FactDef' in command and use_heuristics : 
-                        partitions_txt_to_json()
-                    else : 
-                        if exists(join(dir_py, 'temp', 'partitions.txt')) : remove(join(dir_py, 'temp', 'partitions.txt'))
-                    
+                        # Determine the max factorizability and store it assets/temp/def_partitions.json
+                        max_fact_partitions(map_name=map_name, N=N)
 
                     success += run_command_in_ubuntu(command)
-
-                    if compute_score :
-                        score = get_score(partitions_per_timestep)
-                    else :
-                        score = -1
-
-                    update_stats_json("Complexity score", str(score))
-
+                    update_stats("Complexity score", complexity_score())
                     total += 1
 
         print(f"\nSuccessfully completed {success}/{total} tests.\n")
@@ -87,4 +71,4 @@ def auto_test(compute_score=False, use_heuristics=False) :
 
 
 
-auto_test(compute_score=True, use_heuristics=True)
+auto_test(use_heuristics=True)

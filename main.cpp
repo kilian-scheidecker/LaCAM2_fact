@@ -84,117 +84,86 @@ int main(int argc, char* argv[])
   // Gather info about the map
   std::size_t found = map_name.find_last_of("/\\");
   auto mapname = map_name.substr(found+1);
-  info(1, verbose, "Map name : ", mapname);
+
+  
 
   // Other variables
-  std::vector<int> v_enable(N);           // keep track of which agent is enabled
-  Infos infos;                            // Create Infos structure
-  int success = 1;                        // Determine if solving was successful (1) or not (0)
-  auto additional_info = std::string("");
+  Solution solution;                        // Solution of the problem
+  std::vector<int> v_enable(N);             // Keep track of which agent is enabled (needed for factorization)
+  Infos infos;                              // Create Infos structure to gather data
+  int success = 1;                          // Determine if solving was successful (1) or not (0)
+  auto additional_info = std::string("");   // Pass additional info
+  PartitionsMap partitions_per_timestep;    // Keep track of the partitions per timestep
 
+  // Iintialize the enabled vector, initialize it to have the indices of agents as content
+  std::iota(std::begin(v_enable), std::end(v_enable), 0);
 
+  // Create the instance
+  const auto ins = Instance(scen_name, map_name, v_enable, N);
+  if (!ins.is_valid(1)) return 1;
 
-  // ---------------------------- SOLVE WITH Factorization -----------------------------------------
+  // Create the FactAlgo class and use the factory function to create the appropriate FactAlgo object
+  std::unique_ptr<FactAlgo> algo;
+  if( strcmp(factorize.c_str(), "no") != 0)
+  {
+    try {
+      algo = createFactAlgo(factorize, ins.G.width);
+    }
+    catch (const std::exception& e) {
+      std::cerr << "Error: " << e.what() << std::endl;
+      return 1;
+    }
+  }
 
+  
+
+  START_PROFILING();
+
+  // Create the deadline
+  const auto deadline = Deadline(time_limit_sec * 1000);
+  
   if( strcmp(factorize.c_str(), "no") != 0)
   {
     info(0, verbose, "\nStart solving the algorithm with factorization\n");
 
-
-    // Generate the enabled vector, initialize it to have the indices of agents as content
-    std::iota(std::begin(v_enable), std::end(v_enable), 0);
-
-    // Create the instance, Vertices are assigned here
-    const auto ins_fact = Instance(scen_name, map_name, v_enable, N);
-    
-    if (!ins_fact.is_valid(1)) return 1;
-
-    // Create the FactAlgo class and use the factory function to create the appropriate FactAlgo object
-    std::unique_ptr<FactAlgo> algo;
-    try {
-      algo = createFactAlgo(factorize, ins_fact.G.width);
-    }
-    catch (const std::exception& e) 
-    {
-      std::cerr << "Error: " << e.what() << std::endl;
-      return 1;
-    }
-
-    // Reset the infos :
-    infos.reset();
-
-    // Create the empty solution :
-    Solution solution_fact;
-    
-    // Create the deadline :
-    const auto deadline_fact = Deadline(time_limit_sec * 1000);
-
-    START_PROFILING();
-
-    // Actual solving procedure, depending on multi_threading or not
+    // Actual solving procedure with factorization, depending on multi_threading or not
     if( strcmp(multi_threading.c_str(), "yes") == 0)
-      solution_fact = solve_fact_MT(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
+      solution = solve_fact_MT(ins, additional_info, partitions_per_timestep, *algo, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
     else
-      solution_fact = solve_fact(ins_fact, additional_info, *algo, verbose - 1, &deadline_fact, &MT, objective, restart_rate, &infos);
-
-    STOP_PROFILING();
-    
-    const auto comp_time_ms_fact = deadline_fact.elapsed_ms();
-
-    // failure
-    if (solution_fact.empty()) info(0, verbose, "failed to solve");
-
-    // check feasibility
-    if (!is_feasible_solution(ins_fact, solution_fact, verbose)) {
-      info(0, verbose, "invalid solution for factorized solving");
-      success = 0;
-      //return 1;
-    }
-
-    // post processing
-    print_stats(verbose, ins_fact, solution_fact, comp_time_ms_fact);
-    make_log(ins_fact, solution_fact, output_name, comp_time_ms_fact, map_name, seed, additional_info, log_short);
-    if( strcmp(stat_print.c_str(), "yes") == 0)
-    {
-      make_stats("stats_json.txt", factorize, N, comp_time_ms_fact, infos, solution_fact, mapname, success, multi_threading);
-    }
+      solution = solve_fact(ins, additional_info, partitions_per_timestep, *algo, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
   }
 
 
-// ---------------------------- SOLVE WITHOUT FACTORIZATION -----------------------------------------
   else
   {
     info(0, verbose, "\nStart solving the algorithm without factorization\n");
 
-    // Create the instance
-    const auto ins = Instance(scen_name, map_name, v_enable, N);
+    // Actual solving with standard LaCAM
+    solution = solve(ins, additional_info, verbose - 1, &deadline, &MT, objective, restart_rate, &infos); 
+    partitions_per_timestep[get_makespan(solution)] = {v_enable};   
+  }
 
-    if (!ins.is_valid(1)) return 1;
-    
-    // Reset the infos
-    infos.reset();
+  STOP_PROFILING();
 
-    // Create the deadline
-    const auto deadline = Deadline(time_limit_sec * 1000);
+  // Stop the timing
+  const auto comp_time_ms = deadline.elapsed_ms();
 
-    // Actual solving
-    const auto solution = solve(ins, additional_info, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
-    const auto comp_time_ms = deadline.elapsed_ms();
+  // failure
+  if (solution.empty()) info(0, verbose, "failed to solve");
 
-    // check feasibility
-    if (!is_feasible_solution(ins, solution, verbose)) {
-      info(0, verbose, "invalid solution for normal LaCAM");
-      success = 0;
-      //return 1;
-    }
+  // check feasibility
+  if (!is_feasible_solution(ins, solution, verbose)) {
+    info(0, verbose, "invalid solution");
+    success = 0;
+  }
 
-    // post processing
-    print_stats(verbose, ins, solution, comp_time_ms);
-    make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, log_short);
-    if( strcmp(stat_print.c_str(), "yes") == 0)
-    {
-      make_stats("stats_json.txt", "Standard", N, comp_time_ms, infos, solution, mapname, success, "no");
-    }
+  // post processing
+  print_stats(verbose, ins, solution, comp_time_ms);
+  make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, partitions_per_timestep, log_short);
+  if( strcmp(stat_print.c_str(), "yes") == 0)
+  {
+    make_stats("stats.json", factorize, N, comp_time_ms, infos, solution, mapname, success, multi_threading);
+    write_partitions(partitions_per_timestep);
   }
 
   // resume cout

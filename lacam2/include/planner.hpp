@@ -51,6 +51,7 @@ struct HNode {
   std::vector<float> priorities;
   std::vector<uint> order;
   std::queue<LNode*> search_tree;
+  uint depth;
 
   HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g,
         const uint _h);
@@ -117,7 +118,7 @@ struct Planner {
   // standard solving
   Solution solve(std::string& additional_info, Infos* infos_ptr);
   // factorized solving
-  Bundle solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo);
+  Bundle solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep);
   
   void expand_lowlevel_tree(HNode* H, LNode* L);
   void rewrite(HNode* H_from, HNode* T, HNode* H_goal,
@@ -126,6 +127,7 @@ struct Planner {
   uint get_edge_cost(HNode* H_from, HNode* H_to);
   uint get_h_value(const Config& C);
   bool get_new_config(HNode* H, LNode* L);
+  bool get_new_config_fact(HNode* H, LNode* L);
   bool funcPIBT(Agent* ai);
   bool funcPIBT_fact(Agent* ai);
 

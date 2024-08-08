@@ -8,7 +8,7 @@
 //#include "../include/dist_table.hpp"
 //#include "../include/utils.hpp"
 
-#define SAFETY_DISTANCE 0
+#define SAFETY_DISTANCE 2
 
 
 /****************************************************************************************\
@@ -16,7 +16,7 @@
 \****************************************************************************************/
 
 std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose,
-                                     const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities)
+                                     const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities, Partitions& partitions_at_timestep)
 {
   PROFILE_FUNC(profiler::colors::Yellow);
 
@@ -66,17 +66,24 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, c
                     partitions.end());
 
   if (partitions.size() > 1) {
-    return split_ins(G, C, goals, verbose, enabled, partitions, priorities);    // most expensive
+    return split_ins(G, C, goals, verbose, enabled, partitions, priorities, partitions_at_timestep);    // most expensive
   } else {
     return {};
   }
 }
 
 std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose,
-                             const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const
+                             const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities,
+                             Partitions& partitions_at_timestep) const
 {
     PROFILE_FUNC(profiler::colors::Yellow200);
     PROFILE_BLOCK("initialization");
+
+    // log partitions
+    if (partitions_at_timestep.size() > 0)
+        std::copy(partitions.begin(), partitions.end(), std::back_inserter(partitions_at_timestep));
+    else
+        partitions_at_timestep = partitions;
 
     // printing info about the partitions
     if (verbose > 1) {
@@ -140,7 +147,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
             //   print_vertices(G0, width);
             //   std::cout << std::endl;
             // }
-            info(2, verbose, "Pushed new sub-instance with ", I.N, " agents.");
+            info(1, verbose, "Pushed new sub-instance with ", I.N, " agents.");
             sub_instances.push_back(std::make_shared<Instance>(I));
         
         } 
@@ -355,7 +362,7 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
 
 FactDef::FactDef(int width) : FactAlgo(width, false, true) {
     // Constructor with width, handle partitions_map initialization
-    std::string path = "assets/temp/partitions.json";
+    std::string path = "assets/temp/temp_partitions.json";
     std::ifstream file(path);
 
     if (!file.is_open()) {
@@ -371,6 +378,7 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
             int map_key = std::stoi(key); // Convert JSON key to integer
             Partitions map_value = value.get<Partitions>();
             partitions_map[map_key] = map_value;
+            // std::cout<<"\nFound timestep "<< map_key;
         }
     } catch (const json::exception& e) {
         std::cerr << "JSON parsing error: " << e.what() << std::endl;
@@ -378,7 +386,80 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
 }
 
 
-const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<int>& enabled) const {
+// const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<int>& enabled) const {
+//     // Check if timestep corresponds to a key in the partitions_map
+//     auto it = partitions_map.find(timestep);
+//     if (it == partitions_map.end()) {
+//         // Timestep not found in the partitions map
+//         // std::cout<<"\nTimestep not found";
+//         return {};
+//     }
+
+//     // Check if any number in enabled is contained in any of the partitions at timestep
+//     const auto& partitions = it->second;  // Partitions for the given timestep
+//     // Partitions filtered_partitions;
+//     // for (const auto& partition : partitions) {
+//     //     for (int num : enabled) {
+//     //         if (std::find(partition.begin(), partition.end(), num) != partition.end()) {
+//     //             // Found a number in enabled that is contained in the partition
+//     //             return partitions;
+//     //         }
+//     //     }
+//     // }
+
+//     // No numbers in enabled were found in any partition for the given timestep
+//     return {};
+//     Partitions filtered_partitions;
+//     std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());  // Create a set for fast lookups
+
+//     for (const auto& partition : partitions) {
+//         std::vector<int> filtered_partition;
+//         for (int num : partition) {
+//             if (enabled_set.find(num) != enabled_set.end()) {
+//                 filtered_partitions.push_back(partition);
+//                 break;  // Break inner loop to avoid unnecessary checks
+//             }
+//         }
+//         // if (!filtered_partition.empty()) {
+//         //     filtered_partitions.push_back(filtered_partition);
+//         // }
+//     }
+
+//     return filtered_partitions;
+// }
+
+
+// Bugged version
+// const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<int>& enabled) const {
+//     // Check if timestep corresponds to a key in the partitions_map
+//     auto it = partitions_map.find(timestep);
+//     if (it == partitions_map.end()) {
+//         // Timestep not found in the partitions map
+//         return {};
+//     }
+
+//     // Check if any number in enabled is contained in any of the partitions at timestep
+//     const auto& partitions = it->second;  // Partitions for the given timestep
+
+//     Partitions filtered_partitions;
+//     // std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());  // Create a set for fast lookups
+
+//     std::cout<<"\nLooking up partitions for timestep "<<timestep;
+
+//     for (const auto& partition : partitions) {
+//         for (int num : partition) {
+//             if (std::find(enabled.begin(), enabled.end(), num) != enabled.end()) {
+//                 filtered_partitions.push_back(partition);
+//                 break;  // Break inner loop to avoid unnecessary checks
+//             }
+//         }
+//     }
+
+//     return filtered_partitions;
+// }
+
+
+std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {
     // Check if timestep corresponds to a key in the partitions_map
     auto it = partitions_map.find(timestep);
     if (it == partitions_map.end()) {
@@ -386,19 +467,31 @@ const Partitions FactDef::is_factorizable_def(int timestep, const std::vector<in
         return {};
     }
 
-    // Check if any number in enabled is contained in any of the partitions at timestep
+    // Create a set for quick lookups
+    std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());
+
     const auto& partitions = it->second;  // Partitions for the given timestep
+
+    Partitions filtered_partitions;
+    // std::cout << "\nLooking up partitions for timestep " << timestep << "\n";
+
+    // Iterate through each partition
     for (const auto& partition : partitions) {
-        for (int num : enabled) {
-            if (std::find(partition.begin(), partition.end(), num) != partition.end()) {
-                // Found a number in enabled that is contained in the partition
-                return partitions;
+        // Check if any element in the partition is in the enabled_set
+        for (int num : partition) {
+            if (enabled_set.find(num) != enabled_set.end()) {
+                filtered_partitions.push_back(partition);
+                break;  // Break inner loop to avoid unnecessary checks
             }
         }
     }
-
-    // No numbers in enabled were found in any partition for the given timestep
-    return {};
+    
+    if (filtered_partitions.size() > 1) {
+        return split_ins(G, C_new, goals, verbose, enabled, filtered_partitions, priorities, partitions_at_timestep);    // most expensive
+    } 
+    else {
+        return {};
+    }
 }
 
 

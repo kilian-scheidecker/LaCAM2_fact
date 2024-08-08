@@ -1,5 +1,4 @@
 #include "../include/planner.hpp"
-// #include <easy/profiler.h>
 
 // Define the low level node (aka constraint)
 LNode::LNode(LNode* parent, uint i, std::shared_ptr<Vertex> v) : 
@@ -27,7 +26,8 @@ HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, cons
       f(g + h),
       priorities(C.size()),
       order(C.size(), 0),
-      search_tree(std::queue<LNode*>())
+      search_tree(std::queue<LNode*>()),
+      depth(_parent == nullptr ? 0 : _parent->depth + 1)  // Initialize depth
 {
   ++HNODE_CNT;
 
@@ -65,19 +65,6 @@ HNode::~HNode()
     search_tree.pop();
   }
 }
-
-
-// Bundle::Bundle()
-//   : instances({}),
-//     solution({})
-// {
-// }
-
-// Bundle::~Bundle()
-//   : instances({}),
-//     solution({})
-// {
-// }
 
 // Planner constructor
 Planner::Planner(const Instance& _ins, const Deadline* _deadline,
@@ -153,10 +140,25 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
-    // check for factorization possibility here. If there 
+    info(1, verbose, "Loop count: ", loop_cnt);
 
     // do not pop here!
     auto H = OPEN.top();  // high-level node
+
+    // DEBUG PRINT
+    info(2, verbose,"\n-------------------------------------------\n");
+    info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt);
+    if(verbose>2) {
+      std::cout<<"\n- Printing current configuration : ";
+      print_vertices(H->C, ins.G.width);
+      std::cout<<"\n";
+    }
+
+
+    // DEBUG print
+    // std::cout<<"\nPriorities : ";
+    // for (auto i : H->order)
+    // std::cout<<H->priorities[i]<<", ";
 
     // low-level search end
     if (H->search_tree.empty()) {
@@ -196,10 +198,13 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
     if (iter != EXPLORED.end()) {
       // case found
       rewrite(H, iter->second, H_goal, OPEN);
-      // re-insert or random-restart
-      auto H_insert = (MT != nullptr && get_random_float(MT) >= RESTART_RATE)
-                          ? iter->second
-                          : H_init;
+      
+      // re-insert or random-restart. Needed to remove for deterministic behavior
+      // auto H_insert = (MT != nullptr && get_random_float(MT) >= RESTART_RATE)
+      //                     ? iter->second
+      //                     : H;
+      auto H_insert = iter->second; // Always re-insert the found node
+
       if (H_goal == nullptr || H_insert->f < H_goal->f) OPEN.push(H_insert);
     } else {
       // insert new search node
@@ -226,9 +231,9 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   } else if (H_goal != nullptr) {
     solver_info(1, "solved sub-optimally, objective: ", objective);
   } else if (OPEN.empty()) {
-    solver_info(1, "no solution");
+    solver_info(0, "no solution");
   } else {
-    solver_info(1, "timeout");
+    solver_info(0, "timeout");
   }
 
   // logging
@@ -241,38 +246,13 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   for (auto a : A) delete a;
   for (auto itr : EXPLORED) delete itr.second;
 
-  //infos_ptr->loop_count += loop_cnt;
-  //infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
-  //infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
-
-
-  /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
-  // Open a file in write mode
-  std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
-
-  outFile << loop_cnt-1 <<" : [[";
-  // Write the timestep data to the file
-  for (uint i = 0; i < N; i++) 
-  {
-    outFile << i;
-    if (i < N -1)
-    {  
-      outFile <<", ";
-    }
-  }
-  outFile <<"]]\n";
-
-  // Close the file
-  outFile.close();
-  /******************************************************************************************/
-
   return solution;
 }
 
 
 
 // factorized solving
-Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo)
+Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep)
 {
 // #ifdef ENABLE_PROFILING
 //   EASY_FUNCTION(profiler::colors::Green, "Planner::solve_fact");
@@ -298,10 +278,9 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
   // Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
   std::list<std::shared_ptr<Instance>> sub_instances;
 
-  int timestep = empty_solution->solution[ins.enabled[0]].size();
+  uint start_time = empty_solution->solution[ins.enabled[0]].size();
 
   // Restore the inheried priorities of agents
-  // TODO
   if (ins.priority.size() > 1)
   {
     for (int i=0; i<int(N); i++)
@@ -312,13 +291,20 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     std::sort(H->order.begin(), H->order.end(),
               [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
   }
-  
+
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
 
     // do not pop here!
     auto H = OPEN.top();  // high-level node
+
+    
+
+    // DEBUG print
+    // std::cout<<"\nPriorities : ";
+    // for (auto i : H->order)
+    // std::cout<<H->priorities[i]<<", ";  
 
     // low-level search end
     if (H->search_tree.empty()) {
@@ -363,17 +349,23 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     // create new configuration
     for (auto a : A) C_new[a->id] = a->v_next;
 
+    std::vector<float> priorities_copy;
+
     // check explored list
     const auto iter = EXPLORED.find(C_new);
     if (iter != EXPLORED.end()) {
       // case found
       rewrite(H, iter->second, H_goal, OPEN);
-      // re-insert or random-restart
-      auto H_insert = (MT != nullptr && get_random_float(MT) >= RESTART_RATE)
-                          ? iter->second
-                          : H;
+
+      // re-insert or random-restart. Needed to remove for deterministic behavior
+      // auto H_insert = (MT != nullptr && get_random_float(MT) >= RESTART_RATE)
+      //                     ? iter->second
+      //                     : H;
+      auto H_insert = iter->second; // Always re-insert the found node
+
       if (H_goal == nullptr || H_insert->f < H_goal->f) 
       {
+        priorities_copy = H_insert->priorities;
         OPEN.push(H_insert);
       }
     } else {
@@ -383,6 +375,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       EXPLORED[H_new->C] = H_new;
       if (H_goal == nullptr || H_new->f < H_goal->f)
       {
+        priorities_copy = H_new->priorities;
         OPEN.push(H_new);
       }
     }
@@ -392,55 +385,30 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     if (factalgo.need_astar)
       for(uint i=0; i<N; i++) distances[i] = D.get(i, C_new[i]);    // copy the A* path lengths
 
+    uint timestep = start_time + H->depth+1;
+
     // Check for factorizability
     if (N>1 && H_goal == nullptr)
-    {
-        
+    { 
+      // // update priorities
+      // for (size_t i = 0; i < N; ++i) {
+      //   if (distances[i] != 0) {
+      //     H->priorities[i] += 1;
+      //   } 
+      //   else
+      //     H->priorities[i] = (ins.enabled[i]+1)/(N+1);  // retrieve original priority
+      // }
+
       if (factalgo.use_def)
-      {
-        Partitions split = factalgo.is_factorizable_def(timestep, ins.enabled);
-        if (!split.empty())
-          sub_instances = factalgo.split_ins(ins.G, C_new, ins.goals, verbose, ins.enabled, split, H->priorities);
-        else
-          sub_instances = {};
-      }
+        sub_instances = factalgo.is_factorizable_def(ins.G, C_new, ins.goals, verbose, ins.enabled, priorities_copy, partitions_per_timestep[timestep], timestep);
       else 
-      {
-        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, H->priorities);
-      }
+        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, priorities_copy, partitions_per_timestep[timestep]);
 
       if (sub_instances.size() > 0)
       {
         H_goal = H;
 
-
-        /************************************** STORE PARTITIONS FOR SCORE ****************************************************/
-        // Open a file in write mode
-        std::ofstream outFile("assets/temp/partitions.txt", std::ios_base::app);
-
-        outFile << timestep<<" : [";
-        // Write the timestep data to the file
-        size_t cnt0 = 0;
-        for (const auto& ins : sub_instances) {
-          outFile << "[";
-          size_t cnt = 0;
-          for (const auto i : ins.get()->enabled) {
-            outFile << i;
-            if (cnt < ins.get()->N -1)
-              outFile <<", ";
-
-            cnt++;
-
-          }
-          outFile << "]";
-          if (cnt0 < sub_instances.size()-1)
-            outFile <<", ";
-        }
-        outFile <<"]\n";
-
-        // Close the file
-        outFile.close();
-        /**********************************************************************************************************************/
+        info(2, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep);
         
         break;
       }
@@ -455,14 +423,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       //     break;
       // }
     }
-
-    timestep += 1;
-
   }
-
-
-  
-
 
   // backtrack
   if (H_goal != nullptr) {
@@ -500,29 +461,6 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
   //infos_ptr->PIBT_calls_active += N;   // add N computations because the last step is 'amputated'
   //infos_ptr->actions_count_active += N;   // add N computations because the last step is 'amputated'
 
-  // Spaghetti to append the solutions correctly
-
-  
-
-
-  // Solution sol_t = transpose(solution);
-
-  // for(int id=0; id<int(N); id++)   // for some reason vscode doesnt like this line but compiles all good
-  // {
-  //   //std::cout<<"\nActive agent : "<<active_agent;
-  //   auto sol_bit = sol_t[id];
-  //   auto line = &(empty_solution->solution[ins.enabled[id]]);
-
-  //   for (auto v : sol_bit) 
-  //   {
-  //     line->push_back(v);
-  //   }
-  // }
-  // return sub_instances;
-
-  // return a bundle
-
-  // std::cout<<"size of solution : "<<solution.size();
   return Bundle(transpose(solution), sub_instances);
 }
 
@@ -595,7 +533,7 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
   auto C = H->C[i]->neighbor;
   C.push_back(H->C[i]);
   // randomize
-  if (MT != nullptr) std::shuffle(C.begin(), C.end(), *MT);
+  // if (MT != nullptr) std::shuffle(C.begin(), C.end(), *MT);   // not ramdomize
   // insert
   for (auto v : C) H->search_tree.push(new LNode(L, i, v));
 }
@@ -603,12 +541,54 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
 // Create a new configuration given some constraints for the next step. Basically the same as in LaCAM
 bool Planner::get_new_config(HNode* H, LNode* L)
 {
-// #ifdef ENABLE_PROFILING
-//   EASY_FUNCTION();
-// #endif
   PROFILE_FUNC(profiler::colors::Yellow);
-  // RENAME("configuration generation (inc. PIBT)");
 
+  // setup cache
+  for (auto a : A) {
+    // clear previous cache
+    if (a->v_now != nullptr && occupied_now[a->v_now->id] == a) {
+      occupied_now[a->v_now->id] = nullptr;
+    }
+    if (a->v_next != nullptr) {
+      occupied_next[a->v_next->id] = nullptr;
+      a->v_next = nullptr;
+    }
+
+    // set occupied now
+    a->v_now = H->C[a->id];
+    occupied_now[a->v_now->id] = a;
+  }
+
+  // add constraints
+  for (uint k = 0; k < L->depth; ++k) {
+    const int i = L->who[k];        // agent
+    const int l = L->where[k]->id;  // loc
+
+    // check vertex collision
+    if (occupied_next[l] != nullptr) return false;
+    // check swap collision
+    auto l_pre = H->C[i]->id;
+    if (occupied_next[l_pre] != nullptr && occupied_now[l] != nullptr &&
+        occupied_next[l_pre]->id == occupied_now[l]->id)
+      return false;
+
+    // set occupied_next
+    A[i]->v_next = L->where[k];
+    occupied_next[l] = A[i];
+  }
+
+  // perform PIBT
+  for (int k : H->order) {
+    auto a = A[k];              // changed to PIBT_fact for rule_based decision making
+    if (a->v_next == nullptr && !funcPIBT(a)) return false;  // planning failure
+  }
+  return true;
+}
+
+
+bool Planner::get_new_config_fact(HNode* H, LNode* L)
+{
+  PROFILE_FUNC(profiler::colors::Yellow);
 
   // setup cache
   for (auto a : A) {
@@ -652,24 +632,22 @@ bool Planner::get_new_config(HNode* H, LNode* L)
   return true;
 }
 
+
+
+
 // PIBT planner for the low level node
 bool Planner::funcPIBT(Agent* ai)
 {
-  const int i = ai->id;
+  const auto i = ai->id;
   const size_t K = ai->v_now->neighbor.size();
-  
-  //infos_ptr->PIBT_calls++;
-  //if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->PIBT_calls_active ++;
 
-  // get candidates for next locations. Loop through all neighbouring vertices
+  // get candidates for next locations
   for (size_t k = 0; k < K; ++k) {
     auto u = ai->v_now->neighbor[k];
     C_next[i][k] = u;
     if (MT != nullptr)
       tie_breakers[u->id] = get_random_float(MT);  // set tie-breaker
   }
-  
-  // add stay as possible next location
   C_next[i][K] = ai->v_now;
 
   // sort in ascending descending order of priority
@@ -679,32 +657,41 @@ bool Planner::funcPIBT(Agent* ai)
                      D.get(i, u) + tie_breakers[u->id];
             });
 
+  //DEBUG PRINT
+  if(verbose > 3)
+  {
+    Config C_next_vector2(C_next[i].begin(), C_next[i].end());
+    info(2, verbose, "-- Order of preference for actions for agent ", i, " : ");
+    for (size_t k=0; k<=K; k++)
+    {
+      print_vertex(C_next[i][k], ins.G.width);
+      std::cout<<" (d="<<D.get(i, C_next[i][k])<<") // ";
+    }
+    std::cout<<"\n";
+  }
+
+
   Agent* swap_agent = swap_possible_and_required(ai);
   if (swap_agent != nullptr)
     std::reverse(C_next[i].begin(), C_next[i].begin() + K + 1);
 
-  // main operation. loop through the actions starting from prefered one and check if it is possible. If so, reserve the spot
+  // main operation
   for (size_t k = 0; k < K + 1; ++k) {
     auto u = C_next[i][k];
 
-    //infos_ptr->actions_count++;
-    //if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->actions_count_active++; 
+    // avoid vertex conflicts
+    if (occupied_next[u->id] != nullptr) continue;
 
-    // avoid vertex conflicts and skip this vertex
-    if (occupied_next[u->id] != nullptr) continue;  //check if some agent already reserved the spot for next move
+    auto& ak = occupied_now[u->id];
 
-    auto& ak = occupied_now[u->id];   // ak = agent occupying NOW the vertex we want to go NEXT
+    // avoid swap conflicts
+    if (ak != nullptr && ak->v_next == ai->v_now) continue;
 
-    // avoid swap conflicts and skip this vertex
-    if (ak != nullptr && ak->v_next == ai->v_now) continue;   // check if ak wants to go where we want to go
-
-    // if it's all good, we can proceed to the reservation of next step
     // reserve next location
-    occupied_next[u->id] = ai;        // reserve the next vertex
-    ai->v_next = u;                   // store move as next vertex
+    occupied_next[u->id] = ai;
+    ai->v_next = u;
 
     // priority inheritance
-    // if ak is not planned yet and our move leads to deadlock, do not use this move.
     if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT(ak))
       continue;
 
@@ -725,7 +712,8 @@ bool Planner::funcPIBT(Agent* ai)
 }
 
 
-// PIBT planner for the low level node
+
+
 bool Planner::funcPIBT_fact(Agent* ai)
 {
   const int i = ai->id;
@@ -747,25 +735,21 @@ bool Planner::funcPIBT_fact(Agent* ai)
     int x_next = u.get()->index%ins.G.width;         // added for rule-based
     int y_next = (int) u.get()->index/ins.G.width;   // added for rule-based
 
-    // if (MT != nullptr)
-    //   tie_breakers[u->id] = get_random_float(MT);  // set tie-breaker
-
     // move right
     if (x_now < x_next)
-      tie_breakers[u.get()->id] = 0.1;
+      tie_breakers[u.get()->id] = 0.1 + get_random_float(MT)/10;
 
     // move up
     else if (y_now > y_next)
-      tie_breakers[u.get()->id] = 0.2;
+      tie_breakers[u.get()->id] = 0.2 + get_random_float(MT)/10;
 
     // move left
     else if (x_now > x_next)
-      tie_breakers[u.get()->id] = 0.3;
+      tie_breakers[u.get()->id] = 0.3 + get_random_float(MT)/10;
 
     // move down
     else if (y_now < y_next)
-      tie_breakers[u.get()->id] = 0.4;
-
+      tie_breakers[u.get()->id] = 0.4 + get_random_float(MT)/10;
 
     distances[u.get()->id] = D.get(i, C_next[i][k]) + tie_breakers[C_next[i][k].get()->id];
     
@@ -785,7 +769,7 @@ bool Planner::funcPIBT_fact(Agent* ai)
             });
 
   //DEBUG PRINT
-  if(verbose > 2)
+  if(verbose > 3)
   {
     Config C_next_vector2(C_next[i].begin(), C_next[i].end());
     info(2, verbose, "-- Order of preference for actions for agent ", i, " : ");
