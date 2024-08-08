@@ -1,4 +1,4 @@
-from os.path import dirname as up
+from os.path import join, dirname as up
 import json
 
 import numpy as np
@@ -14,7 +14,7 @@ def auto_test(use_heuristics=False) :
        
     dir_py = up(__file__)       #/lacam_fact/assets
 
-    with open(dir_py + '/test_params.json', 'r') as file:
+    with open(join(dir_py, 'test_params.json'), 'r') as file:
         data = json.load(file)
 
         # Assign variables
