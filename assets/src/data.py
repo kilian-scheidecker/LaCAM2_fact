@@ -6,7 +6,7 @@ from os.path import dirname as up
     with open(filename, 'a') as f:
         f.write(line + '\n')"""
 
-def line_appender(filename, line):
+"""def line_appender(filename, line):
     with open(filename, 'rb+') as f:
         lines = f.readlines()
         if lines and lines[-2].strip() == '},'.encode('UTF-8'):
@@ -84,7 +84,7 @@ def stats_to_json(filename) :
     data = pd.read_json(base_path + '/stats.json')
 
     return data
-
+"""
 
 def compute_averages(data: pd.DataFrame) :
 

@@ -116,7 +116,7 @@ struct Planner {
   ~Planner();
 
   // standard solving
-  Solution solve(std::string& additional_info, Infos* infos_ptr, PartitionsMap& partitions_per_timestep);
+  Solution solve(std::string& additional_info, Infos* infos_ptr);
   // factorized solving
   Bundle solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep);
   
@@ -127,6 +127,7 @@ struct Planner {
   uint get_edge_cost(HNode* H_from, HNode* H_to);
   uint get_h_value(const Config& C);
   bool get_new_config(HNode* H, LNode* L);
+  bool get_new_config_fact(HNode* H, LNode* L);
   bool funcPIBT(Agent* ai);
   bool funcPIBT_fact(Agent* ai);
 

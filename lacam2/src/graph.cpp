@@ -11,12 +11,6 @@ Vertex::Vertex(Vertex* v)
 }
 
 Graph::Graph() : V(Vertices()), width(0), height(0) {}
-/*Graph::~Graph()         // remove destructor
-{
-  for (auto& v : V)
-    if (v != nullptr) delete v;
-  V.clear();
-}*/
 
 // to load graph
 static const std::regex r_height = std::regex(R"(height\s(\d+))");

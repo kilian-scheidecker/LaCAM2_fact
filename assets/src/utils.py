@@ -10,7 +10,7 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
     for factalgo in factorize :
         for thread in multi_threading :
             if thread == "yes":
-                if factalgo not in ["no", "FactDef"] :
+                if factalgo not in ["no"] :
                     end = ' -v 0' + ' -f ' + factalgo + ' -mt yes'
                 else :
                     print("Cannot use multi threading on standard or FactDef LaCAM")

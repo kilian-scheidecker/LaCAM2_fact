@@ -139,7 +139,7 @@ int main(int argc, char* argv[])
     info(0, verbose, "\nStart solving the algorithm without factorization\n");
 
     // Actual solving with standard LaCAM
-    solution = solve(ins, additional_info, partitions_per_timestep, verbose - 1, &deadline, &MT, objective, restart_rate, &infos); 
+    solution = solve(ins, additional_info, verbose - 1, &deadline, &MT, objective, restart_rate, &infos); 
     partitions_per_timestep[get_makespan(solution)] = {v_enable};   
   }
 

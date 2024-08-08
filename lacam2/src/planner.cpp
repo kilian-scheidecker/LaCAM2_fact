@@ -1,5 +1,4 @@
 #include "../include/planner.hpp"
-// #include <easy/profiler.h>
 
 // Define the low level node (aka constraint)
 LNode::LNode(LNode* parent, uint i, std::shared_ptr<Vertex> v) : 
@@ -67,19 +66,6 @@ HNode::~HNode()
   }
 }
 
-
-// Bundle::Bundle()
-//   : instances({}),
-//     solution({})
-// {
-// }
-
-// Bundle::~Bundle()
-//   : instances({}),
-//     solution({})
-// {
-// }
-
 // Planner constructor
 Planner::Planner(const Instance& _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
@@ -132,7 +118,7 @@ Planner::Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline,
 Planner::~Planner() {}
 
 // standard solving
-Solution Planner::solve(std::string& additional_info, Infos* infos_ptr, PartitionsMap& partitions_per_timestep)
+Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 {
   solver_info(1, "start search");
 
@@ -154,9 +140,19 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr, Partitio
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
+    info(1, verbose, "Loop count: ", loop_cnt);
 
     // do not pop here!
     auto H = OPEN.top();  // high-level node
+
+    // DEBUG PRINT
+    info(2, verbose,"\n-------------------------------------------\n");
+    info(2, verbose, "- Open a new node (top configuration of OPEN), loop_cnt = ", loop_cnt);
+    if(verbose>2) {
+      std::cout<<"\n- Printing current configuration : ";
+      print_vertices(H->C, ins.G.width);
+      std::cout<<"\n";
+    }
 
 
     // DEBUG print
@@ -235,9 +231,9 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr, Partitio
   } else if (H_goal != nullptr) {
     solver_info(1, "solved sub-optimally, objective: ", objective);
   } else if (OPEN.empty()) {
-    solver_info(1, "no solution");
+    solver_info(0, "no solution");
   } else {
-    solver_info(1, "timeout");
+    solver_info(0, "timeout");
   }
 
   // logging
@@ -412,7 +408,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       {
         H_goal = H;
 
-        info(0, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep);
+        info(2, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep);
         
         break;
       }
@@ -584,29 +580,74 @@ bool Planner::get_new_config(HNode* H, LNode* L)
   // perform PIBT
   for (int k : H->order) {
     auto a = A[k];              // changed to PIBT_fact for rule_based decision making
+    if (a->v_next == nullptr && !funcPIBT(a)) return false;  // planning failure
+  }
+  return true;
+}
+
+
+bool Planner::get_new_config_fact(HNode* H, LNode* L)
+{
+  PROFILE_FUNC(profiler::colors::Yellow);
+
+  // setup cache
+  for (auto a : A) {
+    // clear previous cache
+    if (a->v_now != nullptr && occupied_now[a->v_now->id] == a) {
+      occupied_now[a->v_now->id] = nullptr;
+    }
+    if (a->v_next != nullptr) {
+      occupied_next[a->v_next->id] = nullptr;
+      a->v_next = nullptr;
+    }
+
+    // set occupied now
+    a->v_now = H->C[a->id];
+    occupied_now[a->v_now->id] = a;
+  }
+
+  // add constraints
+  for (uint k = 0; k < L->depth; ++k) {
+    const int i = L->who[k];        // agent
+    const int l = L->where[k]->id;  // loc
+
+    // check vertex collision
+    if (occupied_next[l] != nullptr) return false;
+    // check swap collision
+    auto l_pre = H->C[i]->id;
+    if (occupied_next[l_pre] != nullptr && occupied_now[l] != nullptr &&
+        occupied_next[l_pre]->id == occupied_now[l]->id)
+      return false;
+
+    // set occupied_next
+    A[i]->v_next = L->where[k];
+    occupied_next[l] = A[i];
+  }
+
+  // perform PIBT
+  for (int k : H->order) {
+    auto a = A[k];              // changed to PIBT_fact for rule_based decision making
     if (a->v_next == nullptr && !funcPIBT_fact(a)) return false;  // planning failure
   }
   return true;
 }
 
-// PIBT planner for the low level node
-/*bool Planner::funcPIBT(Agent* ai)
-{
-  const int i = ai->id;
-  const size_t K = ai->v_now->neighbor.size();
-  
-  //infos_ptr->PIBT_calls++;
-  //if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->PIBT_calls_active ++;
 
-  // get candidates for next locations. Loop through all neighbouring vertices
+
+
+// PIBT planner for the low level node
+bool Planner::funcPIBT(Agent* ai)
+{
+  const auto i = ai->id;
+  const size_t K = ai->v_now->neighbor.size();
+
+  // get candidates for next locations
   for (size_t k = 0; k < K; ++k) {
     auto u = ai->v_now->neighbor[k];
     C_next[i][k] = u;
     if (MT != nullptr)
       tie_breakers[u->id] = get_random_float(MT);  // set tie-breaker
   }
-  
-  // add stay as possible next location
   C_next[i][K] = ai->v_now;
 
   // sort in ascending descending order of priority
@@ -616,32 +657,41 @@ bool Planner::get_new_config(HNode* H, LNode* L)
                      D.get(i, u) + tie_breakers[u->id];
             });
 
+  //DEBUG PRINT
+  if(verbose > 3)
+  {
+    Config C_next_vector2(C_next[i].begin(), C_next[i].end());
+    info(2, verbose, "-- Order of preference for actions for agent ", i, " : ");
+    for (size_t k=0; k<=K; k++)
+    {
+      print_vertex(C_next[i][k], ins.G.width);
+      std::cout<<" (d="<<D.get(i, C_next[i][k])<<") // ";
+    }
+    std::cout<<"\n";
+  }
+
+
   Agent* swap_agent = swap_possible_and_required(ai);
   if (swap_agent != nullptr)
     std::reverse(C_next[i].begin(), C_next[i].begin() + K + 1);
 
-  // main operation. loop through the actions starting from prefered one and check if it is possible. If so, reserve the spot
+  // main operation
   for (size_t k = 0; k < K + 1; ++k) {
     auto u = C_next[i][k];
 
-    //infos_ptr->actions_count++;
-    //if (ai->v_now.get()->index != ins.goals[i].get()->index) infos_ptr->actions_count_active++; 
+    // avoid vertex conflicts
+    if (occupied_next[u->id] != nullptr) continue;
 
-    // avoid vertex conflicts and skip this vertex
-    if (occupied_next[u->id] != nullptr) continue;  //check if some agent already reserved the spot for next move
+    auto& ak = occupied_now[u->id];
 
-    auto& ak = occupied_now[u->id];   // ak = agent occupying NOW the vertex we want to go NEXT
+    // avoid swap conflicts
+    if (ak != nullptr && ak->v_next == ai->v_now) continue;
 
-    // avoid swap conflicts and skip this vertex
-    if (ak != nullptr && ak->v_next == ai->v_now) continue;   // check if ak wants to go where we want to go
-
-    // if it's all good, we can proceed to the reservation of next step
     // reserve next location
-    occupied_next[u->id] = ai;        // reserve the next vertex
-    ai->v_next = u;                   // store move as next vertex
+    occupied_next[u->id] = ai;
+    ai->v_next = u;
 
     // priority inheritance
-    // if ak is not planned yet and our move leads to deadlock, do not use this move.
     if (ak != nullptr && ak != ai && ak->v_next == nullptr && !funcPIBT(ak))
       continue;
 
@@ -662,10 +712,8 @@ bool Planner::get_new_config(HNode* H, LNode* L)
 }
 
 
-*/
 
 
-// PIBT planner for the low level node
 bool Planner::funcPIBT_fact(Agent* ai)
 {
   const int i = ai->id;
@@ -689,19 +737,19 @@ bool Planner::funcPIBT_fact(Agent* ai)
 
     // move right
     if (x_now < x_next)
-      tie_breakers[u.get()->id] = 0.1;
+      tie_breakers[u.get()->id] = 0.1 + get_random_float(MT)/10;
 
     // move up
     else if (y_now > y_next)
-      tie_breakers[u.get()->id] = 0.2;
+      tie_breakers[u.get()->id] = 0.2 + get_random_float(MT)/10;
 
     // move left
     else if (x_now > x_next)
-      tie_breakers[u.get()->id] = 0.3;
+      tie_breakers[u.get()->id] = 0.3 + get_random_float(MT)/10;
 
     // move down
     else if (y_now < y_next)
-      tie_breakers[u.get()->id] = 0.4;
+      tie_breakers[u.get()->id] = 0.4 + get_random_float(MT)/10;
 
     distances[u.get()->id] = D.get(i, C_next[i][k]) + tie_breakers[C_next[i][k].get()->id];
     
@@ -721,7 +769,7 @@ bool Planner::funcPIBT_fact(Agent* ai)
             });
 
   //DEBUG PRINT
-  if(verbose > 2)
+  if(verbose > 3)
   {
     Config C_next_vector2(C_next[i].begin(), C_next[i].end());
     info(2, verbose, "-- Order of preference for actions for agent ", i, " : ");
