@@ -20,16 +20,22 @@ using Vertices = std::vector<std::shared_ptr<Vertex>>;
 // locations for all agents
 using Config = std::vector<std::shared_ptr<Vertex>>;
 
-struct Graph {
-  Vertices V;                          // without nullptr
-  Vertices U;                          // with nullptr
-  uint width;                          // grid width
-  uint height;                         // grid height
-  Graph();
-  Graph(const std::string& filename);  // taking map filename
-  ~Graph() {}
+class Graph {
+public:
+    static Graph& getInstance();
+    static void initialize(const std::string& filename);
+    static void cleanup();
+    uint size() const;
+    Vertices V; // without nullptr
+    Vertices U; // with nullptr
+    uint width;
+    uint height;
 
-  uint size() const;  // the number of vertices
+private:
+  // Static pointer to the single instance of the class
+    static Graph* instance;
+    Graph(); // Private default constructor
+    Graph(const std::string& filename); // Private parameterized constructor
 };
 
 bool is_same_config(

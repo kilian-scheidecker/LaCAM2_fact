@@ -98,6 +98,9 @@ int main(int argc, char* argv[])
   // Iintialize the enabled vector, initialize it to have the indices of agents as content
   std::iota(std::begin(v_enable), std::end(v_enable), 0);
 
+  // Initialize the graph
+  Graph::initialize(map_name);
+
   // Create the instance
   const auto ins = Instance(scen_name, map_name, v_enable, N);
   if (!ins.is_valid(1)) return 1;
