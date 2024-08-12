@@ -76,6 +76,7 @@ def show_plots(map_name: str, read_from: str=None) :
         title_xanchor="center",
         xaxis_title="Number of agents",
         yaxis_title=None,
+        yaxis_range=[0,100],
         title=dict(font=dict(size=14)),
         height=260,
         width=450,
@@ -98,7 +99,7 @@ def show_plots(map_name: str, read_from: str=None) :
         width=480,
     )
     line_RAM_MT.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
-    line_RAM_MT.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_RAM_MT.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1, rangemode="tozero")
 
     line_RAM.update_layout(
         plot_bgcolor=colors['background'],
@@ -115,7 +116,7 @@ def show_plots(map_name: str, read_from: str=None) :
         width=480,
     )
     line_RAM.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
-    line_RAM.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_RAM.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1, rangemode="tozero")
 
     line_time_MT.update_layout(
         plot_bgcolor=colors['background'],
@@ -132,7 +133,7 @@ def show_plots(map_name: str, read_from: str=None) :
         width=450,
     )
     line_time_MT.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
-    line_time_MT.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_time_MT.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1, rangemode="tozero")
 
     line_time.update_layout(
         plot_bgcolor=colors['background'],
@@ -149,7 +150,7 @@ def show_plots(map_name: str, read_from: str=None) :
         width=450,
     )
     line_time.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
-    line_time.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_time.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1, rangemode="tozero")
 
     line_time_std.update_layout(
         plot_bgcolor=colors['background'],
@@ -166,7 +167,7 @@ def show_plots(map_name: str, read_from: str=None) :
         width=450,
     )
     line_time_std.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
-    line_time_std.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_time_std.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1, rangemode="tozero")
 
     line_span_std.update_layout(
         plot_bgcolor=colors['background'],
@@ -183,7 +184,7 @@ def show_plots(map_name: str, read_from: str=None) :
         width=450,
     )
     line_span_std.update_xaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
-    line_span_std.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
+    line_span_std.update_yaxes(linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1, rangemode="tozero")
 
     bar_success.update_layout(
         plot_bgcolor=colors['background'],
@@ -240,7 +241,8 @@ def show_plots(map_name: str, read_from: str=None) :
                 #        style={'color': colors['text'],
                 #               'fontSize': 24,
                 #               'padding-left': '2em'}),
-                dbc.Col(dcc.Graph(id='graph1',figure=bar_success), width=3, style={'textAlign': 'center'}),
+                # dbc.Col(dcc.Graph(id='graph1',figure=bar_success), width=3, style={'textAlign': 'center'}),
+                dbc.Col(width=3),
                 dbc.Col(dcc.Graph(id='graph2',figure=line_time_std), width=4),
                 dbc.Col(dcc.Graph(id='graph3',figure=line_span_std), width=5)
             ]

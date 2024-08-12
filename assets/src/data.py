@@ -145,6 +145,6 @@ def get_data(map_name: str, read_from: str=None):
 
     #data_avg.insert(loc=2, column='Number of successes', value=data_success['Success'])
 
-    print(n_tests)
+    # print(n_tests)
 
     return data_avg, data_success, n_tests

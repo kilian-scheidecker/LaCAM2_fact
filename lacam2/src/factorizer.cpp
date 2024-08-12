@@ -22,6 +22,8 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, c
 
     Partitions partitions;
     std::unordered_map<int, int> agent_to_partition;
+    size_t N = C.size();
+    bool break_flag = false;
 
     for (int j = 0; j < static_cast<int>(C.size()); ++j) {
         partitions.push_back({enabled[j]});
@@ -57,9 +59,17 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, c
                 }
 
                 partitions[partition2].clear();
+
+                if (partitions[partition1].size() == N){ 
+                    break_flag = true;
+                    break;
+                }
             }
         }
-    }
+        if (break_flag) break;
+    } 
+
+    PROFILE_BLOCK("cleanup partitions and split");
 
     partitions.erase(std::remove_if(partitions.begin(), partitions.end(),
                                     [](const std::vector<int>& partition) { return partition.empty(); }),
@@ -70,6 +80,8 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, c
     } else {
         return {};
     }
+
+    END_BLOCK();
 }
 
 
@@ -191,29 +203,20 @@ const bool FactBbox::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2
 {
     PROFILE_FUNC(profiler::colors::Yellow500);
 
-    int y1 = (int) index1/width;        // agent1 y position
-    int x1 = index1%width;              // agent1 x position
-    int yg1 = (int) goal1/width;        // goal1 y position
-    int xg1 = goal1%width;              // goal1 x position
+    // Extract positions and goals
+    int x1 = index1 % width, y1 = index1 / width;
+    int xg1 = goal1 % width, yg1 = goal1 / width;
+    int x2 = index2 % width, y2 = index2 / width;
+    int xg2 = goal2 % width, yg2 = goal2 / width;
 
-    int y2 = (int) index2/width;        // agent2 y position
-    int x2 = index2%width;              // agent2 x position
-    int yg2 = (int) goal2/width;        // goal2 y position
-    int xg2 = goal2%width;              // goal2 x position
+    // Calculate min and max bounds
+    int x1_min = std::min(x1, xg1), x1_max = std::max(x1, xg1);
+    int y1_min = std::min(y1, yg1), y1_max = std::max(y1, yg1);
+    int x2_min = std::min(x2, xg2), x2_max = std::max(x2, xg2);
+    int y2_min = std::min(y2, yg2), y2_max = std::max(y2, yg2);
 
-    int x1_min = std::min(x1, xg1);
-    int y1_min = std::min(y1, yg1);
-    int x1_max = std::max(x1, xg1);
-    int y1_max = std::max(y1, yg1);
-
-    int x2_min = std::min(x2, xg2);
-    int y2_min = std::min(y2, yg2);
-    int x2_max = std::max(x2, xg2);
-    int y2_max = std::max(y2, yg2);
-
-    // Compute the Manhattan distance between the agents
-    int dx = std::abs(x1 - x2);
-    int dy = std::abs(y1 - y2);
+    // Calculate distance
+    int dx = std::abs(x1 - x2), dy = std::abs(y1 - y2);
     int d = dx + dy;
 
 
@@ -331,10 +334,6 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
   const int d2 = distances.at(rel_id_2);
   const int da = get_manhattan(index1, index2);
 
-  // if (da > d1 + d2)
-  //   return true;
-  // else
-  //   return false;
   return da > d1 + d2 + SAFETY_DISTANCE;
 }
 
