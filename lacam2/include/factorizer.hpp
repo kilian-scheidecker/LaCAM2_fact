@@ -14,6 +14,12 @@ using Partitions = std::vector<std::vector<int>>;
 using PartitionsMap = std::map<int, Partitions>;
 using json = nlohmann::json;
 
+// Custom hash function for std::pair<int, int>
+struct pair_hash {
+    template <class T1, class T2>
+    std::size_t operator() (const std::pair<T1, T2>& pair) const;
+};
+
 class FactAlgo
 {
 public:

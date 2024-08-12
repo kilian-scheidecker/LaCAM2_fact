@@ -18,59 +18,61 @@
 std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose,
                                      const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities, Partitions& partitions_at_timestep)
 {
-  PROFILE_FUNC(profiler::colors::Yellow);
+    PROFILE_FUNC(profiler::colors::Yellow);
 
-  Partitions partitions;
-  std::unordered_map<int, int> agent_to_partition;
+    Partitions partitions;
+    std::unordered_map<int, int> agent_to_partition;
 
-  for (int j = 0; j < static_cast<int>(C.size()); ++j) {
-    partitions.push_back({enabled[j]});
-    agent_to_partition[enabled[j]] = j;
-  }
-
-  for (int rel_id_1 = 0; rel_id_1 < static_cast<int>(C.size()); ++rel_id_1) {
-    int index1 = C[rel_id_1]->index;
-    int goal1 = goals[rel_id_1]->index;
-    int true_id1 = enabled[rel_id_1];
-    std::unordered_set<int> taken;
-
-    for (int rel_id_2 = rel_id_1 + 1; rel_id_2 < static_cast<int>(C.size()); ++rel_id_2) {
-      int true_id2 = enabled[rel_id_2];
-      if (taken.find(true_id2) != taken.end()) {
-        continue;
-      }
-
-      int index2 = C[rel_id_2]->index;
-      int goal2 = goals[rel_id_2]->index;
-
-      if (!heuristic(rel_id_1, index1, goal1, rel_id_2, index2, goal2, distances)) {
-        int partition1 = agent_to_partition[true_id1];
-        int partition2 = agent_to_partition[true_id2];
-
-        if (partition1 != partition2) {
-          partitions[partition1].insert(partitions[partition1].end(), partitions[partition2].begin(), partitions[partition2].end());
-          taken.insert(partitions[partition2].begin(), partitions[partition2].end());
-
-          for (int agent : partitions[partition2]) {
-            agent_to_partition[agent] = partition1;
-          }
-
-        partitions[partition2].clear();
-        }
-      }
+    for (int j = 0; j < static_cast<int>(C.size()); ++j) {
+        partitions.push_back({enabled[j]});
+        agent_to_partition[enabled[j]] = j;
     }
-  }
 
-  partitions.erase(std::remove_if(partitions.begin(), partitions.end(),
-                                  [](const std::vector<int>& partition) { return partition.empty(); }),
-                    partitions.end());
+    for (int rel_id_1 = 0; rel_id_1 < static_cast<int>(C.size()); ++rel_id_1) {
+        int index1 = C[rel_id_1]->index;
+        int goal1 = goals[rel_id_1]->index;
+        int true_id1 = enabled[rel_id_1];
+        int partition1 = agent_to_partition[true_id1];
 
-  if (partitions.size() > 1) {
-    return split_ins(G, C, goals, verbose, enabled, partitions, priorities, partitions_at_timestep);    // most expensive
-  } else {
-    return {};
-  }
+        for (int rel_id_2 = rel_id_1 + 1; rel_id_2 < static_cast<int>(C.size()); ++rel_id_2) {
+            int true_id2 = enabled[rel_id_2];
+            int partition2 = agent_to_partition[true_id2];
+
+            if (agent_to_partition[true_id1] == agent_to_partition[true_id2]) {
+                    continue; // Already merged
+                }
+            
+
+            int index2 = C[rel_id_2]->index;
+            int goal2 = goals[rel_id_2]->index;
+
+            if (!heuristic(rel_id_1, index1, goal1, rel_id_2, index2, goal2, distances)) {
+                
+                partitions[partition1].insert(partitions[partition1].end(), 
+                                    std::make_move_iterator(partitions[partition2].begin()), 
+                                    std::make_move_iterator(partitions[partition2].end()));
+
+                for (int agent : partitions[partition2]) {
+                    agent_to_partition[agent] = partition1;
+                }
+
+                partitions[partition2].clear();
+            }
+        }
+    }
+
+    partitions.erase(std::remove_if(partitions.begin(), partitions.end(),
+                                    [](const std::vector<int>& partition) { return partition.empty(); }),
+                        partitions.end());
+
+    if (partitions.size() > 1) {
+        return split_ins(G, C, goals, verbose, enabled, partitions, priorities, partitions_at_timestep);    // most expensive
+    } else {
+        return {};
+    }
 }
+
+
 
 std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose,
                              const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities,
@@ -99,6 +101,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
 
     // maps the true id of the agent to its position in the instance to split (reverse enabled vector. Maps true_id to rel_id)
     std::unordered_map<int, int> agent_map;
+    agent_map.reserve(C_new.size()); // Pre-allocate memory to avoid reallocations
     for (int j = 0; j < static_cast<int>(C_new.size()); ++j) {
         agent_map[enabled[j]] = j;
     }
@@ -109,10 +112,8 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
     PROFILE_BLOCK("loop through partitions");
     for (const auto& new_enabled : partitions) 
     {
-        //std::vector<int> new_enabled(new_enabled_set.begin(), new_enabled_set.end());
         Config C0(new_enabled.size());
         Config G0(new_enabled.size());
-        //std::map<int, int> new_agent_map;  // map to match enabled_id to agent_id in this instance
 
         std::vector<float> priorities_ins(new_enabled.size());  // priority vector for new instances
 
@@ -133,22 +134,10 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
         if (!C0.empty()) {
 
             PROFILE_BLOCK("create instance");
-            Instance I(G, C0, G0, new_enabled, new_enabled.size(), priorities_ins);
+            sub_instances.emplace_back(std::make_shared<Instance>(G, C0, G0, std::move(new_enabled), new_enabled.size(), std::move(priorities_ins)));
             END_BLOCK();
 
-            // print info about the newly created sub-instances
-            // if (verbose > 4) {
-            //   std::cout << "\nCreate sub-instance with enabled : ";
-            //   for (int i : new_enabled) std::cout << i << ", ";
-
-            //   std::cout << "\nStarts : ";
-            //   print_vertices(C0, width);
-            //   std::cout << "\ngoals : ";
-            //   print_vertices(G0, width);
-            //   std::cout << std::endl;
-            // }
-            info(1, verbose, "Pushed new sub-instance with ", I.N, " agents.");
-            sub_instances.push_back(std::make_shared<Instance>(I));
+            info(1, verbose, "Pushed new sub-instance with ", new_enabled.size(), " agents.");
         
         } 
         else 
@@ -188,11 +177,6 @@ const bool FactDistance::heuristic(int rel_id_1, int index1, int goal1, int rel_
     int d1 = get_manhattan(index1, goal1);
     int d2 = get_manhattan(index2, goal2);
     int da = get_manhattan(index1, index2);
-
-    // if (da > d1 + d2)
-    //   return true;
-    // else
-    //   return false;
 
     return da > d1 + d2 + SAFETY_DISTANCE;
 }
