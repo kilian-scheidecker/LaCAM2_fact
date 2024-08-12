@@ -1,9 +1,9 @@
 {
-  "from": 50,
+  "from": 1200,
   "to": 5000,
-  "jump": 50,
+  "jump": 200,
   "n": 10,
-  "map_name": ["warehouse_small", "warehouse_large", "warehouse-20-40-2-2"],
+  "map_name": ["warehouse_large"],
   "factorize": ["no", "FactDistance", "FactBbox", "FactOrient", "FactAstar", "FactDef"],
   "multi_threading": ["yes", "no"]
 }
