@@ -23,6 +23,8 @@ Solution solve(const Instance& ins, std::string& additional_info,
                const Objective objective, const float restart_rate,
                Infos* infos_ptr)
 {
+    PROFILE_FUNC(profiler::colors::Amber500);
+    
     // setup the initial planner. as soon as it recognizes factorization, it stops and returns the subproblems. if it does not recognize any factorization, it returns the solution
     auto planner = Planner(ins, deadline, MT, verbose, objective, restart_rate);
     return planner.solve(additional_info, infos_ptr);

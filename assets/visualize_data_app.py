@@ -278,4 +278,4 @@ def show_plots(map_name: str, read_from: str=None) :
 
 
 # show_plots(map_name="random-32-32-20", read_from='stats.json')
-show_plots(map_name="warehouse_large", read_from='stats_warehouse_large_1.json')
+show_plots(map_name="warehouse_large", read_from='stats.json')
