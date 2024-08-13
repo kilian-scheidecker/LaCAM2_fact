@@ -408,20 +408,20 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       {
         H_goal = H;
 
-        std::vector<int> sizes;
-        for(auto sub_instance : sub_instances)
-          sizes.push_back(sub_instance.get()->N);
+        // std::vector<int> sizes;
+        // for(auto sub_instance : sub_instances)
+        //   sizes.push_back(sub_instance.get()->N);
 
-        std::stringstream ss;
-        for(size_t i = 0; i < sizes.size(); ++i) {
-            ss << sizes[i];
-            if (i != sizes.size()-1) {
-                ss << "/";
-            }
-        }
+        // std::stringstream ss;
+        // for(size_t i = 0; i < sizes.size(); ++i) {
+        //     ss << sizes[i];
+        //     if (i != sizes.size()-1) {
+        //         ss << "/";
+        //     }
+        // }
 
-        std::string result = ss.str();
-        info(0, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep, "\t", result);
+        // std::string result = ss.str();
+        // info(1, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep, "\t", result);
         
         break;
       }

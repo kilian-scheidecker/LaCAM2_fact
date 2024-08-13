@@ -30,9 +30,30 @@ public:
     PartitionsMap partitions_map;
     const bool use_def;
 
-    FactAlgo(int width) : width(width), need_astar(false), partitions_map({}), use_def(false) {}
-    FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar), partitions_map({}), use_def(false) {}
-    FactAlgo(int width, bool need_astar, bool use_def) : width(width), need_astar(need_astar), partitions_map({}), use_def(use_def) {}
+    FactAlgo(int width) : width(width), need_astar(false), partitions_map({}), use_def(false) {
+        // Precompute coordinates
+        coords.resize(width * width);
+        for (int i = 0; i < width * width; ++i) {
+            coords[i] = {i / width, i % width};
+        }
+    }
+
+    FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar), partitions_map({}), use_def(false) {
+        // Precompute coordinates
+        coords.resize(width * width);
+        for (int i = 0; i < width * width; ++i) {
+            coords[i] = {i / width, i % width};
+        }
+    }
+
+    FactAlgo(int width, bool need_astar, bool use_def) : width(width), need_astar(need_astar), partitions_map({}), use_def(use_def) {
+        // Precompute coordinates
+        coords.resize(width * width);
+        for (int i = 0; i < width * width; ++i) {
+            coords[i] = {i / width, i % width};
+        }
+    }
+
     virtual ~FactAlgo() = default;
 
     // Determine if a problem is factorizable at a given timestep
@@ -42,7 +63,13 @@ public:
     std::list<std::shared_ptr<Instance>> split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities, Partitions& partitions_at_timestep) const;
 
     // Simple manhattan distance computation between two vertices of the map.
-    int get_manhattan(int index1, int index2) const;
+    inline int get_manhattan(int index1, int index2) const
+    {
+        const auto& [y1, x1] = coords[index1];
+        const auto& [y2, x2] = coords[index2];
+
+        return std::abs(x1 - x2) + std::abs(y1 - y2);
+    };
 
     // virtual function to be used by the FactDef class. Allows to factorize according to the definition
     virtual std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const = 0;
@@ -51,6 +78,9 @@ private:
 
     // Specific logic to determine if 2 agents can be factorized
     virtual const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const = 0;
+    
+    // Precomputed coordinates
+    std::vector<std::pair<int, int>> coords;  
   
 };
 
@@ -66,17 +96,17 @@ public:
 
 private:
     // Simple heuristic to determine if 2 agents can be factorized based on distance
-    inline const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const
-    {
-        PROFILE_FUNC(profiler::colors::Yellow500);
+    const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
+    // {
+    //     PROFILE_FUNC(profiler::colors::Yellow500);
 
 
-        int d1 = get_manhattan(index1, goal1);
-        int d2 = get_manhattan(index2, goal2);
-        int da = get_manhattan(index1, index2);
+    //     int d1 = get_manhattan(index1, goal1);
+    //     int d2 = get_manhattan(index2, goal2);
+    //     int da = get_manhattan(index1, index2);
 
-        return da > d1 + d2 + SAFETY_DISTANCE;
-    };
+    //     return da > d1 + d2 + SAFETY_DISTANCE;
+    // };
 };
 
 
@@ -93,31 +123,31 @@ public:
 private:
 
     // Simple heuristic to determine if 2 agents can be factorized based on bbox overlap
-    inline const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const
-    {
-        PROFILE_FUNC(profiler::colors::Yellow500);
+    const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
+    // {
+    //     PROFILE_FUNC(profiler::colors::Yellow500);
 
-        // Extract positions and goals
-        int x1 = index1 % width, y1 = index1 / width;
-        int xg1 = goal1 % width, yg1 = goal1 / width;
-        int x2 = index2 % width, y2 = index2 / width;
-        int xg2 = goal2 % width, yg2 = goal2 / width;
+    //     // Extract positions and goals
+    //     int x1 = index1 % width, y1 = index1 / width;
+    //     int xg1 = goal1 % width, yg1 = goal1 / width;
+    //     int x2 = index2 % width, y2 = index2 / width;
+    //     int xg2 = goal2 % width, yg2 = goal2 / width;
 
-        // Calculate min and max bounds
-        int x1_min = std::min(x1, xg1), x1_max = std::max(x1, xg1);
-        int y1_min = std::min(y1, yg1), y1_max = std::max(y1, yg1);
-        int x2_min = std::min(x2, xg2), x2_max = std::max(x2, xg2);
-        int y2_min = std::min(y2, yg2), y2_max = std::max(y2, yg2);
+    //     // Calculate min and max bounds
+    //     int x1_min = std::min(x1, xg1), x1_max = std::max(x1, xg1);
+    //     int y1_min = std::min(y1, yg1), y1_max = std::max(y1, yg1);
+    //     int x2_min = std::min(x2, xg2), x2_max = std::max(x2, xg2);
+    //     int y2_min = std::min(y2, yg2), y2_max = std::max(y2, yg2);
 
-        // Calculate distance
-        int dx = std::abs(x1 - x2), dy = std::abs(y1 - y2);
-        int d = dx + dy;
+    //     // Calculate distance
+    //     int dx = std::abs(x1 - x2), dy = std::abs(y1 - y2);
+    //     int d = dx + dy;
 
 
-        const bool do_overlap = !(x1_max < x2_min || x2_max < x1_min || y1_max < y2_min || y2_max < y1_min);    // verifies that the bboxes don't overlap
+    //     const bool do_overlap = !(x1_max < x2_min || x2_max < x1_min || y1_max < y2_min || y2_max < y1_min);    // verifies that the bboxes don't overlap
 
-        return d > SAFETY_DISTANCE && !do_overlap;   // return true if they are apart enough and if their bbox don't overlap
-    };
+    //     return d > SAFETY_DISTANCE && !do_overlap;   // return true if they are apart enough and if their bbox don't overlap
+    // };
 };
 
 
@@ -159,22 +189,19 @@ public:
     // Placeholder for the virtual function
     std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {return {};};
 
-    
-    //FactAstar(int width, const bool need_astar) : FactAlgo(width, need_astar) {}
-
 private:
 
     // Simple heuristic to determine if 2 agents can be factorized based on distance
-    inline const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const
-    {
-        PROFILE_FUNC(profiler::colors::Yellow500);
+    const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
+    // {
+    //     PROFILE_FUNC(profiler::colors::Yellow500);
         
-        const int d1 = distances.at(rel_id_1);
-        const int d2 = distances.at(rel_id_2);
-        const int da = get_manhattan(index1, index2);
+    //     const int d1 = distances.at(rel_id_1);
+    //     const int d2 = distances.at(rel_id_2);
+    //     const int da = get_manhattan(index1, index2);
 
-        return da > d1 + d2 + SAFETY_DISTANCE;
-    };
+    //     return da > d1 + d2 + SAFETY_DISTANCE;
+    // };
 };
 
 
@@ -186,43 +213,43 @@ public:
     FactDef(int width);
 
     // Applies the precomputed partitions to minimize time spent in factorization
-    inline std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const override
-    {
-        PROFILE_FUNC(profiler::colors::Yellow500);
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const override;
+    // {
+    //     PROFILE_FUNC(profiler::colors::Yellow500);
+
+    //     // Check if timestep corresponds to a key in the partitions_map
+    //     auto it = partitions_map.find(timestep);
+    //     if (it == partitions_map.end()) {
+    //         // Timestep not found in the partitions map
+    //         return {};
+    //     }
+
+    //     // Create a set for quick lookups
+    //     std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());
+
+    //     const auto& partitions = it->second;  // Partitions for the given timestep
+
+    //     Partitions filtered_partitions;
+    //     // std::cout << "\nLooking up partitions for timestep " << timestep << "\n";
+
+    //     // Iterate through each partition
+    //     for (const auto& partition : partitions) {
+    //         // Check if any element in the partition is in the enabled_set
+    //         for (int num : partition) {
+    //             if (enabled_set.find(num) != enabled_set.end()) {
+    //                 filtered_partitions.push_back(partition);
+    //                 break;  // Break inner loop to avoid unnecessary checks
+    //             }
+    //         }
+    //     }
         
-        // Check if timestep corresponds to a key in the partitions_map
-        auto it = partitions_map.find(timestep);
-        if (it == partitions_map.end()) {
-            // Timestep not found in the partitions map
-            return {};
-        }
-
-        // Create a set for quick lookups
-        std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());
-
-        const auto& partitions = it->second;  // Partitions for the given timestep
-
-        Partitions filtered_partitions;
-        // std::cout << "\nLooking up partitions for timestep " << timestep << "\n";
-
-        // Iterate through each partition
-        for (const auto& partition : partitions) {
-            // Check if any element in the partition is in the enabled_set
-            for (int num : partition) {
-                if (enabled_set.find(num) != enabled_set.end()) {
-                    filtered_partitions.push_back(partition);
-                    break;  // Break inner loop to avoid unnecessary checks
-                }
-            }
-        }
-        
-        if (filtered_partitions.size() > 1) {
-            return split_ins(G, C_new, goals, verbose, enabled, filtered_partitions, priorities, partitions_at_timestep);    // most expensive
-        } 
-        else {
-            return {};
-        }
-    };
+    //     if (filtered_partitions.size() > 1) {
+    //         return split_ins(G, C_new, goals, verbose, enabled, filtered_partitions, priorities, partitions_at_timestep);    // most expensive
+    //     } 
+    //     else {
+    //         return {};
+    //     }
+    // };
 
 
 private :
