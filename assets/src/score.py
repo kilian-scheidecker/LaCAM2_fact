@@ -11,6 +11,10 @@ def complexity_score():
     base_path = up(up(up(__file__)))    # LaCAM2_fact/
     res_path = join(base_path, 'build', 'result.txt')
     result = parse_file(res_path)
+
+    if int(result['solved']) != 1 :
+        return -1   # return -1 if not solved
+    
     partitions_path = join(base_path, 'assets', 'temp', 'temp_partitions.json')
 
     # data_dict = result['partitions_per_timestep']

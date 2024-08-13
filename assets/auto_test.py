@@ -46,7 +46,7 @@ def auto_test(use_heuristics=False) :
 
             if map_name == "warehouse_small" and N > 380 :
                 break
-            if map_name == "random-32-32-20" and N > 700 :
+            if map_name in ["random-32-32-20", "random-32-32-10"] and N > 700 :
                 break
             if map_name == "test-5-5" and N > 10 :
                 break
@@ -63,7 +63,7 @@ def auto_test(use_heuristics=False) :
                         max_fact_partitions(map_name=map_name, N=N)
 
                     success += run_command_in_ubuntu(command)
-                    update_stats("Complexity score", complexity_score())
+                    # update_stats("Complexity score", complexity_score())
                     total += 1
 
         print(f"\nSuccessfully completed {success}/{total} tests.\n")

@@ -14,7 +14,7 @@ typedef unsigned int uint;
 #include "utils.hpp"
 
 struct Instance {
-  const Graph G;
+  const Graph& G;
   Config starts;
   Config goals;
   const std::vector<int> enabled;             // list of enabled agents ("absolute ids of the agents in this instance/partition")
@@ -22,7 +22,7 @@ struct Instance {
   const std::vector<float> priority = {0.0};  // priority of agents
 
   // Default constructor (added explicitly)
-  Instance() : G(Graph()), N(0) {}
+  Instance() : G(Graph::getInstance()), N(0) {}
 
   // for factorization (more robust) 
   // Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N);

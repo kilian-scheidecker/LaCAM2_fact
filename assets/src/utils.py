@@ -162,7 +162,7 @@ def run_command_in_ubuntu(command: str) -> int :
                 elif "Percent of CPU this job got" in line :
                     cpu_usage = line.split(":")[1].strip()             # in percent
                     cpu_usage = cpu_usage.rstrip('%')
-                    update_stats("CPU usage (percent)", float(cpu_usage))
+                    update_stats("CPU usage (percent)", min(float(cpu_usage), 100.0))
         return 1
 
 
