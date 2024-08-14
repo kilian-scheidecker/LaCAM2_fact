@@ -25,8 +25,12 @@ Solution solve(const Instance& ins, std::string& additional_info,
 {
     PROFILE_FUNC(profiler::colors::Amber500);
     
+    
     // setup the initial planner. as soon as it recognizes factorization, it stops and returns the subproblems. if it does not recognize any factorization, it returns the solution
+    PROFILE_BLOCK("Setup planner");
     auto planner = Planner(ins, deadline, MT, verbose, objective, restart_rate);
+    END_BLOCK();
+
     return planner.solve(additional_info, infos_ptr);
 }
 
@@ -75,7 +79,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
         OPENins.push(std::make_shared<Instance>(ins));
     }
 
-    unsigned int num_threads = std::thread::hardware_concurrency()/2;
+    unsigned int num_threads = std::thread::hardware_concurrency()/4;
     // num_threads = 2;
 
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tUsing ", num_threads, " cores out of ", num_threads*2, " threads.");
@@ -90,6 +94,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
         PROFILE_BLOCK("thread online");
         while (true) {
             PROFILE_BLOCK("single thread job");
+            PROFILE_BLOCK("Setup instance");
 
             std::shared_ptr<Instance> I;
             int thread_num = omp_get_thread_num();
@@ -108,13 +113,20 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
                 }
             }
 
+            END_BLOCK();
+
             if (I) {
                 // Process the instance
                 info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tthread n° ", thread_num, " is solving a problem");
 
-                Planner planner(*I, deadline, MT, verbose, objective, restart_rate, empty_solution);
-                Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep);
+                PROFILE_BLOCK("Setup planner");
+                Planner planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
+                END_BLOCK();
 
+                PROFILE_BLOCK("Solving");
+                Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep);
+                END_BLOCK();
+                PROFILE_BLOCK("Push sub-instances");
                 {
                     std::lock_guard<std::mutex> lock(queue_mutex);
                     for (const auto& sub_ins : bundle.instances) {
@@ -122,10 +134,15 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
                     }
                 }
 
+                END_BLOCK();
+                PROFILE_BLOCK("Saving solution");
+
                 {
                     std::lock_guard<std::mutex> lock(solution_mutex);
                     write_sol(bundle.solution, I->enabled, empty_solution, I->N);
                 }
+
+                END_BLOCK();
 
                 // Print verbose information
                 if(verbose > 3){
@@ -183,12 +200,19 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, Partition
         OPENins.pop();
 
         // Solve the instance
+        PROFILE_BLOCK("Setup planner");
         auto planner = Planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
+        END_BLOCK();
+        
+        PROFILE_BLOCK("Solving");
         Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep);
-
+        END_BLOCK();
+        
+        PROFILE_BLOCK("Push sub-instances");
         // Push instances to open list
         for (const auto& sub_ins : bundle.instances)
             OPENins.push(sub_ins);
+        END_BLOCK();
 
         // Write solution until now
         write_sol(bundle.solution, I->enabled, empty_solution, I->N);

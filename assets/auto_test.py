@@ -57,7 +57,7 @@ def auto_test(use_heuristics=False) :
                 create_scen(N, dir_py, map_name)
                 for command in commmands :
 
-                    # print(command)
+                    print(command)
                     if 'FactDef' in command and not use_heuristics :
                         # Determine the max factorizability and store it assets/temp/def_partitions.json
                         max_fact_partitions(map_name=map_name, N=N)

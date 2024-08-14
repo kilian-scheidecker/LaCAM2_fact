@@ -54,7 +54,7 @@ struct HNode {
   uint depth;
 
   HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g,
-        const uint _h);
+        const uint _h, const std::vector<float>& priority = {});
   ~HNode();
 };
 using HNodes = std::vector<HNode*>;
