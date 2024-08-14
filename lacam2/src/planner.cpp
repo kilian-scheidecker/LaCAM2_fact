@@ -400,9 +400,9 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       // }
 
       if (factalgo.use_def)
-        sub_instances = factalgo.is_factorizable_def(ins.G, C_new, ins.goals, verbose, ins.enabled, priorities_copy, partitions_per_timestep[timestep], timestep);
+        sub_instances = factalgo.is_factorizable_def(C_new, ins.goals, verbose, ins.enabled, priorities_copy, partitions_per_timestep[timestep], timestep);
       else 
-        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, priorities_copy, partitions_per_timestep[timestep]);
+        sub_instances = factalgo.is_factorizable(C_new, ins.goals, verbose, ins.enabled, distances, priorities_copy, partitions_per_timestep[timestep]);
 
       if (sub_instances.size() > 0)
       {

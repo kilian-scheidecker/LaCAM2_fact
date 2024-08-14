@@ -17,8 +17,8 @@ static const std::regex r_instance =
 // { 
 // }
 
-Instance::Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority)
-    : G(_G), 
+Instance::Instance(Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority)
+    : G(Graph::getInstance()), 
       starts(std::move(_starts)), 
       goals(std::move(_goals)), 
       enabled(std::move(_enabled)),

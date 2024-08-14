@@ -26,7 +26,7 @@ struct Instance {
 
   // for factorization (more robust) 
   // Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N);
-  Instance(const Graph& _G, Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority);
+  Instance(Config& _starts, Config& _goals, const std::vector<int>& _enabled, const int _N, const std::vector<float>& _priority);
   
   // for MAPF benchmark
   Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, const int _N = 1);

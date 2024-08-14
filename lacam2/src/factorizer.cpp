@@ -15,7 +15,7 @@
 *                       Implementation of the FactAlgo base class                        *
 \****************************************************************************************/
 
-std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, const Config& C, const Config& goals, int verbose,
+std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, const Config& goals, int verbose,
                                      const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities, Partitions& partitions_at_timestep)
 {
     PROFILE_FUNC(profiler::colors::Yellow);
@@ -76,7 +76,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, c
                         partitions.end());
 
     if (partitions.size() > 1) {
-        return split_ins(G, C, goals, verbose, enabled, partitions, priorities, partitions_at_timestep);    // most expensive
+        return split_ins(C, goals, verbose, enabled, partitions, priorities, partitions_at_timestep);    // most expensive
     } else {
         return {};
     }
@@ -86,7 +86,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Graph& G, c
 
 
 
-std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const Config& C_new, const Config& goals, int verbose,
+std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, const Config& goals, int verbose,
                              const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities,
                              Partitions& partitions_at_timestep) const
 {
@@ -146,7 +146,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Graph& G, const C
         if (!C0.empty()) {
 
             PROFILE_BLOCK("create instance");
-            sub_instances.emplace_back(std::make_shared<Instance>(G, C0, G0, std::move(new_enabled), new_enabled.size(), std::move(priorities_ins)));
+            sub_instances.emplace_back(std::make_shared<Instance>(C0, G0, std::move(new_enabled), new_enabled.size(), std::move(priorities_ins)));
             END_BLOCK();
 
             info(1, verbose, "Pushed new sub-instance with ", new_enabled.size(), " agents.");
@@ -429,7 +429,7 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
 // }
 
 
-std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Graph& G, const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const 
+std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const 
 {
     // Check if timestep corresponds to a key in the partitions_map
     auto it = partitions_map.find(timestep);
@@ -458,7 +458,7 @@ std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Graph& G
     }
     
     if (filtered_partitions.size() > 1) {
-        return split_ins(G, C_new, goals, verbose, enabled, filtered_partitions, priorities, partitions_at_timestep);    // most expensive
+        return split_ins(C_new, goals, verbose, enabled, filtered_partitions, priorities, partitions_at_timestep);    // most expensive
     } 
     else {
         return {};
