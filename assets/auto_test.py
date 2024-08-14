@@ -50,14 +50,14 @@ def auto_test(use_heuristics=False) :
                 break
             if map_name == "test-5-5" and N > 10 :
                 break
-
-            print(f"\nTesting with {N} agents in {map_name}")
+            
             for i in range(n) :
+                print(f"\nTesting with {N} agents in {map_name}")
                 commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
                 create_scen(N, dir_py, map_name)
                 for command in commmands :
 
-                    print(command)
+                    # print(command)
                     if 'FactDef' in command and not use_heuristics :
                         # Determine the max factorizability and store it assets/temp/def_partitions.json
                         max_fact_partitions(map_name=map_name, N=N)

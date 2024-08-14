@@ -3,7 +3,7 @@
   "to": 7000,
   "jump": 250,
   "n": 3,
-  "map_name": ["warehouse-20-40-10-2-2"],
+  "map_name": ["warehouse_large"],
   "factorize": ["no", "FactDistance", "FactAstar", "FactDef"],
   "multi_threading": ["no", "yes"]
 }
