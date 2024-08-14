@@ -39,12 +39,12 @@ HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, cons
 
   PROFILE_BLOCK("Setting up priorities");
   // set priorities
-  if (priority.empty() && parent == nullptr) {
+  if (parent == nullptr && priority.empty()) {        // 
     // initialize
     for (uint i = 0; i < N; ++i) priorities[i] = (float)D.get(i, C[i]) / N;
   } 
-  else if (!priority.empty() && parent == nullptr) {
-    for (uint i = 0; i < N; ++i) priorities[i] = priority[i];
+  else if (parent == nullptr && !priority.empty()) {
+    for (uint i = 0; i < N; ++i) priorities[i] = priority[i] / N;
   } 
   else {
     // dynamic priorities, akin to PIBT

@@ -79,7 +79,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
         OPENins.push(std::make_shared<Instance>(ins));
     }
 
-    unsigned int num_threads = std::thread::hardware_concurrency()/4;
+    unsigned int num_threads = std::thread::hardware_concurrency()/2;
     // num_threads = 2;
 
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tUsing ", num_threads, " cores out of ", num_threads*2, " threads.");

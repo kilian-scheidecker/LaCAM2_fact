@@ -29,7 +29,12 @@ Instance::Instance(Config& _starts, Config& _goals, const std::vector<int>& _ena
 
 // For MAPF benchmark, first instance of factorized version as well
 Instance::Instance(const std::string& scen_filename, const std::string& map_filename, const std::vector<int>& _enabled, const int _N)
-    : G(Graph::getInstance()), starts(Config()), goals(Config()), enabled(_enabled), N(_N)
+    : G(Graph::getInstance()), 
+    starts(Config()), 
+    goals(Config()), 
+    enabled(_enabled), 
+    N(_N),
+    priority({})
 {
   // load start-goal pairs
   std::ifstream file(scen_filename);
