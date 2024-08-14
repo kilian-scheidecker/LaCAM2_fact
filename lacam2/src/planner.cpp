@@ -54,8 +54,6 @@ HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, cons
       } else {
         priorities[i] = parent->priorities[i] - (int)parent->priorities[i];
       }
-      // if (parent == nullptr && !priority.empty())
-      //   std::cout<<(priority[i] / N)<<" vs "<<priorities[i];
     }
   }
   END_BLOCK();
