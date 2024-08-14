@@ -3,13 +3,17 @@
 DistTable::DistTable(const Instance& ins)
     : V_size(ins.G.V.size()), table(ins.N, std::vector<uint>(V_size, V_size))
 {
+  PROFILE_BLOCK("setup dist_table");
   setup(ins);
+  END_BLOCK();
 }
 
 DistTable::DistTable(const Instance* ins)
     : V_size(ins->G.V.size()), table(ins->N, std::vector<uint>(V_size, V_size))
 {
+  PROFILE_BLOCK("setup dist_table");
   setup(ins);
+  END_BLOCK();
 }
 
 void DistTable::setup(const Instance* ins)

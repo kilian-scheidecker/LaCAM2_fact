@@ -28,6 +28,7 @@ typedef unsigned int uint;
 #include <string>
 #include <map>
 #include <algorithm>
+#include <unistd.h>
 
 #include "nlohmann/json.hpp"
 

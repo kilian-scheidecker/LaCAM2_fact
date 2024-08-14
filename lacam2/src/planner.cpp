@@ -17,7 +17,7 @@ LNode::LNode(LNode* parent, uint i, std::shared_ptr<Vertex> v) :
 uint HNode::HNODE_CNT = 0;
 
 // Define the high-level
-HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, const uint _h) : 
+HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, const uint _h, const std::vector<float>& priority) : 
       C(_C),
       parent(_parent),
       neighbor(),
@@ -37,11 +37,16 @@ HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, cons
   // update neighbor
   if (parent != nullptr) parent->neighbor.insert(this);
 
+  PROFILE_BLOCK("Setting up priorities");
   // set priorities
-  if (parent == nullptr) {
+  if (priority.empty() && parent == nullptr) {
     // initialize
     for (uint i = 0; i < N; ++i) priorities[i] = (float)D.get(i, C[i]) / N;
-  } else {
+  } 
+  else if (!priority.empty() && parent == nullptr) {
+    for (uint i = 0; i < N; ++i) priorities[i] = priority[i];
+  } 
+  else {
     // dynamic priorities, akin to PIBT
     for (size_t i = 0; i < N; ++i) {
       if (D.get(i, C[i]) != 0) {
@@ -51,6 +56,7 @@ HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, cons
       }
     }
   }
+  END_BLOCK();
 
   // set order
   std::iota(order.begin(), order.end(), 0);
@@ -120,6 +126,8 @@ Planner::~Planner() {}
 // standard solving
 Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 {
+  PROFILE_FUNC(profiler::colors::Orange500);
+  PROFILE_BLOCK("Initialization");
   solver_info(1, "start search");
 
   // setup agents
@@ -137,6 +145,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
   auto C_new = Config(N, nullptr);  // for new configuration
   HNode* H_goal = nullptr;          // to store goal node
 
+  END_BLOCK();
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
@@ -254,20 +263,20 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 // factorized solving
 Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep)
 {
-// #ifdef ENABLE_PROFILING
-//   EASY_FUNCTION(profiler::colors::Green, "Planner::solve_fact");
-// #endif
   PROFILE_FUNC(profiler::colors::Green);
+  PROFILE_BLOCK("Initialization");
 
   // setup agents
   for (uint i = 0; i < N; ++i) A[i] = new Agent(i);
+
+  // usleep(100000);
 
   // setup search
   auto OPEN = std::stack<HNode*>();
   auto EXPLORED = std::unordered_map<Config, HNode*, ConfigHasher>();
   
   // insert initial node, 'H': high-level node
-  auto H = new HNode(ins.starts, D, nullptr, 0, get_h_value(ins.starts));
+  auto H = new HNode(ins.starts, D, nullptr, 0, get_h_value(ins.starts), ins.priority);
   OPEN.push(H);
   EXPLORED[H->C] = H;
 
@@ -292,6 +301,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
               [&](int i, int j) { return H->priorities[i] > H->priorities[j]; });
   }
 
+  END_BLOCK();
   // DFS
   while (!OPEN.empty() && !is_expired(deadline)) {
     loop_cnt += 1;
@@ -400,28 +410,28 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       // }
 
       if (factalgo.use_def)
-        sub_instances = factalgo.is_factorizable_def(ins.G, C_new, ins.goals, verbose, ins.enabled, priorities_copy, partitions_per_timestep[timestep], timestep);
+        sub_instances = factalgo.is_factorizable_def(C_new, ins.goals, verbose, ins.enabled, priorities_copy, partitions_per_timestep[timestep], timestep);
       else 
-        sub_instances = factalgo.is_factorizable(ins.G, C_new, ins.goals, verbose, ins.enabled, distances, priorities_copy, partitions_per_timestep[timestep]);
+        sub_instances = factalgo.is_factorizable(C_new, ins.goals, verbose, ins.enabled, distances, priorities_copy, partitions_per_timestep[timestep]);
 
       if (sub_instances.size() > 0)
       {
         H_goal = H;
 
-        std::vector<int> sizes;
-        for(auto sub_instance : sub_instances)
-          sizes.push_back(sub_instance.get()->N);
+        // std::vector<int> sizes;
+        // for(auto sub_instance : sub_instances)
+        //   sizes.push_back(sub_instance.get()->N);
 
-        std::stringstream ss;
-        for(size_t i = 0; i < sizes.size(); ++i) {
-            ss << sizes[i];
-            if (i != sizes.size()-1) {
-                ss << "/";
-            }
-        }
+        // std::stringstream ss;
+        // for(size_t i = 0; i < sizes.size(); ++i) {
+        //     ss << sizes[i];
+        //     if (i != sizes.size()-1) {
+        //         ss << "/";
+        //     }
+        // }
 
-        std::string result = ss.str();
-        info(0, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep, "\t", result);
+        // std::string result = ss.str();
+        // info(1, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep, "\t", result);
         
         break;
       }
