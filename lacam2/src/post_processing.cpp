@@ -142,7 +142,7 @@ int get_sum_of_costs_lower_bound(const Instance& ins, DistTable& dist_table)
     return c;
 }
 
-void print_stats(const int verbose, const Instance& ins,
+void print_results(const int verbose, const Instance& ins,
                  const Solution& solution, const double comp_time_ms)
 {
     auto ceil = [](float x) { return std::ceil(x * 100) / 100; };
@@ -244,7 +244,7 @@ void make_log(const Instance& ins, const Solution& solution,
 
 
 void make_stats(const std::string file_name, const std::string factorize, const int N, 
-                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const std::string multi_threading)
+                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const bool multi_threading)
 { 
     json j;
 
@@ -300,7 +300,7 @@ void make_stats(const std::string file_name, const std::string factorize, const 
 }
 
 
-void write_partitions(const std::map<int, std::vector<std::vector<int>>>& partitions_per_timestep) {
+void write_partitions(const PartitionsMap& partitions_per_timestep, const std::string factorize) {
     json j;
 
     // Populate the JSON object with the data from the partitions
@@ -318,11 +318,13 @@ void write_partitions(const std::map<int, std::vector<std::vector<int>>>& partit
     }
 
     // Write the partitions to the JSON file
-    std::ofstream file("assets/temp/temp_partitions.json");
+    std::string filename = "assets/temp/" + factorize + "_partitions.json";
+
+    std::ofstream file(filename);
     if (file.is_open()) {
         file << j.dump(4);
         file.close();
     } else {
-        throw std::runtime_error("Unable to open file 'assets/temp/temp_partitions.json'");
+        throw std::runtime_error("Unable to open file " + filename);
     }
 }

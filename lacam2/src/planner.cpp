@@ -261,7 +261,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 
 
 // factorized solving
-Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep)
+Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions)
 {
   PROFILE_FUNC(profiler::colors::Green);
   PROFILE_BLOCK("Initialization");
@@ -410,13 +410,21 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
       // }
 
       if (factalgo.use_def)
-        sub_instances = factalgo.is_factorizable_def(C_new, ins.goals, verbose, ins.enabled, priorities_copy, partitions_per_timestep[timestep], timestep);
+        sub_instances = factalgo.is_factorizable_def(C_new, ins.goals, verbose, ins.enabled, priorities_copy, timestep);
       else 
-        sub_instances = factalgo.is_factorizable(C_new, ins.goals, verbose, ins.enabled, distances, priorities_copy, partitions_per_timestep[timestep]);
+        sub_instances = factalgo.is_factorizable(C_new, ins.goals, verbose, ins.enabled, distances, priorities_copy);
 
       if (sub_instances.size() > 0)
       {
         H_goal = H;
+        // logging
+        if (save_partitions) 
+        {
+          for (auto ins : sub_instances) {
+            auto active = ins->enabled;
+            partitions_per_timestep[timestep].push_back(active);
+          }
+        }
 
         // std::vector<int> sizes;
         // for(auto sub_instance : sub_instances)

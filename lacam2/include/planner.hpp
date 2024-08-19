@@ -118,7 +118,7 @@ struct Planner {
   // standard solving
   Solution solve(std::string& additional_info, Infos* infos_ptr);
   // factorized solving
-  Bundle solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep);
+  Bundle solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions);
   
   void expand_lowlevel_tree(HNode* H, LNode* L);
   void rewrite(HNode* H_from, HNode* T, HNode* H_goal,

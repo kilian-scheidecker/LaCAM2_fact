@@ -16,7 +16,7 @@
 \****************************************************************************************/
 
 std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, const Config& goals, int verbose,
-                                     const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities, Partitions& partitions_at_timestep)
+                                     const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities)
 {
     PROFILE_FUNC(profiler::colors::Yellow);
 
@@ -76,7 +76,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, 
                         partitions.end());
 
     if (partitions.size() > 1) {
-        return split_ins(C, goals, verbose, enabled, partitions, priorities, partitions_at_timestep);    // most expensive
+        return split_ins(C, goals, verbose, enabled, partitions, priorities);    // most expensive
     } else {
         return {};
     }
@@ -87,17 +87,10 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, 
 
 
 std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, const Config& goals, int verbose,
-                             const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities,
-                             Partitions& partitions_at_timestep) const
+                             const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const
 {
     PROFILE_FUNC(profiler::colors::Yellow200);
     PROFILE_BLOCK("initialization");
-
-    // log partitions
-    if (partitions_at_timestep.size() > 0)
-        std::copy(partitions.begin(), partitions.end(), std::back_inserter(partitions_at_timestep));
-    else
-        partitions_at_timestep = partitions;
 
     // printing info about the partitions
     if (verbose > 1) {
@@ -331,7 +324,7 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
 
 FactDef::FactDef(int width) : FactAlgo(width, false, true) {
     // Constructor with width, handle partitions_map initialization
-    std::string path = "assets/temp/temp_partitions.json";
+    std::string path = "assets/temp/FactAstar_partitions.json";
     std::ifstream file(path);
 
     if (!file.is_open()) {
@@ -429,7 +422,7 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
 // }
 
 
-std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const 
+std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const 
 {
     // Check if timestep corresponds to a key in the partitions_map
     auto it = partitions_map.find(timestep);
@@ -458,7 +451,7 @@ std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& 
     }
     
     if (filtered_partitions.size() > 1) {
-        return split_ins(C_new, goals, verbose, enabled, filtered_partitions, priorities, partitions_at_timestep);    // most expensive
+        return split_ins(C_new, goals, verbose, enabled, filtered_partitions, priorities);    // most expensive
     } 
     else {
         return {};

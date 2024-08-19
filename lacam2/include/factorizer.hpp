@@ -57,10 +57,10 @@ public:
     virtual ~FactAlgo() = default;
 
     // Determine if a problem is factorizable at a given timestep
-    std::list<std::shared_ptr<Instance>> is_factorizable(const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities, Partitions& partitions_at_timestep);
+    std::list<std::shared_ptr<Instance>> is_factorizable(const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities);
 
     // Helper method to actually split the current instance 
-    std::list<std::shared_ptr<Instance>> split_ins(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities, Partitions& partitions_at_timestep) const;
+    std::list<std::shared_ptr<Instance>> split_ins(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
 
     // Simple manhattan distance computation between two vertices of the map.
     inline int get_manhattan(int index1, int index2) const
@@ -72,7 +72,7 @@ public:
     };
 
     // virtual function to be used by the FactDef class. Allows to factorize according to the definition
-    virtual std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const = 0;
+    virtual std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const = 0;
 
 private:
 
@@ -92,7 +92,7 @@ public:
     FactDistance(int width) : FactAlgo(width) {}
 
     // Placeholder for the virtual function
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {return {};};
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const {return {};};
 
 private:
     // Simple heuristic to determine if 2 agents can be factorized based on distance
@@ -118,7 +118,7 @@ public:
     FactBbox(int width) : FactAlgo(width) {}
 
     // Placeholder for the virtual function
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {return {};};
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const {return {};};
 
 private:
 
@@ -160,7 +160,7 @@ public:
     FactOrient(int width) : FactAlgo(width) {}
 
     // Placeholder for the virtual function
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {return {};};
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const {return {};};
 
 
 private:
@@ -187,7 +187,7 @@ public:
     FactAstar(int width) : FactAlgo(width, true) {}
 
     // Placeholder for the virtual function
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const {return {};};
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const {return {};};
 
 private:
 
@@ -213,7 +213,7 @@ public:
     FactDef(int width);
 
     // Applies the precomputed partitions to minimize time spent in factorization
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const override;
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const override;
 
 private :
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const {return 0;};

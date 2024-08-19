@@ -57,7 +57,7 @@ void write_sol(const Solution &solution, const std::vector<int> &enabled, std::s
 }
 
 // solve_fact_MT function
-Solution solve_fact_MT(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo,
+Solution solve_fact_MT(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo, bool save_partitions,
                        const int verbose, const Deadline* deadline, std::mt19937* MT,
                        const Objective objective, const float restart_rate,
                        Infos* infos_ptr)
@@ -124,7 +124,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
                 END_BLOCK();
 
                 PROFILE_BLOCK("Solving");
-                Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep);
+                Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep, save_partitions);
                 END_BLOCK();
                 PROFILE_BLOCK("Push sub-instances");
                 {
@@ -176,7 +176,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
 
 
 
-Solution solve_fact(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo,
+Solution solve_fact(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo, bool save_partitions,
                const int verbose, const Deadline* deadline, std::mt19937* MT, 
                const Objective objective, const float restart_rate, 
                Infos* infos_ptr)
@@ -205,7 +205,7 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, Partition
         END_BLOCK();
         
         PROFILE_BLOCK("Solving");
-        Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep);
+        Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep, save_partitions);
         END_BLOCK();
         
         PROFILE_BLOCK("Push sub-instances");
