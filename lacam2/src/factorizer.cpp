@@ -60,6 +60,9 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, 
 
                 partitions[partition2].clear();
 
+                // Sort enabled vector
+                sort(partitions[partition1].begin(), partitions[partition1].end());
+
                 if (partitions[partition1].size() == N){ 
                     break_flag = true;
                     break;
@@ -115,8 +118,9 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, co
 
     END_BLOCK();
     PROFILE_BLOCK("loop through partitions");
-    for (const auto& new_enabled : partitions) 
+    for (auto& new_enabled : partitions) 
     {
+
         Config C0(new_enabled.size());
         Config G0(new_enabled.size());
 
