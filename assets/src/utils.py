@@ -10,8 +10,8 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
     for factalgo in factorize :
         for thread in multi_threading :
             if thread == "yes":
-                if factalgo not in ["no"] :
-                    end = ' -v 0' + ' -f ' + factalgo + ' -mt yes'
+                if factalgo not in ["standard"] :
+                    end = ' -v 0' + ' -f ' + factalgo + ' -mt'
                 else :
                     print("Cannot use multi threading on standard or FactDef LaCAM")
                     continue
@@ -25,32 +25,32 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
 
 
 # Function to update the stats_json.txt file
-def update_stats_json(s: str, string_info: str):
+# def update_stats_json(s: str, string_info: str):
 
-    base_path = up(up(up(__file__)))    # /LaCAM2_fact 
-    file_path = join(base_path, 'stats_json.txt')
+#     base_path = up(up(up(__file__)))    # /LaCAM2_fact 
+#     file_path = join(base_path, 'stats_json.txt')
 
-    with open(file_path, 'r') as file:
-        data = file.read()
+#     with open(file_path, 'r') as file:
+#         data = file.read()
 
-    # Remove the trailing comma and/or starting bracket if it exists and parse the JSON
-    if data.strip().endswith(','):
-        data = data.strip()[:-1]
+#     # Remove the trailing comma and/or starting bracket if it exists and parse the JSON
+#     if data.strip().endswith(','):
+#         data = data.strip()[:-1]
 
-    if data.strip().startswith('['):
-        data = data.strip()[1:]
+#     if data.strip().startswith('['):
+#         data = data.strip()[1:]
 
-    stats_list = json.loads(f'[{data}]')
+#     stats_list = json.loads(f'[{data}]')
 
-    # Update the last entry with the maximum resident set size
-    if stats_list:
-        stats_list[-1][s] = string_info
+#     # Update the last entry with the maximum resident set size
+#     if stats_list:
+#         stats_list[-1][s] = string_info
 
-    # Convert back to JSON and add a trailing comma for the next entry
-    updated_data = json.dumps(stats_list, indent=4)[1:-2] + ',\n'
+#     # Convert back to JSON and add a trailing comma for the next entry
+#     updated_data = json.dumps(stats_list, indent=4)[1:-2] + ',\n'
 
-    with open(file_path, 'w') as file:
-        file.write(updated_data)
+#     with open(file_path, 'w') as file:
+#         file.write(updated_data)
 
 
 # Function to update the stats_json.txt file
@@ -173,37 +173,37 @@ def run_command_in_ubuntu(command: str) -> int :
 
 
 
-def get_partitions_txt(filepath) :
+# def get_partitions_txt(filepath) :
 
-    # Open the file and read its contents
-    with open(filepath, 'r') as file:
-        data = file.read()
+#     # Open the file and read its contents
+#     with open(filepath, 'r') as file:
+#         data = file.read()
 
-    # Initialize the dictionary to store the result
-    data_dict = {}
+#     # Initialize the dictionary to store the result
+#     data_dict = {}
     
-    # Parse the content of the file line by line
-    for line in data.strip().split("\n"):
-        key, value = line.split(" : ")
-        key = int(key.strip())
-        # Convert the string representation to a Python list of sets
-        value = eval(value)  # Assuming the format uses square brackets for lists
-        data_dict[key] = value
+#     # Parse the content of the file line by line
+#     for line in data.strip().split("\n"):
+#         key, value = line.split(" : ")
+#         key = int(key.strip())
+#         # Convert the string representation to a Python list of sets
+#         value = eval(value)  # Assuming the format uses square brackets for lists
+#         data_dict[key] = value
 
-    return data_dict
-
-
+#     return data_dict
 
 
-def partitions_txt_to_json():
-
-    dir_base = up(up(up(__file__)))    # LaCAM2_fact/
-    res = join(dir_base, 'build', 'result.txt')
-    result = parse_file(res)
-    data_dict = result['partitions_per_timestep']
 
 
-    partitions_file_path = join(dir_base, 'assets', 'temp', 'def_partitions.json')
-    with open(partitions_file_path, 'w') as file:
-        # json.dump(data_dict, file, indent=3)
-        json.dump(data_dict, file, indent=4, sort_keys=True, separators=(',', ': '))
+# def partitions_txt_to_json():
+
+#     dir_base = up(up(up(__file__)))    # LaCAM2_fact/
+#     res = join(dir_base, 'build', 'result.txt')
+#     result = parse_file(res)
+#     data_dict = result['partitions_per_timestep']
+
+
+#     partitions_file_path = join(dir_base, 'assets', 'temp', 'def_partitions.json')
+#     with open(partitions_file_path, 'w') as file:
+#         # json.dump(data_dict, file, indent=3)
+#         json.dump(data_dict, file, indent=4, sort_keys=True, separators=(',', ': '))
