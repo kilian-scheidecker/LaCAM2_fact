@@ -1,10 +1,10 @@
 {
-  "from": 700,
-  "to": 700,
+  "from": 300,
+  "to": 300,
   "jump": 250,
   "n": 1,
   "map_name": ["warehouse_large"],
-  "factorize": ["FactAstar"],
+  "factorize": ["FactDef"],
   "use_heuristic": "FactAstar",
   "multi_threading": ["no"]
 }

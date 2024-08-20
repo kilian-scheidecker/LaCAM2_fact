@@ -25,6 +25,8 @@ Solution solve(const Instance& ins, std::string& additional_info,
 {
     PROFILE_FUNC(profiler::colors::Amber500);
     
+    // Initialize the DistTable
+    DistTable::initialize(ins);
     
     // setup the initial planner. as soon as it recognizes factorization, it stops and returns the subproblems. if it does not recognize any factorization, it returns the solution
     PROFILE_BLOCK("Setup planner");
@@ -65,14 +67,15 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
     PROFILE_FUNC(profiler::colors::Amber);
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving using Multi-Threading...");
 
+    // Initialize the empty solution and OPENins list and DistTable
+    std::shared_ptr<Sol> empty_solution = std::make_shared<Sol>(ins.N);
+    std::queue<std::shared_ptr<Instance>> OPENins;
+    DistTable::initialize(ins);
+
     // Mutex for thread management
     std::mutex queue_mutex;
     std::mutex solution_mutex;
 
-    // Initialize the empty solution and OPENins list
-    std::shared_ptr<Sol> empty_solution = std::make_shared<Sol>(ins.N);
-    std::queue<std::shared_ptr<Instance>> OPENins;
-    
     // Push the first instance safely by locking mutex
     {
         std::lock_guard<std::mutex> lock(queue_mutex);
@@ -165,12 +168,12 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
         }
         END_BLOCK();
     }
-    info(2, verbose, "elapsed:", elapsed_ms(deadline), "ms\tPadding and returning solution");
-
-    padSolution(empty_solution);
+    // cleanup 
+    DistTable::cleanup();
 
     info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinished planning");
-
+    
+    padSolution(empty_solution);
     return transpose(empty_solution->solution);
 }
 
@@ -183,9 +186,10 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, Partition
 {
     PROFILE_FUNC(profiler::colors::Amber);
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");
-    
-    // Initialize the empty solution
+
+    // Initialize the empty solution and DistTable
     std::shared_ptr<Sol> empty_solution = std::make_shared<Sol>(ins.N);
+    DistTable::initialize(ins);
 
     // Create OPENins and push first instance
     std::queue<std::shared_ptr<Instance>> OPENins;
@@ -228,11 +232,11 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, Partition
             std::cout<<"\n";
         }
     }
-    info(2, verbose, "elapsed:", elapsed_ms(deadline), "ms\tPadding and returning solution");
+    // cleanup 
+    DistTable::cleanup();
 
-    padSolution(empty_solution);
+    info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinished planning");
     
-    info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinshed planning");
-
+    padSolution(empty_solution);
     return transpose(empty_solution->solution);
 }
