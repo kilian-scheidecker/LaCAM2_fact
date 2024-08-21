@@ -83,7 +83,7 @@ struct Planner {
   // solver utils
   const uint N;       // number of agents
   const uint V_size;  // number o vertices
-  DistTable D;
+  DistTable& D;
   uint loop_cnt;      // auxiliary
 
   // used in PIBT

@@ -78,7 +78,7 @@ private:
 
     // Specific logic to determine if 2 agents can be factorized
     virtual const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const = 0;
-    
+
     // Precomputed coordinates
     std::vector<std::pair<int, int>> coords;  
   
@@ -217,6 +217,10 @@ public:
 
 private :
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const {return 0;};
+    
+    // Same as split_ins but with true_id instead of local ids
+    std::list<std::shared_ptr<Instance>> split_from_file(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
+    
 };
 
 

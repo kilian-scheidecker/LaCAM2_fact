@@ -51,3 +51,5 @@ temp/
 **/local/
 Manifest.toml
 map
+
+.csv

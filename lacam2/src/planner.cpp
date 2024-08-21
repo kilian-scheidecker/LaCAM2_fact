@@ -37,43 +37,54 @@ HNode::HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g, cons
     // update neighbor
     if (parent != nullptr) parent->neighbor.insert(this);
 
-    PROFILE_BLOCK("Setting up priorities");
+    
 
     if (parent == nullptr) 
     {
+        
         // Use normal ID
         if (priority.empty()) {
+            PROFILE_BLOCK("Setting up priorities without parent");
             for (uint i = 0; i < N; ++i)
                 priorities[i] = static_cast<float>(D.get(i, C[i])) / N;
+            END_BLOCK();
         } 
         else {
+            PROFILE_BLOCK("Setting up priorities without parent but using priority array");
             // Initialize priorities based on the provided priority array
             for (uint i = 0; i < N; ++i)
                 priorities[i] = priority[i] / N;
+            END_BLOCK();
         }
+        
     } 
     else {
-
+        
         if (priority.empty()) {
             // Dynamic priorities based on parent, similar to PIBT
+            PROFILE_BLOCK("Setting up priorities from parent standard");
             for (size_t i = 0; i < N; ++i) {
                 if (D.get(i, C[i]) != 0)
                     priorities[i] = parent->priorities[i] + 1;
                 else
                     priorities[i] = parent->priorities[i] - static_cast<int>(parent->priorities[i]);
             }
+            END_BLOCK();
         } else {
             // Dynamic priorities with an enabled flag, similar to PIBT
+            PROFILE_BLOCK("Setting up priorities from parent but with true ID");
             for (size_t i = 0; i < N; ++i) {
                 if (D.get(i, C[i], enabled[i]) != 0)
                     priorities[i] = parent->priorities[i] + 1;
                 else
                     priorities[i] = parent->priorities[i] - static_cast<int>(parent->priorities[i]);
             }
+            END_BLOCK();
         }
+        
     }
 
-    END_BLOCK();
+    
 
     // set order
     std::iota(order.begin(), order.end(), 0);
@@ -375,7 +386,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
         // create new configuration
         for (auto a : A) C_new[a->id] = a->v_next;
 
-        std::vector<float> priorities_copy;
+        std::vector<float> new_priorities;
 
         // check explored list
         const auto iter = EXPLORED.find(C_new);
@@ -390,16 +401,16 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
             auto H_insert = iter->second; // Always re-insert the found node
 
             if (H_goal == nullptr || H_insert->f < H_goal->f) {
-                priorities_copy = H_insert->priorities;
+                new_priorities = H_insert->priorities;
                 OPEN.push(H_insert);
             }
         } else {
             // insert new search node
-            const auto H_new = new HNode(C_new, D, H, H->g + get_edge_cost(H->C, C_new), get_h_value(C_new, ins.enabled));
+            const auto H_new = new HNode(C_new, D, H, H->g + get_edge_cost(H->C, C_new), get_h_value(C_new, ins.enabled), H->priorities, ins.enabled);
             EXPLORED[H_new->C] = H_new;
             if (H_goal == nullptr || H_new->f < H_goal->f)
             {
-                priorities_copy = H_new->priorities;
+                new_priorities = H_new->priorities;
                 OPEN.push(H_new);
             }
         }
@@ -410,6 +421,12 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
             for(uint i=0; i<N; i++) distances[i] = D.get(i, C_new[i], ins.enabled[i]); // copy the A* path lengths
 
         uint timestep = start_time + H->depth+1;
+
+        // DUMP TABLE TO SEE
+        // std::ostringstream oss;
+        // oss << "table_" << timestep << "_" << ins.enabled.size() << ".csv";
+        // std::string filename = oss.str();
+        // D.dumpTableToFile(filename);
 
         // Check for factorizability
         if (N>1 && H_goal == nullptr)
@@ -424,9 +441,9 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
             // }
 
             if (factalgo.use_def)
-                sub_instances = factalgo.is_factorizable_def(C_new, ins.goals, verbose, ins.enabled, priorities_copy, timestep);
+                sub_instances = factalgo.is_factorizable_def(C_new, ins.goals, verbose, ins.enabled, new_priorities, timestep);
             else 
-                sub_instances = factalgo.is_factorizable(C_new, ins.goals, verbose, ins.enabled, distances, priorities_copy);
+                sub_instances = factalgo.is_factorizable(C_new, ins.goals, verbose, ins.enabled, distances, new_priorities);
 
             if (sub_instances.size() > 0)
             {
@@ -666,7 +683,19 @@ bool Planner::funcPIBT(Agent* ai, const std::vector<int>& enabled)
 
     // sort in ascending descending order of priority
     Agent* swap_agent;
-    if (!enabled.empty()) {
+    
+    if (enabled.empty()) {     
+        std::sort(C_next[i].begin(), C_next[i].begin() + K + 1,
+                [&](std::shared_ptr<Vertex> const v, std::shared_ptr<Vertex> const u) {
+                    return D.get(i, v) + tie_breakers[v->id] <
+                        D.get(i, u) + tie_breakers[u->id];
+        });
+
+        swap_agent = swap_possible_and_required(ai);
+        if (swap_agent != nullptr)
+            std::reverse(C_next[i].begin(), C_next[i].begin() + K + 1);
+    }
+    else {
         const int true_id = enabled[i];
         std::sort(C_next[i].begin(), C_next[i].begin() + K + 1,
                 [&](std::shared_ptr<Vertex> const v, std::shared_ptr<Vertex> const u) {
@@ -674,17 +703,6 @@ bool Planner::funcPIBT(Agent* ai, const std::vector<int>& enabled)
                         D.get(i, u, true_id) + tie_breakers[u->id];
                 });
         swap_agent = swap_possible_and_required_fact(ai, enabled);
-        if (swap_agent != nullptr)
-            std::reverse(C_next[i].begin(), C_next[i].begin() + K + 1);
-    }
-    else {
-        std::sort(C_next[i].begin(), C_next[i].begin() + K + 1,
-                [&](std::shared_ptr<Vertex> const v, std::shared_ptr<Vertex> const u) {
-                    return D.get(i, v) + tie_breakers[v->id] <
-                        D.get(i, u) + tie_breakers[u->id];
-                });
-
-        swap_agent = swap_possible_and_required(ai);
         if (swap_agent != nullptr)
             std::reverse(C_next[i].begin(), C_next[i].begin() + K + 1);
     }
