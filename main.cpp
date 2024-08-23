@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
       .help("scenario file")
       .default_value(std::string(""));
   program.add_argument("-N", "--num").help("number of agents").required();
-  program.add_argument("-s", "--seed")
+  program.add_argument("-sd", "--seed")
       .help("seed")
       .default_value(std::string("0"));
   program.add_argument("-v", "--verbose")
@@ -38,14 +38,20 @@ int main(int argc, char* argv[])
       .help("restart rate")
       .default_value(std::string("0.001"));
   program.add_argument("-f", "--factorize")
-      .help("mode of factorization: [no / FactDistance / FactBbox / Factorient / FactAstar / FactDef]")
-      .default_value(std::string("no"));
+      .help("mode of factorization: [standard / FactDistance / FactBbox / Factorient / FactAstar / FactDef]")
+      .default_value(std::string("standard"));
   program.add_argument("-mt", "--multi_threading")
-      .help("toggle multi-threading: [yes / no] ")
-      .default_value(std::string("no"));
-  program.add_argument("-sp", "--stat_print")
-      .help("save stats about run: [yes / no] ")
-      .default_value(std::string("yes"));
+      .help("toggle multi-threading: [default false] ")
+      .default_value(false)
+      .implicit_value(true);
+  program.add_argument("-s", "--save_stats")
+      .help("print stats about run: [default true] ")
+      .default_value(true)
+      .implicit_value(false);
+  program.add_argument("-sp", "--save_partitions")
+      .help("save partitions: [default false] ")
+      .default_value(false)
+      .implicit_value(true);
 
   try {
     program.parse_known_args(argc, argv);
@@ -67,11 +73,12 @@ int main(int argc, char* argv[])
   const auto log_short = program.get<bool>("log_short");
   const auto N = std::stoi(program.get<std::string>("num"));
   const auto factorize = program.get<std::string>("factorize");
-  const auto multi_threading = program.get<std::string>("multi_threading");
+  const bool multi_threading = program.get<bool>("multi_threading");
   const auto objective =
       static_cast<Objective>(std::stoi(program.get<std::string>("objective")));
   const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
-  const auto stat_print = program.get<std::string>("stat_print");
+  const bool save_stats = program.get<bool>("save_stats");
+  const bool save_partitions = program.get<bool>("save_partitions");
 
   // Redirect cout to nullstream if verbose is set to zero
   std::streambuf* coutBuffer = std::cout.rdbuf();   // save cout buffer
@@ -107,7 +114,7 @@ int main(int argc, char* argv[])
 
   // Create the FactAlgo class and use the factory function to create the appropriate FactAlgo object
   std::unique_ptr<FactAlgo> algo;
-  if( strcmp(factorize.c_str(), "no") != 0)
+  if( strcmp(factorize.c_str(), "standard") != 0)
   {
     try {
       algo = createFactAlgo(factorize, ins.G.width);
@@ -125,15 +132,15 @@ int main(int argc, char* argv[])
   // Create the deadline
   const auto deadline = Deadline(time_limit_sec * 1000);
   
-  if( strcmp(factorize.c_str(), "no") != 0)
+  if( strcmp(factorize.c_str(), "standard") != 0)
   {
     info(0, verbose, "\nStart solving the algorithm with factorization\n");
 
     // Actual solving procedure with factorization, depending on multi_threading or not
-    if( strcmp(multi_threading.c_str(), "yes") == 0)
-      solution = solve_fact_MT(ins, additional_info, partitions_per_timestep, *algo, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
+    if(multi_threading)
+      solution = solve_fact_MT(ins, additional_info, partitions_per_timestep, *algo, save_partitions, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
     else
-      solution = solve_fact(ins, additional_info, partitions_per_timestep, *algo, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
+      solution = solve_fact(ins, additional_info, partitions_per_timestep, *algo, save_partitions, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
   }
 
 
@@ -161,13 +168,12 @@ int main(int argc, char* argv[])
   }
 
   // post processing
-  print_stats(verbose, ins, solution, comp_time_ms);
+  print_results(verbose, ins, solution, comp_time_ms);
   make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, partitions_per_timestep, log_short);
-  if( strcmp(stat_print.c_str(), "yes") == 0)
-  {
+  if(save_stats)
     make_stats("stats.json", factorize, N, comp_time_ms, infos, solution, mapname, success, multi_threading);
-    write_partitions(partitions_per_timestep);
-  }
+  if(save_partitions && success == 1)
+    write_partitions(partitions_per_timestep, factorize);
 
   // resume cout
   std::cout.rdbuf(coutBuffer);

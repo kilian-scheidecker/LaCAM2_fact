@@ -5,12 +5,12 @@ import numpy as np
 
 from src.fact_def import max_fact_partitions
 from src.score import complexity_score
-from src.utils import create_command, update_stats, run_command_in_ubuntu, partitions_txt_to_json
+from src.utils import create_command, run_command_in_ubuntu
 from src.scenario_generator import create_scen
 
 
 # Main function that creates random tests and runs them automatically
-def auto_test(use_heuristics=False) :
+def auto_test() :
        
     dir_py = up(__file__)       #/lacam_fact/assets
 
@@ -25,6 +25,7 @@ def auto_test(use_heuristics=False) :
         maps = data.get("map_name")
         factorize = data.get("factorize")
         multi_threading = data.get("multi_threading")
+        use_heuristic = data.get("use_heuristic")
 
     total = 0
 
@@ -54,13 +55,16 @@ def auto_test(use_heuristics=False) :
             for i in range(n) :
                 print(f"\nTesting with {N} agents in {map_name}")
                 commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
-                create_scen(N, dir_py, map_name)
+                # create_scen(N, dir_py, map_name)
                 for command in commmands :
 
                     # print(command)
-                    if 'FactDef' in command and not use_heuristics :
+                    if 'FactDef' in command and use_heuristic == "FactDef" :
                         # Determine the max factorizability and store it assets/temp/def_partitions.json
                         max_fact_partitions(map_name=map_name, N=N)
+                    elif 'FactDef' in command :
+                        hcom = create_command(map_name=map_name, N=N, factorize=[use_heuristic], multi_threading=["no"])[0] + ' -sp'    # to save partitions
+                        run_command_in_ubuntu(hcom)
 
                     success += run_command_in_ubuntu(command)
                     # update_stats("Complexity score", complexity_score())
@@ -71,4 +75,4 @@ def auto_test(use_heuristics=False) :
 
 
 
-auto_test(use_heuristics=True)
+auto_test()

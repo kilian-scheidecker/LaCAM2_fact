@@ -54,7 +54,7 @@ struct HNode {
   uint depth;
 
   HNode(const Config& _C, DistTable& D, HNode* _parent, const uint _g,
-        const uint _h, const std::vector<float>& priority = {});
+        const uint _h, const std::vector<float>& priority = {}, const std::vector<int>& enabled={});
   ~HNode();
 };
 using HNodes = std::vector<HNode*>;
@@ -83,7 +83,7 @@ struct Planner {
   // solver utils
   const uint N;       // number of agents
   const uint V_size;  // number o vertices
-  DistTable D;
+  DistTable& D;
   uint loop_cnt;      // auxiliary
 
   // used in PIBT
@@ -118,24 +118,28 @@ struct Planner {
   // standard solving
   Solution solve(std::string& additional_info, Infos* infos_ptr);
   // factorized solving
-  Bundle solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep);
+  Bundle solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions);
   
   void expand_lowlevel_tree(HNode* H, LNode* L);
   void rewrite(HNode* H_from, HNode* T, HNode* H_goal,
                std::stack<HNode*>& OPEN);
   uint get_edge_cost(const Config& C1, const Config& C2);
   uint get_edge_cost(HNode* H_from, HNode* H_to);
-  uint get_h_value(const Config& C);
-  bool get_new_config(HNode* H, LNode* L);
-  bool get_new_config_fact(HNode* H, LNode* L);
-  bool funcPIBT(Agent* ai);
-  bool funcPIBT_fact(Agent* ai);
+  uint get_h_value(const Config& C, const std::vector<int>& enabled = {});
+  bool get_new_config(HNode* H, LNode* L, const std::vector<int>& enabled = {});
+  // bool get_new_config_fact(HNode* H, LNode* L);
+  bool funcPIBT(Agent* ai, const std::vector<int>& enabled = {});
+  // bool funcPIBT_fact(Agent* ai);
 
   // swap operation
   Agent* swap_possible_and_required(Agent* ai);
   bool is_swap_required(const uint pusher, const uint puller,
                         std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin);
   bool is_swap_possible(std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin);
+  
+  // adjustments made for the factorized version
+  Agent* swap_possible_and_required_fact(Agent* ai, const std::vector<int>& enabled);
+  bool is_swap_required_fact(const uint true_pusher_id, const uint true_puller_id, std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin);
 
   // utilities
   template <typename... Body>

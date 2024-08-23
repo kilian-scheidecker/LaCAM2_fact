@@ -15,52 +15,128 @@
 *                       Implementation of the FactAlgo base class                        *
 \****************************************************************************************/
 
+// std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, const Config& goals, int verbose,
+//                                      const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities)
+// {
+//     PROFILE_FUNC(profiler::colors::Yellow);
+
+//     Partitions partitions;
+//     std::unordered_map<int, int> agent_to_partition;
+//     size_t N = C.size();
+//     bool break_flag = false;
+
+//     for (int j = 0; j < static_cast<int>(C.size()); ++j) {
+//         partitions.push_back({enabled[j]});
+//         agent_to_partition[enabled[j]] = j;
+//     }
+
+//     for (int rel_id_1 = 0; rel_id_1 < static_cast<int>(C.size()); ++rel_id_1) {
+//         int index1 = C[rel_id_1]->index;
+//         int goal1 = goals[rel_id_1]->index;
+//         int true_id1 = enabled[rel_id_1];
+//         int partition1 = agent_to_partition[true_id1];
+
+//         for (int rel_id_2 = rel_id_1 + 1; rel_id_2 < static_cast<int>(C.size()); ++rel_id_2) {
+//             int true_id2 = enabled[rel_id_2];
+//             int partition2 = agent_to_partition[true_id2];
+
+//             if (agent_to_partition[true_id1] == agent_to_partition[true_id2]) {
+//                     continue; // Already merged
+//                 }
+            
+
+//             int index2 = C[rel_id_2]->index;
+//             int goal2 = goals[rel_id_2]->index;
+
+//             if (!heuristic(rel_id_1, index1, goal1, rel_id_2, index2, goal2, distances)) {
+                
+//                 partitions[partition1].insert(partitions[partition1].end(), 
+//                                     std::make_move_iterator(partitions[partition2].begin()), 
+//                                     std::make_move_iterator(partitions[partition2].end()));
+
+//                 for (int agent : partitions[partition2]) {
+//                     agent_to_partition[agent] = partition1;
+//                 }
+
+//                 partitions[partition2].clear();
+
+//                 // Sort enabled vector
+//                 sort(partitions[partition1].begin(), partitions[partition1].end());
+
+//                 if (partitions[partition1].size() == N){ 
+//                     break_flag = true;
+//                     break;
+//                 }
+//             }
+//         }
+//         if (break_flag) break;
+//     } 
+
+//     PROFILE_BLOCK("cleanup partitions and split");
+
+//     partitions.erase(std::remove_if(partitions.begin(), partitions.end(),
+//                                     [](const std::vector<int>& partition) { return partition.empty(); }),
+//                         partitions.end());
+
+//     if (partitions.size() > 1) {
+//         return split_ins(C, goals, verbose, enabled, partitions, priorities);    // most expensive
+//     } else {
+//         return {};
+//     }
+
+//     END_BLOCK();
+// }
+
+
 std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, const Config& goals, int verbose,
-                                     const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities, Partitions& partitions_at_timestep)
+                                     const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities)
 {
     PROFILE_FUNC(profiler::colors::Yellow);
 
     Partitions partitions;
-    std::unordered_map<int, int> agent_to_partition;
+    std::vector<int> agent_loc;     // track location of agent within partitions
     size_t N = C.size();
     bool break_flag = false;
 
+    // fill partitions with single agent partitions (in local ID)
     for (int j = 0; j < static_cast<int>(C.size()); ++j) {
-        partitions.push_back({enabled[j]});
-        agent_to_partition[enabled[j]] = j;
+        partitions.push_back({j});
+        agent_loc.push_back(j);
     }
 
     for (int rel_id_1 = 0; rel_id_1 < static_cast<int>(C.size()); ++rel_id_1) {
-        int index1 = C[rel_id_1]->index;
-        int goal1 = goals[rel_id_1]->index;
-        int true_id1 = enabled[rel_id_1];
-        int partition1 = agent_to_partition[true_id1];
+        int loc1 = agent_loc[rel_id_1];
 
         for (int rel_id_2 = rel_id_1 + 1; rel_id_2 < static_cast<int>(C.size()); ++rel_id_2) {
-            int true_id2 = enabled[rel_id_2];
-            int partition2 = agent_to_partition[true_id2];
+            int loc2 = agent_loc[rel_id_2];
 
-            if (agent_to_partition[true_id1] == agent_to_partition[true_id2]) {
-                    continue; // Already merged
-                }
+            if (loc1 == loc2) continue; // Already merged in same partition
             
+            int index1 = C[rel_id_1]->index;
+            int goal1 = goals[rel_id_1]->index;
 
             int index2 = C[rel_id_2]->index;
             int goal2 = goals[rel_id_2]->index;
 
             if (!heuristic(rel_id_1, index1, goal1, rel_id_2, index2, goal2, distances)) {
                 
-                partitions[partition1].insert(partitions[partition1].end(), 
-                                    std::make_move_iterator(partitions[partition2].begin()), 
-                                    std::make_move_iterator(partitions[partition2].end()));
+                // move all agents of partition2 into partition1
+                partitions[loc1].insert(partitions[loc1].end(), 
+                                    std::make_move_iterator(partitions[loc2].begin()), 
+                                    std::make_move_iterator(partitions[loc2].end()));
 
-                for (int agent : partitions[partition2]) {
-                    agent_to_partition[agent] = partition1;
+                // location of every agent in partition2 is now in loc1
+                for (int agent : partitions[loc2]) {
+                    agent_loc[agent] = loc1;
                 }
 
-                partitions[partition2].clear();
+                // delete content of partition2
+                partitions[loc2].clear();
 
-                if (partitions[partition1].size() == N){ 
+                // Sort partitions. needed ?
+                sort(partitions[loc1].begin(), partitions[loc1].end());
+
+                if (partitions[loc1].size() == N){ 
                     break_flag = true;
                     break;
                 }
@@ -76,7 +152,7 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, 
                         partitions.end());
 
     if (partitions.size() > 1) {
-        return split_ins(C, goals, verbose, enabled, partitions, priorities, partitions_at_timestep);    // most expensive
+        return split_ins(C, goals, verbose, enabled, partitions, priorities);
     } else {
         return {};
     }
@@ -84,20 +160,11 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, 
     END_BLOCK();
 }
 
-
-
 std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, const Config& goals, int verbose,
-                             const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities,
-                             Partitions& partitions_at_timestep) const
+                             const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const
 {
     PROFILE_FUNC(profiler::colors::Yellow200);
     PROFILE_BLOCK("initialization");
-
-    // log partitions
-    if (partitions_at_timestep.size() > 0)
-        std::copy(partitions.begin(), partitions.end(), std::back_inserter(partitions_at_timestep));
-    else
-        partitions_at_timestep = partitions;
 
     // printing info about the partitions
     if (verbose > 1) {
@@ -111,45 +178,44 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, co
       std::cout << " \n";
     }
 
-    // maps the true id of the agent to its position in the instance to split (reverse enabled vector. Maps true_id to rel_id)
-    std::unordered_map<int, int> agent_map;
-    agent_map.reserve(C_new.size()); // Pre-allocate memory to avoid reallocations
-    for (int j = 0; j < static_cast<int>(C_new.size()); ++j) {
-        agent_map[enabled[j]] = j;
-    }
-
     std::list<std::shared_ptr<Instance>> sub_instances;
 
     END_BLOCK();
     PROFILE_BLOCK("loop through partitions");
-    for (const auto& new_enabled : partitions) 
-    {
-        Config C0(new_enabled.size());
-        Config G0(new_enabled.size());
 
-        std::vector<float> priorities_ins(new_enabled.size());  // priority vector for new instances
+    // note partitions are in relative ID
+    for (auto& agents : partitions) 
+    {
+
+        Config C0(agents.size());
+        Config G0(agents.size());
+
+        std::vector<float> sub_priorities(agents.size());   // priority vector for new instances
+        std::vector<int> sub_enabled(agents.size());        // enabled agents vector for new instances. keep track of real id
 
         int new_id = 0;  // id of the agents in the new instance
 
         // loop through every agent to emplace correct position back
-        for (int true_id : new_enabled) 
+        for (int rel_id : agents) 
         {
-            auto it = agent_map.find(true_id);
-            int prev_id = it->second;
-            priorities_ins[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
-            C0[new_id] = C_new[prev_id];
-            G0[new_id] = goals[prev_id];
-            ++new_id;
+            // auto it = agent_map.find(true_id);
+            // int prev_id = it->second;
+            // std::cout<<"rel_id : "<<rel_id<<" and priorities.size() = "<<priorities.size()<<std::endl;
+            sub_priorities[new_id] = priorities.at(rel_id);     // transfer priorities to newly created instance. this is line 210
+            sub_enabled[new_id] = enabled.at(rel_id);           // transfer enabled agents to newly created instance
+            C0[new_id] = C_new.at(rel_id);
+            G0[new_id] = goals.at(rel_id);
+            new_id++;
         }
 
         // sanity check
         if (!C0.empty()) {
 
             PROFILE_BLOCK("create instance");
-            sub_instances.emplace_back(std::make_shared<Instance>(C0, G0, std::move(new_enabled), new_enabled.size(), std::move(priorities_ins)));
+            sub_instances.emplace_back(std::make_shared<Instance>(C0, G0, std::move(sub_enabled), sub_enabled.size(), std::move(sub_priorities)));
             END_BLOCK();
 
-            info(1, verbose, "Pushed new sub-instance with ", new_enabled.size(), " agents.");
+            info(1, verbose, "Pushed new sub-instance with ", sub_enabled.size(), " agents.");
         
         } 
         else 
@@ -161,6 +227,8 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, co
 
     return sub_instances;
 }
+
+
 
 
 /****************************************************************************************\
@@ -331,7 +399,7 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
 
 FactDef::FactDef(int width) : FactAlgo(width, false, true) {
     // Constructor with width, handle partitions_map initialization
-    std::string path = "assets/temp/temp_partitions.json";
+    std::string path = "assets/temp/FactAstar_partitions.json";
     std::ifstream file(path);
 
     if (!file.is_open()) {
@@ -429,7 +497,7 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
 // }
 
 
-std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, Partitions& partitions_at_timestep, int timestep) const 
+std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const 
 {
     // Check if timestep corresponds to a key in the partitions_map
     auto it = partitions_map.find(timestep);
@@ -458,12 +526,85 @@ std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& 
     }
     
     if (filtered_partitions.size() > 1) {
-        return split_ins(C_new, goals, verbose, enabled, filtered_partitions, priorities, partitions_at_timestep);    // most expensive
+        return split_from_file(C_new, goals, verbose, enabled, filtered_partitions, priorities);    // most expensive
     } 
     else {
         return {};
     }
 }
+
+
+std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_new, const Config& goals, int verbose,
+                             const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const
+{
+    PROFILE_FUNC(profiler::colors::Yellow200);
+    PROFILE_BLOCK("initialization");
+
+    // printing info about the partitions
+    if (verbose > 1) {
+      std::cout << "New partitions :\n";
+      for (const auto& set : partitions) {
+        for (auto i : set) {
+          std::cout << i << ", ";
+        }
+        std::cout << " // ";
+      }
+      std::cout << " \n";
+    }
+
+    // maps the true id of the agent to its position in the instance to split (reverse enabled vector. Maps true_id to rel_id)
+    std::unordered_map<int, int> agent_map;
+    agent_map.reserve(C_new.size()); // Pre-allocate memory to avoid reallocations
+    for (int j = 0; j < static_cast<int>(C_new.size()); ++j) {
+        agent_map[enabled[j]] = j;
+    }
+
+    std::list<std::shared_ptr<Instance>> sub_instances;
+
+    END_BLOCK();
+    PROFILE_BLOCK("loop through partitions");
+    for (auto& new_enabled : partitions) 
+    {
+
+        Config C0(new_enabled.size());
+        Config G0(new_enabled.size());
+
+        std::vector<float> sub_priorities(new_enabled.size());  // priority vector for new instances
+
+        int new_id = 0;  // id of the agents in the new instance
+
+        // loop through every agent to emplace correct position back
+        for (int true_id : new_enabled) 
+        {
+            auto it = agent_map.find(true_id);
+            int prev_id = it->second;
+            sub_priorities[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
+            C0[new_id] = C_new[prev_id];
+            G0[new_id] = goals[prev_id];
+            ++new_id;
+        }
+
+        // sanity check
+        if (!C0.empty()) {
+
+            PROFILE_BLOCK("create instance");
+            sub_instances.emplace_back(std::make_shared<Instance>(C0, G0, std::move(new_enabled), new_enabled.size(), std::move(sub_priorities)));
+            END_BLOCK();
+
+            info(1, verbose, "Pushed new sub-instance with ", new_enabled.size(), " agents.");
+        
+        } 
+        else 
+        {
+             std::cerr << "Something wrong with Instance generation";
+        }
+    }
+    END_BLOCK();
+
+    return sub_instances;
+}
+
+
 
 
 

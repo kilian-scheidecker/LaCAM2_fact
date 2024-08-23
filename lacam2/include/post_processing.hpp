@@ -21,7 +21,7 @@ int get_makespan_lower_bound(const Instance& ins, DistTable& D);
 
 int get_sum_of_costs_lower_bound(const Instance& ins, DistTable& D);
 
-void print_stats(const int verbose, const Instance& ins,
+void print_results(const int verbose, const Instance& ins,
                  const Solution& solution, const double comp_time_ms);
 
 void make_log(const Instance& ins, const Solution& solution,
@@ -32,7 +32,7 @@ void make_log(const Instance& ins, const Solution& solution,
               const bool log_short = false);  // true -> paths not appear
 
 void make_stats(const std::string file_name, const std::string factorize, const int N, 
-                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const std::string multi_threading);
+                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const bool multi_threading);
 
 
-void write_partitions(const PartitionsMap& partitions_per_timestep);
+void write_partitions(const PartitionsMap& partitions_per_timestep, const std::string factorize);

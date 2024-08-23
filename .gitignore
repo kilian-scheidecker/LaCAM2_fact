@@ -8,13 +8,8 @@ temp/
 # Python cache
 **/__pycache__/
 
-# Generated data to analyze
-stats_json.txt
-#*.json                       # Will not be needed in fine, keep for now
-
 # Files for code profiling
-**/code_profiling/          # Will not be needed in fine, keep for now
-
+**/code_profiling/
 
 ### C++ ###
 # Prerequisites
@@ -56,3 +51,5 @@ stats_json.txt
 **/local/
 Manifest.toml
 map
+
+.csv
