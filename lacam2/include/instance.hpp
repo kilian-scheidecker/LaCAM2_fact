@@ -45,10 +45,7 @@ struct Instance {
 // solution: a sequence of configurations
 using Solution = std::vector<Config>;
 
-struct Sol {
-  Solution solution;
-  Sol(int N);         // constructor
-};
 
+// DO a bit better here maybe with solution management. create class and use singleton again
 
 std::ostream& operator<<(std::ostream& os, const Solution& solution);

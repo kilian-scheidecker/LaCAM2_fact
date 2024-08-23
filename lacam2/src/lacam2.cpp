@@ -37,14 +37,14 @@ Solution solve(const Instance& ins, std::string& additional_info,
 }
 
 
-void write_sol(const Solution &solution, const std::vector<int> &enabled, std::shared_ptr<Sol> empty_solution, int N){
+void write_sol(const Solution& solution, const std::vector<int>& enabled, Solution& empty_solution){
     
     Config sol_bit;
 
-    for(int id=0; id<int(N); id++)
+    for(int id=0; id<int(enabled.size()); id++)
     {
         sol_bit = solution.at(id);                               // segmentation fault here ?
-        auto line = &(empty_solution->solution[enabled[id]]);
+        auto line = &(empty_solution[enabled[id]]);
 
         if (line == nullptr) {
             std::cerr << "Error: line is a null pointer (id: " << id << ", enabled[id]: " << enabled[id] << ")" << std::endl;
@@ -65,10 +65,11 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
                        Infos* infos_ptr)
 {
     PROFILE_FUNC(profiler::colors::Amber);
+    PROFILE_BLOCK("Initialization")
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving using Multi-Threading...");
 
     // Initialize the empty solution and OPENins list and DistTable
-    std::shared_ptr<Sol> empty_solution = std::make_shared<Sol>(ins.N);
+    static Solution empty_solution(ins.N);
     std::queue<std::shared_ptr<Instance>> OPENins;
     DistTable::initialize(ins);
 
@@ -110,6 +111,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
                     running++;  // mark thread as running
                 } else {
                     if (running == 0) {
+
                         stop = true;
                         break;
                     }
@@ -142,7 +144,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
 
                 {
                     std::lock_guard<std::mutex> lock(solution_mutex);
-                    write_sol(bundle.solution, I->enabled, empty_solution, I->N);
+                    write_sol(bundle.solution, I->enabled, empty_solution);
                 }
 
                 END_BLOCK();
@@ -150,7 +152,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
                 // Print verbose information
                 if(verbose > 3){
                     std::cout << "\nSolution until now : \n";
-                    for(auto line : empty_solution->solution) {
+                    for(auto line : empty_solution) {
                         print_vertices(line, ins.G.width);
                         std::cout << "\n";
                     }
@@ -174,7 +176,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
     info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinished planning");
     
     padSolution(empty_solution);
-    return transpose(empty_solution->solution);
+    return transpose(empty_solution);
 }
 
 
@@ -188,7 +190,7 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, Partition
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");
 
     // Initialize the empty solution and DistTable
-    std::shared_ptr<Sol> empty_solution = std::make_shared<Sol>(ins.N);
+    static Solution empty_solution(ins.N);
     DistTable::initialize(ins);
 
     // Create OPENins and push first instance
@@ -197,11 +199,13 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, Partition
     
     while (!OPENins.empty())
     {
+        PROFILE_BLOCK("Open instance")
         info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tOpen new instance from OPENSins list");
 
         // Pop the top of OPENins to get the instance
         std::shared_ptr<Instance> I = OPENins.front();
         OPENins.pop();
+        END_BLOCK();
 
         // Solve the instance
         PROFILE_BLOCK("Setup planner");
@@ -218,19 +222,10 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, Partition
             OPENins.push(sub_ins);
         END_BLOCK();
 
+        PROFILE_BLOCK("Write solution");
         // Write solution until now
-        write_sol(bundle.solution, I->enabled, empty_solution, I->N);
-
-        // Just some printing for debug.
-        if(verbose > 3){
-            std::cout<<"\nSolution until now : \n";
-            for(auto line : empty_solution->solution)
-            {
-                print_vertices(line, ins.G.width);
-                std::cout<<"\n";
-            }
-            std::cout<<"\n";
-        }
+        write_sol(bundle.solution, I->enabled, empty_solution);
+        END_BLOCK()
     }
     // cleanup 
     DistTable::cleanup();
@@ -238,5 +233,5 @@ Solution solve_fact(const Instance& ins, std::string& additional_info, Partition
     info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinished planning");
     
     padSolution(empty_solution);
-    return transpose(empty_solution->solution);
+    return transpose(empty_solution);
 }

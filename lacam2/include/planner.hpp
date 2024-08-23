@@ -94,7 +94,7 @@ struct Planner {
   Agents occupied_next;                         // for quick collision checking
 
   // used for factorization
-  std::shared_ptr<Sol> empty_solution;    // pointer to the empty solution
+  const Solution& empty_solution;    // pointer to the empty solution
 
   // constructor
   Planner(const Instance& _ins, const Deadline* _deadline, std::mt19937* _MT,
@@ -102,7 +102,7 @@ struct Planner {
           // other parameters
           const Objective _objective = OBJ_NONE,
           const float _restart_rate = 0.001,
-          std::shared_ptr<Sol> _empty_solution = {});
+          const Solution& _empty_solution = {});
 
   // cosntructor for MT
   Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline, std::mt19937* _MT,
@@ -110,7 +110,7 @@ struct Planner {
           // other parameters
           const Objective _objective = OBJ_NONE,
           const float _restart_rate = 0.001,
-          std::shared_ptr<Sol> _empty_solution = {});
+          const Solution& _empty_solution = {});
 
 
   ~Planner();
@@ -155,4 +155,4 @@ struct Planner {
 
 // helper functions
 Solution transpose(const Solution& matrix);
-void padSolution(std::shared_ptr<Sol>& sol);
+void padSolution(Solution& sol);

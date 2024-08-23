@@ -49,8 +49,6 @@ void DistTable::setup(const Instance& ins)
 // this should be ok
 uint DistTable::get(uint i, uint v_id, int true_id)
 {
-  PROFILE_FUNC(profiler::colors::Red);
-
   // Override the id by the true_id if it is known
   if (true_id > 0) i = true_id;
 
@@ -60,7 +58,6 @@ uint DistTable::get(uint i, uint v_id, int true_id)
   // Return value if already known
   if (table[i][v_id] < V_size) return table[i][v_id];
 
-  PROFILE_BLOCK("A* search");
   /*
    * BFS with lazy evaluation
    * c.f., Reverse Resumable A*
@@ -85,7 +82,6 @@ uint DistTable::get(uint i, uint v_id, int true_id)
     }
     if (n->id == int(v_id)) return d_n;
   }
-  END_BLOCK();
   return V_size;
 }
 

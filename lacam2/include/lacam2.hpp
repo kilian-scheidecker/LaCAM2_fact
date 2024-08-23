@@ -16,7 +16,7 @@ Solution solve(const Instance& ins, std::string& additional_info,
                Infos* infos_ptr = nullptr);
 
 
-void write_sol(const Solution &solution, const std::vector<int> &enabled, std::shared_ptr<Sol> empty_solution, int N);
+void write_sol(const Solution& solution, const std::vector<int>& enabled, Solution& empty_solution);
 
 // main function for factorized solving with multi-threading
 Solution solve_fact_MT(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep,

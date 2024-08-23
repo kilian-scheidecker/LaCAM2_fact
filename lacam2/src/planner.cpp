@@ -104,7 +104,7 @@ HNode::~HNode()
 Planner::Planner(const Instance& _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
                  const Objective _objective, const float _restart_rate,
-                 std::shared_ptr<Sol> _empty_solution)
+                 const Solution& _empty_solution)
         : ins(_ins),
         deadline(_deadline),
         MT(_MT),
@@ -129,7 +129,7 @@ Planner::Planner(const Instance& _ins, const Deadline* _deadline,
 Planner::Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
                  const Objective _objective, const float _restart_rate,
-                 std::shared_ptr<Sol> _empty_solution)
+                 const Solution& _empty_solution)
         : ins(*_ins.get()),     // get value stored at memory loc
         deadline(_deadline),
         MT(_MT),
@@ -314,7 +314,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     // Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
     std::list<std::shared_ptr<Instance>> sub_instances;
 
-    uint start_time = empty_solution->solution[ins.enabled[0]].size();
+    uint start_time = empty_solution[ins.enabled[0]].size();
 
     // Restore the inheried priorities of agents
     if (ins.priority.size() > 1)
@@ -431,15 +431,6 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
         // Check for factorizability
         if (N>1 && H_goal == nullptr)
         { 
-            // // update priorities
-            // for (size_t i = 0; i < N; ++i) {
-            //   if (distances[i] != 0) {
-            //     H->priorities[i] += 1;
-            //   } 
-            //   else
-            //     H->priorities[i] = (ins.enabled[i]+1)/(N+1);  // retrieve original priority
-            // }
-
             if (factalgo.use_def)
                 sub_instances = factalgo.is_factorizable_def(C_new, ins.goals, verbose, ins.enabled, new_priorities, timestep);
             else 
@@ -448,6 +439,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
             if (sub_instances.size() > 0)
             {
                 H_goal = H;
+
                 // logging
                 if (save_partitions) 
                 {
@@ -455,37 +447,13 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
                         auto active = ins->enabled;
                         partitions_per_timestep[timestep].push_back(active);
                     }
-                }
-
-                // std::vector<int> sizes;
-                // for(auto sub_instance : sub_instances)
-                //   sizes.push_back(sub_instance.get()->N);
-
-                // std::stringstream ss;
-                // for(size_t i = 0; i < sizes.size(); ++i) {
-                //     ss << sizes[i];
-                //     if (i != sizes.size()-1) {
-                //         ss << "/";
-                //     }
-                // }
-
-                // std::string result = ss.str();
-                // info(1, verbose, "Instance split in ", sub_instances.size(), " at t=", timestep, "\t", result);
-                
+                }  
                 break;
             }
-
-
-            // idea for recovering optimality
-            // {
-            //   C_goal_overwrite = H->C;    // set current config as goal configuration
-            //   H_goal = H;                 // set current node as goal node
-                
-            //   if (objective == OBJ_NONE)
-            //     break;
-            // }
         }
     }
+
+    PROFILE_BLOCK("Backtrack and random stuff");
 
     // backtrack
     if (H_goal != nullptr) {
@@ -949,21 +917,19 @@ Solution transpose(const Solution& matrix) {
 }
 
 // Add padding to make the solution transposable
-void padSolution(std::shared_ptr<Sol>& sol) {
-    if (!sol) return; // Check if sol is null
-
+void padSolution(Solution& sol) {
     // Find the length of the longest row
     size_t maxLength = 0;
-    for (const auto& row : sol->solution) {
+    for (const auto& row : sol) {
         if (row.size() > maxLength) {
             maxLength = row.size();
         }
     }
 
     // Pad each row with its last element until it reaches maxLength
-    for (auto& row : sol->solution) {
+    for (auto& row : sol) {
         if (!row.empty()) {
-            std::shared_ptr<Vertex> lastElement = row.back();
+            auto lastElement = row.back();
             while (row.size() < maxLength) {
                 row.push_back(lastElement);
             }

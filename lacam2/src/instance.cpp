@@ -131,6 +131,3 @@ std::ostream& operator<<(std::ostream& os, const Solution& solution)
   }
   return os;
 }
-
-// Sol constructor
-Sol::Sol(int N) : solution(N) {}
