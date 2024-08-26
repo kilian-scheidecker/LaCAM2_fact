@@ -1,4 +1,4 @@
-import os, json
+import json
 from os.path import join, dirname as up
 from collections import defaultdict
 from typing import Iterable, List, Tuple, Dict

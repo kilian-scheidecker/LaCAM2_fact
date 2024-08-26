@@ -5,6 +5,7 @@
 
 from dash import Dash, dcc, html
 from src.data import get_data
+from src.queue import queue_graphs
 import dash_bootstrap_components as dbc
 import plotly.express as px
 
@@ -59,7 +60,9 @@ def show_plots(map_name: str, read_from: str=None) :
     line_time = px.line(data2, x="Number of agents", y="Computation time (ms)", color="Factorized")
     line_time_std = px.scatter(data_std, x="Number of agents", y="Computation time (ms)", color="Factorized", error_y="Computation time (ms) std")
     line_span_std = px.scatter(data_std, x="Number of agents", y="Makespan", color="Factorized", error_y="Makespan std")
-    
+    queue_line, queue_line_MT, queue_freq, sub_ins_freq = queue_graphs()
+
+
     # Create the bar charts
     bar_success = px.histogram(data_success, x="Factorized", y="Success", color="Factorized", histfunc='sum', text_auto=True, orientation='v', labels=None)
     bar_success.add_hline(y=n_tests, line_color="red", line_width=3, annotation_text="total tests", annotation_position="top left")
@@ -223,6 +226,36 @@ def show_plots(map_name: str, read_from: str=None) :
     bar_success_agents.update_yaxes(showline=False, showgrid=False, linecolor=colors['text'], gridcolor=colors['text'], linewidth=2, gridwidth=1)
 
 
+    queue_freq.update_layout(
+        plot_bgcolor=colors['background'],
+        paper_bgcolor=colors['background'],
+        font_color=colors['text'],
+        showlegend=False,
+        title_text="OPENins queue pushes",
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title="Number of instances pushed",
+        yaxis_title="# of times",
+        title=dict(font=dict(size=14)),
+        height=260,
+        width=450,
+    )
+
+    sub_ins_freq.update_layout(
+        plot_bgcolor=colors['background'],
+        paper_bgcolor=colors['background'],
+        font_color=colors['text'],
+        showlegend=False,
+        title_text="Size of instances",
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title="Number of agents in instance",
+        yaxis_title="Number of agents",
+        title=dict(font=dict(size=14)),
+        height=260,
+        width=450,
+    )
+
     print("\nDashboard updated")
 
     # Layout of the Dashboard
@@ -237,12 +270,7 @@ def show_plots(map_name: str, read_from: str=None) :
 
         dbc.Row(
             [
-                #dbc.Col(html.Div(html.P(["", html.Br(), "Map style tested : ", "random-32-32-20.map"])), width=3,
-                #        style={'color': colors['text'],
-                #               'fontSize': 24,
-                #               'padding-left': '2em'}),
-                # dbc.Col(dcc.Graph(id='graph1',figure=bar_success), width=3, style={'textAlign': 'center'}),
-                dbc.Col(width=3),
+                dbc.Col(dcc.Graph(id='graph1',figure=sub_ins_freq), width=3),
                 dbc.Col(dcc.Graph(id='graph2',figure=line_time_std), width=4),
                 dbc.Col(dcc.Graph(id='graph3',figure=line_span_std), width=5)
             ]
@@ -251,7 +279,7 @@ def show_plots(map_name: str, read_from: str=None) :
             [
                 #dbc.Col(width=3, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph4',figure=line_CPU), width=3),
-                dbc.Col(dcc.Graph(id='graph8',figure=line_time), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph5',figure=line_time), width=4, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph6',figure=line_RAM), width=5, style={'textAlign': 'center'})
             ]
         ),
@@ -259,7 +287,7 @@ def show_plots(map_name: str, read_from: str=None) :
         dbc.Row(
             [
                 #dbc.Col(width=3, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph5',figure=bar_success_agents), width=3, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph7',figure=bar_success_agents), width=3, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph8',figure=line_time_MT), width=4, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph9',figure=line_RAM_MT), width=5, style={'textAlign': 'center'})
             ]
