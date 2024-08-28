@@ -1,11 +1,11 @@
 {
-  "from": 50,
-  "to": 50,
+  "from": 11,
+  "to": 11,
   "jump": 100,
-  "n": 1,
-  "map_name": ["warehouse_large"],
-  "factorize": ["FactDef"],
-  "use_heuristic": "FactAstar",
-  "multi_threading": ["no"]
+  "n": 30,
+  "map_name": ["random-32-32-20"],
+  "factorize": ["FactDef", "standard"],
+  "use_heuristic": "Limit",
+  "multi_threading": ["yes"]
 }
 

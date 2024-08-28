@@ -137,10 +137,11 @@ def get_data(map_name: str, read_from: str=None):
     n_tests = n_tot/n_algos
 
     # Drop entries where there is no solution
-    data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
+    # data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
     
     # Compute averages and successes
-    data_avg = compute_averages(data_clipped)
+    # data_avg = compute_averages(data_clipped)
+    data_avg = compute_averages(data_full)
     data_success = compute_success(data_full)
 
     #data_avg.insert(loc=2, column='Number of successes', value=data_success['Success'])

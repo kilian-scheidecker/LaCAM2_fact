@@ -3,7 +3,7 @@ import json
 
 import numpy as np
 
-from src.fact_def import max_fact_partitions
+from src.fact_def import max_fact_partitions, smallest_partitions, half_smallest_partitions
 from src.score import complexity_score
 from src.utils import create_command, run_command_in_ubuntu
 from src.scenario_generator import create_scen
@@ -42,6 +42,8 @@ def auto_test() :
     success = 0
     total = 0
 
+    n_agents = [100, 200, 300, 400, 500]
+
     for map_name in maps :
         for N in n_agents :
 
@@ -58,12 +60,18 @@ def auto_test() :
                 create_scen(N, dir_py, map_name)
                 for command in commmands :
 
-                    # print(command)
+                    print(command)
                     if 'FactDef' in command and use_heuristic == "FactDef" :
                         # Determine the max factorizability and store it assets/temp/def_partitions.json
                         max_fact_partitions(map_name=map_name, N=N)
+                    elif 'FactDef' in command and use_heuristic == "Limit" :
+                        # Determine the max factorizability and store it assets/temp/def_partitions.json
+                        smallest_partitions(N)
+                    elif 'FactDef' in command and use_heuristic == "HalfLimit" :
+                        # Determine the max factorizability and store it assets/temp/def_partitions.json
+                        half_smallest_partitions(N)
                     elif 'FactDef' in command :
-                        hcom = create_command(map_name=map_name, N=N, factorize=[use_heuristic], multi_threading=["no"])[0] + ' -sp'    # to save partitions
+                        hcom = create_command(map_name=map_name, N=N, factorize=[use_heuristic], multi_threading=["no"])[0] + ' -sp -s'    # to save partitions
                         run_command_in_ubuntu(hcom)
 
                     success += run_command_in_ubuntu(command)

@@ -319,7 +319,7 @@ def max_fact_partitions(map_name, N):
                 break
 
     # Save partitions_per_timestep to a JSON file
-    for filename in ['def_partitions.json'] :
+    for filename in ['temp_partitions.json'] :
         partitions_file_path = join(base_path, 'assets', 'temp', filename)
         with open(partitions_file_path, 'w') as file:
             json.dump(partitions_per_timestep, file, indent=4)
@@ -327,3 +327,43 @@ def max_fact_partitions(map_name, N):
     print("Partitions stored")
 
     return
+
+
+def smallest_partitions(N):
+
+    assets_path = up(up(__file__))     # LaCAM2_fact/assets/
+
+    partitions_per_timestep = {}
+    partitions_per_timestep[1] = []
+    
+    for i in range(N):
+        partitions_per_timestep[1].append([i])
+
+    # Save partitions_per_timestep to a JSON file
+    for filename in ['temp_partitions.json'] :
+        partitions_file_path = join(assets_path, 'temp', filename)
+        with open(partitions_file_path, 'w') as file:
+            json.dump(partitions_per_timestep, file, indent=4)
+
+
+
+def half_smallest_partitions(N):
+
+    assets_path = up(up(__file__))     # LaCAM2_fact/assets/
+
+    partitions_per_timestep = {}
+    partitions_per_timestep[1] = []
+    
+    if N%2 == 0 :
+        for i in range(int(N/2)):
+            partitions_per_timestep[1].append([i*2,i*2+1])
+    else :
+        for i in range(int((N-1)/2)):
+            partitions_per_timestep[1].append([i*2,i*2+1])
+        partitions_per_timestep[1].append([N-1])
+
+    # Save partitions_per_timestep to a JSON file
+    for filename in ['temp_partitions.json'] :
+        partitions_file_path = join(assets_path, 'temp', filename)
+        with open(partitions_file_path, 'w') as file:
+            json.dump(partitions_per_timestep, file, indent=4)

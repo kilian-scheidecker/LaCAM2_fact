@@ -46,11 +46,11 @@ def show_plots(map_name: str, read_from: str=None) :
 
     # Gather data in specific map
     data, data_success, n_tests = get_data(map_name + '.map', read_from)
-    data_std = data.drop(data[data['Number of agents']%20 != 0].index)
+    data_std = data.drop(data[data['Number of agents']%50 != 0].index)
 
     #data_cut = data.groupby(['Number of agents', 'Factorized', 'Maximum RAM usage (Mbytes)', 'Computation time (ms)', 'CPU usage (percent)', 'Multi threading']) #.mean().reset_index()
-    data1 = data.drop(data[data['Multi threading'] == "no"].index)      # with MT
-    data2 = data.drop(data[data['Multi threading'] == "yes"].index)     # without MT
+    data1 = data.drop(data[data['Multi threading'] == False].index)      # with MT
+    data2 = data.drop(data[data['Multi threading'] == True].index)     # without MT
 
     # Create the line charts
     line_CPU = px.line(data, x="Number of agents", y="CPU usage (percent)", color="Factorized")
@@ -278,7 +278,7 @@ def show_plots(map_name: str, read_from: str=None) :
         dbc.Row(
             [
                 #dbc.Col(width=3, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph4',figure=line_CPU), width=3),
+                dbc.Col(dcc.Graph(id='graph4',figure=bar_success_agents), width=3),
                 dbc.Col(dcc.Graph(id='graph5',figure=line_time), width=4, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph6',figure=line_RAM), width=5, style={'textAlign': 'center'})
             ]
@@ -287,7 +287,7 @@ def show_plots(map_name: str, read_from: str=None) :
         dbc.Row(
             [
                 #dbc.Col(width=3, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph7',figure=bar_success_agents), width=3, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph7',figure=line_CPU), width=3, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph8',figure=line_time_MT), width=4, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph9',figure=line_RAM_MT), width=5, style={'textAlign': 'center'})
             ]
@@ -306,7 +306,7 @@ def show_plots(map_name: str, read_from: str=None) :
 
 
 # show_plots(map_name="random-32-32-20", read_from='stats.json')
-show_plots(map_name="warehouse_large", read_from='stats_large_1.json')
+show_plots(map_name="random-32-32-20", read_from='stats_limit.json')
 
 #   BEFORE    |   AFTER
 # 46k +- 1k   | 50k +- 450
