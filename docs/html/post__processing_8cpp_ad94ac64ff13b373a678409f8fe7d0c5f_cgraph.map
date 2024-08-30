@@ -1,4 +1,4 @@
 <map id="get_sum_of_costs_lower_bound" name="get_sum_of_costs_lower_bound">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,188,47"/>
+<area shape="rect" id="node1" title="Computes the lower bound for the sum of costs." alt="" coords="5,5,188,47"/>
 <area shape="rect" id="node2" href="$structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="236,13,347,39"/>
 </map>

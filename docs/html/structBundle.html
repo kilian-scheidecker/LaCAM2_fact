@@ -70,29 +70,37 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Struct representing the result of a factorized solving process.  
+ <a href="structBundle.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="planner_8hpp_source.html">planner.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for Bundle:</div>
 <div class="dyncontent">
 <div class="center"><img src="structBundle__coll__graph.png" border="0" usemap="#aBundle_coll__map" alt="Collaboration graph"/></div>
 <map name="aBundle_coll__map" id="aBundle_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,104,97"/>
+<area shape="rect" title="Struct representing the result of a factorized solving process." alt="" coords="5,5,104,97"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac053f57acc228300e3c79b4fc1d6deb8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBundle.html#ac053f57acc228300e3c79b4fc1d6deb8">Bundle</a> (const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;sol, std::list&lt; std::shared_ptr&lt; <a class="el" href="structInstance.html">Instance</a> &gt;&gt; ins)</td></tr>
+<tr class="memdesc:ac053f57acc228300e3c79b4fc1d6deb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="structBundle.html" title="Struct representing the result of a factorized solving process.">Bundle</a>.  <a href="structBundle.html#ac053f57acc228300e3c79b4fc1d6deb8">More...</a><br /></td></tr>
 <tr class="separator:ac053f57acc228300e3c79b4fc1d6deb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:aaeb4ea661d5b9a68c9a842f8c6ded6ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBundle.html#aaeb4ea661d5b9a68c9a842f8c6ded6ef">solution</a></td></tr>
+<tr class="memdesc:aaeb4ea661d5b9a68c9a842f8c6ded6ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The solution found by the solver.  <a href="structBundle.html#aaeb4ea661d5b9a68c9a842f8c6ded6ef">More...</a><br /></td></tr>
 <tr class="separator:aaeb4ea661d5b9a68c9a842f8c6ded6ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6ae57879b3e83e1c2d6679b24ff3afb"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::shared_ptr&lt; <a class="el" href="structInstance.html">Instance</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBundle.html#ad6ae57879b3e83e1c2d6679b24ff3afb">instances</a></td></tr>
+<tr class="memdesc:ad6ae57879b3e83e1c2d6679b24ff3afb"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of instances to be solved after split.  <a href="structBundle.html#ad6ae57879b3e83e1c2d6679b24ff3afb">More...</a><br /></td></tr>
 <tr class="separator:ad6ae57879b3e83e1c2d6679b24ff3afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Struct representing the result of a factorized solving process. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac053f57acc228300e3c79b4fc1d6deb8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac053f57acc228300e3c79b4fc1d6deb8">&#9670;&nbsp;</a></span>Bundle()</h2>
 
@@ -127,6 +135,15 @@ Data Fields</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Constructor for <a class="el" href="structBundle.html" title="Struct representing the result of a factorized solving process.">Bundle</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sol</td><td>The solution. </td></tr>
+    <tr><td class="paramname">ins</td><td>The instances resulting from factorization. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Field Documentation</h2>
@@ -142,6 +159,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>List of instances to be solved after split. </p>
+
 </div>
 </div>
 <a id="aaeb4ea661d5b9a68c9a842f8c6ded6ef"></a>
@@ -155,6 +174,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The solution found by the solver. </p>
 
 </div>
 </div>

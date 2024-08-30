@@ -1,20 +1,13 @@
 \hypertarget{lacam2_8cpp}{}\doxysection{lacam2/src/lacam2.cpp File Reference}
 \label{lacam2_8cpp}\index{lacam2/src/lacam2.cpp@{lacam2/src/lacam2.cpp}}
-{\ttfamily \#include $<$thread$>$}\newline
-{\ttfamily \#include $<$vector$>$}\newline
-{\ttfamily \#include $<$queue$>$}\newline
-{\ttfamily \#include $<$memory$>$}\newline
-{\ttfamily \#include $<$iostream$>$}\newline
-{\ttfamily \#include $<$string$>$}\newline
-{\ttfamily \#include $<$random$>$}\newline
-{\ttfamily \#include $<$mutex$>$}\newline
-{\ttfamily \#include $<$sched.\+h$>$}\newline
-{\ttfamily \#include $<$omp.\+h$>$}\newline
-{\ttfamily \#include $<$condition\+\_\+variable$>$}\newline
-{\ttfamily \#include $<$atomic$>$}\newline
+
+
+Implementation of the solve, solve\+\_\+fact and solve\+\_\+fact\+\_\+\+MT functions.  
+
+
 {\ttfamily \#include \char`\"{}../include/lacam2.\+hpp\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}../include/cores.\+hpp\char`\"{}}\newline
-Include dependency graph for lacam2.\+cpp\+:\nopagebreak
+Include dependency graph for lacam2.\+cpp\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -25,13 +18,18 @@ Include dependency graph for lacam2.\+cpp\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{lacam2_8cpp_a52d8f0bbf88d7407bf7846e350f074fd}{solve}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, std\+::string \&additional\+\_\+info, const int verbose, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline, std\+::mt19937 $\ast$MT, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} objective, const float restart\+\_\+rate, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr)
-\begin{DoxyCompactList}\small\item\em Main function for standard solving. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{lacam2_8cpp_ac40a1ba740e5225c3ffb1e7d19312c00}{write\+\_\+sol}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const std\+::vector$<$ int $>$ \&enabled, \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&empty\+\_\+solution)
-\item 
-\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{lacam2_8cpp_a9d6fe7b31159634f123695521b8e4cc8}{solve\+\_\+fact\+\_\+\+MT}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, std\+::string \&additional\+\_\+info, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, bool save\+\_\+partitions, const int verbose, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline, std\+::mt19937 $\ast$MT, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} objective, const float restart\+\_\+rate, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr)
-\item 
+\begin{DoxyCompactList}\small\item\em Main function for solving the MAPF instance using standard La\+CAM. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{lacam2_8cpp_a4928456bba588f2e8332d05c5041dedf}{solve\+\_\+fact}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, std\+::string \&additional\+\_\+info, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, bool save\+\_\+partitions, const int verbose, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline, std\+::mt19937 $\ast$MT, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} objective, const float restart\+\_\+rate, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Main function for solving the MAPF instance using factorized approach without multi-\/threading. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{lacam2_8cpp_a9d6fe7b31159634f123695521b8e4cc8}{solve\+\_\+fact\+\_\+\+MT}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, std\+::string \&additional\+\_\+info, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, bool save\+\_\+partitions, const int verbose, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline, std\+::mt19937 $\ast$MT, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} objective, const float restart\+\_\+rate, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr)
+\begin{DoxyCompactList}\small\item\em Main function for solving the MAPF instance using factorized approach with multi-\/threading. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lacam2_8cpp_af47d9fbe3418e883bc9a62350515024f}{write\+\_\+sol}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const std\+::vector$<$ int $>$ \&enabled, \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&global\+\_\+solution)
+\begin{DoxyCompactList}\small\item\em Function to write the lcoal solution to the global solution. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of the solve, solve\+\_\+fact and solve\+\_\+fact\+\_\+\+MT functions. 
+
 
 
 \doxysubsection{Function Documentation}
@@ -39,12 +37,34 @@ void \mbox{\hyperlink{lacam2_8cpp_ac40a1ba740e5225c3ffb1e7d19312c00}{write\+\_\+
 \index{lacam2.cpp@{lacam2.cpp}!solve@{solve}}
 \index{solve@{solve}!lacam2.cpp@{lacam2.cpp}}
 \doxysubsubsection{\texorpdfstring{solve()}{solve()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solve (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{const int}]{verbose,  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline,  }\item[{std\+::mt19937 $\ast$}]{MT,  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective,  }\item[{const float}]{restart\+\_\+rate,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solve (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{const int}]{verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline = {\ttfamily nullptr},  }\item[{std\+::mt19937 $\ast$}]{MT = {\ttfamily nullptr},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{restart\+\_\+rate = {\ttfamily 0.001},  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr = {\ttfamily nullptr} }\end{DoxyParamCaption})}
 
 
 
-Main function for standard solving. 
+Main function for solving the MAPF instance using standard La\+CAM. 
 
+
+\begin{DoxyParams}{Parameters}
+{\em ins} & The instance of the MAPF problem to solve. \\
+\hline
+{\em additional\+\_\+info} & String to store any additional information about the solution process. \\
+\hline
+{\em verbose} & Verbosity level for debugging and output (default is 0). \\
+\hline
+{\em deadline} & Optional deadline (in seconds) for the solver to terminate (default is nullptr). \\
+\hline
+{\em MT} & Optional random number generator for stochastic elements (default is nullptr). \\
+\hline
+{\em objective} & Objective function for optimization (default is OBJ\+\_\+\+NONE). \\
+\hline
+{\em restart\+\_\+rate} & The rate at which to restart the search process (default is 0.\+001). \\
+\hline
+{\em infos\+\_\+ptr} & Pointer to additional info struct (default is nullptr).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution The solution as a sequence of configurations. 
+\end{DoxyReturn}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -63,8 +83,40 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{lacam2.cpp@{lacam2.cpp}!solve\_fact@{solve\_fact}}
 \index{solve\_fact@{solve\_fact}!lacam2.cpp@{lacam2.cpp}}
 \doxysubsubsection{\texorpdfstring{solve\_fact()}{solve\_fact()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solve\+\_\+fact (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{bool}]{save\+\_\+partitions,  }\item[{const int}]{verbose,  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline,  }\item[{std\+::mt19937 $\ast$}]{MT,  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective,  }\item[{const float}]{restart\+\_\+rate,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solve\+\_\+fact (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{bool}]{save\+\_\+partitions,  }\item[{const int}]{verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline = {\ttfamily nullptr},  }\item[{std\+::mt19937 $\ast$}]{MT = {\ttfamily nullptr},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{restart\+\_\+rate = {\ttfamily 0.001},  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos = {\ttfamily nullptr} }\end{DoxyParamCaption})}
 
+
+
+Main function for solving the MAPF instance using factorized approach without multi-\/threading. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ins} & The instance of the MAPF problem to solve. \\
+\hline
+{\em additional\+\_\+info} & String to store any additional information about the solution process. \\
+\hline
+{\em partitions\+\_\+per\+\_\+timestep} & Map of partitions per timestep for the factorized solution. \\
+\hline
+{\em factalgo} & Reference to the factorization algorithm to use. \\
+\hline
+{\em save\+\_\+partitions} & Boolean flag to save partitions during the solving process. \\
+\hline
+{\em verbose} & Verbosity level for debugging and output (default is 0). \\
+\hline
+{\em deadline} & Optional deadline for the solver to terminate (default is nullptr). \\
+\hline
+{\em MT} & Optional random number generator for stochastic elements (default is nullptr). \\
+\hline
+{\em objective} & Objective function for optimization (default is OBJ\+\_\+\+NONE). \\
+\hline
+{\em restart\+\_\+rate} & The rate at which to restart the search process (default is 0.\+001). \\
+\hline
+{\em infos} & Pointer to additional info struct (default is nullptr).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution The solution as a sequence of configurations. 
+\end{DoxyReturn}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -83,8 +135,40 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{lacam2.cpp@{lacam2.cpp}!solve\_fact\_MT@{solve\_fact\_MT}}
 \index{solve\_fact\_MT@{solve\_fact\_MT}!lacam2.cpp@{lacam2.cpp}}
 \doxysubsubsection{\texorpdfstring{solve\_fact\_MT()}{solve\_fact\_MT()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solve\+\_\+fact\+\_\+\+MT (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{bool}]{save\+\_\+partitions,  }\item[{const int}]{verbose,  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline,  }\item[{std\+::mt19937 $\ast$}]{MT,  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective,  }\item[{const float}]{restart\+\_\+rate,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solve\+\_\+fact\+\_\+\+MT (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{bool}]{save\+\_\+partitions,  }\item[{const int}]{verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline = {\ttfamily nullptr},  }\item[{std\+::mt19937 $\ast$}]{MT = {\ttfamily nullptr},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{restart\+\_\+rate = {\ttfamily 0.001},  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos = {\ttfamily nullptr} }\end{DoxyParamCaption})}
 
+
+
+Main function for solving the MAPF instance using factorized approach with multi-\/threading. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ins} & The instance of the MAPF problem to solve. \\
+\hline
+{\em additional\+\_\+info} & String to store any additional information about the solution process. \\
+\hline
+{\em partitions\+\_\+per\+\_\+timestep} & Map of partitions per timestep for the factorized solution. \\
+\hline
+{\em factalgo} & Reference to the factorization algorithm to use. \\
+\hline
+{\em save\+\_\+partitions} & Boolean flag to save partitions during the solving process. \\
+\hline
+{\em verbose} & Verbosity level for debugging and output (default is 0). \\
+\hline
+{\em deadline} & Optional deadline for the solver to terminate (default is nullptr). \\
+\hline
+{\em MT} & Optional random number generator for stochastic elements (default is nullptr). \\
+\hline
+{\em objective} & Objective function for optimization (default is OBJ\+\_\+\+NONE). \\
+\hline
+{\em restart\+\_\+rate} & The rate at which to restart the search process (default is 0.\+001). \\
+\hline
+{\em infos} & Pointer to additional info struct (default is nullptr).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution The solution as a sequence of configurations. 
+\end{DoxyReturn}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -99,16 +183,20 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=244pt]{lacam2_8cpp_a9d6fe7b31159634f123695521b8e4cc8_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{lacam2_8cpp_ac40a1ba740e5225c3ffb1e7d19312c00}\label{lacam2_8cpp_ac40a1ba740e5225c3ffb1e7d19312c00}} 
+\mbox{\Hypertarget{lacam2_8cpp_af47d9fbe3418e883bc9a62350515024f}\label{lacam2_8cpp_af47d9fbe3418e883bc9a62350515024f}} 
 \index{lacam2.cpp@{lacam2.cpp}!write\_sol@{write\_sol}}
 \index{write\_sol@{write\_sol}!lacam2.cpp@{lacam2.cpp}}
 \doxysubsubsection{\texorpdfstring{write\_sol()}{write\_sol()}}
-{\footnotesize\ttfamily void write\+\_\+sol (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{empty\+\_\+solution }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void write\+\_\+sol (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{global\+\_\+solution }\end{DoxyParamCaption})}
+
+
+
+Function to write the lcoal solution to the global solution. 
 
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=341pt]{lacam2_8cpp_ac40a1ba740e5225c3ffb1e7d19312c00_icgraph}
+\includegraphics[width=341pt]{lacam2_8cpp_af47d9fbe3418e883bc9a62350515024f_icgraph}
 \end{center}
 \end{figure}

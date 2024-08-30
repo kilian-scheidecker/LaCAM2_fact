@@ -23,7 +23,7 @@ Collaboration diagram for Dist\+Table\+:\nopagebreak
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structDistTable_a8a40b3c5ccf9acb7f92ff23cac19faeb}{get}} (\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} i, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v, int true\+\_\+id=-\/1)
 \item 
 void \mbox{\hyperlink{structDistTable_acc82add9455a6b0c36e25a973898a688}{dump\+Table\+To\+File}} (const std\+::string \&filename) const
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Helper function to save the content of the \mbox{\hyperlink{structDistTable}{Dist\+Table}}, useful for debug. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -88,6 +88,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{dumpTableToFile()}{dumpTableToFile()}}
 {\footnotesize\ttfamily void Dist\+Table\+::dump\+Table\+To\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption}) const}
 
+
+
+Helper function to save the content of the \mbox{\hyperlink{structDistTable}{Dist\+Table}}, useful for debug. 
+
 \mbox{\Hypertarget{structDistTable_a8a40b3c5ccf9acb7f92ff23cac19faeb}\label{structDistTable_a8a40b3c5ccf9acb7f92ff23cac19faeb}} 
 \index{DistTable@{DistTable}!get@{get}}
 \index{get@{get}!DistTable@{DistTable}}
@@ -111,6 +115,17 @@ Here is the call graph for this function\+:\nopagebreak
 
 \mbox{\hyperlink{structDistTable}{Dist\+Table}} setup at first use. 
 
+Returns the estimated distance to goal for an agent using A$\ast$.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & agent id \\
+\hline
+{\em v\+\_\+id} & id of current vertex \\
+\hline
+{\em true\+\_\+id} & true id of agent in case of factorization \\
+\hline
+\end{DoxyParams}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}

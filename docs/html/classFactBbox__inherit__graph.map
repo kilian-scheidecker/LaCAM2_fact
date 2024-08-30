@@ -1,4 +1,4 @@
 <map id="FactBbox" name="FactBbox">
-<area shape="rect" id="node1" title="FactBbox class, implements Bounding&#45;Box&#45;based factorization heuristic." alt="" coords="5,277,176,384"/>
+<area shape="rect" id="node1" title="Implements Bounding&#45;Box&#45;based factorization heuristic." alt="" coords="5,277,176,384"/>
 <area shape="rect" id="node2" href="$classFactAlgo.html" title="Base class for different factorization algorithms." alt="" coords="5,5,176,229"/>
 </map>

@@ -2,6 +2,11 @@
 \label{structLNode}\index{LNode@{LNode}}
 
 
+Struct representing a low-\/level search node.  
+
+
+
+
 {\ttfamily \#include $<$planner.\+hpp$>$}
 
 
@@ -17,17 +22,20 @@ Collaboration diagram for LNode\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{structLNode_a790ce37fb64575fc26b00cff9392d5ae}{LNode}} (\mbox{\hyperlink{structLNode}{LNode}} $\ast$parent=nullptr, \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} i=0, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v=nullptr)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Depth of this node in the search tree. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
 std\+::vector$<$ \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} $>$ \mbox{\hyperlink{structLNode_a749455359c4fb37a5700a2da0137fbae}{who}}
 \item 
 \mbox{\hyperlink{graph_8hpp_ac5a2dcd1b3a95ced558d3efece4b4dc5}{Vertices}} \mbox{\hyperlink{structLNode_a3f333899bd4206b1b2ef151141076cf4}{where}}
-\item 
+\begin{DoxyCompactList}\small\item\em Indices of agents involved in this node. \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structLNode_a3cdfb7cd94bff11e6a9ea215bf856077}{depth}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Locations of agents in this node. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Struct representing a low-\/level search node. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{structLNode_a790ce37fb64575fc26b00cff9392d5ae}\label{structLNode_a790ce37fb64575fc26b00cff9392d5ae}} 
@@ -38,6 +46,19 @@ const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \
 
 
 
+Depth of this node in the search tree. 
+
+Constructor for \mbox{\hyperlink{structLNode}{LNode}}. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Pointer to parent node (default\+: nullptr). \\
+\hline
+{\em i} & Index of agent (default\+: 0). \\
+\hline
+{\em v} & Pointer to the vertex where the agent is located (default\+: nullptr). \\
+\hline
+\end{DoxyParams}
+
+
 \doxysubsection{Field Documentation}
 \mbox{\Hypertarget{structLNode_a3cdfb7cd94bff11e6a9ea215bf856077}\label{structLNode_a3cdfb7cd94bff11e6a9ea215bf856077}} 
 \index{LNode@{LNode}!depth@{depth}}
@@ -45,11 +66,19 @@ const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \
 \doxysubsubsection{\texorpdfstring{depth}{depth}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} LNode\+::depth}
 
+
+
+Locations of agents in this node. 
+
 \mbox{\Hypertarget{structLNode_a3f333899bd4206b1b2ef151141076cf4}\label{structLNode_a3f333899bd4206b1b2ef151141076cf4}} 
 \index{LNode@{LNode}!where@{where}}
 \index{where@{where}!LNode@{LNode}}
 \doxysubsubsection{\texorpdfstring{where}{where}}
 {\footnotesize\ttfamily \mbox{\hyperlink{graph_8hpp_ac5a2dcd1b3a95ced558d3efece4b4dc5}{Vertices}} LNode\+::where}
+
+
+
+Indices of agents involved in this node. 
 
 \mbox{\Hypertarget{structLNode_a749455359c4fb37a5700a2da0137fbae}\label{structLNode_a749455359c4fb37a5700a2da0137fbae}} 
 \index{LNode@{LNode}!who@{who}}

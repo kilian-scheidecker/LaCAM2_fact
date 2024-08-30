@@ -80,11 +80,11 @@ Inheritance diagram for FactAlgo:</div>
 <div class="center"><img src="classFactAlgo__inherit__graph.png" border="0" usemap="#aFactAlgo_inherit__map" alt="Inheritance graph"/></div>
 <map name="aFactAlgo_inherit__map" id="aFactAlgo_inherit__map">
 <area shape="rect" title="Base class for different factorization algorithms." alt="" coords="395,5,565,229"/>
-<area shape="rect" href="classFactAstar.html" title="FactAstar class, implements A* distance&#45;based factorization heuristic." alt="" coords="5,277,176,384"/>
-<area shape="rect" href="classFactBbox.html" title="FactBbox class, implements Bounding&#45;Box&#45;based factorization heuristic." alt="" coords="200,277,371,384"/>
-<area shape="rect" href="classFactDef.html" title="FactDef class, implements factorization using pre&#45;computed partitions." alt="" coords="395,277,565,384"/>
-<area shape="rect" href="classFactDistance.html" title="FactDistance class, implements manhattan&#45;distance&#45;based factorization heuristic." alt="" coords="589,277,760,384"/>
-<area shape="rect" href="classFactOrient.html" title="FactOrient class, implements orientation&#45;based factorization heuristic." alt="" coords="784,277,955,384"/>
+<area shape="rect" href="classFactAstar.html" title="Class that implements A* distance&#45;based factorization heuristic." alt="" coords="5,277,176,384"/>
+<area shape="rect" href="classFactBbox.html" title="Implements Bounding&#45;Box&#45;based factorization heuristic." alt="" coords="200,277,371,384"/>
+<area shape="rect" href="classFactDef.html" title="Class that implements factorization using pre&#45;computed partitions." alt="" coords="395,277,565,384"/>
+<area shape="rect" href="classFactDistance.html" title="Implements manhattan&#45;distance&#45;based factorization heuristic." alt="" coords="589,277,760,384"/>
+<area shape="rect" href="classFactOrient.html" title="Class that implements orientation&#45;based factorization heuristic." alt="" coords="784,277,955,384"/>
 </map>
 </div>
 <div class="dynheader">
@@ -99,7 +99,7 @@ Collaboration diagram for FactAlgo:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af5c523e00b23fc85fdf75e3fad30a02e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#af5c523e00b23fc85fdf75e3fad30a02e">FactAlgo</a> (int <a class="el" href="classFactAlgo.html#ae69794255caed8036cc0e976fbe5f869">width</a>)</td></tr>
-<tr class="memdesc:af5c523e00b23fc85fdf75e3fad30a02e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates the use of <a class="el" href="classFactDef.html" title="FactDef class, implements factorization using pre-computed partitions.">FactDef</a> heuristic.  <a href="classFactAlgo.html#af5c523e00b23fc85fdf75e3fad30a02e">More...</a><br /></td></tr>
+<tr class="memdesc:af5c523e00b23fc85fdf75e3fad30a02e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates the use of <a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a> heuristic.  <a href="classFactAlgo.html#af5c523e00b23fc85fdf75e3fad30a02e">More...</a><br /></td></tr>
 <tr class="separator:af5c523e00b23fc85fdf75e3fad30a02e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae57eea5cb50b83630f1dcf0cbb07ca33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#ae57eea5cb50b83630f1dcf0cbb07ca33">FactAlgo</a> (int <a class="el" href="classFactAlgo.html#ae69794255caed8036cc0e976fbe5f869">width</a>, bool <a class="el" href="classFactAlgo.html#aff8b16f2cab55f8a7ae8ac8a76bb0851">need_astar</a>)</td></tr>
 <tr class="memdesc:ae57eea5cb50b83630f1dcf0cbb07ca33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classFactAlgo.html" title="Base class for different factorization algorithms.">FactAlgo</a> with the specified graph width and A* requirement.  <a href="classFactAlgo.html#ae57eea5cb50b83630f1dcf0cbb07ca33">More...</a><br /></td></tr>
@@ -119,7 +119,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad703e85131bd2581b87f1496af2a09bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the Manhattan distance between two vertices on the map.  <a href="classFactAlgo.html#ad703e85131bd2581b87f1496af2a09bb">More...</a><br /></td></tr>
 <tr class="separator:ad703e85131bd2581b87f1496af2a09bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59571e70bad92ddd2cdd813258f0b3eb"><td class="memItemLeft" align="right" valign="top">virtual std::list&lt; std::shared_ptr&lt; <a class="el" href="structInstance.html">Instance</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb">is_factorizable_def</a> (const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;C_new, const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;goals, int verbose, const std::vector&lt; int &gt; &amp;enabled, const std::vector&lt; float &gt; &amp;priorities, int timestep) const =0</td></tr>
-<tr class="memdesc:a59571e70bad92ddd2cdd813258f0b3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows factorization according to definition. Uses the timesteps and pre-loaded Partitions to determine factorizability. Only used by the <a class="el" href="classFactDef.html" title="FactDef class, implements factorization using pre-computed partitions.">FactDef</a> class.  <a href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb">More...</a><br /></td></tr>
+<tr class="memdesc:a59571e70bad92ddd2cdd813258f0b3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows factorization according to definition.  <a href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb">More...</a><br /></td></tr>
 <tr class="separator:a59571e70bad92ddd2cdd813258f0b3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -163,7 +163,7 @@ Data Fields</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Indicates the use of <a class="el" href="classFactDef.html" title="FactDef class, implements factorization using pre-computed partitions.">FactDef</a> heuristic. </p>
+<p>Indicates the use of <a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a> heuristic. </p>
 <p>Constructs a <a class="el" href="classFactAlgo.html" title="Base class for different factorization algorithms.">FactAlgo</a> with the specified graph width, general constructor. </p>
 
 </div>
@@ -384,7 +384,7 @@ Here is the call graph for this function:</div>
 <map name="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_cgraph" id="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_cgraph">
 <area shape="rect" title="Determines if the problem is factorizable at a given timestep." alt="" coords="5,5,185,32"/>
 <area shape="rect" href="classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="233,5,372,32"/>
-<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title=" " alt="" coords="420,5,467,32"/>
+<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="420,5,467,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -394,7 +394,7 @@ Here is the caller graph for this function:</div>
 <map name="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph" id="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph">
 <area shape="rect" title="Determines if the problem is factorizable at a given timestep." alt="" coords="467,5,647,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,5,419,32"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,5,224,32"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>
 </div>
@@ -459,7 +459,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Allows factorization according to definition. Uses the timesteps and pre-loaded Partitions to determine factorizability. Only used by the <a class="el" href="classFactDef.html" title="FactDef class, implements factorization using pre-computed partitions.">FactDef</a> class. </p>
+<p>Allows factorization according to definition. </p>
+<p>Uses the timesteps and pre-loaded Partitions to determine factorizability. Only used by the <a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a> class </p>
 
 <p>Implemented in <a class="el" href="classFactDef.html#abf170fb43013dd4f19977abbb5590e0a">FactDef</a>, <a class="el" href="classFactAstar.html#ae6bfa6201ec475f5819b26b27f958e02">FactAstar</a>, <a class="el" href="classFactOrient.html#aa7e01e0c19e39e0aa51b3ce03c6df7d8">FactOrient</a>, <a class="el" href="classFactBbox.html#ad3566444649e0eabc59ece5ee66c3c34">FactBbox</a>, and <a class="el" href="classFactDistance.html#a32c6cdbfa95a9d895e60e747df77c9a4">FactDistance</a>.</p>
 <div class="dynheader">
@@ -467,9 +468,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph.png" border="0" usemap="#aclassFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph" alt=""/></div>
 <map name="aclassFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph" id="aclassFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph">
-<area shape="rect" title="Allows factorization according to definition. Uses the timesteps and pre&#45;loaded Partitions to determi..." alt="" coords="467,5,675,32"/>
+<area shape="rect" title="Allows factorization according to definition." alt="" coords="467,5,675,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,5,419,32"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,5,224,32"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>
 </div>
@@ -545,7 +546,7 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph.png" border="0" usemap="#aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph" alt=""/></div>
 <map name="aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph" id="aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph">
 <area shape="rect" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="5,5,144,32"/>
-<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title=" " alt="" coords="192,5,239,32"/>
+<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="192,5,239,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -556,7 +557,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="695,5,833,32"/>
 <area shape="rect" href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the problem is factorizable at a given timestep." alt="" coords="467,5,647,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,5,419,32"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,5,224,32"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>
 </div>

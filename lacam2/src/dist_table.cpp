@@ -1,8 +1,14 @@
+/**
+ * @file dist_table.cpp
+ * @brief Implementation of the DistTable class (initialization and singleton management) and especially the Lazy BFS evaluation.
+ */
+
 #include "../include/dist_table.hpp"
 
-
+// Static pointer to DistTable.
 DistTable* DistTable::instance = nullptr;
 
+// Singleton pointer manager.
 DistTable& DistTable::getInstance() {
     if (instance == nullptr) {
         throw std::runtime_error("DistTable instance not initialized. Call initialize() first.");
@@ -10,6 +16,7 @@ DistTable& DistTable::getInstance() {
     return *instance;
 }
 
+// Initialize the Instance
 void DistTable::initialize(const Instance& ins) {
     if (instance == nullptr) {
         instance = new DistTable(ins);
@@ -18,13 +25,14 @@ void DistTable::initialize(const Instance& ins) {
     }
 }
 
+// Cleanup the Instance
 void DistTable::cleanup() {
     delete instance;
     instance = nullptr;
 }
 
 
-
+// Default constructor
 DistTable::DistTable(const Instance& ins)
     : V_size(ins.G.V.size()), table(ins.N, std::vector<uint>(V_size, V_size))
 {
@@ -39,8 +47,8 @@ DistTable::DistTable(const Instance& ins)
 }
 
 
-/*
- * Returns the estimated distance to goal for an agent using A*
+/**
+ * @brief Returns the estimated distance to goal for an agent using A*
  * @param i agent id
  * @param v_id id of current vertex
  * @param true_id true id of agent in case of factorization
@@ -80,9 +88,7 @@ uint DistTable::get(uint i, uint v_id, int true_id)
 uint DistTable::get(uint i, std::shared_ptr<Vertex> v, int true_id) { return get(i, v.get()->id, true_id); }
 
 
-/*
- * Helper function to save the content of the DistTable, useful for debug.
- */
+/// Helper function to save the content of the DistTable, useful for debug.
 void DistTable::dumpTableToFile(const std::string& filename) const {
     std::ofstream file(filename);
 

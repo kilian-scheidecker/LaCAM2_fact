@@ -2,6 +2,11 @@
 \label{structInstance}\index{Instance@{Instance}}
 
 
+Represents a specific instance of a MAPF problem.  
+
+
+
+
 {\ttfamily \#include $<$instance.\+hpp$>$}
 
 
@@ -17,31 +22,34 @@ Collaboration diagram for Instance\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{structInstance_a399506c7e75ab9ab78fbc34a25932bbd}{Instance}} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Priority values for agents used to determine order of \char`\"{}vertex reservation\char`\"{}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structInstance_ad297ca9ea76550fcc7d1a628b84b85e1}{Instance}} (\mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&\+\_\+starts, \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&\+\_\+goals, const std\+::vector$<$ int $>$ \&\+\_\+enabled, const int \+\_\+N, const std\+::vector$<$ float $>$ \&\+\_\+priority)
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor for factorization. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structInstance_a7221e74a5d157e3b7ceb5901ab059c04}{Instance}} (const std\+::string \&scen\+\_\+filename, const std\+::string \&map\+\_\+filename, const std\+::vector$<$ int $>$ \&\+\_\+enabled, const int \+\_\+N=1)
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor for inital \mbox{\hyperlink{structInstance}{Instance}} creation. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structInstance_a6e6f2ab25aa37838f8c4af014f663117}{$\sim$\+Instance}} ()
 \item 
 bool \mbox{\hyperlink{structInstance_afc56201b1f10377894b866a40a74b442}{is\+\_\+valid}} (const int verbose=0) const
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Validity check for the instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
 const \mbox{\hyperlink{classGraph}{Graph}} \& \mbox{\hyperlink{structInstance_a841d74a6c32b090cd8f7f77acc254db8}{G}}
 \item 
 \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \mbox{\hyperlink{structInstance_a130b6a5af1be891be70a3515fe4a77dd}{starts}}
-\item 
+\begin{DoxyCompactList}\small\item\em Reference to the graph environment. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \mbox{\hyperlink{structInstance_ac3c7c582ce287d87740c0fdb0b43a967}{goals}}
-\item 
+\begin{DoxyCompactList}\small\item\em Designated start positions for agents. \end{DoxyCompactList}\item 
 const std\+::vector$<$ int $>$ \mbox{\hyperlink{structInstance_a625e59464e563ecafda64ec827e36a2b}{enabled}}
-\item 
+\begin{DoxyCompactList}\small\item\em Designated goal positions for agents. \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structInstance_a6112b46799d9c0069e77b04d23544fb8}{N}}
-\item 
+\begin{DoxyCompactList}\small\item\em List of enabled agents (absolute IDs of agents in this instance/partition) \end{DoxyCompactList}\item 
 const std\+::vector$<$ float $>$ \mbox{\hyperlink{structInstance_a50e99db5f56e4341d77cb761f99a4727}{priority}} = \{0.\+0\}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Number of agents. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Represents a specific instance of a MAPF problem. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{structInstance_a399506c7e75ab9ab78fbc34a25932bbd}\label{structInstance_a399506c7e75ab9ab78fbc34a25932bbd}} 
@@ -50,17 +58,29 @@ const std\+::vector$<$ float $>$ \mbox{\hyperlink{structInstance_a50e99db5f56e43
 \doxysubsubsection{\texorpdfstring{Instance()}{Instance()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily Instance\+::\+Instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structInstance_ad297ca9ea76550fcc7d1a628b84b85e1}\label{structInstance_ad297ca9ea76550fcc7d1a628b84b85e1}} 
+
+
+Priority values for agents used to determine order of \char`\"{}vertex reservation\char`\"{}. 
+
+Default constructor for \mbox{\hyperlink{structInstance}{Instance}}. \mbox{\Hypertarget{structInstance_ad297ca9ea76550fcc7d1a628b84b85e1}\label{structInstance_ad297ca9ea76550fcc7d1a628b84b85e1}} 
 \index{Instance@{Instance}!Instance@{Instance}}
 \index{Instance@{Instance}!Instance@{Instance}}
 \doxysubsubsection{\texorpdfstring{Instance()}{Instance()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily Instance\+::\+Instance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{\+\_\+starts,  }\item[{\mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{\+\_\+goals,  }\item[{const std\+::vector$<$ int $>$ \&}]{\+\_\+enabled,  }\item[{const int}]{\+\_\+N,  }\item[{const std\+::vector$<$ float $>$ \&}]{\+\_\+priority }\end{DoxyParamCaption})}
+
+
+
+Constructor for factorization. 
 
 \mbox{\Hypertarget{structInstance_a7221e74a5d157e3b7ceb5901ab059c04}\label{structInstance_a7221e74a5d157e3b7ceb5901ab059c04}} 
 \index{Instance@{Instance}!Instance@{Instance}}
 \index{Instance@{Instance}!Instance@{Instance}}
 \doxysubsubsection{\texorpdfstring{Instance()}{Instance()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily Instance\+::\+Instance (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{scen\+\_\+filename,  }\item[{const std\+::string \&}]{map\+\_\+filename,  }\item[{const std\+::vector$<$ int $>$ \&}]{\+\_\+enabled,  }\item[{const int}]{\+\_\+N = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Constructor for inital \mbox{\hyperlink{structInstance}{Instance}} creation. 
 
 \mbox{\Hypertarget{structInstance_a6e6f2ab25aa37838f8c4af014f663117}\label{structInstance_a6e6f2ab25aa37838f8c4af014f663117}} 
 \index{Instance@{Instance}!````~Instance@{$\sim$Instance}}
@@ -77,6 +97,13 @@ const std\+::vector$<$ float $>$ \mbox{\hyperlink{structInstance_a50e99db5f56e43
 \doxysubsubsection{\texorpdfstring{is\_valid()}{is\_valid()}}
 {\footnotesize\ttfamily bool Instance\+::is\+\_\+valid (\begin{DoxyParamCaption}\item[{const int}]{verbose = {\ttfamily 0} }\end{DoxyParamCaption}) const}
 
+
+
+Validity check for the instance. 
+
+\begin{DoxyReturn}{Returns}
+True if the instance is valid, false otherwise. 
+\end{DoxyReturn}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -93,6 +120,10 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{enabled}{enabled}}
 {\footnotesize\ttfamily const std\+::vector$<$int$>$ Instance\+::enabled}
 
+
+
+Designated goal positions for agents. 
+
 \mbox{\Hypertarget{structInstance_a841d74a6c32b090cd8f7f77acc254db8}\label{structInstance_a841d74a6c32b090cd8f7f77acc254db8}} 
 \index{Instance@{Instance}!G@{G}}
 \index{G@{G}!Instance@{Instance}}
@@ -105,11 +136,19 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{goals}{goals}}
 {\footnotesize\ttfamily \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} Instance\+::goals}
 
+
+
+Designated start positions for agents. 
+
 \mbox{\Hypertarget{structInstance_a6112b46799d9c0069e77b04d23544fb8}\label{structInstance_a6112b46799d9c0069e77b04d23544fb8}} 
 \index{Instance@{Instance}!N@{N}}
 \index{N@{N}!Instance@{Instance}}
 \doxysubsubsection{\texorpdfstring{N}{N}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Instance\+::N}
+
+
+
+List of enabled agents (absolute IDs of agents in this instance/partition) 
 
 \mbox{\Hypertarget{structInstance_a50e99db5f56e4341d77cb761f99a4727}\label{structInstance_a50e99db5f56e4341d77cb761f99a4727}} 
 \index{Instance@{Instance}!priority@{priority}}
@@ -117,11 +156,19 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{priority}{priority}}
 {\footnotesize\ttfamily const std\+::vector$<$float$>$ Instance\+::priority = \{0.\+0\}}
 
+
+
+Number of agents. 
+
 \mbox{\Hypertarget{structInstance_a130b6a5af1be891be70a3515fe4a77dd}\label{structInstance_a130b6a5af1be891be70a3515fe4a77dd}} 
 \index{Instance@{Instance}!starts@{starts}}
 \index{starts@{starts}!Instance@{Instance}}
 \doxysubsubsection{\texorpdfstring{starts}{starts}}
 {\footnotesize\ttfamily \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} Instance\+::starts}
+
+
+
+Reference to the graph environment. 
 
 
 

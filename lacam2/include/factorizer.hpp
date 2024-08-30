@@ -124,7 +124,7 @@ private:
 
 
 /**
- * @brief FactDistance class, implements manhattan-distance-based factorization heuristic.
+ * @brief Implements manhattan-distance-based factorization heuristic.
  */
 class FactDistance : public FactAlgo
 {
@@ -143,7 +143,7 @@ private:
 
 
 /**
- * @brief FactBbox class, implements Bounding-Box-based factorization heuristic.
+ * @brief Implements Bounding-Box-based factorization heuristic.
  */
 class FactBbox : public FactAlgo
 {
@@ -163,7 +163,7 @@ private:
 
 
 /**
- * @brief FactOrient class, implements orientation-based factorization heuristic.
+ * @brief Class that implements orientation-based factorization heuristic.
  */
 class FactOrient : public FactAlgo
 {
@@ -194,7 +194,7 @@ private:
 
 
 /**
- * @brief FactAstar class, implements A* distance-based factorization heuristic.
+ * @brief Class that implements A* distance-based factorization heuristic.
  */
 class FactAstar : public FactAlgo
 {
@@ -214,7 +214,7 @@ private:
 
 
 /**
- * @brief FactDef class, implements factorization using pre-computed partitions.
+ * @brief Class that implements factorization using pre-computed partitions.
  */
 class FactDef : public FactAlgo
 {

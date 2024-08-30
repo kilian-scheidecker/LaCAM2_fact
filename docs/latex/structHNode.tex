@@ -2,6 +2,11 @@
 \label{structHNode}\index{HNode@{HNode}}
 
 
+Struct representing a high-\/level search node.  
+
+
+
+
 {\ttfamily \#include $<$planner.\+hpp$>$}
 
 
@@ -17,38 +22,41 @@ Collaboration diagram for HNode\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{structHNode_a333ad348899978a81268033aec9305f7}{HNode}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&\+\_\+C, \mbox{\hyperlink{structDistTable}{Dist\+Table}} \&D, \mbox{\hyperlink{structHNode}{HNode}} $\ast$\+\_\+parent, const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \+\_\+g, const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \+\_\+h, const std\+::vector$<$ float $>$ \&priority=\{\}, const std\+::vector$<$ int $>$ \&enabled=\{\})
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor for \mbox{\hyperlink{structHNode}{HNode}}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structHNode_ac8d56476334d7da1bb4a29451de39402}{$\sim$\+HNode}} ()
 \end{DoxyCompactItemize}
 \doxysubsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
 const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \mbox{\hyperlink{structHNode_ad079c959d67838b37d67af418bb2f93d}{C}}
-\item 
+\begin{DoxyCompactList}\small\item\em Static counter for high-\/level nodes. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structHNode}{HNode}} $\ast$ \mbox{\hyperlink{structHNode_a083f4976bcc89d1e01a7e0b1179a6d8f}{parent}}
-\item 
+\begin{DoxyCompactList}\small\item\em Configuration of the node. \end{DoxyCompactList}\item 
 std\+::set$<$ \mbox{\hyperlink{structHNode}{HNode}} $\ast$ $>$ \mbox{\hyperlink{structHNode_a222d261c54af5de08db5300d0fb3449c}{neighbor}}
-\item 
+\begin{DoxyCompactList}\small\item\em Pointer to the parent node. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structHNode_a2fcb220d83ad9ab2288349bcaa93c30c}{g}}
-\item 
+\begin{DoxyCompactList}\small\item\em Neighboring nodes. \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structHNode_a5f3439ba4bbb02f7dad154b733e0117b}{h}}
-\item 
+\begin{DoxyCompactList}\small\item\em h-\/value representing the heuristic cost to the goal. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structHNode_ac3ea7216d666757576709601af16452f}{f}}
-\item 
+\begin{DoxyCompactList}\small\item\em f-\/value representing the total estimated cost (g + h, might be updated). \end{DoxyCompactList}\item 
 std\+::vector$<$ float $>$ \mbox{\hyperlink{structHNode_a6a7828775d8512f9debe5a1642006ad6}{priorities}}
-\item 
+\begin{DoxyCompactList}\small\item\em Priorities of agents for this node. \end{DoxyCompactList}\item 
 std\+::vector$<$ \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} $>$ \mbox{\hyperlink{structHNode_a90a5cc7769edcd3231712e72f06b77fd}{order}}
-\item 
+\begin{DoxyCompactList}\small\item\em Order of agents for expansion. \end{DoxyCompactList}\item 
 std\+::queue$<$ \mbox{\hyperlink{structLNode}{LNode}} $\ast$ $>$ \mbox{\hyperlink{structHNode_a15485a0d2ac7a79b1d0ff459e19281c1}{search\+\_\+tree}}
-\item 
+\begin{DoxyCompactList}\small\item\em Low-\/level search tree. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structHNode_aa8d65e0131becb089044f98bbce63640}{depth}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Depth in the search tree. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 static \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structHNode_af40f38863197537a9f88d50e5d049450}{HNODE\+\_\+\+CNT}} = 0
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Struct representing a high-\/level search node. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{structHNode_a333ad348899978a81268033aec9305f7}\label{structHNode_a333ad348899978a81268033aec9305f7}} 
@@ -57,6 +65,27 @@ static \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} 
 \doxysubsubsection{\texorpdfstring{HNode()}{HNode()}}
 {\footnotesize\ttfamily HNode\+::\+HNode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{\+\_\+C,  }\item[{\mbox{\hyperlink{structDistTable}{Dist\+Table}} \&}]{D,  }\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{\+\_\+parent,  }\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{\+\_\+g,  }\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{\+\_\+h,  }\item[{const std\+::vector$<$ float $>$ \&}]{priority = {\ttfamily \{\}},  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled = {\ttfamily \{\}} }\end{DoxyParamCaption})}
 
+
+
+Constructor for \mbox{\hyperlink{structHNode}{HNode}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+C} & Configuration of this high-\/level node. \\
+\hline
+{\em D} & Reference to the distance table. \\
+\hline
+{\em \+\_\+parent} & Pointer to the parent node. \\
+\hline
+{\em \+\_\+g} & g-\/value for this node. \\
+\hline
+{\em \+\_\+h} & h-\/value for this node. \\
+\hline
+{\em priority} & Priorities of agents (default\+: empty vector). \\
+\hline
+{\em enabled} & Vector of enabled agents (default\+: empty vector). \\
+\hline
+\end{DoxyParams}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -79,11 +108,19 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{C}{C}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} HNode\+::C}
 
+
+
+Static counter for high-\/level nodes. 
+
 \mbox{\Hypertarget{structHNode_aa8d65e0131becb089044f98bbce63640}\label{structHNode_aa8d65e0131becb089044f98bbce63640}} 
 \index{HNode@{HNode}!depth@{depth}}
 \index{depth@{depth}!HNode@{HNode}}
 \doxysubsubsection{\texorpdfstring{depth}{depth}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} HNode\+::depth}
+
+
+
+Depth in the search tree. 
 
 \mbox{\Hypertarget{structHNode_ac3ea7216d666757576709601af16452f}\label{structHNode_ac3ea7216d666757576709601af16452f}} 
 \index{HNode@{HNode}!f@{f}}
@@ -91,17 +128,29 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{f}{f}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} HNode\+::f}
 
+
+
+f-\/value representing the total estimated cost (g + h, might be updated). 
+
 \mbox{\Hypertarget{structHNode_a2fcb220d83ad9ab2288349bcaa93c30c}\label{structHNode_a2fcb220d83ad9ab2288349bcaa93c30c}} 
 \index{HNode@{HNode}!g@{g}}
 \index{g@{g}!HNode@{HNode}}
 \doxysubsubsection{\texorpdfstring{g}{g}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} HNode\+::g}
 
-\mbox{\Hypertarget{structHNode_a5f3439ba4bbb02f7dad154b733e0117b}\label{structHNode_a5f3439ba4bbb02f7dad154b733e0117b}} 
+
+
+Neighboring nodes. 
+
+g-\/value representing the cost from the start node (might be updated). \mbox{\Hypertarget{structHNode_a5f3439ba4bbb02f7dad154b733e0117b}\label{structHNode_a5f3439ba4bbb02f7dad154b733e0117b}} 
 \index{HNode@{HNode}!h@{h}}
 \index{h@{h}!HNode@{HNode}}
 \doxysubsubsection{\texorpdfstring{h}{h}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} HNode\+::h}
+
+
+
+h-\/value representing the heuristic cost to the goal. 
 
 \mbox{\Hypertarget{structHNode_af40f38863197537a9f88d50e5d049450}\label{structHNode_af40f38863197537a9f88d50e5d049450}} 
 \index{HNode@{HNode}!HNODE\_CNT@{HNODE\_CNT}}
@@ -115,11 +164,19 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{neighbor}{neighbor}}
 {\footnotesize\ttfamily std\+::set$<$\mbox{\hyperlink{structHNode}{HNode}}$\ast$$>$ HNode\+::neighbor}
 
+
+
+Pointer to the parent node. 
+
 \mbox{\Hypertarget{structHNode_a90a5cc7769edcd3231712e72f06b77fd}\label{structHNode_a90a5cc7769edcd3231712e72f06b77fd}} 
 \index{HNode@{HNode}!order@{order}}
 \index{order@{order}!HNode@{HNode}}
 \doxysubsubsection{\texorpdfstring{order}{order}}
 {\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}$>$ HNode\+::order}
+
+
+
+Order of agents for expansion. 
 
 \mbox{\Hypertarget{structHNode_a083f4976bcc89d1e01a7e0b1179a6d8f}\label{structHNode_a083f4976bcc89d1e01a7e0b1179a6d8f}} 
 \index{HNode@{HNode}!parent@{parent}}
@@ -127,17 +184,29 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{parent}{parent}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structHNode}{HNode}}$\ast$ HNode\+::parent}
 
+
+
+Configuration of the node. 
+
 \mbox{\Hypertarget{structHNode_a6a7828775d8512f9debe5a1642006ad6}\label{structHNode_a6a7828775d8512f9debe5a1642006ad6}} 
 \index{HNode@{HNode}!priorities@{priorities}}
 \index{priorities@{priorities}!HNode@{HNode}}
 \doxysubsubsection{\texorpdfstring{priorities}{priorities}}
 {\footnotesize\ttfamily std\+::vector$<$float$>$ HNode\+::priorities}
 
+
+
+Priorities of agents for this node. 
+
 \mbox{\Hypertarget{structHNode_a15485a0d2ac7a79b1d0ff459e19281c1}\label{structHNode_a15485a0d2ac7a79b1d0ff459e19281c1}} 
 \index{HNode@{HNode}!search\_tree@{search\_tree}}
 \index{search\_tree@{search\_tree}!HNode@{HNode}}
 \doxysubsubsection{\texorpdfstring{search\_tree}{search\_tree}}
 {\footnotesize\ttfamily std\+::queue$<$\mbox{\hyperlink{structLNode}{LNode}}$\ast$$>$ HNode\+::search\+\_\+tree}
+
+
+
+Low-\/level search tree. 
 
 
 

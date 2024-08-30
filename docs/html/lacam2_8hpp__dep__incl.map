@@ -1,5 +1,5 @@
 <map id="lacam2/include/lacam2.hpp" name="lacam2/include/lacam2.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="67,5,268,32"/>
-<area shape="rect" id="node2" href="$lacam2_8cpp.html" title=" " alt="" coords="5,80,177,107"/>
-<area shape="rect" id="node3" href="$main_8cpp.html" title=" " alt="" coords="202,80,285,107"/>
+<area shape="rect" id="node1" title="Definition of the three main solving methods: standard, factorized and factorized with multi&#45;threadin..." alt="" coords="67,5,268,32"/>
+<area shape="rect" id="node2" href="$lacam2_8cpp.html" title="Implementation of the solve, solve_fact and solve_fact_MT functions." alt="" coords="5,80,177,107"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title="Main entry point for the LaCAM2 application." alt="" coords="202,80,285,107"/>
 </map>

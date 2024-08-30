@@ -2,6 +2,11 @@
 \label{structVertex}\index{Vertex@{Vertex}}
 
 
+\mbox{\hyperlink{structVertex}{Vertex}} element.  
+
+
+
+
 {\ttfamily \#include $<$graph.\+hpp$>$}
 
 
@@ -17,19 +22,22 @@ Collaboration diagram for Vertex\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{structVertex_a1dd5b17b9871f2d85f20b90c55a9babf}{Vertex}} (int \+\_\+id, int \+\_\+index)
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor for \mbox{\hyperlink{structVertex}{Vertex}}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structVertex_a2d0fb5552e28340c110441bdb72f8888}{Vertex}} (\mbox{\hyperlink{structVertex}{Vertex}} $\ast$v)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Copy constructor for \mbox{\hyperlink{structVertex}{Vertex}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
 const int \mbox{\hyperlink{structVertex_ad152c8aefa2ef14480e062c8eae547aa}{id}}
 \item 
 const int \mbox{\hyperlink{structVertex_a534e7e497ef742fab033584667040741}{index}}
-\item 
+\begin{DoxyCompactList}\small\item\em index for V in \mbox{\hyperlink{classGraph}{Graph}} \end{DoxyCompactList}\item 
 std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ $>$ \mbox{\hyperlink{structVertex_a400faed5a01c1d1c08f0073c7bba9f51}{neighbor}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em index for U (width $\ast$ y + x) in \mbox{\hyperlink{classGraph}{Graph}} \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{structVertex}{Vertex}} element. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{structVertex_a1dd5b17b9871f2d85f20b90c55a9babf}\label{structVertex_a1dd5b17b9871f2d85f20b90c55a9babf}} 
@@ -38,12 +46,32 @@ std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex
 \doxysubsubsection{\texorpdfstring{Vertex()}{Vertex()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily Vertex\+::\+Vertex (\begin{DoxyParamCaption}\item[{int}]{\+\_\+id,  }\item[{int}]{\+\_\+index }\end{DoxyParamCaption})}
 
+
+
+Constructor for \mbox{\hyperlink{structVertex}{Vertex}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+id} & Index for V in \mbox{\hyperlink{classGraph}{Graph}}. \\
+\hline
+{\em \+\_\+index} & Index for U (width $\ast$ y + x) in \mbox{\hyperlink{classGraph}{Graph}}. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{structVertex_a2d0fb5552e28340c110441bdb72f8888}\label{structVertex_a2d0fb5552e28340c110441bdb72f8888}} 
 \index{Vertex@{Vertex}!Vertex@{Vertex}}
 \index{Vertex@{Vertex}!Vertex@{Vertex}}
 \doxysubsubsection{\texorpdfstring{Vertex()}{Vertex()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily Vertex\+::\+Vertex (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVertex}{Vertex}} $\ast$}]{v }\end{DoxyParamCaption})}
 
+
+
+Copy constructor for \mbox{\hyperlink{structVertex}{Vertex}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & Pointer to another vertex. \\
+\hline
+\end{DoxyParams}
 
 
 \doxysubsection{Field Documentation}
@@ -59,6 +87,10 @@ std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex
 \doxysubsubsection{\texorpdfstring{index}{index}}
 {\footnotesize\ttfamily const int Vertex\+::index}
 
+
+
+index for V in \mbox{\hyperlink{classGraph}{Graph}} 
+
 \mbox{\Hypertarget{structVertex_a400faed5a01c1d1c08f0073c7bba9f51}\label{structVertex_a400faed5a01c1d1c08f0073c7bba9f51}} 
 \index{Vertex@{Vertex}!neighbor@{neighbor}}
 \index{neighbor@{neighbor}!Vertex@{Vertex}}
@@ -66,6 +98,10 @@ std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex
 {\footnotesize\ttfamily std\+::vector$<$std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{structVertex}{Vertex}}$>$ $>$ Vertex\+::neighbor}
 
 
+
+index for U (width $\ast$ y + x) in \mbox{\hyperlink{classGraph}{Graph}} 
+
+List of neighboring vertices 
 
 The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

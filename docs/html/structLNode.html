@@ -70,19 +70,23 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Struct representing a low-level search node.  
+ <a href="structLNode.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="planner_8hpp_source.html">planner.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for LNode:</div>
 <div class="dyncontent">
 <div class="center"><img src="structLNode__coll__graph.png" border="0" usemap="#aLNode_coll__map" alt="Collaboration graph"/></div>
 <map name="aLNode_coll__map" id="aLNode_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,93,112"/>
+<area shape="rect" title="Struct representing a low&#45;level search node." alt="" coords="5,5,93,112"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a790ce37fb64575fc26b00cff9392d5ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLNode.html#a790ce37fb64575fc26b00cff9392d5ae">LNode</a> (<a class="el" href="structLNode.html">LNode</a> *parent=nullptr, <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> i=0, std::shared_ptr&lt; <a class="el" href="structVertex.html">Vertex</a> &gt; v=nullptr)</td></tr>
+<tr class="memdesc:a790ce37fb64575fc26b00cff9392d5ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Depth of this node in the search tree.  <a href="structLNode.html#a790ce37fb64575fc26b00cff9392d5ae">More...</a><br /></td></tr>
 <tr class="separator:a790ce37fb64575fc26b00cff9392d5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -90,11 +94,15 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a749455359c4fb37a5700a2da0137fbae"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLNode.html#a749455359c4fb37a5700a2da0137fbae">who</a></td></tr>
 <tr class="separator:a749455359c4fb37a5700a2da0137fbae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f333899bd4206b1b2ef151141076cf4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="graph_8hpp.html#ac5a2dcd1b3a95ced558d3efece4b4dc5">Vertices</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLNode.html#a3f333899bd4206b1b2ef151141076cf4">where</a></td></tr>
+<tr class="memdesc:a3f333899bd4206b1b2ef151141076cf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indices of agents involved in this node.  <a href="structLNode.html#a3f333899bd4206b1b2ef151141076cf4">More...</a><br /></td></tr>
 <tr class="separator:a3f333899bd4206b1b2ef151141076cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cdfb7cd94bff11e6a9ea215bf856077"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLNode.html#a3cdfb7cd94bff11e6a9ea215bf856077">depth</a></td></tr>
+<tr class="memdesc:a3cdfb7cd94bff11e6a9ea215bf856077"><td class="mdescLeft">&#160;</td><td class="mdescRight">Locations of agents in this node.  <a href="structLNode.html#a3cdfb7cd94bff11e6a9ea215bf856077">More...</a><br /></td></tr>
 <tr class="separator:a3cdfb7cd94bff11e6a9ea215bf856077"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Struct representing a low-level search node. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a790ce37fb64575fc26b00cff9392d5ae"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a790ce37fb64575fc26b00cff9392d5ae">&#9670;&nbsp;</a></span>LNode()</h2>
 
@@ -127,6 +135,16 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Depth of this node in the search tree. </p>
+<p>Constructor for <a class="el" href="structLNode.html" title="Struct representing a low-level search node.">LNode</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>Pointer to parent node (default: nullptr). </td></tr>
+    <tr><td class="paramname">i</td><td>Index of agent (default: 0). </td></tr>
+    <tr><td class="paramname">v</td><td>Pointer to the vertex where the agent is located (default: nullptr). </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Field Documentation</h2>
@@ -142,6 +160,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Locations of agents in this node. </p>
+
 </div>
 </div>
 <a id="a3f333899bd4206b1b2ef151141076cf4"></a>
@@ -155,6 +175,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Indices of agents involved in this node. </p>
 
 </div>
 </div>

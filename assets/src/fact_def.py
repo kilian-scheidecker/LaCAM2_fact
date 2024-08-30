@@ -79,11 +79,11 @@ def create_temp_scenario(enabled, starts, goals, map_name):
 
     return 
 
-def write_sol(solution, enabled, empty_solution, N):
+def write_sol(solution, enabled, global_solution, N):
 
     for id in range(N):
         sol_bit = solution[id]              # Access the solution at index id
-        line = empty_solution[enabled[id]]
+        line = global_solution[enabled[id]]
 
         for v in sol_bit:
             line.append(v)  # Append each vertex to the line

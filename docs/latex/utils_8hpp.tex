@@ -1,5 +1,10 @@
 \hypertarget{utils_8hpp}{}\doxysection{lacam2/include/utils.hpp File Reference}
 \label{utils_8hpp}\index{lacam2/include/utils.hpp@{lacam2/include/utils.hpp}}
+
+
+Define profiler setup and some utility functions.  
+
+
 {\ttfamily \#include $<$array$>$}\newline
 {\ttfamily \#include $<$chrono$>$}\newline
 {\ttfamily \#include $<$climits$>$}\newline
@@ -28,7 +33,8 @@ Include dependency graph for utils.\+hpp\+:\nopagebreak
 \includegraphics[width=350pt]{utils_8hpp__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -39,7 +45,7 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{structDeadline}{Deadline}}
-\item 
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structDeadline}{Deadline}} manager structure. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structInfos}{Infos}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Macros}
@@ -68,19 +74,24 @@ using \mbox{\hyperlink{utils_8hpp_a04245e3f67e998df126a317353432281}{Time}} = st
 \begin{DoxyCompactItemize}
 \item 
 void \mbox{\hyperlink{utils_8hpp_a1a6db9534ce64125ad2b26565f6b010b}{info}} (const int level, const int verbose)
-\item 
+\begin{DoxyCompactList}\small\item\em Prints debugging information depending on verbosity level. \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename Head , typename... Tail$>$ }\\void \mbox{\hyperlink{utils_8hpp_aafb31bb052ec9cde925b6fd8b478ca24}{info}} (const int level, const int verbose, Head \&\&head, Tail \&\&... tail)
 \item 
 double \mbox{\hyperlink{utils_8hpp_ae11a00a48e9734c067db837ee9ddf692}{elapsed\+\_\+ms}} (const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline)
-\item 
+\begin{DoxyCompactList}\small\item\em Returns the elapsed time in milliseconds since the given deadline. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{utils_8hpp_aab23f2a4dd71ce8f8d8ec3da06eaed93}{elapsed\+\_\+ns}} (const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline)
-\item 
+\begin{DoxyCompactList}\small\item\em Returns the elapsed time in nanoseconds since the given deadline. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{utils_8hpp_a5ba91321a48d6365f2b2a396a5395708}{is\+\_\+expired}} (const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline)
-\item 
+\begin{DoxyCompactList}\small\item\em Checks if the given deadline has expired. \end{DoxyCompactList}\item 
 float \mbox{\hyperlink{utils_8hpp_aca56ac2b051497916b0362b3ae92f9b6}{get\+\_\+random\+\_\+float}} (std\+::mt19937 $\ast$MT, float from=0, float to=1)
-\item 
+\begin{DoxyCompactList}\small\item\em Generates a random floats within the given range. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{utils_8hpp_ad294028b42f06e533aaf32e75eb6fa43}{get\+\_\+random\+\_\+int}} (std\+::mt19937 $\ast$MT, int from=0, int to=1)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Generates a random integer within the given range. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Define profiler setup and some utility functions. 
+
 
 
 \doxysubsection{Macro Definition Documentation}
@@ -144,6 +155,10 @@ int \mbox{\hyperlink{utils_8hpp_ad294028b42f06e533aaf32e75eb6fa43}{get\+\_\+rand
 \doxysubsubsection{\texorpdfstring{elapsed\_ms()}{elapsed\_ms()}}
 {\footnotesize\ttfamily double elapsed\+\_\+ms (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline }\end{DoxyParamCaption})}
 
+
+
+Returns the elapsed time in milliseconds since the given deadline. 
+
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -164,6 +179,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{elapsed\_ns()}{elapsed\_ns()}}
 {\footnotesize\ttfamily double elapsed\+\_\+ns (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline }\end{DoxyParamCaption})}
 
+
+
+Returns the elapsed time in nanoseconds since the given deadline. 
+
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -176,6 +195,10 @@ Here is the call graph for this function\+:\nopagebreak
 \index{get\_random\_float@{get\_random\_float}!utils.hpp@{utils.hpp}}
 \doxysubsubsection{\texorpdfstring{get\_random\_float()}{get\_random\_float()}}
 {\footnotesize\ttfamily float get\+\_\+random\+\_\+float (\begin{DoxyParamCaption}\item[{std\+::mt19937 $\ast$}]{MT,  }\item[{float}]{from = {\ttfamily 0},  }\item[{float}]{to = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Generates a random floats within the given range. 
 
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -190,12 +213,27 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{get\_random\_int()}{get\_random\_int()}}
 {\footnotesize\ttfamily int get\+\_\+random\+\_\+int (\begin{DoxyParamCaption}\item[{std\+::mt19937 $\ast$}]{MT,  }\item[{int}]{from = {\ttfamily 0},  }\item[{int}]{to = {\ttfamily 1} }\end{DoxyParamCaption})}
 
+
+
+Generates a random integer within the given range. 
+
 \mbox{\Hypertarget{utils_8hpp_a1a6db9534ce64125ad2b26565f6b010b}\label{utils_8hpp_a1a6db9534ce64125ad2b26565f6b010b}} 
 \index{utils.hpp@{utils.hpp}!info@{info}}
 \index{info@{info}!utils.hpp@{utils.hpp}}
 \doxysubsubsection{\texorpdfstring{info()}{info()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily void info (\begin{DoxyParamCaption}\item[{const int}]{level,  }\item[{const int}]{verbose }\end{DoxyParamCaption})}
 
+
+
+Prints debugging information depending on verbosity level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em level} & The verbosity level for the message. \\
+\hline
+{\em verbose} & The current verbosity setting. \\
+\hline
+\end{DoxyParams}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -222,6 +260,10 @@ Here is the call graph for this function\+:\nopagebreak
 \index{is\_expired@{is\_expired}!utils.hpp@{utils.hpp}}
 \doxysubsubsection{\texorpdfstring{is\_expired()}{is\_expired()}}
 {\footnotesize\ttfamily bool is\+\_\+expired (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline }\end{DoxyParamCaption})}
+
+
+
+Checks if the given deadline has expired. 
 
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]

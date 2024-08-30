@@ -1,8 +1,14 @@
 \hypertarget{post__processing_8cpp}{}\doxysection{lacam2/src/post\+\_\+processing.cpp File Reference}
 \label{post__processing_8cpp}\index{lacam2/src/post\_processing.cpp@{lacam2/src/post\_processing.cpp}}
+
+
+Implementation of the different metric computations and log creation.  
+
+
 {\ttfamily \#include \char`\"{}../include/post\+\_\+processing.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}../include/dist\+\_\+table.\+hpp\char`\"{}}\newline
-Include dependency graph for post\+\_\+processing.\+cpp\+:\nopagebreak
+Include dependency graph for post\+\_\+processing.\+cpp\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -13,29 +19,34 @@ Include dependency graph for post\+\_\+processing.\+cpp\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 bool \mbox{\hyperlink{post__processing_8cpp_a9eed49d3a1af81394a30d6e3f07419f9}{is\+\_\+feasible\+\_\+solution}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const int verbose)
-\item 
+\begin{DoxyCompactList}\small\item\em Checks if the given solution is feasible for the provided instance. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{post__processing_8cpp_a16d3aaa0340a55869e8b27755b868c0a}{is\+\_\+neighbor}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v1, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v2, int width)
-\item 
+\begin{DoxyCompactList}\small\item\em Checks if two vertices are neighbors within a given width. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{post__processing_8cpp_adba9b96d1a3e654c235ea55897ed9934}{get\+\_\+makespan}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution)
-\item 
+\begin{DoxyCompactList}\small\item\em Calculates the makespan of the solution, which is the maximum time step taken by any agent to reach its goal. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{post__processing_8cpp_a0a30f5f9c90ae0df8b51bc6121ccfc75}{get\+\_\+path\+\_\+cost}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} i)
-\item 
+\begin{DoxyCompactList}\small\item\em Computes the path cost for a single agent. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{post__processing_8cpp_a39cfe28ac85859787c08bb54967b6a37}{get\+\_\+sum\+\_\+of\+\_\+costs}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution)
-\item 
+\begin{DoxyCompactList}\small\item\em Computes the sum of costs for all agents in the solution. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{post__processing_8cpp_a5e98e53587523b7acc32e872f5be0522}{get\+\_\+sum\+\_\+of\+\_\+loss}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution)
-\item 
+\begin{DoxyCompactList}\small\item\em Computes the sum of loss for all agents in the solution. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{post__processing_8cpp_af8e86002cddf0ea2e934489961f9b83a}{get\+\_\+makespan\+\_\+lower\+\_\+bound}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, \mbox{\hyperlink{structDistTable}{Dist\+Table}} \&dist\+\_\+table)
-\item 
+\begin{DoxyCompactList}\small\item\em Computes the lower bound for the makespan. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{post__processing_8cpp_ad94ac64ff13b373a678409f8fe7d0c5f}{get\+\_\+sum\+\_\+of\+\_\+costs\+\_\+lower\+\_\+bound}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, \mbox{\hyperlink{structDistTable}{Dist\+Table}} \&dist\+\_\+table)
-\item 
+\begin{DoxyCompactList}\small\item\em Computes the lower bound for the sum of costs. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{post__processing_8cpp_a44d299eb5b2e052d6afeb0742b48cd0c}{print\+\_\+results}} (const int verbose, const \mbox{\hyperlink{structInstance}{Instance}} \&ins, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const double comp\+\_\+time\+\_\+ms)
 \item 
 void \mbox{\hyperlink{post__processing_8cpp_a98e4e658fc9239fb10ff067a8dced859}{make\+\_\+log}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const std\+::string \&output\+\_\+name, const double comp\+\_\+time\+\_\+ms, const std\+::string \&map\+\_\+name, const int seed, const std\+::string \&additional\+\_\+info, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, const bool log\+\_\+short)
-\item 
+\begin{DoxyCompactList}\small\item\em Creates a log of the solution and the above metriucs, can be found in \char`\"{}build/results.\+txt\char`\"{}. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{post__processing_8cpp_a463686520526c847ecdb13254ac9204c}{make\+\_\+stats}} (const std\+::string file\+\_\+name, const std\+::string factorize, const int N, const int comp\+\_\+time\+\_\+ms, const \mbox{\hyperlink{structInfos}{Infos}} infos, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solution, const std\+::string mapname, int success, const bool multi\+\_\+threading)
-\item 
+\begin{DoxyCompactList}\small\item\em Creates a statistics log for the MAPF instance and its solution. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{post__processing_8cpp_a6658463f55f0eee7647b85b50204d0ce}{write\+\_\+partitions}} (const \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, const std\+::string factorize)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Writes the partitions information to a file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of the different metric computations and log creation. 
+
 
 
 \doxysubsection{Function Documentation}
@@ -44,6 +55,10 @@ void \mbox{\hyperlink{post__processing_8cpp_a6658463f55f0eee7647b85b50204d0ce}{w
 \index{get\_makespan@{get\_makespan}!post\_processing.cpp@{post\_processing.cpp}}
 \doxysubsubsection{\texorpdfstring{get\_makespan()}{get\_makespan()}}
 {\footnotesize\ttfamily int get\+\_\+makespan (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution }\end{DoxyParamCaption})}
+
+
+
+Calculates the makespan of the solution, which is the maximum time step taken by any agent to reach its goal. 
 
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -57,6 +72,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{get\_makespan\_lower\_bound@{get\_makespan\_lower\_bound}!post\_processing.cpp@{post\_processing.cpp}}
 \doxysubsubsection{\texorpdfstring{get\_makespan\_lower\_bound()}{get\_makespan\_lower\_bound()}}
 {\footnotesize\ttfamily int get\+\_\+makespan\+\_\+lower\+\_\+bound (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{\mbox{\hyperlink{structDistTable}{Dist\+Table}} \&}]{dist\+\_\+table }\end{DoxyParamCaption})}
+
+
+
+Computes the lower bound for the makespan. 
 
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -78,6 +97,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{get\_path\_cost()}{get\_path\_cost()}}
 {\footnotesize\ttfamily int get\+\_\+path\+\_\+cost (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{i }\end{DoxyParamCaption})}
 
+
+
+Computes the path cost for a single agent. 
+
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -90,6 +113,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{get\_sum\_of\_costs@{get\_sum\_of\_costs}!post\_processing.cpp@{post\_processing.cpp}}
 \doxysubsubsection{\texorpdfstring{get\_sum\_of\_costs()}{get\_sum\_of\_costs()}}
 {\footnotesize\ttfamily int get\+\_\+sum\+\_\+of\+\_\+costs (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution }\end{DoxyParamCaption})}
+
+
+
+Computes the sum of costs for all agents in the solution. 
 
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -111,6 +138,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{get\_sum\_of\_costs\_lower\_bound()}{get\_sum\_of\_costs\_lower\_bound()}}
 {\footnotesize\ttfamily int get\+\_\+sum\+\_\+of\+\_\+costs\+\_\+lower\+\_\+bound (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{\mbox{\hyperlink{structDistTable}{Dist\+Table}} \&}]{dist\+\_\+table }\end{DoxyParamCaption})}
 
+
+
+Computes the lower bound for the sum of costs. 
+
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -131,6 +162,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{get\_sum\_of\_loss()}{get\_sum\_of\_loss()}}
 {\footnotesize\ttfamily int get\+\_\+sum\+\_\+of\+\_\+loss (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution }\end{DoxyParamCaption})}
 
+
+
+Computes the sum of loss for all agents in the solution. 
+
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -143,6 +178,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{is\_feasible\_solution@{is\_feasible\_solution}!post\_processing.cpp@{post\_processing.cpp}}
 \doxysubsubsection{\texorpdfstring{is\_feasible\_solution()}{is\_feasible\_solution()}}
 {\footnotesize\ttfamily bool is\+\_\+feasible\+\_\+solution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const int}]{verbose }\end{DoxyParamCaption})}
+
+
+
+Checks if the given solution is feasible for the provided instance. 
 
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -164,6 +203,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{is\_neighbor()}{is\_neighbor()}}
 {\footnotesize\ttfamily bool is\+\_\+neighbor (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v1,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v2,  }\item[{int}]{width }\end{DoxyParamCaption})}
 
+
+
+Checks if two vertices are neighbors within a given width. 
+
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -177,6 +220,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{make\_log()}{make\_log()}}
 {\footnotesize\ttfamily void make\+\_\+log (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const std\+::string \&}]{output\+\_\+name,  }\item[{const double}]{comp\+\_\+time\+\_\+ms,  }\item[{const std\+::string \&}]{map\+\_\+name,  }\item[{const int}]{seed,  }\item[{const std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{const bool}]{log\+\_\+short }\end{DoxyParamCaption})}
 
+
+
+Creates a log of the solution and the above metriucs, can be found in \char`\"{}build/results.\+txt\char`\"{}. 
+
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -189,6 +236,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{make\_stats@{make\_stats}!post\_processing.cpp@{post\_processing.cpp}}
 \doxysubsubsection{\texorpdfstring{make\_stats()}{make\_stats()}}
 {\footnotesize\ttfamily void make\+\_\+stats (\begin{DoxyParamCaption}\item[{const std\+::string}]{file\+\_\+name,  }\item[{const std\+::string}]{factorize,  }\item[{const int}]{N,  }\item[{const int}]{comp\+\_\+time\+\_\+ms,  }\item[{const \mbox{\hyperlink{structInfos}{Infos}}}]{infos,  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}}}]{solution,  }\item[{const std\+::string}]{mapname,  }\item[{int}]{success,  }\item[{const bool}]{multi\+\_\+threading }\end{DoxyParamCaption})}
+
+
+
+Creates a statistics log for the MAPF instance and its solution. 
 
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -229,6 +280,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{write\_partitions@{write\_partitions}!post\_processing.cpp@{post\_processing.cpp}}
 \doxysubsubsection{\texorpdfstring{write\_partitions()}{write\_partitions()}}
 {\footnotesize\ttfamily void write\+\_\+partitions (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{const std\+::string}]{factorize }\end{DoxyParamCaption})}
+
+
+
+Writes the partitions information to a file. 
 
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]

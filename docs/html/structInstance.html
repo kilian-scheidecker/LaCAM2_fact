@@ -70,28 +70,35 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Represents a specific instance of a MAPF problem.  
+ <a href="structInstance.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="instance_8hpp_source.html">instance.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for Instance:</div>
 <div class="dyncontent">
 <div class="center"><img src="structInstance__coll__graph.png" border="0" usemap="#aInstance_coll__map" alt="Collaboration graph"/></div>
 <map name="aInstance_coll__map" id="aInstance_coll__map">
-<area shape="rect" title=" " alt="" coords="10,233,123,428"/>
-<area shape="rect" href="classGraph.html" title=" " alt="" coords="5,5,128,171"/>
+<area shape="rect" title="Represents a specific instance of a MAPF problem." alt="" coords="10,233,123,428"/>
+<area shape="rect" href="classGraph.html" title="Represents the map as a graph." alt="" coords="5,5,128,171"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a399506c7e75ab9ab78fbc34a25932bbd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#a399506c7e75ab9ab78fbc34a25932bbd">Instance</a> ()</td></tr>
+<tr class="memdesc:a399506c7e75ab9ab78fbc34a25932bbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority values for agents used to determine order of "vertex reservation".  <a href="structInstance.html#a399506c7e75ab9ab78fbc34a25932bbd">More...</a><br /></td></tr>
 <tr class="separator:a399506c7e75ab9ab78fbc34a25932bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad297ca9ea76550fcc7d1a628b84b85e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#ad297ca9ea76550fcc7d1a628b84b85e1">Instance</a> (<a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;_starts, <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;_goals, const std::vector&lt; int &gt; &amp;_enabled, const int _N, const std::vector&lt; float &gt; &amp;_priority)</td></tr>
+<tr class="memdesc:ad297ca9ea76550fcc7d1a628b84b85e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for factorization.  <a href="structInstance.html#ad297ca9ea76550fcc7d1a628b84b85e1">More...</a><br /></td></tr>
 <tr class="separator:ad297ca9ea76550fcc7d1a628b84b85e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7221e74a5d157e3b7ceb5901ab059c04"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#a7221e74a5d157e3b7ceb5901ab059c04">Instance</a> (const std::string &amp;scen_filename, const std::string &amp;map_filename, const std::vector&lt; int &gt; &amp;_enabled, const int _N=1)</td></tr>
+<tr class="memdesc:a7221e74a5d157e3b7ceb5901ab059c04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for inital <a class="el" href="structInstance.html" title="Represents a specific instance of a MAPF problem.">Instance</a> creation.  <a href="structInstance.html#a7221e74a5d157e3b7ceb5901ab059c04">More...</a><br /></td></tr>
 <tr class="separator:a7221e74a5d157e3b7ceb5901ab059c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e6f2ab25aa37838f8c4af014f663117"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#a6e6f2ab25aa37838f8c4af014f663117">~Instance</a> ()</td></tr>
 <tr class="separator:a6e6f2ab25aa37838f8c4af014f663117"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc56201b1f10377894b866a40a74b442"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#afc56201b1f10377894b866a40a74b442">is_valid</a> (const int verbose=0) const</td></tr>
+<tr class="memdesc:afc56201b1f10377894b866a40a74b442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validity check for the instance.  <a href="structInstance.html#afc56201b1f10377894b866a40a74b442">More...</a><br /></td></tr>
 <tr class="separator:afc56201b1f10377894b866a40a74b442"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -99,17 +106,24 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a841d74a6c32b090cd8f7f77acc254db8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classGraph.html">Graph</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#a841d74a6c32b090cd8f7f77acc254db8">G</a></td></tr>
 <tr class="separator:a841d74a6c32b090cd8f7f77acc254db8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a130b6a5af1be891be70a3515fe4a77dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#a130b6a5af1be891be70a3515fe4a77dd">starts</a></td></tr>
+<tr class="memdesc:a130b6a5af1be891be70a3515fe4a77dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to the graph environment.  <a href="structInstance.html#a130b6a5af1be891be70a3515fe4a77dd">More...</a><br /></td></tr>
 <tr class="separator:a130b6a5af1be891be70a3515fe4a77dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3c7c582ce287d87740c0fdb0b43a967"><td class="memItemLeft" align="right" valign="top"><a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#ac3c7c582ce287d87740c0fdb0b43a967">goals</a></td></tr>
+<tr class="memdesc:ac3c7c582ce287d87740c0fdb0b43a967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Designated start positions for agents.  <a href="structInstance.html#ac3c7c582ce287d87740c0fdb0b43a967">More...</a><br /></td></tr>
 <tr class="separator:ac3c7c582ce287d87740c0fdb0b43a967"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a625e59464e563ecafda64ec827e36a2b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#a625e59464e563ecafda64ec827e36a2b">enabled</a></td></tr>
+<tr class="memdesc:a625e59464e563ecafda64ec827e36a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Designated goal positions for agents.  <a href="structInstance.html#a625e59464e563ecafda64ec827e36a2b">More...</a><br /></td></tr>
 <tr class="separator:a625e59464e563ecafda64ec827e36a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6112b46799d9c0069e77b04d23544fb8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#a6112b46799d9c0069e77b04d23544fb8">N</a></td></tr>
+<tr class="memdesc:a6112b46799d9c0069e77b04d23544fb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of enabled agents (absolute IDs of agents in this instance/partition)  <a href="structInstance.html#a6112b46799d9c0069e77b04d23544fb8">More...</a><br /></td></tr>
 <tr class="separator:a6112b46799d9c0069e77b04d23544fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50e99db5f56e4341d77cb761f99a4727"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInstance.html#a50e99db5f56e4341d77cb761f99a4727">priority</a> = {0.0}</td></tr>
+<tr class="memdesc:a50e99db5f56e4341d77cb761f99a4727"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of agents.  <a href="structInstance.html#a50e99db5f56e4341d77cb761f99a4727">More...</a><br /></td></tr>
 <tr class="separator:a50e99db5f56e4341d77cb761f99a4727"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Represents a specific instance of a MAPF problem. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a399506c7e75ab9ab78fbc34a25932bbd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a399506c7e75ab9ab78fbc34a25932bbd">&#9670;&nbsp;</a></span>Instance() <span class="overload">[1/3]</span></h2>
 
@@ -132,6 +146,9 @@ Data Fields</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Priority values for agents used to determine order of "vertex reservation". </p>
+<p>Default constructor for <a class="el" href="structInstance.html" title="Represents a specific instance of a MAPF problem.">Instance</a>. </p>
 
 </div>
 </div>
@@ -179,6 +196,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor for factorization. </p>
+
 </div>
 </div>
 <a id="a7221e74a5d157e3b7ceb5901ab059c04"></a>
@@ -219,6 +238,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor for inital <a class="el" href="structInstance.html" title="Represents a specific instance of a MAPF problem.">Instance</a> creation. </p>
+
 </div>
 </div>
 <a id="a6e6f2ab25aa37838f8c4af014f663117"></a>
@@ -254,13 +275,16 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Validity check for the instance. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if the instance is valid, false otherwise. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structInstance_afc56201b1f10377894b866a40a74b442_cgraph.png" border="0" usemap="#astructInstance_afc56201b1f10377894b866a40a74b442_cgraph" alt=""/></div>
 <map name="astructInstance_afc56201b1f10377894b866a40a74b442_cgraph" id="astructInstance_afc56201b1f10377894b866a40a74b442_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,140,32"/>
-<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title=" " alt="" coords="188,5,235,32"/>
+<area shape="rect" title="Validity check for the instance." alt="" coords="5,5,140,32"/>
+<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="188,5,235,32"/>
 </map>
 </div>
 
@@ -278,6 +302,8 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Designated goal positions for agents. </p>
 
 </div>
 </div>
@@ -307,6 +333,8 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Designated start positions for agents. </p>
+
 </div>
 </div>
 <a id="a6112b46799d9c0069e77b04d23544fb8"></a>
@@ -320,6 +348,8 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>List of enabled agents (absolute IDs of agents in this instance/partition) </p>
 
 </div>
 </div>
@@ -335,6 +365,8 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Number of agents. </p>
+
 </div>
 </div>
 <a id="a130b6a5af1be891be70a3515fe4a77dd"></a>
@@ -348,6 +380,8 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Reference to the graph environment. </p>
 
 </div>
 </div>

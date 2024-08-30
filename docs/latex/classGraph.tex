@@ -2,6 +2,11 @@
 \label{classGraph}\index{Graph@{Graph}}
 
 
+Represents the map as a graph.  
+
+
+
+
 {\ttfamily \#include $<$graph.\+hpp$>$}
 
 
@@ -17,28 +22,31 @@ Collaboration diagram for Graph\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{classGraph_aefc83d5bf1c468b066b22e60a1b5066d}{size}} () const
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get the size of the \mbox{\hyperlink{classGraph}{Graph}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static \mbox{\hyperlink{classGraph}{Graph}} \& \mbox{\hyperlink{classGraph_a00d4aa5b8821303e9ce9264a420a35bf}{get\+Instance}} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Get the single instance of the \mbox{\hyperlink{classGraph}{Graph}}. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{classGraph_a5c1ab2322e063a96608817e2d9972b67}{initialize}} (const std\+::string \&filename)
-\item 
+\begin{DoxyCompactList}\small\item\em Initialize the \mbox{\hyperlink{classGraph}{Graph}} with a given file. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{classGraph_a876de892ad660e21710792b9645b0ba5}{cleanup}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Clean up the \mbox{\hyperlink{classGraph}{Graph}} instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{graph_8hpp_ac5a2dcd1b3a95ced558d3efece4b4dc5}{Vertices}} \mbox{\hyperlink{classGraph_a99e350b3c8cd8c281b75a5f4f1f530fe}{V}}
 \item 
 \mbox{\hyperlink{graph_8hpp_ac5a2dcd1b3a95ced558d3efece4b4dc5}{Vertices}} \mbox{\hyperlink{classGraph_a90389dc139a2ce57cc1f222b5dd84cc1}{U}}
-\item 
+\begin{DoxyCompactList}\small\item\em Vertices without nullptr. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{classGraph_a85ac6741abaa427f11a98d740595d5b9}{width}}
-\item 
+\begin{DoxyCompactList}\small\item\em Vertices with nullptr. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{classGraph_a9a6de8cf029aab2bdca05c538bb484fb}{height}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Width of the graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Represents the map as a graph. 
 
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classGraph_a876de892ad660e21710792b9645b0ba5}\label{classGraph_a876de892ad660e21710792b9645b0ba5}} 
@@ -47,18 +55,38 @@ static void \mbox{\hyperlink{classGraph_a876de892ad660e21710792b9645b0ba5}{clean
 \doxysubsubsection{\texorpdfstring{cleanup()}{cleanup()}}
 {\footnotesize\ttfamily void Graph\+::cleanup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+
+
+Clean up the \mbox{\hyperlink{classGraph}{Graph}} instance. 
+
 \mbox{\Hypertarget{classGraph_a00d4aa5b8821303e9ce9264a420a35bf}\label{classGraph_a00d4aa5b8821303e9ce9264a420a35bf}} 
 \index{Graph@{Graph}!getInstance@{getInstance}}
 \index{getInstance@{getInstance}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{getInstance()}{getInstance()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{classGraph}{Graph}} \& Graph\+::get\+Instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+
+
+Get the single instance of the \mbox{\hyperlink{classGraph}{Graph}}. 
+
+\begin{DoxyReturn}{Returns}
+Reference to the \mbox{\hyperlink{classGraph}{Graph}} instance. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classGraph_a5c1ab2322e063a96608817e2d9972b67}\label{classGraph_a5c1ab2322e063a96608817e2d9972b67}} 
 \index{Graph@{Graph}!initialize@{initialize}}
 \index{initialize@{initialize}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
 {\footnotesize\ttfamily void Graph\+::initialize (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+
+
+Initialize the \mbox{\hyperlink{classGraph}{Graph}} with a given file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to initialize the graph. \\
+\hline
+\end{DoxyParams}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -74,6 +102,13 @@ Here is the caller graph for this function\+:\nopagebreak
 
 
 
+Get the size of the \mbox{\hyperlink{classGraph}{Graph}}. 
+
+\begin{DoxyReturn}{Returns}
+The size of the graph. 
+\end{DoxyReturn}
+
+
 \doxysubsection{Field Documentation}
 \mbox{\Hypertarget{classGraph_a9a6de8cf029aab2bdca05c538bb484fb}\label{classGraph_a9a6de8cf029aab2bdca05c538bb484fb}} 
 \index{Graph@{Graph}!height@{height}}
@@ -81,11 +116,19 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{height}{height}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Graph\+::height}
 
+
+
+Width of the graph. 
+
 \mbox{\Hypertarget{classGraph_a90389dc139a2ce57cc1f222b5dd84cc1}\label{classGraph_a90389dc139a2ce57cc1f222b5dd84cc1}} 
 \index{Graph@{Graph}!U@{U}}
 \index{U@{U}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{U}{U}}
 {\footnotesize\ttfamily \mbox{\hyperlink{graph_8hpp_ac5a2dcd1b3a95ced558d3efece4b4dc5}{Vertices}} Graph\+::U}
+
+
+
+Vertices without nullptr. 
 
 \mbox{\Hypertarget{classGraph_a99e350b3c8cd8c281b75a5f4f1f530fe}\label{classGraph_a99e350b3c8cd8c281b75a5f4f1f530fe}} 
 \index{Graph@{Graph}!V@{V}}
@@ -98,6 +141,10 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{width@{width}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{width}{width}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Graph\+::width}
+
+
+
+Vertices with nullptr. 
 
 
 

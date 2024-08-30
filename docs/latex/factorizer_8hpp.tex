@@ -8,14 +8,16 @@ Provides classes and methods for various factorization algorithms.
 {\ttfamily \#include \char`\"{}dist\+\_\+table.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
 {\ttfamily \#include $<$unordered\+\_\+set$>$}\newline
-Include dependency graph for factorizer.\+hpp\+:\nopagebreak
+Include dependency graph for factorizer.\+hpp\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{factorizer_8hpp__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -28,15 +30,15 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 class \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}
 \begin{DoxyCompactList}\small\item\em Base class for different factorization algorithms. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classFactDistance}{Fact\+Distance}}
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactDistance}{Fact\+Distance}} class, implements manhattan-\/distance-\/based factorization heuristic. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Implements manhattan-\/distance-\/based factorization heuristic. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classFactBbox}{Fact\+Bbox}}
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactBbox}{Fact\+Bbox}} class, implements Bounding-\/\+Box-\/based factorization heuristic. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Implements Bounding-\/\+Box-\/based factorization heuristic. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classFactOrient}{Fact\+Orient}}
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactOrient}{Fact\+Orient}} class, implements orientation-\/based factorization heuristic. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Class that implements orientation-\/based factorization heuristic. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classFactAstar}{Fact\+Astar}}
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactAstar}{Fact\+Astar}} class, implements A$\ast$ distance-\/based factorization heuristic. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Class that implements A$\ast$ distance-\/based factorization heuristic. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classFactDef}{Fact\+Def}}
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactDef}{Fact\+Def}} class, implements factorization using pre-\/computed partitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Class that implements factorization using pre-\/computed partitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
@@ -55,7 +57,7 @@ using \mbox{\hyperlink{factorizer_8hpp_ab701e3ac61a85b337ec5c1abaad6742d}{json}}
 \begin{DoxyCompactItemize}
 \item 
 std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} $>$ \mbox{\hyperlink{factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6}{create\+Fact\+Algo}} (const std\+::string \&type, int width)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Factory function to create \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -100,7 +102,11 @@ This file defines several classes that implement different algorithms for factor
 \doxysubsubsection{\texorpdfstring{createFactAlgo()}{createFactAlgo()}}
 {\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}$>$ create\+Fact\+Algo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{type,  }\item[{int}]{width }\end{DoxyParamCaption})}
 
-Factory function to create \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} objects 
+
+
+Factory function to create \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} objects. 
+
+
 \begin{DoxyParams}{Parameters}
 {\em type} & describes the type of factorization to use \\
 \hline

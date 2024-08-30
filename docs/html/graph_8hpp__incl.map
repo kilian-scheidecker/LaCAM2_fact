@@ -1,6 +1,6 @@
 <map id="lacam2/include/graph.hpp" name="lacam2/include/graph.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="859,5,1050,32"/>
-<area shape="rect" id="node2" href="$utils_8hpp.html" title=" " alt="" coords="915,80,994,107"/>
+<area shape="rect" id="node1" title="Definition of the Graph class that represents the environment." alt="" coords="859,5,1050,32"/>
+<area shape="rect" id="node2" href="$utils_8hpp.html" title="Define profiler setup and some utility functions." alt="" coords="915,80,994,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,155,61,181"/>
 <area shape="rect" id="node4" title=" " alt="" coords="85,155,152,181"/>
 <area shape="rect" id="node5" title=" " alt="" coords="176,155,243,181"/>

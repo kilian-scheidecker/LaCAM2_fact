@@ -70,25 +70,30 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Class representing the planner for solving MAPF problems.  
+ <a href="structPlanner.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="planner_8hpp_source.html">planner.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for Planner:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner__coll__graph.png" border="0" usemap="#aPlanner_coll__map" alt="Collaboration graph"/></div>
 <map name="aPlanner_coll__map" id="aPlanner_coll__map">
-<area shape="rect" title=" " alt="" coords="130,491,321,891"/>
-<area shape="rect" href="structInstance.html" title=" " alt="" coords="10,233,123,428"/>
-<area shape="rect" href="classGraph.html" title=" " alt="" coords="5,5,128,171"/>
+<area shape="rect" title="Class representing the planner for solving MAPF problems." alt="" coords="130,491,321,891"/>
+<area shape="rect" href="structInstance.html" title="Represents a specific instance of a MAPF problem." alt="" coords="10,233,123,428"/>
+<area shape="rect" href="classGraph.html" title="Represents the map as a graph." alt="" coords="5,5,128,171"/>
 <area shape="rect" href="structDistTable.html" title=" " alt="" coords="148,233,303,428"/>
-<area shape="rect" href="structDeadline.html" title=" " alt="" coords="327,270,457,391"/>
+<area shape="rect" href="structDeadline.html" title="Deadline manager structure." alt="" coords="327,270,457,391"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a194d3aff14068b3ace7c06ad0aebdc55"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a194d3aff14068b3ace7c06ad0aebdc55">Planner</a> (const <a class="el" href="structInstance.html">Instance</a> &amp;_ins, const <a class="el" href="structDeadline.html">Deadline</a> *_deadline, std::mt19937 *_MT, const int _verbose=0, const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a> _objective=<a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626">OBJ_NONE</a>, const float _restart_rate=0.001, const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;_empty_solution={})</td></tr>
-<tr class="separator:a194d3aff14068b3ace7c06ad0aebdc55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacc1d6264e67ad090f6b38ed6a68371e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#aacc1d6264e67ad090f6b38ed6a68371e">Planner</a> (const <a class="el" href="structInstance.html">Instance</a> &amp;_ins, const <a class="el" href="structDeadline.html">Deadline</a> *_deadline, std::mt19937 *_MT, const int _verbose=0, const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a> _objective=<a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626">OBJ_NONE</a>, const float _restart_rate=0.001, const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;_global_solution={})</td></tr>
+<tr class="memdesc:aacc1d6264e67ad090f6b38ed6a68371e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="structPlanner.html" title="Class representing the planner for solving MAPF problems.">Planner</a> class using reference to <a class="el" href="structInstance.html" title="Represents a specific instance of a MAPF problem.">Instance</a>.  <a href="structPlanner.html#aacc1d6264e67ad090f6b38ed6a68371e">More...</a><br /></td></tr>
+<tr class="separator:aacc1d6264e67ad090f6b38ed6a68371e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2abc33a580249779eae290af3724ba7f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a2abc33a580249779eae290af3724ba7f">Planner</a> (std::shared_ptr&lt; <a class="el" href="structInstance.html">Instance</a> &gt; _ins, const <a class="el" href="structDeadline.html">Deadline</a> *_deadline, std::mt19937 *_MT, const int _verbose=0, const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a> _objective=<a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626">OBJ_NONE</a>, const float _restart_rate=0.001, const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;_empty_solution={})</td></tr>
+<tr class="memdesc:a2abc33a580249779eae290af3724ba7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="structPlanner.html" title="Class representing the planner for solving MAPF problems.">Planner</a> class using pointer to <a class="el" href="structInstance.html" title="Represents a specific instance of a MAPF problem.">Instance</a>.  <a href="structPlanner.html#a2abc33a580249779eae290af3724ba7f">More...</a><br /></td></tr>
 <tr class="separator:a2abc33a580249779eae290af3724ba7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3db7cf113ad368fa6fce636b6e94abe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#ac3db7cf113ad368fa6fce636b6e94abe">~Planner</a> ()</td></tr>
 <tr class="separator:ac3db7cf113ad368fa6fce636b6e94abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,41 +132,59 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a9cd81619e6e7230320d9bcec427f253e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structInstance.html">Instance</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a9cd81619e6e7230320d9bcec427f253e">ins</a></td></tr>
+<tr class="memdesc:a9cd81619e6e7230320d9bcec427f253e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to the MAPF instance.  <a href="structPlanner.html#a9cd81619e6e7230320d9bcec427f253e">More...</a><br /></td></tr>
 <tr class="separator:a9cd81619e6e7230320d9bcec427f253e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa004cc3e4915d7bf1b6d28bea20c4e4d"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structDeadline.html">Deadline</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#aa004cc3e4915d7bf1b6d28bea20c4e4d">deadline</a></td></tr>
+<tr class="memdesc:aa004cc3e4915d7bf1b6d28bea20c4e4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the solving deadline.  <a href="structPlanner.html#aa004cc3e4915d7bf1b6d28bea20c4e4d">More...</a><br /></td></tr>
 <tr class="separator:aa004cc3e4915d7bf1b6d28bea20c4e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40a3ec18384122b3b9eade057c840353"><td class="memItemLeft" align="right" valign="top">std::mt19937 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a40a3ec18384122b3b9eade057c840353">MT</a></td></tr>
+<tr class="memdesc:a40a3ec18384122b3b9eade057c840353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to random number generator.  <a href="structPlanner.html#a40a3ec18384122b3b9eade057c840353">More...</a><br /></td></tr>
 <tr class="separator:a40a3ec18384122b3b9eade057c840353"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b11ab35ea98c608bfee524ecf5ffdd0"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a9b11ab35ea98c608bfee524ecf5ffdd0">verbose</a></td></tr>
+<tr class="memdesc:a9b11ab35ea98c608bfee524ecf5ffdd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verbosity level.  <a href="structPlanner.html#a9b11ab35ea98c608bfee524ecf5ffdd0">More...</a><br /></td></tr>
 <tr class="separator:a9b11ab35ea98c608bfee524ecf5ffdd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcc2bf12a6146cb8a3086242e57c0357"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#abcc2bf12a6146cb8a3086242e57c0357">objective</a></td></tr>
+<tr class="memdesc:abcc2bf12a6146cb8a3086242e57c0357"><td class="mdescLeft">&#160;</td><td class="mdescRight">Objective function to minimize.  <a href="structPlanner.html#abcc2bf12a6146cb8a3086242e57c0357">More...</a><br /></td></tr>
 <tr class="separator:abcc2bf12a6146cb8a3086242e57c0357"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a119401084f3cda74b0637d7d7b18b636"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a119401084f3cda74b0637d7d7b18b636">RESTART_RATE</a></td></tr>
+<tr class="memdesc:a119401084f3cda74b0637d7d7b18b636"><td class="mdescLeft">&#160;</td><td class="mdescRight">Random restart rate.  <a href="structPlanner.html#a119401084f3cda74b0637d7d7b18b636">More...</a><br /></td></tr>
 <tr class="separator:a119401084f3cda74b0637d7d7b18b636"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6554a19a29a36a4b607c86866b49dea7"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a6554a19a29a36a4b607c86866b49dea7">N</a></td></tr>
+<tr class="memdesc:a6554a19a29a36a4b607c86866b49dea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of agents.  <a href="structPlanner.html#a6554a19a29a36a4b607c86866b49dea7">More...</a><br /></td></tr>
 <tr class="separator:a6554a19a29a36a4b607c86866b49dea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3dd98964be9924434d45f843a64c812"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#ae3dd98964be9924434d45f843a64c812">V_size</a></td></tr>
+<tr class="memdesc:ae3dd98964be9924434d45f843a64c812"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of vertices.  <a href="structPlanner.html#ae3dd98964be9924434d45f843a64c812">More...</a><br /></td></tr>
 <tr class="separator:ae3dd98964be9924434d45f843a64c812"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fe105b818b4105eef8d7a2a5cea68f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structDistTable.html">DistTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a8fe105b818b4105eef8d7a2a5cea68f4">D</a></td></tr>
+<tr class="memdesc:a8fe105b818b4105eef8d7a2a5cea68f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to the distance table.  <a href="structPlanner.html#a8fe105b818b4105eef8d7a2a5cea68f4">More...</a><br /></td></tr>
 <tr class="separator:a8fe105b818b4105eef8d7a2a5cea68f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55c010ef9fcf7c7f101f4acca2cf0684"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a55c010ef9fcf7c7f101f4acca2cf0684">loop_cnt</a></td></tr>
+<tr class="memdesc:a55c010ef9fcf7c7f101f4acca2cf0684"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loop count for internal processing.  <a href="structPlanner.html#a55c010ef9fcf7c7f101f4acca2cf0684">More...</a><br /></td></tr>
 <tr class="separator:a55c010ef9fcf7c7f101f4acca2cf0684"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aace151e3b49da9cd2834d3412c4c8f33"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::array&lt; std::shared_ptr&lt; <a class="el" href="structVertex.html">Vertex</a> &gt;, 5 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#aace151e3b49da9cd2834d3412c4c8f33">C_next</a></td></tr>
+<tr class="memdesc:aace151e3b49da9cd2834d3412c4c8f33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Next locations, used in PIBT.  <a href="structPlanner.html#aace151e3b49da9cd2834d3412c4c8f33">More...</a><br /></td></tr>
 <tr class="separator:aace151e3b49da9cd2834d3412c4c8f33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a547b1bde1f72af4829086db6babe3273"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a547b1bde1f72af4829086db6babe3273">tie_breakers</a></td></tr>
+<tr class="memdesc:a547b1bde1f72af4829086db6babe3273"><td class="mdescLeft">&#160;</td><td class="mdescRight">Random values, used in PIBT.  <a href="structPlanner.html#a547b1bde1f72af4829086db6babe3273">More...</a><br /></td></tr>
 <tr class="separator:a547b1bde1f72af4829086db6babe3273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac547b5407471537f82f1062e475c7df8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="planner_8hpp.html#a9dae3f369d015f919d0aea1073f205a2">Agents</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#ac547b5407471537f82f1062e475c7df8">A</a></td></tr>
+<tr class="memdesc:ac547b5407471537f82f1062e475c7df8"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of agents.  <a href="structPlanner.html#ac547b5407471537f82f1062e475c7df8">More...</a><br /></td></tr>
 <tr class="separator:ac547b5407471537f82f1062e475c7df8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7f77147d24481c0aeae89778db24cde"><td class="memItemLeft" align="right" valign="top"><a class="el" href="planner_8hpp.html#a9dae3f369d015f919d0aea1073f205a2">Agents</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#aa7f77147d24481c0aeae89778db24cde">occupied_now</a></td></tr>
+<tr class="memdesc:aa7f77147d24481c0aeae89778db24cde"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of currently occupied vertices for quick collision checking.  <a href="structPlanner.html#aa7f77147d24481c0aeae89778db24cde">More...</a><br /></td></tr>
 <tr class="separator:aa7f77147d24481c0aeae89778db24cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5141c44cbf6ecd946510059dca1e9c15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="planner_8hpp.html#a9dae3f369d015f919d0aea1073f205a2">Agents</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a5141c44cbf6ecd946510059dca1e9c15">occupied_next</a></td></tr>
+<tr class="memdesc:a5141c44cbf6ecd946510059dca1e9c15"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of next occupied vertices for quick collision checking.  <a href="structPlanner.html#a5141c44cbf6ecd946510059dca1e9c15">More...</a><br /></td></tr>
 <tr class="separator:a5141c44cbf6ecd946510059dca1e9c15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3889bd152a1ba502c12451272c8d5bea"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a3889bd152a1ba502c12451272c8d5bea">empty_solution</a></td></tr>
-<tr class="separator:a3889bd152a1ba502c12451272c8d5bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad86999d6f03b593cfc73b715b0b45083"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#ad86999d6f03b593cfc73b715b0b45083">global_solution</a></td></tr>
+<tr class="memdesc:ad86999d6f03b593cfc73b715b0b45083"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to the global solution.  <a href="structPlanner.html#ad86999d6f03b593cfc73b715b0b45083">More...</a><br /></td></tr>
+<tr class="separator:ad86999d6f03b593cfc73b715b0b45083"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a194d3aff14068b3ace7c06ad0aebdc55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a194d3aff14068b3ace7c06ad0aebdc55">&#9670;&nbsp;</a></span>Planner() <span class="overload">[1/2]</span></h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class representing the planner for solving MAPF problems. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aacc1d6264e67ad090f6b38ed6a68371e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacc1d6264e67ad090f6b38ed6a68371e">&#9670;&nbsp;</a></span>Planner() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,7 +229,7 @@ Data Fields</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;&#160;</td>
-          <td class="paramname"><em>_empty_solution</em> = <code>{}</code>&#160;</td>
+          <td class="paramname"><em>_global_solution</em> = <code>{}</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -215,6 +238,20 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructor for <a class="el" href="structPlanner.html" title="Class representing the planner for solving MAPF problems.">Planner</a> class using reference to <a class="el" href="structInstance.html" title="Represents a specific instance of a MAPF problem.">Instance</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_ins</td><td>Reference to the instance to solve. </td></tr>
+    <tr><td class="paramname">_deadline</td><td>The deadline for solving. </td></tr>
+    <tr><td class="paramname">_MT</td><td>The random number generator. </td></tr>
+    <tr><td class="paramname">_verbose</td><td>Verbosity level (default: 0). </td></tr>
+    <tr><td class="paramname">_objective</td><td>The objective function (default: OBJ_NONE). </td></tr>
+    <tr><td class="paramname">_restart_rate</td><td>Random restart rate (default: 0.001). </td></tr>
+    <tr><td class="paramname">_empty_solution</td><td>The empty solution (default: empty). </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -274,6 +311,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor for <a class="el" href="structPlanner.html" title="Class representing the planner for solving MAPF problems.">Planner</a> class using pointer to <a class="el" href="structInstance.html" title="Represents a specific instance of a MAPF problem.">Instance</a>. </p>
+
 </div>
 </div>
 <a id="ac3db7cf113ad368fa6fce636b6e94abe"></a>
@@ -327,7 +366,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title=" " alt="" coords="467,31,689,57"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,56,224,83"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
 </div>
@@ -366,8 +405,8 @@ Here is the call graph for this function:</div>
 <map name="astructPlanner_a5ceb9857727ef266b7abf427741d936b_cgraph" id="astructPlanner_a5ceb9857727ef266b7abf427741d936b_cgraph">
 <area shape="rect" title=" " alt="" coords="5,155,141,182"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="652,57,763,83"/>
-<area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title=" " alt="" coords="209,185,345,211"/>
-<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title=" " alt="" coords="253,235,300,262"/>
+<area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="209,185,345,211"/>
+<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="253,235,300,262"/>
 <area shape="rect" href="graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="226,286,327,313"/>
 <area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="189,119,364,160"/>
 <area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="189,53,364,95"/>
@@ -384,7 +423,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,31,647,57"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,56,224,83"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
 </div>
@@ -426,7 +465,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="491,107,616,133"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,81,403,108"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,144,419,171"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,144,224,171"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,144,224,171"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,144,60,171"/>
 </map>
 </div>
@@ -512,7 +551,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title=" " alt="" coords="467,31,625,57"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,56,224,83"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
 </div>
@@ -558,8 +597,8 @@ Here is the call graph for this function:</div>
 <area shape="rect" title=" " alt="" coords="5,155,185,182"/>
 <area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="233,155,369,182"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="880,57,991,83"/>
-<area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title=" " alt="" coords="437,185,573,211"/>
-<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title=" " alt="" coords="481,235,528,262"/>
+<area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="437,185,573,211"/>
+<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="481,235,528,262"/>
 <area shape="rect" href="graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="454,286,555,313"/>
 <area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="417,119,592,160"/>
 <area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="417,53,592,95"/>
@@ -575,7 +614,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title=" " alt="" coords="467,31,647,57"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,56,224,83"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
 </div>
@@ -619,7 +658,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,46,647,73"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,21,403,47"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,71,419,98"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,71,224,98"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,71,224,98"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,71,60,98"/>
 </map>
 </div>
@@ -684,7 +723,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,46,647,73"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,21,403,47"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,71,419,98"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,71,224,98"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,71,224,98"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,71,60,98"/>
 </map>
 </div>
@@ -785,8 +824,8 @@ Here is the call graph for this function:</div>
 <area shape="rect" title=" " alt="" coords="5,31,131,57"/>
 <area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="179,5,352,32"/>
 <area shape="rect" href="structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="190,56,341,83"/>
-<area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title=" " alt="" coords="400,31,500,57"/>
-<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title=" " alt="" coords="427,81,473,108"/>
+<area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="400,31,500,57"/>
+<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="427,81,473,108"/>
 <area shape="rect" href="structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="548,31,715,57"/>
 </map>
 </div>
@@ -798,7 +837,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title=" " alt="" coords="467,31,592,57"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,56,224,83"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
 </div>
@@ -840,22 +879,22 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="439,107,612,133"/>
 <area shape="rect" href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title=" " alt="" coords="446,425,605,452"/>
 <area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="189,309,369,336"/>
-<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title=" " alt="" coords="724,157,771,184"/>
-<area shape="rect" href="utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title=" " alt="" coords="481,56,570,83"/>
-<area shape="rect" href="graph_8hpp.html#a44b479382634c1b3415e08bc84d972e9" title=" " alt="" coords="218,411,341,437"/>
+<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="724,157,771,184"/>
+<area shape="rect" href="utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title="Checks if the given deadline has expired." alt="" coords="481,56,570,83"/>
+<area shape="rect" href="graph_8hpp.html#a44b479382634c1b3415e08bc84d972e9" title="Check the equivalence of two configurations." alt="" coords="218,411,341,437"/>
 <area shape="rect" href="graph_8hpp.html#aabd9d91fb32cf70532ed3247d863122e" title=" " alt="" coords="224,461,335,488"/>
 <area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="217,157,342,184"/>
 <area shape="rect" href="structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="450,157,601,184"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="1123,441,1233,468"/>
 <area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="457,309,593,336"/>
-<area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title=" " alt="" coords="679,340,815,367"/>
+<area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="679,340,815,367"/>
 <area shape="rect" href="graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="697,391,798,417"/>
 <area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="660,274,835,315"/>
 <area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="660,209,835,250"/>
 <area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="883,281,1075,308"/>
 <area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="883,231,1075,257"/>
 <area shape="rect" href="structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="895,81,1062,108"/>
-<area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title=" " alt="" coords="697,107,797,133"/>
+<area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="697,107,797,133"/>
 </map>
 </div>
 
@@ -915,17 +954,17 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="471,529,644,556"/>
 <area shape="rect" href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title=" " alt="" coords="931,107,1090,133"/>
 <area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="221,279,401,305"/>
-<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title=" " alt="" coords="756,441,803,468"/>
-<area shape="rect" href="utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title=" " alt="" coords="513,580,602,607"/>
+<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="756,441,803,468"/>
+<area shape="rect" href="utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title="Checks if the given deadline has expired." alt="" coords="513,580,602,607"/>
 <area shape="rect" href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the problem is factorizable at a given timestep." alt="" coords="221,380,401,407"/>
-<area shape="rect" href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb" title="Allows factorization according to definition. Uses the timesteps and pre&#45;loaded Partitions to determi..." alt="" coords="207,633,415,660"/>
-<area shape="rect" href="graph_8hpp.html#a44b479382634c1b3415e08bc84d972e9" title=" " alt="" coords="250,684,373,711"/>
+<area shape="rect" href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb" title="Allows factorization according to definition." alt="" coords="207,633,415,660"/>
+<area shape="rect" href="graph_8hpp.html#a44b479382634c1b3415e08bc84d972e9" title="Check the equivalence of two configurations." alt="" coords="250,684,373,711"/>
 <area shape="rect" href="graph_8hpp.html#aabd9d91fb32cf70532ed3247d863122e" title=" " alt="" coords="256,735,367,761"/>
 <area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="249,481,374,508"/>
 <area shape="rect" href="structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="482,460,633,487"/>
-<area shape="rect" href="planner_8cpp.html#adec0ef604594ebdb20dc833098255079" title=" " alt="" coords="268,785,355,812"/>
+<area shape="rect" href="planner_8cpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes the solution matrix." alt="" coords="268,785,355,812"/>
 <area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="489,279,625,305"/>
-<area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title=" " alt="" coords="711,340,847,367"/>
+<area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="711,340,847,367"/>
 <area shape="rect" href="graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="729,391,830,417"/>
 <area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="692,209,867,250"/>
 <area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="692,274,867,315"/>
@@ -933,7 +972,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="915,216,1107,243"/>
 <area shape="rect" href="structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="927,523,1094,549"/>
 <area shape="rect" href="classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="488,396,627,423"/>
-<area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title=" " alt="" coords="729,497,829,524"/>
+<area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="729,497,829,524"/>
 </map>
 </div>
 <div class="dynheader">
@@ -942,7 +981,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="structPlanner_a4722161407b657c3c178f56e61dc412e_icgraph.png" border="0" usemap="#astructPlanner_a4722161407b657c3c178f56e61dc412e_icgraph" alt=""/></div>
 <map name="astructPlanner_a4722161407b657c3c178f56e61dc412e_icgraph" id="astructPlanner_a4722161407b657c3c178f56e61dc412e_icgraph">
 <area shape="rect" title=" " alt="" coords="272,5,419,32"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,5,224,32"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>
 </div>
@@ -990,8 +1029,8 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="structPlanner_a4672665dd15c43cea5d697e100101213_cgraph.png" border="0" usemap="#astructPlanner_a4672665dd15c43cea5d697e100101213_cgraph" alt=""/></div>
 <map name="astructPlanner_a4672665dd15c43cea5d697e100101213_cgraph" id="astructPlanner_a4672665dd15c43cea5d697e100101213_cgraph">
 <area shape="rect" title=" " alt="" coords="5,31,156,57"/>
-<area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title=" " alt="" coords="204,5,304,32"/>
-<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title=" " alt="" coords="231,56,277,83"/>
+<area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="204,5,304,32"/>
+<area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="231,56,277,83"/>
 <area shape="rect" href="structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="352,5,519,32"/>
 </map>
 </div>
@@ -1004,7 +1043,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="467,31,592,57"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,68,419,95"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,68,224,95"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,68,224,95"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,68,60,95"/>
 </map>
 </div>
@@ -1047,7 +1086,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,31,647,57"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,56,224,83"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
 </div>
@@ -1100,7 +1139,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,31,647,57"/>
 <area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,56,224,83"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
 </div>
@@ -1120,6 +1159,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>List of agents. </p>
+
 </div>
 </div>
 <a id="aace151e3b49da9cd2834d3412c4c8f33"></a>
@@ -1133,6 +1174,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Next locations, used in PIBT. </p>
 
 </div>
 </div>
@@ -1148,6 +1191,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Reference to the distance table. </p>
+
 </div>
 </div>
 <a id="aa004cc3e4915d7bf1b6d28bea20c4e4d"></a>
@@ -1162,19 +1207,23 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Pointer to the solving deadline. </p>
+
 </div>
 </div>
-<a id="a3889bd152a1ba502c12451272c8d5bea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3889bd152a1ba502c12451272c8d5bea">&#9670;&nbsp;</a></span>empty_solution</h2>
+<a id="ad86999d6f03b593cfc73b715b0b45083"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad86999d6f03b593cfc73b715b0b45083">&#9670;&nbsp;</a></span>global_solution</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&amp; Planner::empty_solution</td>
+          <td class="memname">const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&amp; Planner::global_solution</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Reference to the global solution. </p>
 
 </div>
 </div>
@@ -1190,6 +1239,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Reference to the MAPF instance. </p>
+
 </div>
 </div>
 <a id="a55c010ef9fcf7c7f101f4acca2cf0684"></a>
@@ -1203,6 +1254,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Loop count for internal processing. </p>
 
 </div>
 </div>
@@ -1218,6 +1271,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Pointer to random number generator. </p>
+
 </div>
 </div>
 <a id="a6554a19a29a36a4b607c86866b49dea7"></a>
@@ -1231,6 +1286,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Number of agents. </p>
 
 </div>
 </div>
@@ -1246,6 +1303,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Objective function to minimize. </p>
+
 </div>
 </div>
 <a id="a5141c44cbf6ecd946510059dca1e9c15"></a>
@@ -1259,6 +1318,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>List of next occupied vertices for quick collision checking. </p>
 
 </div>
 </div>
@@ -1274,6 +1335,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>List of currently occupied vertices for quick collision checking. </p>
+
 </div>
 </div>
 <a id="a119401084f3cda74b0637d7d7b18b636"></a>
@@ -1287,6 +1350,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Random restart rate. </p>
 
 </div>
 </div>
@@ -1302,6 +1367,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Random values, used in PIBT. </p>
+
 </div>
 </div>
 <a id="ae3dd98964be9924434d45f843a64c812"></a>
@@ -1316,6 +1383,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Number of vertices. </p>
+
 </div>
 </div>
 <a id="a9b11ab35ea98c608bfee524ecf5ffdd0"></a>
@@ -1329,6 +1398,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Verbosity level. </p>
 
 </div>
 </div>

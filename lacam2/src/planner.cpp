@@ -1,6 +1,6 @@
 /**
  * @file planner.cpp
- * @brief 
+ * @brief Implementation of the main solving procedure and all classes related to the planning.
  */
 #include "../include/planner.hpp"
 
@@ -108,7 +108,7 @@ HNode::~HNode()
 Planner::Planner(const Instance& _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
                  const Objective _objective, const float _restart_rate,
-                 const Solution& _empty_solution)
+                 const Solution& _global_solution)
         : ins(_ins),
         deadline(_deadline),
         MT(_MT),
@@ -124,7 +124,7 @@ Planner::Planner(const Instance& _ins, const Deadline* _deadline,
         A(N, nullptr),
         occupied_now(V_size, nullptr),
         occupied_next(V_size, nullptr),
-        empty_solution(_empty_solution)                  // initialize with nothing
+        global_solution(_global_solution)                  // initialize with nothing
 {
 }
 
@@ -133,7 +133,7 @@ Planner::Planner(const Instance& _ins, const Deadline* _deadline,
 Planner::Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline,
                  std::mt19937* _MT, const int _verbose,
                  const Objective _objective, const float _restart_rate,
-                 const Solution& _empty_solution)
+                 const Solution& _global_solution)
         : ins(*_ins.get()),     // get value stored at memory loc
         deadline(_deadline),
         MT(_MT),
@@ -149,15 +149,15 @@ Planner::Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline,
         A(N, nullptr),
         occupied_now(V_size, nullptr),
         occupied_next(V_size, nullptr),
-        empty_solution(_empty_solution)                  // initialize with nothing
+        global_solution(_global_solution)                  // initialize with nothing
 {
 }
 
 Planner::~Planner() {}
 
 // standard solving
-    Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
-    {
+Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
+{
     PROFILE_FUNC(profiler::colors::Orange500);
     PROFILE_BLOCK("Initialization");
     solver_info(1, "start search");
@@ -287,7 +287,7 @@ Planner::~Planner() {}
     for (auto itr : EXPLORED) delete itr.second;
 
     return solution;
-    }
+}
 
 
 
@@ -318,7 +318,7 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
     // Config C_goal_overwrite = ins.goals;  // to overwrite goal condition in case of factorization
     std::list<std::shared_ptr<Instance>> sub_instances;
 
-    uint start_time = empty_solution[ins.enabled[0]].size();
+    uint start_time = global_solution[ins.enabled[0]].size();
 
     // Restore the inheried priorities of agents
     if (ins.priority.size() > 1)
@@ -499,10 +499,9 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
 }
 
 
-
-    // Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality
+// Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality
 void Planner::rewrite(HNode* H_from, HNode* H_to, HNode* H_goal, std::stack<HNode*>& OPEN)
-    {
+{
     // update neighbors. Means H_to is reachable from H_from
     H_from->neighbor.insert(H_to);
 

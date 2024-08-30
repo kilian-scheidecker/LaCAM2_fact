@@ -2,6 +2,11 @@
 \label{structAgent}\index{Agent@{Agent}}
 
 
+Struct representing an agent.  
+
+
+
+
 {\ttfamily \#include $<$planner.\+hpp$>$}
 
 
@@ -17,17 +22,20 @@ Collaboration diagram for Agent\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{structAgent_abe4a302fe0ae3663d938ccefc7640e14}{Agent}} (\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \+\_\+id)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Next location of the agent. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
 const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structAgent_a6e23b0673724e9177bcceca0bfcc43ca}{id}}
 \item 
 std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ \mbox{\hyperlink{structAgent_a88519be2691a80542c3174aca01d4584}{v\+\_\+now}}
-\item 
+\begin{DoxyCompactList}\small\item\em Unique identifier of the agent. \end{DoxyCompactList}\item 
 std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ \mbox{\hyperlink{structAgent_a762df91ee8fd1a9f083e255a83cf65b0}{v\+\_\+next}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Current location of the agent. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Struct representing an agent. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{structAgent_abe4a302fe0ae3663d938ccefc7640e14}\label{structAgent_abe4a302fe0ae3663d938ccefc7640e14}} 
@@ -35,6 +43,10 @@ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ \mbox{\hyp
 \index{Agent@{Agent}!Agent@{Agent}}
 \doxysubsubsection{\texorpdfstring{Agent()}{Agent()}}
 {\footnotesize\ttfamily Agent\+::\+Agent (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Next location of the agent. 
 
 
 
@@ -51,11 +63,19 @@ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ \mbox{\hyp
 \doxysubsubsection{\texorpdfstring{v\_next}{v\_next}}
 {\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{structVertex}{Vertex}}$>$ Agent\+::v\+\_\+next}
 
+
+
+Current location of the agent. 
+
 \mbox{\Hypertarget{structAgent_a88519be2691a80542c3174aca01d4584}\label{structAgent_a88519be2691a80542c3174aca01d4584}} 
 \index{Agent@{Agent}!v\_now@{v\_now}}
 \index{v\_now@{v\_now}!Agent@{Agent}}
 \doxysubsubsection{\texorpdfstring{v\_now}{v\_now}}
 {\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{structVertex}{Vertex}}$>$ Agent\+::v\+\_\+now}
+
+
+
+Unique identifier of the agent. 
 
 
 

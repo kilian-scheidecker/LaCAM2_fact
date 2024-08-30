@@ -1,5 +1,6 @@
-/*
- * Distance table with lazy evaluation, using BFS.
+/**
+ * @file dist_table.hpp
+ * @brief Definition of DistTable with lazy evaluation, using BFS. Implemented in singleton pattern to avoid multiple initialization when using factorization
  */
 #pragma once
 

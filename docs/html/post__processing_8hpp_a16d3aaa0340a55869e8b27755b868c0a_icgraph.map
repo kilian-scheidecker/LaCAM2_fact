@@ -1,5 +1,5 @@
 <map id="is_neighbor" name="is_neighbor">
-<area shape="rect" id="node1" title=" " alt="" coords="307,5,404,32"/>
-<area shape="rect" id="node2" href="$post__processing_8hpp.html#a9d8858f121eb54885be9cd943f60fbe7" title=" " alt="" coords="108,5,259,32"/>
+<area shape="rect" id="node1" title="Checks if two vertices are neighbors within a given width." alt="" coords="307,5,404,32"/>
+<area shape="rect" id="node2" href="$post__processing_8hpp.html#a9d8858f121eb54885be9cd943f60fbe7" title="Checks if the given solution is feasible for the provided instance." alt="" coords="108,5,259,32"/>
 <area shape="rect" id="node3" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>

@@ -75,6 +75,9 @@ $(function() {
 <div class="title">planner.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Definition of <a class="el" href="structPlanner.html" title="Class representing the planner for solving MAPF problems.">Planner</a> class and core components for solving MAPF instances using LaCAM2 and LaCAM2_fact algorithms.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="dist__table_8hpp_source.html">dist_table.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="graph_8hpp_source.html">graph.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="instance_8hpp_source.html">instance.hpp</a>&quot;</code><br />
@@ -85,34 +88,34 @@ Include dependency graph for planner.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="planner_8hpp__incl.png" border="0" usemap="#alacam2_2include_2planner_8hpp" alt=""/></div>
 <map name="alacam2_2include_2planner_8hpp" id="alacam2_2include_2planner_8hpp">
-<area shape="rect" title=" " alt="" coords="730,5,931,32"/>
-<area shape="rect" href="dist__table_8hpp.html" title=" " alt="" coords="773,155,888,181"/>
-<area shape="rect" href="graph_8hpp.html" title=" " alt="" coords="725,304,811,331"/>
-<area shape="rect" href="utils_8hpp.html" title=" " alt="" coords="851,379,930,405"/>
-<area shape="rect" href="instance_8hpp.html" title=" " alt="" coords="598,229,703,256"/>
-<area shape="rect" href="factorizer_8hpp.html" title="Provides classes and methods for various factorization algorithms." alt="" coords="963,80,1074,107"/>
-<area shape="rect" title=" " alt="" coords="1739,453,1795,480"/>
-<area shape="rect" title=" " alt="" coords="1819,453,1885,480"/>
-<area shape="rect" title=" " alt="" coords="1909,453,1976,480"/>
-<area shape="rect" title=" " alt="" coords="102,453,175,480"/>
-<area shape="rect" title=" " alt="" coords="200,453,275,480"/>
-<area shape="rect" title=" " alt="" coords="299,453,379,480"/>
-<area shape="rect" title=" " alt="" coords="403,453,477,480"/>
-<area shape="rect" title=" " alt="" coords="502,453,565,480"/>
-<area shape="rect" title=" " alt="" coords="5,453,77,480"/>
-<area shape="rect" title=" " alt="" coords="589,453,648,480"/>
-<area shape="rect" title=" " alt="" coords="672,453,715,480"/>
-<area shape="rect" title=" " alt="" coords="739,453,797,480"/>
-<area shape="rect" title=" " alt="" coords="821,453,880,480"/>
-<area shape="rect" title=" " alt="" coords="905,453,959,480"/>
-<area shape="rect" title=" " alt="" coords="983,453,1107,480"/>
-<area shape="rect" title=" " alt="" coords="1131,453,1194,480"/>
-<area shape="rect" title=" " alt="" coords="1219,453,1261,480"/>
-<area shape="rect" title=" " alt="" coords="1285,453,1336,480"/>
-<area shape="rect" title=" " alt="" coords="1360,453,1445,480"/>
-<area shape="rect" title=" " alt="" coords="1469,453,1544,480"/>
-<area shape="rect" title=" " alt="" coords="1568,453,1715,480"/>
-<area shape="rect" title=" " alt="" coords="1013,155,1128,181"/>
+<area shape="rect" title="Definition of Planner class and core components for solving MAPF instances using LaCAM2 and LaCAM2_fa..." alt="" coords="818,5,1019,32"/>
+<area shape="rect" href="dist__table_8hpp.html" title="Definition of DistTable with lazy evaluation, using BFS." alt="" coords="861,155,976,181"/>
+<area shape="rect" href="graph_8hpp.html" title="Definition of the Graph class that represents the environment." alt="" coords="911,304,998,331"/>
+<area shape="rect" href="utils_8hpp.html" title="Define profiler setup and some utility functions." alt="" coords="915,379,994,405"/>
+<area shape="rect" href="instance_8hpp.html" title="Definition of the Instance class." alt="" coords="962,229,1067,256"/>
+<area shape="rect" href="factorizer_8hpp.html" title="Provides classes and methods for various factorization algorithms." alt="" coords="1051,80,1162,107"/>
+<area shape="rect" title=" " alt="" coords="5,453,61,480"/>
+<area shape="rect" title=" " alt="" coords="85,453,152,480"/>
+<area shape="rect" title=" " alt="" coords="176,453,243,480"/>
+<area shape="rect" title=" " alt="" coords="267,453,341,480"/>
+<area shape="rect" title=" " alt="" coords="365,453,440,480"/>
+<area shape="rect" title=" " alt="" coords="464,453,544,480"/>
+<area shape="rect" title=" " alt="" coords="568,453,643,480"/>
+<area shape="rect" title=" " alt="" coords="667,453,730,480"/>
+<area shape="rect" title=" " alt="" coords="755,453,827,480"/>
+<area shape="rect" title=" " alt="" coords="851,453,909,480"/>
+<area shape="rect" title=" " alt="" coords="933,453,976,480"/>
+<area shape="rect" title=" " alt="" coords="1001,453,1058,480"/>
+<area shape="rect" title=" " alt="" coords="1083,453,1141,480"/>
+<area shape="rect" title=" " alt="" coords="1166,453,1221,480"/>
+<area shape="rect" title=" " alt="" coords="1245,453,1369,480"/>
+<area shape="rect" title=" " alt="" coords="1393,453,1455,480"/>
+<area shape="rect" title=" " alt="" coords="1480,453,1523,480"/>
+<area shape="rect" title=" " alt="" coords="1547,453,1597,480"/>
+<area shape="rect" title=" " alt="" coords="1621,453,1707,480"/>
+<area shape="rect" title=" " alt="" coords="1731,453,1805,480"/>
+<area shape="rect" title=" " alt="" coords="1829,453,1976,480"/>
+<area shape="rect" title=" " alt="" coords="1143,155,1257,181"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -120,11 +123,11 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="planner_8hpp__dep__incl.png" border="0" usemap="#alacam2_2include_2planner_8hppdep" alt=""/></div>
 <map name="alacam2_2include_2planner_8hppdep" id="alacam2_2include_2planner_8hppdep">
-<area shape="rect" title=" " alt="" coords="172,5,373,32"/>
-<area shape="rect" href="lacam2_8hpp.html" title=" " alt="" coords="67,80,268,107"/>
-<area shape="rect" href="planner_8cpp.html" title=" " alt="" coords="292,80,464,107"/>
-<area shape="rect" href="lacam2_8cpp.html" title=" " alt="" coords="5,155,177,181"/>
-<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="202,155,285,181"/>
+<area shape="rect" title="Definition of Planner class and core components for solving MAPF instances using LaCAM2 and LaCAM2_fa..." alt="" coords="172,5,373,32"/>
+<area shape="rect" href="lacam2_8hpp.html" title="Definition of the three main solving methods: standard, factorized and factorized with multi&#45;threadin..." alt="" coords="67,80,268,107"/>
+<area shape="rect" href="planner_8cpp.html" title="Implementation of the main solving procedure and all classes related to the planning." alt="" coords="292,80,464,107"/>
+<area shape="rect" href="lacam2_8cpp.html" title="Implementation of the solve, solve_fact and solve_fact_MT functions." alt="" coords="5,155,177,181"/>
+<area shape="rect" href="main_8cpp.html" title="Main entry point for the LaCAM2 application." alt="" coords="202,155,285,181"/>
 </map>
 </div>
 </div>
@@ -133,14 +136,19 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAgent.html">Agent</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct representing an agent.  <a href="structAgent.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLNode.html">LNode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct representing a low-level search node.  <a href="structLNode.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structHNode.html">HNode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct representing a high-level search node.  <a href="structHNode.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBundle.html">Bundle</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct representing the result of a factorized solving process.  <a href="structBundle.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html">Planner</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing the planner for solving MAPF problems.  <a href="structPlanner.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -156,6 +164,7 @@ Enumerations</h2></td></tr>
 , <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6ba88123144ceae5db04c4ee5cb9a4bf017">OBJ_MAKESPAN</a>
 , <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6ba796591edc6cad71aab32968d2457132c">OBJ_SUM_OF_LOSS</a>
  }</td></tr>
+<tr class="memdesc:affff5f405069a39239a7719a81670c6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for defining the objective function used in the solving process.  <a href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">More...</a><br /></td></tr>
 <tr class="separator:affff5f405069a39239a7719a81670c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -163,11 +172,16 @@ Functions</h2></td></tr>
 <tr class="memitem:ac15196189aa5a6a5e8207f5c6849bd84"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="planner_8hpp.html#ac15196189aa5a6a5e8207f5c6849bd84">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a> objective)</td></tr>
 <tr class="separator:ac15196189aa5a6a5e8207f5c6849bd84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adec0ef604594ebdb20dc833098255079"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="planner_8hpp.html#adec0ef604594ebdb20dc833098255079">transpose</a> (const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;matrix)</td></tr>
+<tr class="memdesc:adec0ef604594ebdb20dc833098255079"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transposes the solution matrix.  <a href="planner_8hpp.html#adec0ef604594ebdb20dc833098255079">More...</a><br /></td></tr>
 <tr class="separator:adec0ef604594ebdb20dc833098255079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4aa52241a4e6626d5aa157336c6b56d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="planner_8hpp.html#ab4aa52241a4e6626d5aa157336c6b56d">padSolution</a> (<a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;sol)</td></tr>
+<tr class="memdesc:ab4aa52241a4e6626d5aa157336c6b56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pads the solution to ensure consistency in dimensions.  <a href="planner_8hpp.html#ab4aa52241a4e6626d5aa157336c6b56d">More...</a><br /></td></tr>
 <tr class="separator:ab4aa52241a4e6626d5aa157336c6b56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Definition of <a class="el" href="structPlanner.html" title="Class representing the planner for solving MAPF problems.">Planner</a> class and core components for solving MAPF instances using LaCAM2 and LaCAM2_fact algorithms. </p>
+<p>This file also defines the <a class="el" href="structAgent.html" title="Struct representing an agent.">Agent</a>, Hnode, Lnode and <a class="el" href="structPlanner.html" title="Class representing the planner for solving MAPF problems.">Planner</a> classes. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
 <a id="a9dae3f369d015f919d0aea1073f205a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9dae3f369d015f919d0aea1073f205a2">&#9670;&nbsp;</a></span>Agents</h2>
 
@@ -208,10 +222,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Enum for defining the objective function used in the solving process. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626"></a>OBJ_NONE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="affff5f405069a39239a7719a81670c6ba88123144ceae5db04c4ee5cb9a4bf017"></a>OBJ_MAKESPAN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="affff5f405069a39239a7719a81670c6ba796591edc6cad71aab32968d2457132c"></a>OBJ_SUM_OF_LOSS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="affff5f405069a39239a7719a81670c6ba88123144ceae5db04c4ee5cb9a4bf017"></a>OBJ_MAKESPAN&#160;</td><td class="fielddoc"><p>No specific objective. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="affff5f405069a39239a7719a81670c6ba796591edc6cad71aab32968d2457132c"></a>OBJ_SUM_OF_LOSS&#160;</td><td class="fielddoc"><p>Minimize the makespan. </p>
+<p>Minimize the sum of losses. </p>
+</td></tr>
 </table>
 
 </div>
@@ -260,14 +279,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Pads the solution to ensure consistency in dimensions. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="planner_8hpp_ab4aa52241a4e6626d5aa157336c6b56d_icgraph.png" border="0" usemap="#aplanner_8hpp_ab4aa52241a4e6626d5aa157336c6b56d_icgraph" alt=""/></div>
 <map name="aplanner_8hpp_ab4aa52241a4e6626d5aa157336c6b56d_icgraph" id="aplanner_8hpp_ab4aa52241a4e6626d5aa157336c6b56d_icgraph">
-<area shape="rect" title=" " alt="" coords="272,31,371,57"/>
-<area shape="rect" href="lacam2_8hpp.html#a78f1c710f640dc4f94eed2e9022624c5" title=" " alt="" coords="121,5,211,32"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,56,224,83"/>
+<area shape="rect" title="Pads the solution to ensure consistency in dimensions." alt="" coords="272,31,371,57"/>
+<area shape="rect" href="lacam2_8hpp.html#a78f1c710f640dc4f94eed2e9022624c5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="121,5,211,32"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,60,57"/>
 </map>
 </div>
@@ -289,15 +310,17 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Transposes the solution matrix. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="planner_8hpp_adec0ef604594ebdb20dc833098255079_icgraph.png" border="0" usemap="#aplanner_8hpp_adec0ef604594ebdb20dc833098255079_icgraph" alt=""/></div>
 <map name="aplanner_8hpp_adec0ef604594ebdb20dc833098255079_icgraph" id="aplanner_8hpp_adec0ef604594ebdb20dc833098255079_icgraph">
-<area shape="rect" title=" " alt="" coords="467,56,553,83"/>
-<area shape="rect" href="lacam2_8hpp.html#a78f1c710f640dc4f94eed2e9022624c5" title=" " alt="" coords="121,5,211,32"/>
+<area shape="rect" title="Transposes the solution matrix." alt="" coords="467,56,553,83"/>
+<area shape="rect" href="lacam2_8hpp.html#a78f1c710f640dc4f94eed2e9022624c5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="121,5,211,32"/>
 <area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
-<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title=" " alt="" coords="108,56,224,83"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,60,57"/>
 </map>
 </div>

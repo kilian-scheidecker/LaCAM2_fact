@@ -2,6 +2,11 @@
 \label{structPlanner}\index{Planner@{Planner}}
 
 
+Class representing the planner for solving MAPF problems.  
+
+
+
+
 {\ttfamily \#include $<$planner.\+hpp$>$}
 
 
@@ -16,10 +21,10 @@ Collaboration diagram for Planner\+:\nopagebreak
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structPlanner_a194d3aff14068b3ace7c06ad0aebdc55}{Planner}} (const \mbox{\hyperlink{structInstance}{Instance}} \&\+\_\+ins, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$\+\_\+deadline, std\+::mt19937 $\ast$\+\_\+\+MT, const int \+\_\+verbose=0, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} \+\_\+objective=\mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}, const float \+\_\+restart\+\_\+rate=0.\+001, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&\+\_\+empty\+\_\+solution=\{\})
-\item 
+\mbox{\hyperlink{structPlanner_aacc1d6264e67ad090f6b38ed6a68371e}{Planner}} (const \mbox{\hyperlink{structInstance}{Instance}} \&\+\_\+ins, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$\+\_\+deadline, std\+::mt19937 $\ast$\+\_\+\+MT, const int \+\_\+verbose=0, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} \+\_\+objective=\mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}, const float \+\_\+restart\+\_\+rate=0.\+001, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&\+\_\+global\+\_\+solution=\{\})
+\begin{DoxyCompactList}\small\item\em Constructor for \mbox{\hyperlink{structPlanner}{Planner}} class using reference to \mbox{\hyperlink{structInstance}{Instance}}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structPlanner_a2abc33a580249779eae290af3724ba7f}{Planner}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ \+\_\+ins, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$\+\_\+deadline, std\+::mt19937 $\ast$\+\_\+\+MT, const int \+\_\+verbose=0, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} \+\_\+objective=\mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}, const float \+\_\+restart\+\_\+rate=0.\+001, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&\+\_\+empty\+\_\+solution=\{\})
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor for \mbox{\hyperlink{structPlanner}{Planner}} class using pointer to \mbox{\hyperlink{structInstance}{Instance}}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structPlanner_ac3db7cf113ad368fa6fce636b6e94abe}{$\sim$\+Planner}} ()
 \item 
 \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{structPlanner_a73e83c66c7a158575eeedd8a9f122a67}{solve}} (std\+::string \&additional\+\_\+info, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr)
@@ -56,51 +61,79 @@ bool \mbox{\hyperlink{structPlanner_a2f1783abd06cbf4999bde1bb111fc438}{is\+\_\+s
 \begin{DoxyCompactItemize}
 \item 
 const \mbox{\hyperlink{structInstance}{Instance}} \& \mbox{\hyperlink{structPlanner_a9cd81619e6e7230320d9bcec427f253e}{ins}}
-\item 
+\begin{DoxyCompactList}\small\item\em Reference to the MAPF instance. \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$ \mbox{\hyperlink{structPlanner_aa004cc3e4915d7bf1b6d28bea20c4e4d}{deadline}}
-\item 
+\begin{DoxyCompactList}\small\item\em Pointer to the solving deadline. \end{DoxyCompactList}\item 
 std\+::mt19937 $\ast$ \mbox{\hyperlink{structPlanner_a40a3ec18384122b3b9eade057c840353}{MT}}
-\item 
+\begin{DoxyCompactList}\small\item\em Pointer to random number generator. \end{DoxyCompactList}\item 
 const int \mbox{\hyperlink{structPlanner_a9b11ab35ea98c608bfee524ecf5ffdd0}{verbose}}
-\item 
+\begin{DoxyCompactList}\small\item\em Verbosity level. \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} \mbox{\hyperlink{structPlanner_abcc2bf12a6146cb8a3086242e57c0357}{objective}}
-\item 
+\begin{DoxyCompactList}\small\item\em Objective function to minimize. \end{DoxyCompactList}\item 
 const float \mbox{\hyperlink{structPlanner_a119401084f3cda74b0637d7d7b18b636}{RESTART\+\_\+\+RATE}}
-\item 
+\begin{DoxyCompactList}\small\item\em Random restart rate. \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a6554a19a29a36a4b607c86866b49dea7}{N}}
-\item 
+\begin{DoxyCompactList}\small\item\em Number of agents. \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_ae3dd98964be9924434d45f843a64c812}{V\+\_\+size}}
-\item 
+\begin{DoxyCompactList}\small\item\em Number of vertices. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structDistTable}{Dist\+Table}} \& \mbox{\hyperlink{structPlanner_a8fe105b818b4105eef8d7a2a5cea68f4}{D}}
-\item 
+\begin{DoxyCompactList}\small\item\em Reference to the distance table. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a55c010ef9fcf7c7f101f4acca2cf0684}{loop\+\_\+cnt}}
-\item 
+\begin{DoxyCompactList}\small\item\em Loop count for internal processing. \end{DoxyCompactList}\item 
 std\+::vector$<$ std\+::array$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$, 5 $>$ $>$ \mbox{\hyperlink{structPlanner_aace151e3b49da9cd2834d3412c4c8f33}{C\+\_\+next}}
-\item 
+\begin{DoxyCompactList}\small\item\em Next locations, used in PIBT. \end{DoxyCompactList}\item 
 std\+::vector$<$ float $>$ \mbox{\hyperlink{structPlanner_a547b1bde1f72af4829086db6babe3273}{tie\+\_\+breakers}}
-\item 
+\begin{DoxyCompactList}\small\item\em Random values, used in PIBT. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} \mbox{\hyperlink{structPlanner_ac547b5407471537f82f1062e475c7df8}{A}}
-\item 
+\begin{DoxyCompactList}\small\item\em List of agents. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} \mbox{\hyperlink{structPlanner_aa7f77147d24481c0aeae89778db24cde}{occupied\+\_\+now}}
-\item 
+\begin{DoxyCompactList}\small\item\em List of currently occupied vertices for quick collision checking. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} \mbox{\hyperlink{structPlanner_a5141c44cbf6ecd946510059dca1e9c15}{occupied\+\_\+next}}
-\item 
-const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \& \mbox{\hyperlink{structPlanner_a3889bd152a1ba502c12451272c8d5bea}{empty\+\_\+solution}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em List of next occupied vertices for quick collision checking. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \& \mbox{\hyperlink{structPlanner_ad86999d6f03b593cfc73b715b0b45083}{global\+\_\+solution}}
+\begin{DoxyCompactList}\small\item\em Reference to the global solution. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Class representing the planner for solving MAPF problems. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{structPlanner_a194d3aff14068b3ace7c06ad0aebdc55}\label{structPlanner_a194d3aff14068b3ace7c06ad0aebdc55}} 
+\mbox{\Hypertarget{structPlanner_aacc1d6264e67ad090f6b38ed6a68371e}\label{structPlanner_aacc1d6264e67ad090f6b38ed6a68371e}} 
 \index{Planner@{Planner}!Planner@{Planner}}
 \index{Planner@{Planner}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{Planner()}{Planner()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily Planner\+::\+Planner (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{\+\_\+ins,  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{\+\_\+deadline,  }\item[{std\+::mt19937 $\ast$}]{\+\_\+\+MT,  }\item[{const int}]{\+\_\+verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{\+\_\+objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{\+\_\+restart\+\_\+rate = {\ttfamily 0.001},  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{\+\_\+empty\+\_\+solution = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Planner\+::\+Planner (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{\+\_\+ins,  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{\+\_\+deadline,  }\item[{std\+::mt19937 $\ast$}]{\+\_\+\+MT,  }\item[{const int}]{\+\_\+verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{\+\_\+objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{\+\_\+restart\+\_\+rate = {\ttfamily 0.001},  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{\+\_\+global\+\_\+solution = {\ttfamily \{\}} }\end{DoxyParamCaption})}
 
+
+
+Constructor for \mbox{\hyperlink{structPlanner}{Planner}} class using reference to \mbox{\hyperlink{structInstance}{Instance}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+ins} & Reference to the instance to solve. \\
+\hline
+{\em \+\_\+deadline} & The deadline for solving. \\
+\hline
+{\em \+\_\+\+MT} & The random number generator. \\
+\hline
+{\em \+\_\+verbose} & Verbosity level (default\+: 0). \\
+\hline
+{\em \+\_\+objective} & The objective function (default\+: OBJ\+\_\+\+NONE). \\
+\hline
+{\em \+\_\+restart\+\_\+rate} & Random restart rate (default\+: 0.\+001). \\
+\hline
+{\em \+\_\+empty\+\_\+solution} & The empty solution (default\+: empty). \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{structPlanner_a2abc33a580249779eae290af3724ba7f}\label{structPlanner_a2abc33a580249779eae290af3724ba7f}} 
 \index{Planner@{Planner}!Planner@{Planner}}
 \index{Planner@{Planner}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{Planner()}{Planner()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily Planner\+::\+Planner (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$}]{\+\_\+ins,  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{\+\_\+deadline,  }\item[{std\+::mt19937 $\ast$}]{\+\_\+\+MT,  }\item[{const int}]{\+\_\+verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{\+\_\+objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{\+\_\+restart\+\_\+rate = {\ttfamily 0.001},  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{\+\_\+empty\+\_\+solution = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+
+
+Constructor for \mbox{\hyperlink{structPlanner}{Planner}} class using pointer to \mbox{\hyperlink{structInstance}{Instance}}. 
 
 \mbox{\Hypertarget{structPlanner_ac3db7cf113ad368fa6fce636b6e94abe}\label{structPlanner_ac3db7cf113ad368fa6fce636b6e94abe}} 
 \index{Planner@{Planner}!````~Planner@{$\sim$Planner}}
@@ -379,11 +412,19 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{A}{A}}
 {\footnotesize\ttfamily \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} Planner\+::A}
 
+
+
+List of agents. 
+
 \mbox{\Hypertarget{structPlanner_aace151e3b49da9cd2834d3412c4c8f33}\label{structPlanner_aace151e3b49da9cd2834d3412c4c8f33}} 
 \index{Planner@{Planner}!C\_next@{C\_next}}
 \index{C\_next@{C\_next}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{C\_next}{C\_next}}
 {\footnotesize\ttfamily std\+::vector$<$std\+::array$<$std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{structVertex}{Vertex}}$>$, 5$>$ $>$ Planner\+::\+C\+\_\+next}
+
+
+
+Next locations, used in PIBT. 
 
 \mbox{\Hypertarget{structPlanner_a8fe105b818b4105eef8d7a2a5cea68f4}\label{structPlanner_a8fe105b818b4105eef8d7a2a5cea68f4}} 
 \index{Planner@{Planner}!D@{D}}
@@ -391,17 +432,29 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{D}{D}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structDistTable}{Dist\+Table}}\& Planner\+::D}
 
+
+
+Reference to the distance table. 
+
 \mbox{\Hypertarget{structPlanner_aa004cc3e4915d7bf1b6d28bea20c4e4d}\label{structPlanner_aa004cc3e4915d7bf1b6d28bea20c4e4d}} 
 \index{Planner@{Planner}!deadline@{deadline}}
 \index{deadline@{deadline}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{deadline}{deadline}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{structDeadline}{Deadline}}$\ast$ Planner\+::deadline}
 
-\mbox{\Hypertarget{structPlanner_a3889bd152a1ba502c12451272c8d5bea}\label{structPlanner_a3889bd152a1ba502c12451272c8d5bea}} 
-\index{Planner@{Planner}!empty\_solution@{empty\_solution}}
-\index{empty\_solution@{empty\_solution}!Planner@{Planner}}
-\doxysubsubsection{\texorpdfstring{empty\_solution}{empty\_solution}}
-{\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}}\& Planner\+::empty\+\_\+solution}
+
+
+Pointer to the solving deadline. 
+
+\mbox{\Hypertarget{structPlanner_ad86999d6f03b593cfc73b715b0b45083}\label{structPlanner_ad86999d6f03b593cfc73b715b0b45083}} 
+\index{Planner@{Planner}!global\_solution@{global\_solution}}
+\index{global\_solution@{global\_solution}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{global\_solution}{global\_solution}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}}\& Planner\+::global\+\_\+solution}
+
+
+
+Reference to the global solution. 
 
 \mbox{\Hypertarget{structPlanner_a9cd81619e6e7230320d9bcec427f253e}\label{structPlanner_a9cd81619e6e7230320d9bcec427f253e}} 
 \index{Planner@{Planner}!ins@{ins}}
@@ -409,11 +462,19 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{ins}{ins}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{structInstance}{Instance}}\& Planner\+::ins}
 
+
+
+Reference to the MAPF instance. 
+
 \mbox{\Hypertarget{structPlanner_a55c010ef9fcf7c7f101f4acca2cf0684}\label{structPlanner_a55c010ef9fcf7c7f101f4acca2cf0684}} 
 \index{Planner@{Planner}!loop\_cnt@{loop\_cnt}}
 \index{loop\_cnt@{loop\_cnt}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{loop\_cnt}{loop\_cnt}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::loop\+\_\+cnt}
+
+
+
+Loop count for internal processing. 
 
 \mbox{\Hypertarget{structPlanner_a40a3ec18384122b3b9eade057c840353}\label{structPlanner_a40a3ec18384122b3b9eade057c840353}} 
 \index{Planner@{Planner}!MT@{MT}}
@@ -421,11 +482,19 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{MT}{MT}}
 {\footnotesize\ttfamily std\+::mt19937$\ast$ Planner\+::\+MT}
 
+
+
+Pointer to random number generator. 
+
 \mbox{\Hypertarget{structPlanner_a6554a19a29a36a4b607c86866b49dea7}\label{structPlanner_a6554a19a29a36a4b607c86866b49dea7}} 
 \index{Planner@{Planner}!N@{N}}
 \index{N@{N}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{N}{N}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::N}
+
+
+
+Number of agents. 
 
 \mbox{\Hypertarget{structPlanner_abcc2bf12a6146cb8a3086242e57c0357}\label{structPlanner_abcc2bf12a6146cb8a3086242e57c0357}} 
 \index{Planner@{Planner}!objective@{objective}}
@@ -433,11 +502,19 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{objective}{objective}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} Planner\+::objective}
 
+
+
+Objective function to minimize. 
+
 \mbox{\Hypertarget{structPlanner_a5141c44cbf6ecd946510059dca1e9c15}\label{structPlanner_a5141c44cbf6ecd946510059dca1e9c15}} 
 \index{Planner@{Planner}!occupied\_next@{occupied\_next}}
 \index{occupied\_next@{occupied\_next}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{occupied\_next}{occupied\_next}}
 {\footnotesize\ttfamily \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} Planner\+::occupied\+\_\+next}
+
+
+
+List of next occupied vertices for quick collision checking. 
 
 \mbox{\Hypertarget{structPlanner_aa7f77147d24481c0aeae89778db24cde}\label{structPlanner_aa7f77147d24481c0aeae89778db24cde}} 
 \index{Planner@{Planner}!occupied\_now@{occupied\_now}}
@@ -445,11 +522,19 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{occupied\_now}{occupied\_now}}
 {\footnotesize\ttfamily \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} Planner\+::occupied\+\_\+now}
 
+
+
+List of currently occupied vertices for quick collision checking. 
+
 \mbox{\Hypertarget{structPlanner_a119401084f3cda74b0637d7d7b18b636}\label{structPlanner_a119401084f3cda74b0637d7d7b18b636}} 
 \index{Planner@{Planner}!RESTART\_RATE@{RESTART\_RATE}}
 \index{RESTART\_RATE@{RESTART\_RATE}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{RESTART\_RATE}{RESTART\_RATE}}
 {\footnotesize\ttfamily const float Planner\+::\+RESTART\+\_\+\+RATE}
+
+
+
+Random restart rate. 
 
 \mbox{\Hypertarget{structPlanner_a547b1bde1f72af4829086db6babe3273}\label{structPlanner_a547b1bde1f72af4829086db6babe3273}} 
 \index{Planner@{Planner}!tie\_breakers@{tie\_breakers}}
@@ -457,17 +542,29 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{tie\_breakers}{tie\_breakers}}
 {\footnotesize\ttfamily std\+::vector$<$float$>$ Planner\+::tie\+\_\+breakers}
 
+
+
+Random values, used in PIBT. 
+
 \mbox{\Hypertarget{structPlanner_ae3dd98964be9924434d45f843a64c812}\label{structPlanner_ae3dd98964be9924434d45f843a64c812}} 
 \index{Planner@{Planner}!V\_size@{V\_size}}
 \index{V\_size@{V\_size}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{V\_size}{V\_size}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::\+V\+\_\+size}
 
+
+
+Number of vertices. 
+
 \mbox{\Hypertarget{structPlanner_a9b11ab35ea98c608bfee524ecf5ffdd0}\label{structPlanner_a9b11ab35ea98c608bfee524ecf5ffdd0}} 
 \index{Planner@{Planner}!verbose@{verbose}}
 \index{verbose@{verbose}!Planner@{Planner}}
 \doxysubsubsection{\texorpdfstring{verbose}{verbose}}
 {\footnotesize\ttfamily const int Planner\+::verbose}
+
+
+
+Verbosity level. 
 
 
 

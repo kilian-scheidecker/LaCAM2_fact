@@ -1,6 +1,6 @@
 <map id="make_stats" name="make_stats">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,103,57"/>
-<area shape="rect" id="node2" href="$post__processing_8cpp.html#adba9b96d1a3e654c235ea55897ed9934" title=" " alt="" coords="161,5,279,32"/>
-<area shape="rect" id="node3" href="$post__processing_8cpp.html#a39cfe28ac85859787c08bb54967b6a37" title=" " alt="" coords="151,56,289,83"/>
-<area shape="rect" id="node4" href="$post__processing_8cpp.html#a0a30f5f9c90ae0df8b51bc6121ccfc75" title=" " alt="" coords="337,56,451,83"/>
+<area shape="rect" id="node1" title="Creates a statistics log for the MAPF instance and its solution." alt="" coords="5,31,103,57"/>
+<area shape="rect" id="node2" href="$post__processing_8cpp.html#adba9b96d1a3e654c235ea55897ed9934" title="Calculates the makespan of the solution, which is the maximum time step taken by any agent to reach i..." alt="" coords="161,5,279,32"/>
+<area shape="rect" id="node3" href="$post__processing_8cpp.html#a39cfe28ac85859787c08bb54967b6a37" title="Computes the sum of costs for all agents in the solution." alt="" coords="151,56,289,83"/>
+<area shape="rect" id="node4" href="$post__processing_8cpp.html#a0a30f5f9c90ae0df8b51bc6121ccfc75" title="Computes the path cost for a single agent." alt="" coords="337,56,451,83"/>
 </map>

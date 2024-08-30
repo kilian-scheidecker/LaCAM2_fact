@@ -1,5 +1,9 @@
-#include "../include/post_processing.hpp"
+/**
+ * @file post_processing.cpp
+ * @brief Implementation of the different metric computations and log creation
+ */
 
+#include "../include/post_processing.hpp"
 #include "../include/dist_table.hpp"
 
 bool is_feasible_solution(const Instance& ins, const Solution& solution,
