@@ -8,7 +8,7 @@
 #include "utils.hpp"
 #include "factorizer.hpp"
 
-// main function for standard solving
+//! Main function for standard solving
 Solution solve(const Instance& ins, std::string& additional_info,
                const int verbose = 0, const Deadline* deadline = nullptr,
                std::mt19937* MT = nullptr, const Objective objective = OBJ_NONE,
@@ -16,7 +16,8 @@ Solution solve(const Instance& ins, std::string& additional_info,
                Infos* infos_ptr = nullptr);
 
 
-void write_sol(const Solution& solution, const std::vector<int>& enabled, Solution& empty_solution);
+//! Function to write 
+void write_sol(const Solution &solution, const std::vector<int> &enabled, std::shared_ptr<Sol> empty_solution, int N);
 
 // main function for factorized solving with multi-threading
 Solution solve_fact_MT(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep,
