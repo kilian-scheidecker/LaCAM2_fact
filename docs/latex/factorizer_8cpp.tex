@@ -1,0 +1,49 @@
+\hypertarget{factorizer_8cpp}{}\doxysection{lacam2/src/factorizer.cpp File Reference}
+\label{factorizer_8cpp}\index{lacam2/src/factorizer.cpp@{lacam2/src/factorizer.cpp}}
+
+
+Implements various factorization algorithms for multi-\/agent pathfinding.  
+
+
+{\ttfamily \#include \char`\"{}../include/factorizer.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$easy/profiler.\+h$>$}\newline
+Include dependency graph for factorizer.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{factorizer_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} $>$ \mbox{\hyperlink{factorizer_8cpp_a99191033dfd8c3dbb3b3de7c77724dc6}{create\+Fact\+Algo}} (const std\+::string \&type, int width)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements various factorization algorithms for multi-\/agent pathfinding. 
+
+This file contains the definitions of the methods declared in the {\ttfamily \mbox{\hyperlink{factorizer_8hpp}{factorizer.\+hpp}}} header file. It includes the logic for different factorization strategies such as distance-\/based, bounding box-\/based, orientation-\/based, A$\ast$-\/based, and definition-\/based factorization algorithms. The implementation details of these strategies are encapsulated in their respective classes, which inherit from the base class {\ttfamily \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}}. Additionally, utility functions and heuristics for determining agent factorization are provided. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{factorizer_8cpp_a99191033dfd8c3dbb3b3de7c77724dc6}\label{factorizer_8cpp_a99191033dfd8c3dbb3b3de7c77724dc6}} 
+\index{factorizer.cpp@{factorizer.cpp}!createFactAlgo@{createFactAlgo}}
+\index{createFactAlgo@{createFactAlgo}!factorizer.cpp@{factorizer.cpp}}
+\doxysubsubsection{\texorpdfstring{createFactAlgo()}{createFactAlgo()}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}$>$ create\+Fact\+Algo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{type,  }\item[{int}]{width }\end{DoxyParamCaption})}
+
+Factory function to create \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} objects 
+\begin{DoxyParams}{Parameters}
+{\em type} & describes the type of factorization to use \\
+\hline
+{\em width} & width of the graph \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{factorizer_8cpp_a99191033dfd8c3dbb3b3de7c77724dc6_icgraph}
+\end{center}
+\end{figure}

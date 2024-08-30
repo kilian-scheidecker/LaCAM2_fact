@@ -1,0 +1,116 @@
+\hypertarget{factorizer_8hpp}{}\doxysection{lacam2/include/factorizer.hpp File Reference}
+\label{factorizer_8hpp}\index{lacam2/include/factorizer.hpp@{lacam2/include/factorizer.hpp}}
+
+
+Provides classes and methods for various factorization algorithms.  
+
+
+{\ttfamily \#include \char`\"{}dist\+\_\+table.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$unordered\+\_\+set$>$}\newline
+Include dependency graph for factorizer.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{factorizer_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{factorizer_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}
+\begin{DoxyCompactList}\small\item\em Base class for different factorization algorithms. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classFactDistance}{Fact\+Distance}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactDistance}{Fact\+Distance}} class, implements manhattan-\/distance-\/based factorization heuristic. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classFactBbox}{Fact\+Bbox}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactBbox}{Fact\+Bbox}} class, implements Bounding-\/\+Box-\/based factorization heuristic. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classFactOrient}{Fact\+Orient}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactOrient}{Fact\+Orient}} class, implements orientation-\/based factorization heuristic. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classFactAstar}{Fact\+Astar}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactAstar}{Fact\+Astar}} class, implements A$\ast$ distance-\/based factorization heuristic. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classFactDef}{Fact\+Def}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFactDef}{Fact\+Def}} class, implements factorization using pre-\/computed partitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{factorizer_8hpp_a8ed4cb0ddaead2f6489bb41f7ed8e091}{SAFETY\+\_\+\+DISTANCE}}~2
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{factorizer_8hpp_a1aabbff88f0399596b2b56a5664ffb24}{Partitions}} = std\+::vector$<$ std\+::vector$<$ int $>$ $>$
+\item 
+using \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} = std\+::map$<$ int, \mbox{\hyperlink{factorizer_8hpp_a1aabbff88f0399596b2b56a5664ffb24}{Partitions}} $>$
+\item 
+using \mbox{\hyperlink{factorizer_8hpp_ab701e3ac61a85b337ec5c1abaad6742d}{json}} = nlohmann\+::json
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} $>$ \mbox{\hyperlink{factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6}{create\+Fact\+Algo}} (const std\+::string \&type, int width)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides classes and methods for various factorization algorithms. 
+
+This file defines several classes that implement different algorithms for factorizing instances in a multi-\/agent pathfinding problem. Each class inherits from the base class \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} and provides specific heuristics for determining factorizability. 
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{factorizer_8hpp_a8ed4cb0ddaead2f6489bb41f7ed8e091}\label{factorizer_8hpp_a8ed4cb0ddaead2f6489bb41f7ed8e091}} 
+\index{factorizer.hpp@{factorizer.hpp}!SAFETY\_DISTANCE@{SAFETY\_DISTANCE}}
+\index{SAFETY\_DISTANCE@{SAFETY\_DISTANCE}!factorizer.hpp@{factorizer.hpp}}
+\doxysubsubsection{\texorpdfstring{SAFETY\_DISTANCE}{SAFETY\_DISTANCE}}
+{\footnotesize\ttfamily \#define SAFETY\+\_\+\+DISTANCE~2}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{factorizer_8hpp_ab701e3ac61a85b337ec5c1abaad6742d}\label{factorizer_8hpp_ab701e3ac61a85b337ec5c1abaad6742d}} 
+\index{factorizer.hpp@{factorizer.hpp}!json@{json}}
+\index{json@{json}!factorizer.hpp@{factorizer.hpp}}
+\doxysubsubsection{\texorpdfstring{json}{json}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{factorizer_8hpp_ab701e3ac61a85b337ec5c1abaad6742d}{json}} =  nlohmann\+::json}
+
+\mbox{\Hypertarget{factorizer_8hpp_a1aabbff88f0399596b2b56a5664ffb24}\label{factorizer_8hpp_a1aabbff88f0399596b2b56a5664ffb24}} 
+\index{factorizer.hpp@{factorizer.hpp}!Partitions@{Partitions}}
+\index{Partitions@{Partitions}!factorizer.hpp@{factorizer.hpp}}
+\doxysubsubsection{\texorpdfstring{Partitions}{Partitions}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{factorizer_8hpp_a1aabbff88f0399596b2b56a5664ffb24}{Partitions}} =  std\+::vector$<$std\+::vector$<$int$>$ $>$}
+
+\mbox{\Hypertarget{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}\label{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}} 
+\index{factorizer.hpp@{factorizer.hpp}!PartitionsMap@{PartitionsMap}}
+\index{PartitionsMap@{PartitionsMap}!factorizer.hpp@{factorizer.hpp}}
+\doxysubsubsection{\texorpdfstring{PartitionsMap}{PartitionsMap}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} =  std\+::map$<$int, \mbox{\hyperlink{factorizer_8hpp_a1aabbff88f0399596b2b56a5664ffb24}{Partitions}}$>$}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6}\label{factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6}} 
+\index{factorizer.hpp@{factorizer.hpp}!createFactAlgo@{createFactAlgo}}
+\index{createFactAlgo@{createFactAlgo}!factorizer.hpp@{factorizer.hpp}}
+\doxysubsubsection{\texorpdfstring{createFactAlgo()}{createFactAlgo()}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}$>$ create\+Fact\+Algo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{type,  }\item[{int}]{width }\end{DoxyParamCaption})}
+
+Factory function to create \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} objects 
+\begin{DoxyParams}{Parameters}
+{\em type} & describes the type of factorization to use \\
+\hline
+{\em width} & width of the graph \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6_icgraph}
+\end{center}
+\end{figure}

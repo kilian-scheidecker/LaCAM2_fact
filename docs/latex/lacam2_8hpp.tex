@@ -1,0 +1,111 @@
+\hypertarget{lacam2_8hpp}{}\doxysection{lacam2/include/lacam2.hpp File Reference}
+\label{lacam2_8hpp}\index{lacam2/include/lacam2.hpp@{lacam2/include/lacam2.hpp}}
+{\ttfamily \#include \char`\"{}dist\+\_\+table.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}graph.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}instance.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}planner.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}post\+\_\+processing.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}factorizer.\+hpp\char`\"{}}\newline
+Include dependency graph for lacam2.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lacam2_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=290pt]{lacam2_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{lacam2_8hpp_a960179860ecce6535b382fe90eac53be}{solve}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, std\+::string \&additional\+\_\+info, const int verbose=0, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline=nullptr, std\+::mt19937 $\ast$MT=nullptr, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} objective=\mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}, const float restart\+\_\+rate=0.\+001, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr=nullptr)
+\begin{DoxyCompactList}\small\item\em Main function for standard solving. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lacam2_8hpp_a89d5a479f2048d800c3eadf153f30f09}{write\+\_\+sol}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const std\+::vector$<$ int $>$ \&enabled, std\+::shared\+\_\+ptr$<$ Sol $>$ empty\+\_\+solution, int N)
+\begin{DoxyCompactList}\small\item\em Function to write. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{lacam2_8hpp_a6f1654c9cbdca2a96c43a54de4e3ec5b}{solve\+\_\+fact\+\_\+\+MT}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, std\+::string \&additional\+\_\+info, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, bool save\+\_\+partitions, const int verbose=0, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline=nullptr, std\+::mt19937 $\ast$MT=nullptr, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} objective=\mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}, const float restart\+\_\+rate=0.\+001, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos=nullptr)
+\item 
+\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{lacam2_8hpp_a78f1c710f640dc4f94eed2e9022624c5}{solve\+\_\+fact}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, std\+::string \&additional\+\_\+info, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, bool save\+\_\+partitions, const int verbose=0, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline=nullptr, std\+::mt19937 $\ast$MT=nullptr, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} objective=\mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}, const float restart\+\_\+rate=0.\+001, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos=nullptr)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{lacam2_8hpp_a960179860ecce6535b382fe90eac53be}\label{lacam2_8hpp_a960179860ecce6535b382fe90eac53be}} 
+\index{lacam2.hpp@{lacam2.hpp}!solve@{solve}}
+\index{solve@{solve}!lacam2.hpp@{lacam2.hpp}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solve (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{const int}]{verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline = {\ttfamily nullptr},  }\item[{std\+::mt19937 $\ast$}]{MT = {\ttfamily nullptr},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{restart\+\_\+rate = {\ttfamily 0.001},  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+
+
+Main function for standard solving. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lacam2_8hpp_a960179860ecce6535b382fe90eac53be_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=200pt]{lacam2_8hpp_a960179860ecce6535b382fe90eac53be_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{lacam2_8hpp_a78f1c710f640dc4f94eed2e9022624c5}\label{lacam2_8hpp_a78f1c710f640dc4f94eed2e9022624c5}} 
+\index{lacam2.hpp@{lacam2.hpp}!solve\_fact@{solve\_fact}}
+\index{solve\_fact@{solve\_fact}!lacam2.hpp@{lacam2.hpp}}
+\doxysubsubsection{\texorpdfstring{solve\_fact()}{solve\_fact()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solve\+\_\+fact (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{bool}]{save\+\_\+partitions,  }\item[{const int}]{verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline = {\ttfamily nullptr},  }\item[{std\+::mt19937 $\ast$}]{MT = {\ttfamily nullptr},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{restart\+\_\+rate = {\ttfamily 0.001},  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lacam2_8hpp_a78f1c710f640dc4f94eed2e9022624c5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{lacam2_8hpp_a78f1c710f640dc4f94eed2e9022624c5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{lacam2_8hpp_a6f1654c9cbdca2a96c43a54de4e3ec5b}\label{lacam2_8hpp_a6f1654c9cbdca2a96c43a54de4e3ec5b}} 
+\index{lacam2.hpp@{lacam2.hpp}!solve\_fact\_MT@{solve\_fact\_MT}}
+\index{solve\_fact\_MT@{solve\_fact\_MT}!lacam2.hpp@{lacam2.hpp}}
+\doxysubsubsection{\texorpdfstring{solve\_fact\_MT()}{solve\_fact\_MT()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solve\+\_\+fact\+\_\+\+MT (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{bool}]{save\+\_\+partitions,  }\item[{const int}]{verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline = {\ttfamily nullptr},  }\item[{std\+::mt19937 $\ast$}]{MT = {\ttfamily nullptr},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{restart\+\_\+rate = {\ttfamily 0.001},  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lacam2_8hpp_a6f1654c9cbdca2a96c43a54de4e3ec5b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{lacam2_8hpp_a6f1654c9cbdca2a96c43a54de4e3ec5b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{lacam2_8hpp_a89d5a479f2048d800c3eadf153f30f09}\label{lacam2_8hpp_a89d5a479f2048d800c3eadf153f30f09}} 
+\index{lacam2.hpp@{lacam2.hpp}!write\_sol@{write\_sol}}
+\index{write\_sol@{write\_sol}!lacam2.hpp@{lacam2.hpp}}
+\doxysubsubsection{\texorpdfstring{write\_sol()}{write\_sol()}}
+{\footnotesize\ttfamily void write\+\_\+sol (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{std\+::shared\+\_\+ptr$<$ Sol $>$}]{empty\+\_\+solution,  }\item[{int}]{N }\end{DoxyParamCaption})}
+
+
+
+Function to write. 
+

@@ -1,0 +1,13 @@
+<map id="lacam2/include/dist_table.hpp" name="lacam2/include/dist_table.hpp">
+<area shape="rect" id="node1" title=" " alt="" coords="331,5,481,47"/>
+<area shape="rect" id="node2" href="$factorizer_8hpp.html" title="Provides classes and methods for various factorization algorithms." alt="" coords="299,95,513,121"/>
+<area shape="rect" id="node3" href="$lacam2_8hpp.html" title=" " alt="" coords="201,259,403,285"/>
+<area shape="rect" id="node6" href="$planner_8hpp.html" title=" " alt="" coords="12,177,213,203"/>
+<area shape="rect" id="node9" href="$post__processing_8cpp.html" title=" " alt="" coords="526,259,755,285"/>
+<area shape="rect" id="node11" href="$dist__table_8cpp.html" title=" " alt="" coords="779,95,967,121"/>
+<area shape="rect" id="node8" href="$post__processing_8hpp.html" title=" " alt="" coords="340,169,493,211"/>
+<area shape="rect" id="node10" href="$factorizer_8cpp.html" title="Implements various factorization algorithms for multi&#45;agent pathfinding." alt="" coords="517,177,703,203"/>
+<area shape="rect" id="node4" href="$lacam2_8cpp.html" title=" " alt="" coords="140,333,312,360"/>
+<area shape="rect" id="node5" href="$main_8cpp.html" title=" " alt="" coords="337,333,419,360"/>
+<area shape="rect" id="node7" href="$planner_8cpp.html" title=" " alt="" coords="5,259,177,285"/>
+</map>

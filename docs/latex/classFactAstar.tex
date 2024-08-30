@@ -1,0 +1,80 @@
+\hypertarget{classFactAstar}{}\doxysection{Fact\+Astar Class Reference}
+\label{classFactAstar}\index{FactAstar@{FactAstar}}
+
+
+\mbox{\hyperlink{classFactAstar}{Fact\+Astar}} class, implements A$\ast$ distance-\/based factorization heuristic.  
+
+
+
+
+{\ttfamily \#include $<$factorizer.\+hpp$>$}
+
+
+
+Inheritance diagram for Fact\+Astar\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classFactAstar__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Fact\+Astar\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classFactAstar__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classFactAstar_ad6368ec9f64897d0f5b4ff42fcd89272}{Fact\+Astar}} ()
+\item 
+\mbox{\hyperlink{classFactAstar_a2cc02422c492410230bcc55286f9a5f4}{Fact\+Astar}} (int \mbox{\hyperlink{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}{width}})
+\item 
+std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ \mbox{\hyperlink{classFactAstar_ae6bfa6201ec475f5819b26b27f958e02}{is\+\_\+factorizable\+\_\+def}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C\+\_\+new, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&goals, int verbose, const std\+::vector$<$ int $>$ \&enabled, const std\+::vector$<$ float $>$ \&priorities, int timestep) const
+\begin{DoxyCompactList}\small\item\em Allows factorization according to definition. Uses the timesteps and pre-\/loaded Partitions to determine factorizability. Only used by the \mbox{\hyperlink{classFactDef}{Fact\+Def}} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classFactAstar}{Fact\+Astar}} class, implements A$\ast$ distance-\/based factorization heuristic. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classFactAstar_ad6368ec9f64897d0f5b4ff42fcd89272}\label{classFactAstar_ad6368ec9f64897d0f5b4ff42fcd89272}} 
+\index{FactAstar@{FactAstar}!FactAstar@{FactAstar}}
+\index{FactAstar@{FactAstar}!FactAstar@{FactAstar}}
+\doxysubsubsection{\texorpdfstring{FactAstar()}{FactAstar()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Fact\+Astar\+::\+Fact\+Astar (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classFactAstar_a2cc02422c492410230bcc55286f9a5f4}\label{classFactAstar_a2cc02422c492410230bcc55286f9a5f4}} 
+\index{FactAstar@{FactAstar}!FactAstar@{FactAstar}}
+\index{FactAstar@{FactAstar}!FactAstar@{FactAstar}}
+\doxysubsubsection{\texorpdfstring{FactAstar()}{FactAstar()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Fact\+Astar\+::\+Fact\+Astar (\begin{DoxyParamCaption}\item[{int}]{width }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classFactAstar_ae6bfa6201ec475f5819b26b27f958e02}\label{classFactAstar_ae6bfa6201ec475f5819b26b27f958e02}} 
+\index{FactAstar@{FactAstar}!is\_factorizable\_def@{is\_factorizable\_def}}
+\index{is\_factorizable\_def@{is\_factorizable\_def}!FactAstar@{FactAstar}}
+\doxysubsubsection{\texorpdfstring{is\_factorizable\_def()}{is\_factorizable\_def()}}
+{\footnotesize\ttfamily std\+::list$<$std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{structInstance}{Instance}}$>$ $>$ Fact\+Astar\+::is\+\_\+factorizable\+\_\+def (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C\+\_\+new,  }\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{goals,  }\item[{int}]{verbose,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{const std\+::vector$<$ float $>$ \&}]{priorities,  }\item[{int}]{timestep }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Allows factorization according to definition. Uses the timesteps and pre-\/loaded Partitions to determine factorizability. Only used by the \mbox{\hyperlink{classFactDef}{Fact\+Def}} class. 
+
+
+
+Implements \mbox{\hyperlink{classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb}{Fact\+Algo}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lacam2/include/\mbox{\hyperlink{factorizer_8hpp}{factorizer.\+hpp}}\item 
+lacam2/src/\mbox{\hyperlink{factorizer_8cpp}{factorizer.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,239 @@
+\hypertarget{post__processing_8cpp}{}\doxysection{lacam2/src/post\+\_\+processing.cpp File Reference}
+\label{post__processing_8cpp}\index{lacam2/src/post\_processing.cpp@{lacam2/src/post\_processing.cpp}}
+{\ttfamily \#include \char`\"{}../include/post\+\_\+processing.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/dist\+\_\+table.\+hpp\char`\"{}}\newline
+Include dependency graph for post\+\_\+processing.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{post__processing_8cpp_a9eed49d3a1af81394a30d6e3f07419f9}{is\+\_\+feasible\+\_\+solution}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const int verbose)
+\item 
+bool \mbox{\hyperlink{post__processing_8cpp_a16d3aaa0340a55869e8b27755b868c0a}{is\+\_\+neighbor}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v1, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v2, int width)
+\item 
+int \mbox{\hyperlink{post__processing_8cpp_adba9b96d1a3e654c235ea55897ed9934}{get\+\_\+makespan}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution)
+\item 
+int \mbox{\hyperlink{post__processing_8cpp_a0a30f5f9c90ae0df8b51bc6121ccfc75}{get\+\_\+path\+\_\+cost}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} i)
+\item 
+int \mbox{\hyperlink{post__processing_8cpp_a39cfe28ac85859787c08bb54967b6a37}{get\+\_\+sum\+\_\+of\+\_\+costs}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution)
+\item 
+int \mbox{\hyperlink{post__processing_8cpp_a5e98e53587523b7acc32e872f5be0522}{get\+\_\+sum\+\_\+of\+\_\+loss}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution)
+\item 
+int \mbox{\hyperlink{post__processing_8cpp_af8e86002cddf0ea2e934489961f9b83a}{get\+\_\+makespan\+\_\+lower\+\_\+bound}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, \mbox{\hyperlink{structDistTable}{Dist\+Table}} \&dist\+\_\+table)
+\item 
+int \mbox{\hyperlink{post__processing_8cpp_ad94ac64ff13b373a678409f8fe7d0c5f}{get\+\_\+sum\+\_\+of\+\_\+costs\+\_\+lower\+\_\+bound}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, \mbox{\hyperlink{structDistTable}{Dist\+Table}} \&dist\+\_\+table)
+\item 
+void \mbox{\hyperlink{post__processing_8cpp_a44d299eb5b2e052d6afeb0742b48cd0c}{print\+\_\+results}} (const int verbose, const \mbox{\hyperlink{structInstance}{Instance}} \&ins, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const double comp\+\_\+time\+\_\+ms)
+\item 
+void \mbox{\hyperlink{post__processing_8cpp_a98e4e658fc9239fb10ff067a8dced859}{make\+\_\+log}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const std\+::string \&output\+\_\+name, const double comp\+\_\+time\+\_\+ms, const std\+::string \&map\+\_\+name, const int seed, const std\+::string \&additional\+\_\+info, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, const bool log\+\_\+short)
+\item 
+void \mbox{\hyperlink{post__processing_8cpp_a463686520526c847ecdb13254ac9204c}{make\+\_\+stats}} (const std\+::string file\+\_\+name, const std\+::string factorize, const int N, const int comp\+\_\+time\+\_\+ms, const \mbox{\hyperlink{structInfos}{Infos}} infos, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solution, const std\+::string mapname, int success, const bool multi\+\_\+threading)
+\item 
+void \mbox{\hyperlink{post__processing_8cpp_a6658463f55f0eee7647b85b50204d0ce}{write\+\_\+partitions}} (const \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, const std\+::string factorize)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{post__processing_8cpp_adba9b96d1a3e654c235ea55897ed9934}\label{post__processing_8cpp_adba9b96d1a3e654c235ea55897ed9934}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!get\_makespan@{get\_makespan}}
+\index{get\_makespan@{get\_makespan}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_makespan()}{get\_makespan()}}
+{\footnotesize\ttfamily int get\+\_\+makespan (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp_adba9b96d1a3e654c235ea55897ed9934_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_af8e86002cddf0ea2e934489961f9b83a}\label{post__processing_8cpp_af8e86002cddf0ea2e934489961f9b83a}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!get\_makespan\_lower\_bound@{get\_makespan\_lower\_bound}}
+\index{get\_makespan\_lower\_bound@{get\_makespan\_lower\_bound}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_makespan\_lower\_bound()}{get\_makespan\_lower\_bound()}}
+{\footnotesize\ttfamily int get\+\_\+makespan\+\_\+lower\+\_\+bound (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{\mbox{\hyperlink{structDistTable}{Dist\+Table}} \&}]{dist\+\_\+table }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=319pt]{post__processing_8cpp_af8e86002cddf0ea2e934489961f9b83a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp_af8e86002cddf0ea2e934489961f9b83a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_a0a30f5f9c90ae0df8b51bc6121ccfc75}\label{post__processing_8cpp_a0a30f5f9c90ae0df8b51bc6121ccfc75}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!get\_path\_cost@{get\_path\_cost}}
+\index{get\_path\_cost@{get\_path\_cost}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_path\_cost()}{get\_path\_cost()}}
+{\footnotesize\ttfamily int get\+\_\+path\+\_\+cost (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{i }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp_a0a30f5f9c90ae0df8b51bc6121ccfc75_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_a39cfe28ac85859787c08bb54967b6a37}\label{post__processing_8cpp_a39cfe28ac85859787c08bb54967b6a37}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!get\_sum\_of\_costs@{get\_sum\_of\_costs}}
+\index{get\_sum\_of\_costs@{get\_sum\_of\_costs}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_sum\_of\_costs()}{get\_sum\_of\_costs()}}
+{\footnotesize\ttfamily int get\+\_\+sum\+\_\+of\+\_\+costs (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=305pt]{post__processing_8cpp_a39cfe28ac85859787c08bb54967b6a37_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp_a39cfe28ac85859787c08bb54967b6a37_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_ad94ac64ff13b373a678409f8fe7d0c5f}\label{post__processing_8cpp_ad94ac64ff13b373a678409f8fe7d0c5f}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!get\_sum\_of\_costs\_lower\_bound@{get\_sum\_of\_costs\_lower\_bound}}
+\index{get\_sum\_of\_costs\_lower\_bound@{get\_sum\_of\_costs\_lower\_bound}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_sum\_of\_costs\_lower\_bound()}{get\_sum\_of\_costs\_lower\_bound()}}
+{\footnotesize\ttfamily int get\+\_\+sum\+\_\+of\+\_\+costs\+\_\+lower\+\_\+bound (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{\mbox{\hyperlink{structDistTable}{Dist\+Table}} \&}]{dist\+\_\+table }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{post__processing_8cpp_ad94ac64ff13b373a678409f8fe7d0c5f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp_ad94ac64ff13b373a678409f8fe7d0c5f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_a5e98e53587523b7acc32e872f5be0522}\label{post__processing_8cpp_a5e98e53587523b7acc32e872f5be0522}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!get\_sum\_of\_loss@{get\_sum\_of\_loss}}
+\index{get\_sum\_of\_loss@{get\_sum\_of\_loss}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_sum\_of\_loss()}{get\_sum\_of\_loss()}}
+{\footnotesize\ttfamily int get\+\_\+sum\+\_\+of\+\_\+loss (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp_a5e98e53587523b7acc32e872f5be0522_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_a9eed49d3a1af81394a30d6e3f07419f9}\label{post__processing_8cpp_a9eed49d3a1af81394a30d6e3f07419f9}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!is\_feasible\_solution@{is\_feasible\_solution}}
+\index{is\_feasible\_solution@{is\_feasible\_solution}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{is\_feasible\_solution()}{is\_feasible\_solution()}}
+{\footnotesize\ttfamily bool is\+\_\+feasible\+\_\+solution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const int}]{verbose }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=321pt]{post__processing_8cpp_a9eed49d3a1af81394a30d6e3f07419f9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=270pt]{post__processing_8cpp_a9eed49d3a1af81394a30d6e3f07419f9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_a16d3aaa0340a55869e8b27755b868c0a}\label{post__processing_8cpp_a16d3aaa0340a55869e8b27755b868c0a}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!is\_neighbor@{is\_neighbor}}
+\index{is\_neighbor@{is\_neighbor}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{is\_neighbor()}{is\_neighbor()}}
+{\footnotesize\ttfamily bool is\+\_\+neighbor (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v1,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v2,  }\item[{int}]{width }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp_a16d3aaa0340a55869e8b27755b868c0a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_a98e4e658fc9239fb10ff067a8dced859}\label{post__processing_8cpp_a98e4e658fc9239fb10ff067a8dced859}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!make\_log@{make\_log}}
+\index{make\_log@{make\_log}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{make\_log()}{make\_log()}}
+{\footnotesize\ttfamily void make\+\_\+log (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const std\+::string \&}]{output\+\_\+name,  }\item[{const double}]{comp\+\_\+time\+\_\+ms,  }\item[{const std\+::string \&}]{map\+\_\+name,  }\item[{const int}]{seed,  }\item[{const std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{const bool}]{log\+\_\+short }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{post__processing_8cpp_a98e4e658fc9239fb10ff067a8dced859_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_a463686520526c847ecdb13254ac9204c}\label{post__processing_8cpp_a463686520526c847ecdb13254ac9204c}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!make\_stats@{make\_stats}}
+\index{make\_stats@{make\_stats}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{make\_stats()}{make\_stats()}}
+{\footnotesize\ttfamily void make\+\_\+stats (\begin{DoxyParamCaption}\item[{const std\+::string}]{file\+\_\+name,  }\item[{const std\+::string}]{factorize,  }\item[{const int}]{N,  }\item[{const int}]{comp\+\_\+time\+\_\+ms,  }\item[{const \mbox{\hyperlink{structInfos}{Infos}}}]{infos,  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}}}]{solution,  }\item[{const std\+::string}]{mapname,  }\item[{int}]{success,  }\item[{const bool}]{multi\+\_\+threading }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp_a463686520526c847ecdb13254ac9204c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{post__processing_8cpp_a463686520526c847ecdb13254ac9204c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_a44d299eb5b2e052d6afeb0742b48cd0c}\label{post__processing_8cpp_a44d299eb5b2e052d6afeb0742b48cd0c}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!print\_results@{print\_results}}
+\index{print\_results@{print\_results}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_results()}{print\_results()}}
+{\footnotesize\ttfamily void print\+\_\+results (\begin{DoxyParamCaption}\item[{const int}]{verbose,  }\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins,  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const double}]{comp\+\_\+time\+\_\+ms }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8cpp_a44d299eb5b2e052d6afeb0742b48cd0c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{post__processing_8cpp_a44d299eb5b2e052d6afeb0742b48cd0c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{post__processing_8cpp_a6658463f55f0eee7647b85b50204d0ce}\label{post__processing_8cpp_a6658463f55f0eee7647b85b50204d0ce}} 
+\index{post\_processing.cpp@{post\_processing.cpp}!write\_partitions@{write\_partitions}}
+\index{write\_partitions@{write\_partitions}!post\_processing.cpp@{post\_processing.cpp}}
+\doxysubsubsection{\texorpdfstring{write\_partitions()}{write\_partitions()}}
+{\footnotesize\ttfamily void write\+\_\+partitions (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{const std\+::string}]{factorize }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=250pt]{post__processing_8cpp_a6658463f55f0eee7647b85b50204d0ce_icgraph}
+\end{center}
+\end{figure}

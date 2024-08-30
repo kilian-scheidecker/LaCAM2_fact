@@ -1,0 +1,117 @@
+\label{index_md_README}%
+\Hypertarget{index_md_README}%
+ \mbox{[}\mbox{]}(LICENSE) \href{https://github.com/Kei18/lacam2/actions/workflows/ci.yml}{\texttt{ }}
+
+This is a factorized version of the La\+CAM2 algorithm from Keisuke Okumura.
+
+Do you want the power? La\+CAM$\ast$ could be the answer.
+
+The original work is from code repository of the paper \href{https://kei18.github.io/lacam2/}{\texttt{ \char`\"{}\+Improving La\+CAM for Scalable Eventually Optimal Multi-\/\+Agent Pathfinding\char`\"{}}} (IJCAI-\/23), extended from from \href{https://kei18.github.io/lacam/}{\texttt{ the La\+CAM repo}} presented at AAAI-\/23.\hypertarget{index_autotoc_md0}{}\doxysection{Building}\label{index_autotoc_md0}
+To build the project you need is \href{https://cmake.org/}{\texttt{ CMake}} (≥v3.16). The code is written in C++(17).
+
+First, clone this repo with submodules.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git clone https://github.com/idsc-\/frazzoli/LaCAM2\_fact.git}
+
+\end{DoxyCode}
+
+
+Depending on the configuration of your environnement, you might also need other linux libraries such as qt-\/5-\/default. To install the required packages, run the following command.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo apt-\/get install qtbase5-\/dev qtchooser qt5-\/qmake qtbase5-\/dev-\/tools}
+
+\end{DoxyCode}
+
+
+Then dowload the required submodules. This project uses two submodules\+: \href{https://github.com/p-ranav/argparse}{\texttt{ argparse}} by P-\/\+Ranav and \href{https://github.com/yse/easy_profiler}{\texttt{ easy\+\_\+profiler}} by yse.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd LaCAM2\_fact}
+\DoxyCodeLine{git submodules init}
+\DoxyCodeLine{git submodules update}
+
+\end{DoxyCode}
+
+
+Finally, you can build the project.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cmake -\/B build \&\& make -\/C build -\/j4}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md1}{}\doxysection{Usage}\label{index_autotoc_md1}
+Basic run with 50 agents on the \textquotesingle{}random-\/32-\/32-\/20\textquotesingle{} map. The important arguments are \+: -\/i \+: the path to the .scen file specifying the start and goal location for every agent. -\/m \+: the path to the .map file of the given problem. -\/N \+: the number of agents. -\/v \+: the verbosity level. for -\/v 0, the code will not provide any output to the terminal.
+
+Try running the following command \+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{> build/main -\/i assets/maps/random-\/32-\/32-\/20/other\_scenes/random-\/32-\/32-\/20-\/50.scen -\/m assets/maps/random-\/32-\/32-\/20/random-\/32-\/32-\/20.map -\/N 50 -\/v 1}
+\DoxyCodeLine{solved: 1ms     makespan: 47 (lb=47, ub=1)      sum\_of\_costs: 1297 (lb=1098, ub=1.19)   sum\_of\_loss: 1198 (lb=1098, ub=1.1)}
+
+\end{DoxyCode}
+
+
+There are other arguments you can specify in order to use all the feature of La\+CAM2\+\_\+fact \+: -\/f \+: the heuristic used in the factorization. \textquotesingle{}-\/f no\textquotesingle{} will use standard La\+CAM2. -\/mt \+: to enable multi-\/threading.
+
+You can find details of all parameters with\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{build/main -\/-\/help}
+
+\end{DoxyCode}
+
+
+Note that some parameters are only compatible with the standard version and some others only with the factorized verison of La\+CAM2.\hypertarget{index_autotoc_md2}{}\doxysection{Visualizer}\label{index_autotoc_md2}
+This repository is compatible with \href{https://github.com/kei18/mapf-visualizer}{\texttt{ @\+Kei18/mapf-\/visualizer}}.
+
+\hypertarget{index_autotoc_md3}{}\doxysection{Data visualization}\label{index_autotoc_md3}
+TODO\hypertarget{index_autotoc_md4}{}\doxysection{Code Profiling}\label{index_autotoc_md4}
+You can take advantage of the \href{https://github.com/yse/easy_profiler}{\texttt{ Easy Profiler library}} in order to analyze the code and dive into the internals of the algorithms.
+
+To use the profiling, the variable ENABLE\+\_\+\+PROFILING needs to be defined. Be aware that toggling the profiler may affect performances.
+
+To toggle the profiling mode, you need to build the project accordingly by setting ENABLE\+\_\+\+PROFILING=ON.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cmake -\/D ENABLE\_PROFILING=ON -\/B build \&\& make -\/C build -\/j4}
+
+\end{DoxyCode}
+
+
+Changing the definition of ENABLE\+\_\+\+PROFILING, requires you to rebuild the project. At every run, the collected data will be stored in \textquotesingle{}code\+\_\+profiling/profile.\+prof\textquotesingle{}.
+
+This file can then be vizualised by using the Easy Profiler Visualizer. There should be an executable called \textquotesingle{}profiler\+\_\+gui\textquotesingle{} in the build directory of the Easy Profiler. You can use this to visualize everything in detail.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./build/third\_party/easy\_profiler/bin/profiler\_gui}
+
+\end{DoxyCode}
+
+
+Once you opened the visualizer, you can use the folder icon at the top left to open the \textquotesingle{}profile.\+prof\textquotesingle{} file.
+
+To stop profiling, clean build the project again using the instructions in the \textquotesingle{}Building\textquotesingle{} section.\hypertarget{index_autotoc_md5}{}\doxysection{Notes}\label{index_autotoc_md5}
+
+\begin{DoxyItemize}
+\item The grid maps and scenarios in {\ttfamily assets/maps/} are from \href{https://movingai.com/benchmarks/mapf.html}{\texttt{ MAPF benchmarks}}.
+\item {\ttfamily tests/} is not comprehensive. It was used in early developments.
+\item Auto formatting (clang-\/format) when committing\+:
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git config core.hooksPath .githooks \&\& chmod a+x .githooks/pre-\/commit}
+
+\end{DoxyCode}
+
+
+La\+CAM$\ast$ variants are available in \href{https://github.com/Kei18/lacam2/tags}{\texttt{ tags}}.\hypertarget{index_autotoc_md6}{}\doxysection{Licence}\label{index_autotoc_md6}
+This software is released under the MIT License, see \href{LICENCE.txt}{\texttt{ LICENSE.\+txt}}. 

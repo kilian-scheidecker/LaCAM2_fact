@@ -71,9 +71,16 @@ Note that some parameters are only compatible with the standard version and some
 
 This repository is compatible with [@Kei18/mapf-visualizer](https://github.com/kei18/mapf-visualizer).
 
+![example of agents in random-32-32-20 map](assets/misc/MAPF_viz_example.png?raw=true "mapf-visualizer")
+
 ## Data visualization
 
 TODO
+
+## Documentation
+
+The [docs](docs) folder contains the documentation of this project. Simply open the [index](docs/html/index.html) and navigate through the docs.
+
 
 ## Code Profiling
 

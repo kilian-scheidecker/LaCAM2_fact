@@ -1,0 +1,477 @@
+\hypertarget{structPlanner}{}\doxysection{Planner Struct Reference}
+\label{structPlanner}\index{Planner@{Planner}}
+
+
+{\ttfamily \#include $<$planner.\+hpp$>$}
+
+
+
+Collaboration diagram for Planner\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{structPlanner__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structPlanner_a194d3aff14068b3ace7c06ad0aebdc55}{Planner}} (const \mbox{\hyperlink{structInstance}{Instance}} \&\+\_\+ins, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$\+\_\+deadline, std\+::mt19937 $\ast$\+\_\+\+MT, const int \+\_\+verbose=0, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} \+\_\+objective=\mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}, const float \+\_\+restart\+\_\+rate=0.\+001, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&\+\_\+empty\+\_\+solution=\{\})
+\item 
+\mbox{\hyperlink{structPlanner_a2abc33a580249779eae290af3724ba7f}{Planner}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ \+\_\+ins, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$\+\_\+deadline, std\+::mt19937 $\ast$\+\_\+\+MT, const int \+\_\+verbose=0, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} \+\_\+objective=\mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}, const float \+\_\+restart\+\_\+rate=0.\+001, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&\+\_\+empty\+\_\+solution=\{\})
+\item 
+\mbox{\hyperlink{structPlanner_ac3db7cf113ad368fa6fce636b6e94abe}{$\sim$\+Planner}} ()
+\item 
+\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{structPlanner_a73e83c66c7a158575eeedd8a9f122a67}{solve}} (std\+::string \&additional\+\_\+info, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr)
+\item 
+\mbox{\hyperlink{structBundle}{Bundle}} \mbox{\hyperlink{structPlanner_a4722161407b657c3c178f56e61dc412e}{solve\+\_\+fact}} (std\+::string \&additional\+\_\+info, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, bool save\+\_\+partitions)
+\item 
+void \mbox{\hyperlink{structPlanner_af9b36da56775f1fd5aeeb7395f206cf1}{expand\+\_\+lowlevel\+\_\+tree}} (\mbox{\hyperlink{structHNode}{HNode}} $\ast$H, \mbox{\hyperlink{structLNode}{LNode}} $\ast$L)
+\item 
+void \mbox{\hyperlink{structPlanner_a9af3dcf185b5ccd49f03869da7812a24}{rewrite}} (\mbox{\hyperlink{structHNode}{HNode}} $\ast$H\+\_\+from, \mbox{\hyperlink{structHNode}{HNode}} $\ast$T, \mbox{\hyperlink{structHNode}{HNode}} $\ast$H\+\_\+goal, std\+::stack$<$ \mbox{\hyperlink{structHNode}{HNode}} $\ast$ $>$ \&OPEN)
+\item 
+\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a2f9686dc55f4deab11cc1a43220b1b3b}{get\+\_\+edge\+\_\+cost}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C1, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C2)
+\item 
+\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a6dd9d2e1d190687c52181060d8077fe4}{get\+\_\+edge\+\_\+cost}} (\mbox{\hyperlink{structHNode}{HNode}} $\ast$H\+\_\+from, \mbox{\hyperlink{structHNode}{HNode}} $\ast$H\+\_\+to)
+\item 
+\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a35515b67b9f715d1cb8396ebfa791a6c}{get\+\_\+h\+\_\+value}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C, const std\+::vector$<$ int $>$ \&enabled=\{\})
+\item 
+bool \mbox{\hyperlink{structPlanner_a4884191fafefc2f8185a79571851d0b5}{get\+\_\+new\+\_\+config}} (\mbox{\hyperlink{structHNode}{HNode}} $\ast$H, \mbox{\hyperlink{structLNode}{LNode}} $\ast$L, const std\+::vector$<$ int $>$ \&enabled=\{\})
+\item 
+bool \mbox{\hyperlink{structPlanner_a5ceb9857727ef266b7abf427741d936b}{func\+PIBT}} (\mbox{\hyperlink{structAgent}{Agent}} $\ast$ai, const std\+::vector$<$ int $>$ \&enabled=\{\})
+\item 
+\mbox{\hyperlink{structAgent}{Agent}} $\ast$ \mbox{\hyperlink{structPlanner_a507deba5497854e8e5ff7fb8062a9016}{swap\+\_\+possible\+\_\+and\+\_\+required}} (\mbox{\hyperlink{structAgent}{Agent}} $\ast$ai)
+\item 
+bool \mbox{\hyperlink{structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2}{is\+\_\+swap\+\_\+required}} (const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} pusher, const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} puller, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+pusher\+\_\+origin, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+puller\+\_\+origin)
+\item 
+bool \mbox{\hyperlink{structPlanner_aaf828472e9944a04858f55d1b84830f5}{is\+\_\+swap\+\_\+possible}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+pusher\+\_\+origin, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+puller\+\_\+origin)
+\item 
+\mbox{\hyperlink{structAgent}{Agent}} $\ast$ \mbox{\hyperlink{structPlanner_a09cfd2c89775990497002a8b054f4694}{swap\+\_\+possible\+\_\+and\+\_\+required\+\_\+fact}} (\mbox{\hyperlink{structAgent}{Agent}} $\ast$ai, const std\+::vector$<$ int $>$ \&enabled)
+\item 
+bool \mbox{\hyperlink{structPlanner_a2f1783abd06cbf4999bde1bb111fc438}{is\+\_\+swap\+\_\+required\+\_\+fact}} (const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} true\+\_\+pusher\+\_\+id, const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} true\+\_\+puller\+\_\+id, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+pusher\+\_\+origin, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+puller\+\_\+origin)
+\item 
+{\footnotesize template$<$typename... Body$>$ }\\void \mbox{\hyperlink{structPlanner_a4672665dd15c43cea5d697e100101213}{solver\+\_\+info}} (const int level, Body \&\&... body)
+\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{structInstance}{Instance}} \& \mbox{\hyperlink{structPlanner_a9cd81619e6e7230320d9bcec427f253e}{ins}}
+\item 
+const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$ \mbox{\hyperlink{structPlanner_aa004cc3e4915d7bf1b6d28bea20c4e4d}{deadline}}
+\item 
+std\+::mt19937 $\ast$ \mbox{\hyperlink{structPlanner_a40a3ec18384122b3b9eade057c840353}{MT}}
+\item 
+const int \mbox{\hyperlink{structPlanner_a9b11ab35ea98c608bfee524ecf5ffdd0}{verbose}}
+\item 
+const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} \mbox{\hyperlink{structPlanner_abcc2bf12a6146cb8a3086242e57c0357}{objective}}
+\item 
+const float \mbox{\hyperlink{structPlanner_a119401084f3cda74b0637d7d7b18b636}{RESTART\+\_\+\+RATE}}
+\item 
+const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a6554a19a29a36a4b607c86866b49dea7}{N}}
+\item 
+const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_ae3dd98964be9924434d45f843a64c812}{V\+\_\+size}}
+\item 
+\mbox{\hyperlink{structDistTable}{Dist\+Table}} \& \mbox{\hyperlink{structPlanner_a8fe105b818b4105eef8d7a2a5cea68f4}{D}}
+\item 
+\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a55c010ef9fcf7c7f101f4acca2cf0684}{loop\+\_\+cnt}}
+\item 
+std\+::vector$<$ std\+::array$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$, 5 $>$ $>$ \mbox{\hyperlink{structPlanner_aace151e3b49da9cd2834d3412c4c8f33}{C\+\_\+next}}
+\item 
+std\+::vector$<$ float $>$ \mbox{\hyperlink{structPlanner_a547b1bde1f72af4829086db6babe3273}{tie\+\_\+breakers}}
+\item 
+\mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} \mbox{\hyperlink{structPlanner_ac547b5407471537f82f1062e475c7df8}{A}}
+\item 
+\mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} \mbox{\hyperlink{structPlanner_aa7f77147d24481c0aeae89778db24cde}{occupied\+\_\+now}}
+\item 
+\mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} \mbox{\hyperlink{structPlanner_a5141c44cbf6ecd946510059dca1e9c15}{occupied\+\_\+next}}
+\item 
+const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \& \mbox{\hyperlink{structPlanner_a3889bd152a1ba502c12451272c8d5bea}{empty\+\_\+solution}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structPlanner_a194d3aff14068b3ace7c06ad0aebdc55}\label{structPlanner_a194d3aff14068b3ace7c06ad0aebdc55}} 
+\index{Planner@{Planner}!Planner@{Planner}}
+\index{Planner@{Planner}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{Planner()}{Planner()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Planner\+::\+Planner (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{\+\_\+ins,  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{\+\_\+deadline,  }\item[{std\+::mt19937 $\ast$}]{\+\_\+\+MT,  }\item[{const int}]{\+\_\+verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{\+\_\+objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{\+\_\+restart\+\_\+rate = {\ttfamily 0.001},  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{\+\_\+empty\+\_\+solution = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{structPlanner_a2abc33a580249779eae290af3724ba7f}\label{structPlanner_a2abc33a580249779eae290af3724ba7f}} 
+\index{Planner@{Planner}!Planner@{Planner}}
+\index{Planner@{Planner}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{Planner()}{Planner()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Planner\+::\+Planner (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$}]{\+\_\+ins,  }\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{\+\_\+deadline,  }\item[{std\+::mt19937 $\ast$}]{\+\_\+\+MT,  }\item[{const int}]{\+\_\+verbose = {\ttfamily 0},  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{\+\_\+objective = {\ttfamily \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}},  }\item[{const float}]{\+\_\+restart\+\_\+rate = {\ttfamily 0.001},  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{\+\_\+empty\+\_\+solution = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{structPlanner_ac3db7cf113ad368fa6fce636b6e94abe}\label{structPlanner_ac3db7cf113ad368fa6fce636b6e94abe}} 
+\index{Planner@{Planner}!````~Planner@{$\sim$Planner}}
+\index{````~Planner@{$\sim$Planner}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{$\sim$Planner()}{~Planner()}}
+{\footnotesize\ttfamily Planner\+::$\sim$\+Planner (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structPlanner_af9b36da56775f1fd5aeeb7395f206cf1}\label{structPlanner_af9b36da56775f1fd5aeeb7395f206cf1}} 
+\index{Planner@{Planner}!expand\_lowlevel\_tree@{expand\_lowlevel\_tree}}
+\index{expand\_lowlevel\_tree@{expand\_lowlevel\_tree}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{expand\_lowlevel\_tree()}{expand\_lowlevel\_tree()}}
+{\footnotesize\ttfamily void Planner\+::expand\+\_\+lowlevel\+\_\+tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H,  }\item[{\mbox{\hyperlink{structLNode}{LNode}} $\ast$}]{L }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_af9b36da56775f1fd5aeeb7395f206cf1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a5ceb9857727ef266b7abf427741d936b}\label{structPlanner_a5ceb9857727ef266b7abf427741d936b}} 
+\index{Planner@{Planner}!funcPIBT@{funcPIBT}}
+\index{funcPIBT@{funcPIBT}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{funcPIBT()}{funcPIBT()}}
+{\footnotesize\ttfamily bool Planner\+::func\+PIBT (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAgent}{Agent}} $\ast$}]{ai,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a5ceb9857727ef266b7abf427741d936b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a5ceb9857727ef266b7abf427741d936b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a2f9686dc55f4deab11cc1a43220b1b3b}\label{structPlanner_a2f9686dc55f4deab11cc1a43220b1b3b}} 
+\index{Planner@{Planner}!get\_edge\_cost@{get\_edge\_cost}}
+\index{get\_edge\_cost@{get\_edge\_cost}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{get\_edge\_cost()}{get\_edge\_cost()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::get\+\_\+edge\+\_\+cost (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C1,  }\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C2 }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a2f9686dc55f4deab11cc1a43220b1b3b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a6dd9d2e1d190687c52181060d8077fe4}\label{structPlanner_a6dd9d2e1d190687c52181060d8077fe4}} 
+\index{Planner@{Planner}!get\_edge\_cost@{get\_edge\_cost}}
+\index{get\_edge\_cost@{get\_edge\_cost}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{get\_edge\_cost()}{get\_edge\_cost()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::get\+\_\+edge\+\_\+cost (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+from,  }\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+to }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a6dd9d2e1d190687c52181060d8077fe4_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a35515b67b9f715d1cb8396ebfa791a6c}\label{structPlanner_a35515b67b9f715d1cb8396ebfa791a6c}} 
+\index{Planner@{Planner}!get\_h\_value@{get\_h\_value}}
+\index{get\_h\_value@{get\_h\_value}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{get\_h\_value()}{get\_h\_value()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::get\+\_\+h\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=318pt]{structPlanner_a35515b67b9f715d1cb8396ebfa791a6c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a35515b67b9f715d1cb8396ebfa791a6c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a4884191fafefc2f8185a79571851d0b5}\label{structPlanner_a4884191fafefc2f8185a79571851d0b5}} 
+\index{Planner@{Planner}!get\_new\_config@{get\_new\_config}}
+\index{get\_new\_config@{get\_new\_config}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{get\_new\_config()}{get\_new\_config()}}
+{\footnotesize\ttfamily bool Planner\+::get\+\_\+new\+\_\+config (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H,  }\item[{\mbox{\hyperlink{structLNode}{LNode}} $\ast$}]{L,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a4884191fafefc2f8185a79571851d0b5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a4884191fafefc2f8185a79571851d0b5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_aaf828472e9944a04858f55d1b84830f5}\label{structPlanner_aaf828472e9944a04858f55d1b84830f5}} 
+\index{Planner@{Planner}!is\_swap\_possible@{is\_swap\_possible}}
+\index{is\_swap\_possible@{is\_swap\_possible}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{is\_swap\_possible()}{is\_swap\_possible()}}
+{\footnotesize\ttfamily bool Planner\+::is\+\_\+swap\+\_\+possible (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+pusher\+\_\+origin,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+puller\+\_\+origin }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_aaf828472e9944a04858f55d1b84830f5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2}\label{structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2}} 
+\index{Planner@{Planner}!is\_swap\_required@{is\_swap\_required}}
+\index{is\_swap\_required@{is\_swap\_required}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{is\_swap\_required()}{is\_swap\_required()}}
+{\footnotesize\ttfamily bool Planner\+::is\+\_\+swap\+\_\+required (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{pusher,  }\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{puller,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+pusher\+\_\+origin,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+puller\+\_\+origin }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a2f1783abd06cbf4999bde1bb111fc438}\label{structPlanner_a2f1783abd06cbf4999bde1bb111fc438}} 
+\index{Planner@{Planner}!is\_swap\_required\_fact@{is\_swap\_required\_fact}}
+\index{is\_swap\_required\_fact@{is\_swap\_required\_fact}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{is\_swap\_required\_fact()}{is\_swap\_required\_fact()}}
+{\footnotesize\ttfamily bool Planner\+::is\+\_\+swap\+\_\+required\+\_\+fact (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{true\+\_\+pusher\+\_\+id,  }\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{true\+\_\+puller\+\_\+id,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+pusher\+\_\+origin,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+puller\+\_\+origin }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a2f1783abd06cbf4999bde1bb111fc438_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a9af3dcf185b5ccd49f03869da7812a24}\label{structPlanner_a9af3dcf185b5ccd49f03869da7812a24}} 
+\index{Planner@{Planner}!rewrite@{rewrite}}
+\index{rewrite@{rewrite}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{rewrite()}{rewrite()}}
+{\footnotesize\ttfamily void Planner\+::rewrite (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+from,  }\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{T,  }\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+goal,  }\item[{std\+::stack$<$ \mbox{\hyperlink{structHNode}{HNode}} $\ast$ $>$ \&}]{OPEN }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a9af3dcf185b5ccd49f03869da7812a24_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a9af3dcf185b5ccd49f03869da7812a24_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a73e83c66c7a158575eeedd8a9f122a67}\label{structPlanner_a73e83c66c7a158575eeedd8a9f122a67}} 
+\index{Planner@{Planner}!solve@{solve}}
+\index{solve@{solve}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} Planner\+::solve (\begin{DoxyParamCaption}\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a73e83c66c7a158575eeedd8a9f122a67_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a4722161407b657c3c178f56e61dc412e}\label{structPlanner_a4722161407b657c3c178f56e61dc412e}} 
+\index{Planner@{Planner}!solve\_fact@{solve\_fact}}
+\index{solve\_fact@{solve\_fact}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{solve\_fact()}{solve\_fact()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structBundle}{Bundle}} Planner\+::solve\+\_\+fact (\begin{DoxyParamCaption}\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{bool}]{save\+\_\+partitions }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a4722161407b657c3c178f56e61dc412e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a4722161407b657c3c178f56e61dc412e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a4672665dd15c43cea5d697e100101213}\label{structPlanner_a4672665dd15c43cea5d697e100101213}} 
+\index{Planner@{Planner}!solver\_info@{solver\_info}}
+\index{solver\_info@{solver\_info}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{solver\_info()}{solver\_info()}}
+{\footnotesize\ttfamily template$<$typename... Body$>$ \\
+void Planner\+::solver\+\_\+info (\begin{DoxyParamCaption}\item[{const int}]{level,  }\item[{Body \&\&...}]{body }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a4672665dd15c43cea5d697e100101213_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a4672665dd15c43cea5d697e100101213_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a507deba5497854e8e5ff7fb8062a9016}\label{structPlanner_a507deba5497854e8e5ff7fb8062a9016}} 
+\index{Planner@{Planner}!swap\_possible\_and\_required@{swap\_possible\_and\_required}}
+\index{swap\_possible\_and\_required@{swap\_possible\_and\_required}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{swap\_possible\_and\_required()}{swap\_possible\_and\_required()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAgent}{Agent}} $\ast$ Planner\+::swap\+\_\+possible\+\_\+and\+\_\+required (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAgent}{Agent}} $\ast$}]{ai }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a507deba5497854e8e5ff7fb8062a9016_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a507deba5497854e8e5ff7fb8062a9016_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a09cfd2c89775990497002a8b054f4694}\label{structPlanner_a09cfd2c89775990497002a8b054f4694}} 
+\index{Planner@{Planner}!swap\_possible\_and\_required\_fact@{swap\_possible\_and\_required\_fact}}
+\index{swap\_possible\_and\_required\_fact@{swap\_possible\_and\_required\_fact}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{swap\_possible\_and\_required\_fact()}{swap\_possible\_and\_required\_fact()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAgent}{Agent}} $\ast$ Planner\+::swap\+\_\+possible\+\_\+and\+\_\+required\+\_\+fact (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAgent}{Agent}} $\ast$}]{ai,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a09cfd2c89775990497002a8b054f4694_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a09cfd2c89775990497002a8b054f4694_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{structPlanner_ac547b5407471537f82f1062e475c7df8}\label{structPlanner_ac547b5407471537f82f1062e475c7df8}} 
+\index{Planner@{Planner}!A@{A}}
+\index{A@{A}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{A}{A}}
+{\footnotesize\ttfamily \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} Planner\+::A}
+
+\mbox{\Hypertarget{structPlanner_aace151e3b49da9cd2834d3412c4c8f33}\label{structPlanner_aace151e3b49da9cd2834d3412c4c8f33}} 
+\index{Planner@{Planner}!C\_next@{C\_next}}
+\index{C\_next@{C\_next}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{C\_next}{C\_next}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::array$<$std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{structVertex}{Vertex}}$>$, 5$>$ $>$ Planner\+::\+C\+\_\+next}
+
+\mbox{\Hypertarget{structPlanner_a8fe105b818b4105eef8d7a2a5cea68f4}\label{structPlanner_a8fe105b818b4105eef8d7a2a5cea68f4}} 
+\index{Planner@{Planner}!D@{D}}
+\index{D@{D}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{D}{D}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structDistTable}{Dist\+Table}}\& Planner\+::D}
+
+\mbox{\Hypertarget{structPlanner_aa004cc3e4915d7bf1b6d28bea20c4e4d}\label{structPlanner_aa004cc3e4915d7bf1b6d28bea20c4e4d}} 
+\index{Planner@{Planner}!deadline@{deadline}}
+\index{deadline@{deadline}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{deadline}{deadline}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structDeadline}{Deadline}}$\ast$ Planner\+::deadline}
+
+\mbox{\Hypertarget{structPlanner_a3889bd152a1ba502c12451272c8d5bea}\label{structPlanner_a3889bd152a1ba502c12451272c8d5bea}} 
+\index{Planner@{Planner}!empty\_solution@{empty\_solution}}
+\index{empty\_solution@{empty\_solution}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{empty\_solution}{empty\_solution}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}}\& Planner\+::empty\+\_\+solution}
+
+\mbox{\Hypertarget{structPlanner_a9cd81619e6e7230320d9bcec427f253e}\label{structPlanner_a9cd81619e6e7230320d9bcec427f253e}} 
+\index{Planner@{Planner}!ins@{ins}}
+\index{ins@{ins}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{ins}{ins}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structInstance}{Instance}}\& Planner\+::ins}
+
+\mbox{\Hypertarget{structPlanner_a55c010ef9fcf7c7f101f4acca2cf0684}\label{structPlanner_a55c010ef9fcf7c7f101f4acca2cf0684}} 
+\index{Planner@{Planner}!loop\_cnt@{loop\_cnt}}
+\index{loop\_cnt@{loop\_cnt}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{loop\_cnt}{loop\_cnt}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::loop\+\_\+cnt}
+
+\mbox{\Hypertarget{structPlanner_a40a3ec18384122b3b9eade057c840353}\label{structPlanner_a40a3ec18384122b3b9eade057c840353}} 
+\index{Planner@{Planner}!MT@{MT}}
+\index{MT@{MT}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{MT}{MT}}
+{\footnotesize\ttfamily std\+::mt19937$\ast$ Planner\+::\+MT}
+
+\mbox{\Hypertarget{structPlanner_a6554a19a29a36a4b607c86866b49dea7}\label{structPlanner_a6554a19a29a36a4b607c86866b49dea7}} 
+\index{Planner@{Planner}!N@{N}}
+\index{N@{N}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{N}{N}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::N}
+
+\mbox{\Hypertarget{structPlanner_abcc2bf12a6146cb8a3086242e57c0357}\label{structPlanner_abcc2bf12a6146cb8a3086242e57c0357}} 
+\index{Planner@{Planner}!objective@{objective}}
+\index{objective@{objective}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{objective}{objective}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} Planner\+::objective}
+
+\mbox{\Hypertarget{structPlanner_a5141c44cbf6ecd946510059dca1e9c15}\label{structPlanner_a5141c44cbf6ecd946510059dca1e9c15}} 
+\index{Planner@{Planner}!occupied\_next@{occupied\_next}}
+\index{occupied\_next@{occupied\_next}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{occupied\_next}{occupied\_next}}
+{\footnotesize\ttfamily \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} Planner\+::occupied\+\_\+next}
+
+\mbox{\Hypertarget{structPlanner_aa7f77147d24481c0aeae89778db24cde}\label{structPlanner_aa7f77147d24481c0aeae89778db24cde}} 
+\index{Planner@{Planner}!occupied\_now@{occupied\_now}}
+\index{occupied\_now@{occupied\_now}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{occupied\_now}{occupied\_now}}
+{\footnotesize\ttfamily \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} Planner\+::occupied\+\_\+now}
+
+\mbox{\Hypertarget{structPlanner_a119401084f3cda74b0637d7d7b18b636}\label{structPlanner_a119401084f3cda74b0637d7d7b18b636}} 
+\index{Planner@{Planner}!RESTART\_RATE@{RESTART\_RATE}}
+\index{RESTART\_RATE@{RESTART\_RATE}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{RESTART\_RATE}{RESTART\_RATE}}
+{\footnotesize\ttfamily const float Planner\+::\+RESTART\+\_\+\+RATE}
+
+\mbox{\Hypertarget{structPlanner_a547b1bde1f72af4829086db6babe3273}\label{structPlanner_a547b1bde1f72af4829086db6babe3273}} 
+\index{Planner@{Planner}!tie\_breakers@{tie\_breakers}}
+\index{tie\_breakers@{tie\_breakers}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{tie\_breakers}{tie\_breakers}}
+{\footnotesize\ttfamily std\+::vector$<$float$>$ Planner\+::tie\+\_\+breakers}
+
+\mbox{\Hypertarget{structPlanner_ae3dd98964be9924434d45f843a64c812}\label{structPlanner_ae3dd98964be9924434d45f843a64c812}} 
+\index{Planner@{Planner}!V\_size@{V\_size}}
+\index{V\_size@{V\_size}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{V\_size}{V\_size}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::\+V\+\_\+size}
+
+\mbox{\Hypertarget{structPlanner_a9b11ab35ea98c608bfee524ecf5ffdd0}\label{structPlanner_a9b11ab35ea98c608bfee524ecf5ffdd0}} 
+\index{Planner@{Planner}!verbose@{verbose}}
+\index{verbose@{verbose}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{verbose}{verbose}}
+{\footnotesize\ttfamily const int Planner\+::verbose}
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lacam2/include/\mbox{\hyperlink{planner_8hpp}{planner.\+hpp}}\item 
+lacam2/src/\mbox{\hyperlink{planner_8cpp}{planner.\+cpp}}\end{DoxyCompactItemize}

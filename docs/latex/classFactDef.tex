@@ -1,0 +1,80 @@
+\hypertarget{classFactDef}{}\doxysection{Fact\+Def Class Reference}
+\label{classFactDef}\index{FactDef@{FactDef}}
+
+
+\mbox{\hyperlink{classFactDef}{Fact\+Def}} class, implements factorization using pre-\/computed partitions.  
+
+
+
+
+{\ttfamily \#include $<$factorizer.\+hpp$>$}
+
+
+
+Inheritance diagram for Fact\+Def\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classFactDef__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Fact\+Def\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classFactDef__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classFactDef_a2ed0052cb7bfe89574d1ce50992626df}{Fact\+Def}} ()
+\item 
+\mbox{\hyperlink{classFactDef_a4716c53823ac13a09705717bb1d08cc8}{Fact\+Def}} (int \mbox{\hyperlink{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}{width}})
+\item 
+std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ \mbox{\hyperlink{classFactDef_abf170fb43013dd4f19977abbb5590e0a}{is\+\_\+factorizable\+\_\+def}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C\+\_\+new, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&goals, int verbose, const std\+::vector$<$ int $>$ \&enabled, const std\+::vector$<$ float $>$ \&priorities, int timestep) const override
+\begin{DoxyCompactList}\small\item\em Allows factorization according to definition. Uses the timesteps and pre-\/loaded Partitions to determine factorizability. Only used by the \mbox{\hyperlink{classFactDef}{Fact\+Def}} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classFactDef}{Fact\+Def}} class, implements factorization using pre-\/computed partitions. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classFactDef_a2ed0052cb7bfe89574d1ce50992626df}\label{classFactDef_a2ed0052cb7bfe89574d1ce50992626df}} 
+\index{FactDef@{FactDef}!FactDef@{FactDef}}
+\index{FactDef@{FactDef}!FactDef@{FactDef}}
+\doxysubsubsection{\texorpdfstring{FactDef()}{FactDef()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Fact\+Def\+::\+Fact\+Def (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classFactDef_a4716c53823ac13a09705717bb1d08cc8}\label{classFactDef_a4716c53823ac13a09705717bb1d08cc8}} 
+\index{FactDef@{FactDef}!FactDef@{FactDef}}
+\index{FactDef@{FactDef}!FactDef@{FactDef}}
+\doxysubsubsection{\texorpdfstring{FactDef()}{FactDef()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Fact\+Def\+::\+Fact\+Def (\begin{DoxyParamCaption}\item[{int}]{width }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classFactDef_abf170fb43013dd4f19977abbb5590e0a}\label{classFactDef_abf170fb43013dd4f19977abbb5590e0a}} 
+\index{FactDef@{FactDef}!is\_factorizable\_def@{is\_factorizable\_def}}
+\index{is\_factorizable\_def@{is\_factorizable\_def}!FactDef@{FactDef}}
+\doxysubsubsection{\texorpdfstring{is\_factorizable\_def()}{is\_factorizable\_def()}}
+{\footnotesize\ttfamily std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ Fact\+Def\+::is\+\_\+factorizable\+\_\+def (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C\+\_\+new,  }\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{goals,  }\item[{int}]{verbose,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{const std\+::vector$<$ float $>$ \&}]{priorities,  }\item[{int}]{timestep }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Allows factorization according to definition. Uses the timesteps and pre-\/loaded Partitions to determine factorizability. Only used by the \mbox{\hyperlink{classFactDef}{Fact\+Def}} class. 
+
+
+
+Implements \mbox{\hyperlink{classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb}{Fact\+Algo}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lacam2/include/\mbox{\hyperlink{factorizer_8hpp}{factorizer.\+hpp}}\item 
+lacam2/src/\mbox{\hyperlink{factorizer_8cpp}{factorizer.\+cpp}}\end{DoxyCompactItemize}
