@@ -1,0 +1,127 @@
+\hypertarget{graph_8cpp}{}\doxysection{lacam2/src/graph.cpp File Reference}
+\label{graph_8cpp}\index{lacam2/src/graph.cpp@{lacam2/src/graph.cpp}}
+
+
+Implementation of \mbox{\hyperlink{classGraph}{Graph}} class, intialization and singleton management.  
+
+
+{\ttfamily \#include \char`\"{}../include/graph.\+hpp\char`\"{}}\newline
+Include dependency graph for graph.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{graph_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{graph_8cpp_a44b479382634c1b3415e08bc84d972e9}{is\+\_\+same\+\_\+config}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C1, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C2)
+\begin{DoxyCompactList}\small\item\em Check the equivalence of two configurations. \end{DoxyCompactList}\item 
+std\+::ostream \& \mbox{\hyperlink{graph_8cpp_af8f4b321be931e3a992107b7d97d78fe}{operator$<$$<$}} (std\+::ostream \&os, const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v)
+\begin{DoxyCompactList}\small\item\em Stream insertion operator for \mbox{\hyperlink{structVertex}{Vertex}}. \end{DoxyCompactList}\item 
+std\+::ostream \& \mbox{\hyperlink{graph_8cpp_a590ebf16db4b73543bd4ecfe1eeac3bb}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&config)
+\begin{DoxyCompactList}\small\item\em Stream insertion operator for Configuration. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{graph_8cpp_a78f6e0e9d194db0c94d047a7d5fc8369}{print\+\_\+vec\+\_\+int}} (const std\+::vector$<$ int $>$ v)
+\item 
+void \mbox{\hyperlink{graph_8cpp_a9db0296cc81e881cded76c10bc70a898}{print\+\_\+vec\+\_\+float}} (std\+::vector$<$ float $>$ v)
+\item 
+void \mbox{\hyperlink{graph_8cpp_a83802391eb69866bfda58bb9854d082d}{print\+\_\+array\+\_\+vertices}} (const std\+::vector$<$ int $>$ V, int width)
+\item 
+void \mbox{\hyperlink{graph_8cpp_a5cd3a128e63b65212d574d2d381c1798}{print\+\_\+vertex}} (const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ V, int width)
+\item 
+void \mbox{\hyperlink{graph_8cpp_aabd9d91fb32cf70532ed3247d863122e}{print\+\_\+vertices}} (const \mbox{\hyperlink{graph_8hpp_ac5a2dcd1b3a95ced558d3efece4b4dc5}{Vertices}} V, int width)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of \mbox{\hyperlink{classGraph}{Graph}} class, intialization and singleton management. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{graph_8cpp_a44b479382634c1b3415e08bc84d972e9}\label{graph_8cpp_a44b479382634c1b3415e08bc84d972e9}} 
+\index{graph.cpp@{graph.cpp}!is\_same\_config@{is\_same\_config}}
+\index{is\_same\_config@{is\_same\_config}!graph.cpp@{graph.cpp}}
+\doxysubsubsection{\texorpdfstring{is\_same\_config()}{is\_same\_config()}}
+{\footnotesize\ttfamily bool is\+\_\+same\+\_\+config (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C1,  }\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C2 }\end{DoxyParamCaption})}
+
+
+
+Check the equivalence of two configurations. 
+
+~\newline
+ \begin{DoxyReturn}{Returns}
+True if the configurations are equivalent, false otherwise. 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{graph_8cpp_a44b479382634c1b3415e08bc84d972e9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{graph_8cpp_a590ebf16db4b73543bd4ecfe1eeac3bb}\label{graph_8cpp_a590ebf16db4b73543bd4ecfe1eeac3bb}} 
+\index{graph.cpp@{graph.cpp}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!graph.cpp@{graph.cpp}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{config }\end{DoxyParamCaption})}
+
+
+
+Stream insertion operator for Configuration. 
+
+\mbox{\Hypertarget{graph_8cpp_af8f4b321be931e3a992107b7d97d78fe}\label{graph_8cpp_af8f4b321be931e3a992107b7d97d78fe}} 
+\index{graph.cpp@{graph.cpp}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!graph.cpp@{graph.cpp}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v }\end{DoxyParamCaption})}
+
+
+
+Stream insertion operator for \mbox{\hyperlink{structVertex}{Vertex}}. 
+
+\mbox{\Hypertarget{graph_8cpp_a83802391eb69866bfda58bb9854d082d}\label{graph_8cpp_a83802391eb69866bfda58bb9854d082d}} 
+\index{graph.cpp@{graph.cpp}!print\_array\_vertices@{print\_array\_vertices}}
+\index{print\_array\_vertices@{print\_array\_vertices}!graph.cpp@{graph.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_array\_vertices()}{print\_array\_vertices()}}
+{\footnotesize\ttfamily void print\+\_\+array\+\_\+vertices (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ int $>$}]{V,  }\item[{int}]{width }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{graph_8cpp_a9db0296cc81e881cded76c10bc70a898}\label{graph_8cpp_a9db0296cc81e881cded76c10bc70a898}} 
+\index{graph.cpp@{graph.cpp}!print\_vec\_float@{print\_vec\_float}}
+\index{print\_vec\_float@{print\_vec\_float}!graph.cpp@{graph.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_vec\_float()}{print\_vec\_float()}}
+{\footnotesize\ttfamily void print\+\_\+vec\+\_\+float (\begin{DoxyParamCaption}\item[{std\+::vector$<$ float $>$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{graph_8cpp_a78f6e0e9d194db0c94d047a7d5fc8369}\label{graph_8cpp_a78f6e0e9d194db0c94d047a7d5fc8369}} 
+\index{graph.cpp@{graph.cpp}!print\_vec\_int@{print\_vec\_int}}
+\index{print\_vec\_int@{print\_vec\_int}!graph.cpp@{graph.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_vec\_int()}{print\_vec\_int()}}
+{\footnotesize\ttfamily void print\+\_\+vec\+\_\+int (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ int $>$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{graph_8cpp_a5cd3a128e63b65212d574d2d381c1798}\label{graph_8cpp_a5cd3a128e63b65212d574d2d381c1798}} 
+\index{graph.cpp@{graph.cpp}!print\_vertex@{print\_vertex}}
+\index{print\_vertex@{print\_vertex}!graph.cpp@{graph.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_vertex()}{print\_vertex()}}
+{\footnotesize\ttfamily void print\+\_\+vertex (\begin{DoxyParamCaption}\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{V,  }\item[{int}]{width }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{graph_8cpp_a5cd3a128e63b65212d574d2d381c1798_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{graph_8cpp_aabd9d91fb32cf70532ed3247d863122e}\label{graph_8cpp_aabd9d91fb32cf70532ed3247d863122e}} 
+\index{graph.cpp@{graph.cpp}!print\_vertices@{print\_vertices}}
+\index{print\_vertices@{print\_vertices}!graph.cpp@{graph.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_vertices()}{print\_vertices()}}
+{\footnotesize\ttfamily void print\+\_\+vertices (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_ac5a2dcd1b3a95ced558d3efece4b4dc5}{Vertices}}}]{V,  }\item[{int}]{width }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{graph_8cpp_aabd9d91fb32cf70532ed3247d863122e_icgraph}
+\end{center}
+\end{figure}

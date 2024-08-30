@@ -1,0 +1,4 @@
+<map id="get_sum_of_costs" name="get_sum_of_costs">
+<area shape="rect" id="node1" title="Computes the sum of costs for all agents in the solution." alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node2" href="$post__processing_8cpp.html#a0a30f5f9c90ae0df8b51bc6121ccfc75" title="Computes the path cost for a single agent." alt="" coords="192,5,305,32"/>
+</map>

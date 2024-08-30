@@ -1,0 +1,4 @@
+<map id="is_expired" name="is_expired">
+<area shape="rect" id="node1" title="Checks if the given deadline has expired." alt="" coords="5,5,95,32"/>
+<area shape="rect" id="node2" href="$structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="143,5,309,32"/>
+</map>

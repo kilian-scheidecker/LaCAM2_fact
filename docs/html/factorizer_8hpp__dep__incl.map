@@ -1,0 +1,11 @@
+<map id="lacam2/include/factorizer.hpp" name="lacam2/include/factorizer.hpp">
+<area shape="rect" id="node1" title="Provides classes and methods for various factorization algorithms." alt="" coords="252,5,467,32"/>
+<area shape="rect" id="node2" href="$lacam2_8hpp.html" title="Definition of the three main solving methods: standard, factorized and factorized with multi&#45;threadin..." alt="" coords="201,169,403,196"/>
+<area shape="rect" id="node5" href="$planner_8hpp.html" title="Definition of Planner class and core components for solving MAPF instances using LaCAM2 and LaCAM2_fa..." alt="" coords="63,87,264,114"/>
+<area shape="rect" id="node7" href="$post__processing_8hpp.html" title="Definition of a variety of metric calculations (sum of loss, makespan, etc)." alt="" coords="340,80,493,121"/>
+<area shape="rect" id="node9" href="$factorizer_8cpp.html" title="Implements various factorization algorithms for multi&#45;agent pathfinding." alt="" coords="517,87,703,114"/>
+<area shape="rect" id="node3" href="$lacam2_8cpp.html" title="Implementation of the solve, solve_fact and solve_fact_MT functions." alt="" coords="140,244,312,271"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title="Main entry point for the LaCAM2 application." alt="" coords="337,244,419,271"/>
+<area shape="rect" id="node6" href="$planner_8cpp.html" title="Implementation of the main solving procedure and all classes related to the planning." alt="" coords="5,169,177,196"/>
+<area shape="rect" id="node8" href="$post__processing_8cpp.html" title="Implementation of the different metric computations and log creation." alt="" coords="427,169,657,196"/>
+</map>

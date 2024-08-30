@@ -1,3 +1,8 @@
+/**
+ * @file graph.cpp
+ * @brief Implementation of Graph class, intialization and singleton management.
+ */
+
 #include "../include/graph.hpp"
 
 Vertex::Vertex(int _id, int _index)

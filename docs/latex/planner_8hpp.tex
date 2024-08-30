@@ -1,0 +1,155 @@
+\hypertarget{planner_8hpp}{}\doxysection{lacam2/include/planner.hpp File Reference}
+\label{planner_8hpp}\index{lacam2/include/planner.hpp@{lacam2/include/planner.hpp}}
+
+
+Definition of \mbox{\hyperlink{structPlanner}{Planner}} class and core components for solving MAPF instances using La\+CAM2 and La\+CAM2\+\_\+fact algorithms.  
+
+
+{\ttfamily \#include \char`\"{}dist\+\_\+table.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}graph.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}instance.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}factorizer.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
+Include dependency graph for planner.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{planner_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{planner_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structAgent}{Agent}}
+\begin{DoxyCompactList}\small\item\em Struct representing an agent. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structLNode}{LNode}}
+\begin{DoxyCompactList}\small\item\em Struct representing a low-\/level search node. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structHNode}{HNode}}
+\begin{DoxyCompactList}\small\item\em Struct representing a high-\/level search node. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structBundle}{Bundle}}
+\begin{DoxyCompactList}\small\item\em Struct representing the result of a factorized solving process. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structPlanner}{Planner}}
+\begin{DoxyCompactList}\small\item\em Class representing the planner for solving MAPF problems. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} = std\+::vector$<$ \mbox{\hyperlink{structAgent}{Agent}} $\ast$ $>$
+\item 
+using \mbox{\hyperlink{planner_8hpp_a770e238ce9774dd244e2c6d1c007f29f}{HNodes}} = std\+::vector$<$ \mbox{\hyperlink{structHNode}{HNode}} $\ast$ $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} \{ \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}
+, \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba88123144ceae5db04c4ee5cb9a4bf017}{OBJ\+\_\+\+MAKESPAN}}
+, \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba796591edc6cad71aab32968d2457132c}{OBJ\+\_\+\+SUM\+\_\+\+OF\+\_\+\+LOSS}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum for defining the objective function used in the solving process. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{planner_8hpp_ac15196189aa5a6a5e8207f5c6849bd84}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} objective)
+\item 
+\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{planner_8hpp_adec0ef604594ebdb20dc833098255079}{transpose}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&matrix)
+\begin{DoxyCompactList}\small\item\em Transposes the solution matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{planner_8hpp_ab4aa52241a4e6626d5aa157336c6b56d}{pad\+Solution}} (\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&sol)
+\begin{DoxyCompactList}\small\item\em Pads the solution to ensure consistency in dimensions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Definition of \mbox{\hyperlink{structPlanner}{Planner}} class and core components for solving MAPF instances using La\+CAM2 and La\+CAM2\+\_\+fact algorithms. 
+
+This file also defines the \mbox{\hyperlink{structAgent}{Agent}}, Hnode, Lnode and \mbox{\hyperlink{structPlanner}{Planner}} classes. 
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}\label{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}} 
+\index{planner.hpp@{planner.hpp}!Agents@{Agents}}
+\index{Agents@{Agents}!planner.hpp@{planner.hpp}}
+\doxysubsubsection{\texorpdfstring{Agents}{Agents}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{planner_8hpp_a9dae3f369d015f919d0aea1073f205a2}{Agents}} =  std\+::vector$<$\mbox{\hyperlink{structAgent}{Agent}}$\ast$$>$}
+
+\mbox{\Hypertarget{planner_8hpp_a770e238ce9774dd244e2c6d1c007f29f}\label{planner_8hpp_a770e238ce9774dd244e2c6d1c007f29f}} 
+\index{planner.hpp@{planner.hpp}!HNodes@{HNodes}}
+\index{HNodes@{HNodes}!planner.hpp@{planner.hpp}}
+\doxysubsubsection{\texorpdfstring{HNodes}{HNodes}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{planner_8hpp_a770e238ce9774dd244e2c6d1c007f29f}{HNodes}} =  std\+::vector$<$\mbox{\hyperlink{structHNode}{HNode}}$\ast$$>$}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{planner_8hpp_affff5f405069a39239a7719a81670c6b}\label{planner_8hpp_affff5f405069a39239a7719a81670c6b}} 
+\index{planner.hpp@{planner.hpp}!Objective@{Objective}}
+\index{Objective@{Objective}!planner.hpp@{planner.hpp}}
+\doxysubsubsection{\texorpdfstring{Objective}{Objective}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}
+
+
+
+Enum for defining the objective function used in the solving process. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OBJ\_NONE@{OBJ\_NONE}!planner.hpp@{planner.hpp}}\index{planner.hpp@{planner.hpp}!OBJ\_NONE@{OBJ\_NONE}}}\mbox{\Hypertarget{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}\label{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}} 
+OBJ\+\_\+\+NONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OBJ\_MAKESPAN@{OBJ\_MAKESPAN}!planner.hpp@{planner.hpp}}\index{planner.hpp@{planner.hpp}!OBJ\_MAKESPAN@{OBJ\_MAKESPAN}}}\mbox{\Hypertarget{planner_8hpp_affff5f405069a39239a7719a81670c6ba88123144ceae5db04c4ee5cb9a4bf017}\label{planner_8hpp_affff5f405069a39239a7719a81670c6ba88123144ceae5db04c4ee5cb9a4bf017}} 
+OBJ\+\_\+\+MAKESPAN&No specific objective. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OBJ\_SUM\_OF\_LOSS@{OBJ\_SUM\_OF\_LOSS}!planner.hpp@{planner.hpp}}\index{planner.hpp@{planner.hpp}!OBJ\_SUM\_OF\_LOSS@{OBJ\_SUM\_OF\_LOSS}}}\mbox{\Hypertarget{planner_8hpp_affff5f405069a39239a7719a81670c6ba796591edc6cad71aab32968d2457132c}\label{planner_8hpp_affff5f405069a39239a7719a81670c6ba796591edc6cad71aab32968d2457132c}} 
+OBJ\+\_\+\+SUM\+\_\+\+OF\+\_\+\+LOSS&Minimize the makespan. Minimize the sum of losses. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{planner_8hpp_ac15196189aa5a6a5e8207f5c6849bd84}\label{planner_8hpp_ac15196189aa5a6a5e8207f5c6849bd84}} 
+\index{planner.hpp@{planner.hpp}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!planner.hpp@{planner.hpp}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}}}]{objective }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{planner_8hpp_ab4aa52241a4e6626d5aa157336c6b56d}\label{planner_8hpp_ab4aa52241a4e6626d5aa157336c6b56d}} 
+\index{planner.hpp@{planner.hpp}!padSolution@{padSolution}}
+\index{padSolution@{padSolution}!planner.hpp@{planner.hpp}}
+\doxysubsubsection{\texorpdfstring{padSolution()}{padSolution()}}
+{\footnotesize\ttfamily void pad\+Solution (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{sol }\end{DoxyParamCaption})}
+
+
+
+Pads the solution to ensure consistency in dimensions. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{planner_8hpp_ab4aa52241a4e6626d5aa157336c6b56d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{planner_8hpp_adec0ef604594ebdb20dc833098255079}\label{planner_8hpp_adec0ef604594ebdb20dc833098255079}} 
+\index{planner.hpp@{planner.hpp}!transpose@{transpose}}
+\index{transpose@{transpose}!planner.hpp@{planner.hpp}}
+\doxysubsubsection{\texorpdfstring{transpose()}{transpose()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} transpose (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{matrix }\end{DoxyParamCaption})}
+
+
+
+Transposes the solution matrix. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{planner_8hpp_adec0ef604594ebdb20dc833098255079_icgraph}
+\end{center}
+\end{figure}

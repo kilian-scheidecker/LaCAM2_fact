@@ -1,0 +1,204 @@
+\hypertarget{structDistTable}{}\doxysection{Dist\+Table Struct Reference}
+\label{structDistTable}\index{DistTable@{DistTable}}
+
+
+{\ttfamily \#include $<$dist\+\_\+table.\+hpp$>$}
+
+
+
+Collaboration diagram for Dist\+Table\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{structDistTable__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structDistTable_acae7a9248c50ea575275b53943a347b0}{Dist\+Table}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins)
+\begin{DoxyCompactList}\small\item\em Cleanup the \mbox{\hyperlink{structDistTable}{Dist\+Table}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structDistTable_a69e35fd62a42d3230a3b1afd513f7319}{get}} (\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} i, \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} v\+\_\+id, int true\+\_\+id=-\/1)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structDistTable}{Dist\+Table}} setup at first use. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structDistTable_a8a40b3c5ccf9acb7f92ff23cac19faeb}{get}} (\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} i, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v, int true\+\_\+id=-\/1)
+\item 
+void \mbox{\hyperlink{structDistTable_acc82add9455a6b0c36e25a973898a688}{dump\+Table\+To\+File}} (const std\+::string \&filename) const
+\begin{DoxyCompactList}\small\item\em Helper function to save the content of the \mbox{\hyperlink{structDistTable}{Dist\+Table}}, useful for debug. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{structDistTable}{Dist\+Table}} \& \mbox{\hyperlink{structDistTable_a143cbb1d757536afcc509389e6556d88}{get\+Instance}} ()
+\begin{DoxyCompactList}\small\item\em Search queue for lazy BFS. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{structDistTable_aedb58b97524d5688ac9a7cb516464be3}{initialize}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins)
+\begin{DoxyCompactList}\small\item\em Singleton management. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{structDistTable_a27b32217ef8d5d7182282117eb9fa8e1}{cleanup}} ()
+\begin{DoxyCompactList}\small\item\em Initialize the \mbox{\hyperlink{structDistTable}{Dist\+Table}} once. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structDistTable_a79c1f27b2f26ab430084f3a1799d44a5}{V\+\_\+size}}
+\item 
+std\+::vector$<$ std\+::vector$<$ \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} $>$ $>$ \mbox{\hyperlink{structDistTable_a69346a7c43423cbaac257664c4f4f0dd}{table}}
+\begin{DoxyCompactList}\small\item\em Number of vertices. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::queue$<$ \mbox{\hyperlink{structVertex}{Vertex}} $\ast$ $>$ $>$ \mbox{\hyperlink{structDistTable_a73cc62ec989e174abc665b3654d7705a}{OPEN}}
+\begin{DoxyCompactList}\small\item\em Distance table, index\+: agent-\/id \& vertex-\/id. Used to to keep track of the shortest distances from each goal vertex to all other vertices in the graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structDistTable_acae7a9248c50ea575275b53943a347b0}\label{structDistTable_acae7a9248c50ea575275b53943a347b0}} 
+\index{DistTable@{DistTable}!DistTable@{DistTable}}
+\index{DistTable@{DistTable}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{DistTable()}{DistTable()}}
+{\footnotesize\ttfamily Dist\+Table\+::\+Dist\+Table (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins }\end{DoxyParamCaption})}
+
+
+
+Cleanup the \mbox{\hyperlink{structDistTable}{Dist\+Table}}. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structDistTable_acae7a9248c50ea575275b53943a347b0_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structDistTable_a27b32217ef8d5d7182282117eb9fa8e1}\label{structDistTable_a27b32217ef8d5d7182282117eb9fa8e1}} 
+\index{DistTable@{DistTable}!cleanup@{cleanup}}
+\index{cleanup@{cleanup}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{cleanup()}{cleanup()}}
+{\footnotesize\ttfamily void Dist\+Table\+::cleanup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Initialize the \mbox{\hyperlink{structDistTable}{Dist\+Table}} once. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structDistTable_a27b32217ef8d5d7182282117eb9fa8e1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structDistTable_acc82add9455a6b0c36e25a973898a688}\label{structDistTable_acc82add9455a6b0c36e25a973898a688}} 
+\index{DistTable@{DistTable}!dumpTableToFile@{dumpTableToFile}}
+\index{dumpTableToFile@{dumpTableToFile}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{dumpTableToFile()}{dumpTableToFile()}}
+{\footnotesize\ttfamily void Dist\+Table\+::dump\+Table\+To\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption}) const}
+
+
+
+Helper function to save the content of the \mbox{\hyperlink{structDistTable}{Dist\+Table}}, useful for debug. 
+
+\mbox{\Hypertarget{structDistTable_a8a40b3c5ccf9acb7f92ff23cac19faeb}\label{structDistTable_a8a40b3c5ccf9acb7f92ff23cac19faeb}} 
+\index{DistTable@{DistTable}!get@{get}}
+\index{get@{get}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Dist\+Table\+::get (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{i,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v,  }\item[{int}]{true\+\_\+id = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{structDistTable_a8a40b3c5ccf9acb7f92ff23cac19faeb_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structDistTable_a69e35fd62a42d3230a3b1afd513f7319}\label{structDistTable_a69e35fd62a42d3230a3b1afd513f7319}} 
+\index{DistTable@{DistTable}!get@{get}}
+\index{get@{get}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Dist\+Table\+::get (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{i,  }\item[{\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{v\+\_\+id,  }\item[{int}]{true\+\_\+id = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{structDistTable}{Dist\+Table}} setup at first use. 
+
+Returns the estimated distance to goal for an agent using A$\ast$.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & agent id \\
+\hline
+{\em v\+\_\+id} & id of current vertex \\
+\hline
+{\em true\+\_\+id} & true id of agent in case of factorization \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structDistTable_a69e35fd62a42d3230a3b1afd513f7319_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structDistTable_a143cbb1d757536afcc509389e6556d88}\label{structDistTable_a143cbb1d757536afcc509389e6556d88}} 
+\index{DistTable@{DistTable}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{getInstance()}{getInstance()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structDistTable}{Dist\+Table}} \& Dist\+Table\+::get\+Instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Search queue for lazy BFS. 
+
+\mbox{\Hypertarget{structDistTable_aedb58b97524d5688ac9a7cb516464be3}\label{structDistTable_aedb58b97524d5688ac9a7cb516464be3}} 
+\index{DistTable@{DistTable}!initialize@{initialize}}
+\index{initialize@{initialize}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily void Dist\+Table\+::initialize (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structInstance}{Instance}} \&}]{ins }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Singleton management. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{structDistTable_aedb58b97524d5688ac9a7cb516464be3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structDistTable_aedb58b97524d5688ac9a7cb516464be3_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{structDistTable_a73cc62ec989e174abc665b3654d7705a}\label{structDistTable_a73cc62ec989e174abc665b3654d7705a}} 
+\index{DistTable@{DistTable}!OPEN@{OPEN}}
+\index{OPEN@{OPEN}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{OPEN}{OPEN}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::queue$<$\mbox{\hyperlink{structVertex}{Vertex}}$\ast$$>$ $>$ Dist\+Table\+::\+OPEN}
+
+
+
+Distance table, index\+: agent-\/id \& vertex-\/id. Used to to keep track of the shortest distances from each goal vertex to all other vertices in the graph. 
+
+\mbox{\Hypertarget{structDistTable_a69346a7c43423cbaac257664c4f4f0dd}\label{structDistTable_a69346a7c43423cbaac257664c4f4f0dd}} 
+\index{DistTable@{DistTable}!table@{table}}
+\index{table@{table}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{table}{table}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}$>$ $>$ Dist\+Table\+::table}
+
+
+
+Number of vertices. 
+
+\mbox{\Hypertarget{structDistTable_a79c1f27b2f26ab430084f3a1799d44a5}\label{structDistTable_a79c1f27b2f26ab430084f3a1799d44a5}} 
+\index{DistTable@{DistTable}!V\_size@{V\_size}}
+\index{V\_size@{V\_size}!DistTable@{DistTable}}
+\doxysubsubsection{\texorpdfstring{V\_size}{V\_size}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Dist\+Table\+::\+V\+\_\+size}
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lacam2/include/\mbox{\hyperlink{dist__table_8hpp}{dist\+\_\+table.\+hpp}}\item 
+lacam2/src/\mbox{\hyperlink{dist__table_8cpp}{dist\+\_\+table.\+cpp}}\end{DoxyCompactItemize}

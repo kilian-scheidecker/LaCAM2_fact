@@ -1,0 +1,4 @@
+<map id="get_makespan_lower_bound" name="get_makespan_lower_bound">
+<area shape="rect" id="node1" title="Computes the lower bound for the makespan." alt="" coords="5,5,165,47"/>
+<area shape="rect" id="node2" href="$structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="213,13,324,39"/>
+</map>

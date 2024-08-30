@@ -1,9 +1,14 @@
+/**
+ * @file dist_table.cpp
+ * @brief Implementation of the DistTable class (initialization and singleton management) and especially the Lazy BFS evaluation.
+ */
+
 #include "../include/dist_table.hpp"
 
-
-// Static instance pointer
+// Static pointer to DistTable.
 DistTable* DistTable::instance = nullptr;
 
+// Singleton pointer manager.
 DistTable& DistTable::getInstance() {
     if (instance == nullptr) {
         throw std::runtime_error("DistTable instance not initialized. Call initialize() first.");
@@ -11,6 +16,7 @@ DistTable& DistTable::getInstance() {
     return *instance;
 }
 
+// Initialize the Instance
 void DistTable::initialize(const Instance& ins) {
     if (instance == nullptr) {
         instance = new DistTable(ins);
@@ -19,41 +25,38 @@ void DistTable::initialize(const Instance& ins) {
     }
 }
 
+// Cleanup the Instance
 void DistTable::cleanup() {
     delete instance;
     instance = nullptr;
 }
 
 
-
+// Default constructor
 DistTable::DistTable(const Instance& ins)
     : V_size(ins.G.V.size()), table(ins.N, std::vector<uint>(V_size, V_size))
 {
-  PROFILE_BLOCK("setup dist_table");
-  setup(ins);
-  END_BLOCK();
+    PROFILE_BLOCK("setup dist_table");
+    for (size_t i = 0; i < ins.N; ++i) {
+        OPEN.push_back(std::queue<Vertex*>());
+        auto n = ins.goals[i].get();
+        OPEN[i].push(n);
+        table[i][n->id] = 0;
+    }
+    END_BLOCK();
 }
 
 
-void DistTable::setup(const Instance& ins)
-{
-  for (size_t i = 0; i < ins.N; ++i) {
-    OPEN.push_back(std::queue<Vertex*>());
-    auto n = ins.goals[i].get();
-    OPEN[i].push(n);
-    table[i][n->id] = 0;
-  }
-}
-
-
-// this should be ok
+/**
+ * @brief Returns the estimated distance to goal for an agent using A*
+ * @param i agent id
+ * @param v_id id of current vertex
+ * @param true_id true id of agent in case of factorization
+ */
 uint DistTable::get(uint i, uint v_id, int true_id)
 {
   // Override the id by the true_id if it is known
   if (true_id > 0) i = true_id;
-
-  // if (i == 0)
-  //   std::cout<<"Agent 0, vertex id : "<<v_id<<" and distance to goal : "<<table[i][v_id]<<std::endl;
 
   // Return value if already known
   if (table[i][v_id] < V_size) return table[i][v_id];
@@ -66,19 +69,15 @@ uint DistTable::get(uint i, uint v_id, int true_id)
    * sidenote:
    * tested RRA* but lazy BFS was much better in performance
    */
-
-  // if (i == 0)
-  //   std::cout<<"Agent 0 diving in A* search"<<std::endl;
-
   while (!OPEN[i].empty()) {
     auto n = OPEN[i].front();
     OPEN[i].pop();
     const int d_n = table[i][n->id];
     for (auto& m : n->neighbor) {
-      const int d_m = table[i][m->id];
-      if (d_n + 1 >= d_m) continue;
-      table[i][m->id] = d_n + 1;
-      OPEN[i].push(m.get());
+        const int d_m = table[i][m->id];
+        if (d_n + 1 >= d_m) continue;
+        table[i][m->id] = d_n + 1;
+        OPEN[i].push(m.get());
     }
     if (n->id == int(v_id)) return d_n;
   }
@@ -89,7 +88,7 @@ uint DistTable::get(uint i, uint v_id, int true_id)
 uint DistTable::get(uint i, std::shared_ptr<Vertex> v, int true_id) { return get(i, v.get()->id, true_id); }
 
 
-
+/// Helper function to save the content of the DistTable, useful for debug.
 void DistTable::dumpTableToFile(const std::string& filename) const {
     std::ofstream file(filename);
 

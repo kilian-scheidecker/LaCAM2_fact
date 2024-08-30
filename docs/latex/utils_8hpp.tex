@@ -1,0 +1,281 @@
+\hypertarget{utils_8hpp}{}\doxysection{lacam2/include/utils.hpp File Reference}
+\label{utils_8hpp}\index{lacam2/include/utils.hpp@{lacam2/include/utils.hpp}}
+
+
+Define profiler setup and some utility functions.  
+
+
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$climits$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$numeric$>$}\newline
+{\ttfamily \#include $<$queue$>$}\newline
+{\ttfamily \#include $<$random$>$}\newline
+{\ttfamily \#include $<$regex$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$stack$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$tuple$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$list$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}nlohmann/json.\+hpp\char`\"{}}\newline
+Include dependency graph for utils.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utils_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utils_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structDeadline}{Deadline}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structDeadline}{Deadline}} manager structure. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structInfos}{Infos}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{utils_8hpp_a146ffbf75364428ff3bf9838970f3480}{PROFILE\+\_\+\+FUNC}}(color)
+\item 
+\#define \mbox{\hyperlink{utils_8hpp_ab4cd98f76524e5d5f25da683a71e0dff}{PROFILE\+\_\+\+BLOCK}}(name)
+\item 
+\#define \mbox{\hyperlink{utils_8hpp_ad612d390a610e44fae8c3ef96b8a8a47}{END\+\_\+\+BLOCK}}()
+\item 
+\#define \mbox{\hyperlink{utils_8hpp_a285bf2e0624a81c6854efc5e75f711cb}{THREAD\+\_\+\+SCOPE}}(name)
+\item 
+\#define \mbox{\hyperlink{utils_8hpp_a63d6d18cf3221582f66dccfbc22feb72}{START\+\_\+\+PROFILING}}()~\mbox{\hyperlink{utils_8cpp_a1a6db9534ce64125ad2b26565f6b010b}{info}}(0, verbose, \char`\"{}Profling mode \+: OFF\char`\"{})
+\item 
+\#define \mbox{\hyperlink{utils_8hpp_a2dbba0085e4d63274cd4d669cc3f74e7}{STOP\+\_\+\+PROFILING}}()
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned int \mbox{\hyperlink{utils_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}
+\item 
+using \mbox{\hyperlink{utils_8hpp_a04245e3f67e998df126a317353432281}{Time}} = std\+::chrono\+::steady\+\_\+clock
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{utils_8hpp_a1a6db9534ce64125ad2b26565f6b010b}{info}} (const int level, const int verbose)
+\begin{DoxyCompactList}\small\item\em Prints debugging information depending on verbosity level. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Head , typename... Tail$>$ }\\void \mbox{\hyperlink{utils_8hpp_aafb31bb052ec9cde925b6fd8b478ca24}{info}} (const int level, const int verbose, Head \&\&head, Tail \&\&... tail)
+\item 
+double \mbox{\hyperlink{utils_8hpp_ae11a00a48e9734c067db837ee9ddf692}{elapsed\+\_\+ms}} (const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline)
+\begin{DoxyCompactList}\small\item\em Returns the elapsed time in milliseconds since the given deadline. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{utils_8hpp_aab23f2a4dd71ce8f8d8ec3da06eaed93}{elapsed\+\_\+ns}} (const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline)
+\begin{DoxyCompactList}\small\item\em Returns the elapsed time in nanoseconds since the given deadline. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{utils_8hpp_a5ba91321a48d6365f2b2a396a5395708}{is\+\_\+expired}} (const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline)
+\begin{DoxyCompactList}\small\item\em Checks if the given deadline has expired. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{utils_8hpp_aca56ac2b051497916b0362b3ae92f9b6}{get\+\_\+random\+\_\+float}} (std\+::mt19937 $\ast$MT, float from=0, float to=1)
+\begin{DoxyCompactList}\small\item\em Generates a random floats within the given range. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{utils_8hpp_ad294028b42f06e533aaf32e75eb6fa43}{get\+\_\+random\+\_\+int}} (std\+::mt19937 $\ast$MT, int from=0, int to=1)
+\begin{DoxyCompactList}\small\item\em Generates a random integer within the given range. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Define profiler setup and some utility functions. 
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{utils_8hpp_ad612d390a610e44fae8c3ef96b8a8a47}\label{utils_8hpp_ad612d390a610e44fae8c3ef96b8a8a47}} 
+\index{utils.hpp@{utils.hpp}!END\_BLOCK@{END\_BLOCK}}
+\index{END\_BLOCK@{END\_BLOCK}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{END\_BLOCK}{END\_BLOCK}}
+{\footnotesize\ttfamily \#define END\+\_\+\+BLOCK(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{utils_8hpp_ab4cd98f76524e5d5f25da683a71e0dff}\label{utils_8hpp_ab4cd98f76524e5d5f25da683a71e0dff}} 
+\index{utils.hpp@{utils.hpp}!PROFILE\_BLOCK@{PROFILE\_BLOCK}}
+\index{PROFILE\_BLOCK@{PROFILE\_BLOCK}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{PROFILE\_BLOCK}{PROFILE\_BLOCK}}
+{\footnotesize\ttfamily \#define PROFILE\+\_\+\+BLOCK(\begin{DoxyParamCaption}\item[{}]{name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{utils_8hpp_a146ffbf75364428ff3bf9838970f3480}\label{utils_8hpp_a146ffbf75364428ff3bf9838970f3480}} 
+\index{utils.hpp@{utils.hpp}!PROFILE\_FUNC@{PROFILE\_FUNC}}
+\index{PROFILE\_FUNC@{PROFILE\_FUNC}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{PROFILE\_FUNC}{PROFILE\_FUNC}}
+{\footnotesize\ttfamily \#define PROFILE\+\_\+\+FUNC(\begin{DoxyParamCaption}\item[{}]{color }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{utils_8hpp_a63d6d18cf3221582f66dccfbc22feb72}\label{utils_8hpp_a63d6d18cf3221582f66dccfbc22feb72}} 
+\index{utils.hpp@{utils.hpp}!START\_PROFILING@{START\_PROFILING}}
+\index{START\_PROFILING@{START\_PROFILING}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{START\_PROFILING}{START\_PROFILING}}
+{\footnotesize\ttfamily \#define START\+\_\+\+PROFILING(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{utils_8cpp_a1a6db9534ce64125ad2b26565f6b010b}{info}}(0, verbose, \char`\"{}Profling mode \+: OFF\char`\"{})}
+
+\mbox{\Hypertarget{utils_8hpp_a2dbba0085e4d63274cd4d669cc3f74e7}\label{utils_8hpp_a2dbba0085e4d63274cd4d669cc3f74e7}} 
+\index{utils.hpp@{utils.hpp}!STOP\_PROFILING@{STOP\_PROFILING}}
+\index{STOP\_PROFILING@{STOP\_PROFILING}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{STOP\_PROFILING}{STOP\_PROFILING}}
+{\footnotesize\ttfamily \#define STOP\+\_\+\+PROFILING(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{utils_8hpp_a285bf2e0624a81c6854efc5e75f711cb}\label{utils_8hpp_a285bf2e0624a81c6854efc5e75f711cb}} 
+\index{utils.hpp@{utils.hpp}!THREAD\_SCOPE@{THREAD\_SCOPE}}
+\index{THREAD\_SCOPE@{THREAD\_SCOPE}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{THREAD\_SCOPE}{THREAD\_SCOPE}}
+{\footnotesize\ttfamily \#define THREAD\+\_\+\+SCOPE(\begin{DoxyParamCaption}\item[{}]{name }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{utils_8hpp_a04245e3f67e998df126a317353432281}\label{utils_8hpp_a04245e3f67e998df126a317353432281}} 
+\index{utils.hpp@{utils.hpp}!Time@{Time}}
+\index{Time@{Time}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{Time}{Time}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{utils_8hpp_a04245e3f67e998df126a317353432281}{Time}} =  std\+::chrono\+::steady\+\_\+clock}
+
+\mbox{\Hypertarget{utils_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}\label{utils_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}} 
+\index{utils.hpp@{utils.hpp}!uint@{uint}}
+\index{uint@{uint}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{uint}{uint}}
+{\footnotesize\ttfamily typedef unsigned int \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{utils_8hpp_ae11a00a48e9734c067db837ee9ddf692}\label{utils_8hpp_ae11a00a48e9734c067db837ee9ddf692}} 
+\index{utils.hpp@{utils.hpp}!elapsed\_ms@{elapsed\_ms}}
+\index{elapsed\_ms@{elapsed\_ms}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{elapsed\_ms()}{elapsed\_ms()}}
+{\footnotesize\ttfamily double elapsed\+\_\+ms (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline }\end{DoxyParamCaption})}
+
+
+
+Returns the elapsed time in milliseconds since the given deadline. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=316pt]{utils_8hpp_ae11a00a48e9734c067db837ee9ddf692_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utils_8hpp_ae11a00a48e9734c067db837ee9ddf692_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{utils_8hpp_aab23f2a4dd71ce8f8d8ec3da06eaed93}\label{utils_8hpp_aab23f2a4dd71ce8f8d8ec3da06eaed93}} 
+\index{utils.hpp@{utils.hpp}!elapsed\_ns@{elapsed\_ns}}
+\index{elapsed\_ns@{elapsed\_ns}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{elapsed\_ns()}{elapsed\_ns()}}
+{\footnotesize\ttfamily double elapsed\+\_\+ns (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline }\end{DoxyParamCaption})}
+
+
+
+Returns the elapsed time in nanoseconds since the given deadline. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{utils_8hpp_aab23f2a4dd71ce8f8d8ec3da06eaed93_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{utils_8hpp_aca56ac2b051497916b0362b3ae92f9b6}\label{utils_8hpp_aca56ac2b051497916b0362b3ae92f9b6}} 
+\index{utils.hpp@{utils.hpp}!get\_random\_float@{get\_random\_float}}
+\index{get\_random\_float@{get\_random\_float}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{get\_random\_float()}{get\_random\_float()}}
+{\footnotesize\ttfamily float get\+\_\+random\+\_\+float (\begin{DoxyParamCaption}\item[{std\+::mt19937 $\ast$}]{MT,  }\item[{float}]{from = {\ttfamily 0},  }\item[{float}]{to = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Generates a random floats within the given range. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utils_8hpp_aca56ac2b051497916b0362b3ae92f9b6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{utils_8hpp_ad294028b42f06e533aaf32e75eb6fa43}\label{utils_8hpp_ad294028b42f06e533aaf32e75eb6fa43}} 
+\index{utils.hpp@{utils.hpp}!get\_random\_int@{get\_random\_int}}
+\index{get\_random\_int@{get\_random\_int}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{get\_random\_int()}{get\_random\_int()}}
+{\footnotesize\ttfamily int get\+\_\+random\+\_\+int (\begin{DoxyParamCaption}\item[{std\+::mt19937 $\ast$}]{MT,  }\item[{int}]{from = {\ttfamily 0},  }\item[{int}]{to = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Generates a random integer within the given range. 
+
+\mbox{\Hypertarget{utils_8hpp_a1a6db9534ce64125ad2b26565f6b010b}\label{utils_8hpp_a1a6db9534ce64125ad2b26565f6b010b}} 
+\index{utils.hpp@{utils.hpp}!info@{info}}
+\index{info@{info}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{info()}{info()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void info (\begin{DoxyParamCaption}\item[{const int}]{level,  }\item[{const int}]{verbose }\end{DoxyParamCaption})}
+
+
+
+Prints debugging information depending on verbosity level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em level} & The verbosity level for the message. \\
+\hline
+{\em verbose} & The current verbosity setting. \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utils_8hpp_a1a6db9534ce64125ad2b26565f6b010b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{utils_8hpp_aafb31bb052ec9cde925b6fd8b478ca24}\label{utils_8hpp_aafb31bb052ec9cde925b6fd8b478ca24}} 
+\index{utils.hpp@{utils.hpp}!info@{info}}
+\index{info@{info}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{info()}{info()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Head , typename... Tail$>$ \\
+void info (\begin{DoxyParamCaption}\item[{const int}]{level,  }\item[{const int}]{verbose,  }\item[{Head \&\&}]{head,  }\item[{Tail \&\&...}]{tail }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{utils_8hpp_aafb31bb052ec9cde925b6fd8b478ca24_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{utils_8hpp_a5ba91321a48d6365f2b2a396a5395708}\label{utils_8hpp_a5ba91321a48d6365f2b2a396a5395708}} 
+\index{utils.hpp@{utils.hpp}!is\_expired@{is\_expired}}
+\index{is\_expired@{is\_expired}!utils.hpp@{utils.hpp}}
+\doxysubsubsection{\texorpdfstring{is\_expired()}{is\_expired()}}
+{\footnotesize\ttfamily bool is\+\_\+expired (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$}]{deadline }\end{DoxyParamCaption})}
+
+
+
+Checks if the given deadline has expired. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{utils_8hpp_a5ba91321a48d6365f2b2a396a5395708_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utils_8hpp_a5ba91321a48d6365f2b2a396a5395708_icgraph}
+\end{center}
+\end{figure}

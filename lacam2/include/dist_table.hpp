@@ -1,5 +1,6 @@
-/*
- * distance table with lazy evaluation, using BFS
+/**
+ * @file dist_table.hpp
+ * @brief Definition of DistTable with lazy evaluation, using BFS. Implemented in singleton pattern to avoid multiple initialization when using factorization
  */
 #pragma once
 
@@ -10,26 +11,21 @@
 // Singleton pattern
 struct DistTable {
 
-    const uint V_size;                              // number of vertices
-    std::vector<std::vector<uint>> table;           // distance table, index: agent-id & vertex-id. Used to to keep track of the shortest distances from each goal vertex to all other vertices in the graph.
-    std::vector<std::queue<Vertex*>> OPEN;          // search queue
+    const uint V_size;                              //! Number of vertices.
+    std::vector<std::vector<uint>> table;           //! Distance table, index: agent-id & vertex-id. Used to to keep track of the shortest distances from each goal vertex to all other vertices in the graph.
+    std::vector<std::queue<Vertex*>> OPEN;          //! Search queue for lazy BFS.
 
-    // Singleton management
-    static DistTable& getInstance();
-    static void initialize(const Instance& ins);
-    static void cleanup();
+    static DistTable& getInstance();                //! Singleton management.
+    static void initialize(const Instance& ins);    //! Initialize the DistTable once.
+    static void cleanup();                          //! Cleanup the DistTable.
 
-    // DistTable constructor
-    DistTable(const Instance& ins);
+    DistTable(const Instance& ins);                 //! DistTable setup at first use.
 
-    void setup(const Instance& ins);  // initialization with const ref
-    
     uint get(uint i, uint v_id, int true_id = -1);
     uint get(uint i, std::shared_ptr<Vertex> v, int true_id = -1);
 
     void dumpTableToFile(const std::string& filename) const;
 
 private:
-    // Static pointer to the single instance of the class
-    static DistTable* instance;
+    static DistTable* instance;                     //! Static pointer to the single instance of the class.
 };

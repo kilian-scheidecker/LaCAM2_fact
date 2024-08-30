@@ -1,0 +1,83 @@
+\hypertarget{structBundle}{}\doxysection{Bundle Struct Reference}
+\label{structBundle}\index{Bundle@{Bundle}}
+
+
+Struct representing the result of a factorized solving process.  
+
+
+
+
+{\ttfamily \#include $<$planner.\+hpp$>$}
+
+
+
+Collaboration diagram for Bundle\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{structBundle__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structBundle_ac053f57acc228300e3c79b4fc1d6deb8}{Bundle}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&sol, std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$$>$ ins)
+\begin{DoxyCompactList}\small\item\em Constructor for \mbox{\hyperlink{structBundle}{Bundle}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{structBundle_aaeb4ea661d5b9a68c9a842f8c6ded6ef}{solution}}
+\begin{DoxyCompactList}\small\item\em The solution found by the solver. \end{DoxyCompactList}\item 
+std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ \mbox{\hyperlink{structBundle_ad6ae57879b3e83e1c2d6679b24ff3afb}{instances}}
+\begin{DoxyCompactList}\small\item\em List of instances to be solved after split. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct representing the result of a factorized solving process. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structBundle_ac053f57acc228300e3c79b4fc1d6deb8}\label{structBundle_ac053f57acc228300e3c79b4fc1d6deb8}} 
+\index{Bundle@{Bundle}!Bundle@{Bundle}}
+\index{Bundle@{Bundle}!Bundle@{Bundle}}
+\doxysubsubsection{\texorpdfstring{Bundle()}{Bundle()}}
+{\footnotesize\ttfamily Bundle\+::\+Bundle (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{sol,  }\item[{std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$$>$}]{ins }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for \mbox{\hyperlink{structBundle}{Bundle}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sol} & The solution. \\
+\hline
+{\em ins} & The instances resulting from factorization. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{structBundle_ad6ae57879b3e83e1c2d6679b24ff3afb}\label{structBundle_ad6ae57879b3e83e1c2d6679b24ff3afb}} 
+\index{Bundle@{Bundle}!instances@{instances}}
+\index{instances@{instances}!Bundle@{Bundle}}
+\doxysubsubsection{\texorpdfstring{instances}{instances}}
+{\footnotesize\ttfamily std\+::list$<$std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{structInstance}{Instance}}$>$ $>$ Bundle\+::instances}
+
+
+
+List of instances to be solved after split. 
+
+\mbox{\Hypertarget{structBundle_aaeb4ea661d5b9a68c9a842f8c6ded6ef}\label{structBundle_aaeb4ea661d5b9a68c9a842f8c6ded6ef}} 
+\index{Bundle@{Bundle}!solution@{solution}}
+\index{solution@{solution}!Bundle@{Bundle}}
+\doxysubsubsection{\texorpdfstring{solution}{solution}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} Bundle\+::solution}
+
+
+
+The solution found by the solver. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lacam2/include/\mbox{\hyperlink{planner_8hpp}{planner.\+hpp}}\end{DoxyCompactItemize}

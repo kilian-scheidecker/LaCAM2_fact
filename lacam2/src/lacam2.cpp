@@ -1,23 +1,16 @@
-#include <thread>
-#include <vector>
-#include <queue>
-#include <memory>
-#include <iostream>
-#include <string>
-#include <random>
-#include <mutex>
-#include <sched.h>
-#include <omp.h>
-#include <condition_variable>
-#include <atomic>
+/**
+ * @file lacam2.cpp
+ * @brief Implementation of the solve, solve_fact and solve_fact_MT functions.
+ */
 
 
 // #include <easy/profiler.h>
 #include "../include/lacam2.hpp"
-#include "../include/cores.hpp"
 
 
-
+/**
+ * @brief Main function for solving the MAPF instance using standard LaCAM.
+ */
 Solution solve(const Instance& ins, std::string& additional_info,
                const int verbose, const Deadline* deadline, std::mt19937* MT,
                const Objective objective, const float restart_rate,
@@ -37,28 +30,68 @@ Solution solve(const Instance& ins, std::string& additional_info,
 }
 
 
-void write_sol(const Solution& solution, const std::vector<int>& enabled, Solution& empty_solution){
+/**
+ * @brief Main function for solving the MAPF instance using factorized approach without multi-threading.
+ */
+Solution solve_fact(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo, bool save_partitions,
+               const int verbose, const Deadline* deadline, std::mt19937* MT, 
+               const Objective objective, const float restart_rate, 
+               Infos* infos_ptr)
+{
+    PROFILE_FUNC(profiler::colors::Amber);
+    info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");
+
+    // Initialize the empty solution and DistTable
+    static Solution global_solution(ins.N);
+    DistTable::initialize(ins);
+
+    // Create OPENins and push first instance
+    std::queue<std::shared_ptr<Instance>> OPENins;
+    OPENins.push(std::make_shared<Instance>(ins));
     
-    Config sol_bit;
-
-    for(int id=0; id<int(enabled.size()); id++)
+    while (!OPENins.empty())
     {
-        sol_bit = solution.at(id);                               // segmentation fault here ?
-        auto line = &(empty_solution[enabled[id]]);
+        PROFILE_BLOCK("Open instance")
+        info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tOpen new instance from OPENSins list");
 
-        if (line == nullptr) {
-            std::cerr << "Error: line is a null pointer (id: " << id << ", enabled[id]: " << enabled[id] << ")" << std::endl;
-            return; // Exit the function early to avoid segmentation fault
-        }
+        // Pop the top of OPENins to get the instance
+        std::shared_ptr<Instance> I = OPENins.front();
+        OPENins.pop();
+        END_BLOCK();
 
-        for (auto v : sol_bit) 
-        {
-            line->push_back(v);
-        }
+        // Solve the instance
+        PROFILE_BLOCK("Setup planner");
+        auto planner = Planner(I, deadline, MT, verbose, objective, restart_rate, global_solution);
+        END_BLOCK();
+        
+        PROFILE_BLOCK("Solving");
+        Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep, save_partitions);
+        END_BLOCK();
+        
+        PROFILE_BLOCK("Push sub-instances");
+        // Push instances to open list
+        for (const auto& sub_ins : bundle.instances)
+            OPENins.push(sub_ins);
+        END_BLOCK();
+
+        PROFILE_BLOCK("Write solution");
+        // Write solution until now
+        write_sol(bundle.solution, I->enabled, global_solution, I->N);
+        END_BLOCK()
     }
+    // cleanup 
+    DistTable::cleanup();
+
+    info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinished planning");
+    
+    padSolution(global_solution);
+    return transpose(global_solution);
 }
 
-// solve_fact_MT function
+
+/**
+ * @brief Main function for solving the MAPF instance using factorized approach with multi-threading.
+ */
 Solution solve_fact_MT(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo, bool save_partitions,
                        const int verbose, const Deadline* deadline, std::mt19937* MT,
                        const Objective objective, const float restart_rate,
@@ -69,7 +102,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
     info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving using Multi-Threading...");
 
     // Initialize the empty solution and OPENins list and DistTable
-    static Solution empty_solution(ins.N);
+    static Solution global_solution(ins.N);
     std::queue<std::shared_ptr<Instance>> OPENins;
     DistTable::initialize(ins);
 
@@ -125,7 +158,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
                 info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tthread n° ", thread_num, " is solving a problem");
 
                 PROFILE_BLOCK("Setup planner");
-                Planner planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
+                Planner planner(I, deadline, MT, verbose, objective, restart_rate, global_solution);
                 END_BLOCK();
 
                 PROFILE_BLOCK("Solving");
@@ -144,7 +177,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
 
                 {
                     std::lock_guard<std::mutex> lock(solution_mutex);
-                    write_sol(bundle.solution, I->enabled, empty_solution);
+                    write_sol(bundle.solution, I->enabled, global_solution, I->N);
                 }
 
                 END_BLOCK();
@@ -152,7 +185,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
                 // Print verbose information
                 if(verbose > 3){
                     std::cout << "\nSolution until now : \n";
-                    for(auto line : empty_solution) {
+                    for(auto line : global_solution) {
                         print_vertices(line, ins.G.width);
                         std::cout << "\n";
                     }
@@ -175,63 +208,31 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
 
     info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinished planning");
     
-    padSolution(empty_solution);
-    return transpose(empty_solution);
+    padSolution(global_solution);
+    return transpose(global_solution);
 }
 
 
-
-Solution solve_fact(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo, bool save_partitions,
-               const int verbose, const Deadline* deadline, std::mt19937* MT, 
-               const Objective objective, const float restart_rate, 
-               Infos* infos_ptr)
-{
-    PROFILE_FUNC(profiler::colors::Amber);
-    info(0, verbose, "elapsed:", elapsed_ms(deadline), "ms\tStart solving without Multi-Threading...");
-
-    // Initialize the empty solution and DistTable
-    static Solution empty_solution(ins.N);
-    DistTable::initialize(ins);
-
-    // Create OPENins and push first instance
-    std::queue<std::shared_ptr<Instance>> OPENins;
-    OPENins.push(std::make_shared<Instance>(ins));
+/**
+ * @brief Function to write the lcoal solution to the global solution.
+ */
+void write_sol(const Solution& solution, const std::vector<int>& enabled, Solution& global_solution, int N){
     
-    while (!OPENins.empty())
+    Config sol_bit;
+
+    for(int id=0; id<int(enabled.size()); id++)
     {
-        PROFILE_BLOCK("Open instance")
-        info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tOpen new instance from OPENSins list");
+        sol_bit = solution.at(id);                               // segmentation fault here ?
+        auto line = &(global_solution[enabled[id]]);
 
-        // Pop the top of OPENins to get the instance
-        std::shared_ptr<Instance> I = OPENins.front();
-        OPENins.pop();
-        END_BLOCK();
+        if (line == nullptr) {
+            std::cerr << "Error: line is a null pointer (id: " << id << ", enabled[id]: " << enabled[id] << ")" << std::endl;
+            return; // Exit the function early to avoid segmentation fault
+        }
 
-        // Solve the instance
-        PROFILE_BLOCK("Setup planner");
-        auto planner = Planner(I, deadline, MT, verbose, objective, restart_rate, empty_solution);
-        END_BLOCK();
-        
-        PROFILE_BLOCK("Solving");
-        Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep, save_partitions);
-        END_BLOCK();
-        
-        PROFILE_BLOCK("Push sub-instances");
-        // Push instances to open list
-        for (const auto& sub_ins : bundle.instances)
-            OPENins.push(sub_ins);
-        END_BLOCK();
-
-        PROFILE_BLOCK("Write solution");
-        // Write solution until now
-        write_sol(bundle.solution, I->enabled, empty_solution);
-        END_BLOCK()
+        for (auto v : sol_bit) 
+        {
+            line->push_back(v);
+        }
     }
-    // cleanup 
-    DistTable::cleanup();
-
-    info(1, verbose, "elapsed:", elapsed_ms(deadline), "ms\tFinished planning");
-    
-    padSolution(empty_solution);
-    return transpose(empty_solution);
 }

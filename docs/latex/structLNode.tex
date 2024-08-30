@@ -1,0 +1,94 @@
+\hypertarget{structLNode}{}\doxysection{LNode Struct Reference}
+\label{structLNode}\index{LNode@{LNode}}
+
+
+Struct representing a low-\/level search node.  
+
+
+
+
+{\ttfamily \#include $<$planner.\+hpp$>$}
+
+
+
+Collaboration diagram for LNode\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=146pt]{structLNode__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structLNode_a790ce37fb64575fc26b00cff9392d5ae}{LNode}} (\mbox{\hyperlink{structLNode}{LNode}} $\ast$parent=nullptr, \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} i=0, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v=nullptr)
+\begin{DoxyCompactList}\small\item\em Depth of this node in the search tree. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} $>$ \mbox{\hyperlink{structLNode_a749455359c4fb37a5700a2da0137fbae}{who}}
+\item 
+\mbox{\hyperlink{graph_8hpp_ac5a2dcd1b3a95ced558d3efece4b4dc5}{Vertices}} \mbox{\hyperlink{structLNode_a3f333899bd4206b1b2ef151141076cf4}{where}}
+\begin{DoxyCompactList}\small\item\em Indices of agents involved in this node. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structLNode_a3cdfb7cd94bff11e6a9ea215bf856077}{depth}}
+\begin{DoxyCompactList}\small\item\em Locations of agents in this node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct representing a low-\/level search node. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structLNode_a790ce37fb64575fc26b00cff9392d5ae}\label{structLNode_a790ce37fb64575fc26b00cff9392d5ae}} 
+\index{LNode@{LNode}!LNode@{LNode}}
+\index{LNode@{LNode}!LNode@{LNode}}
+\doxysubsubsection{\texorpdfstring{LNode()}{LNode()}}
+{\footnotesize\ttfamily LNode\+::\+LNode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLNode}{LNode}} $\ast$}]{parent = {\ttfamily nullptr},  }\item[{\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{i = {\ttfamily 0},  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+
+
+Depth of this node in the search tree. 
+
+Constructor for \mbox{\hyperlink{structLNode}{LNode}}. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Pointer to parent node (default\+: nullptr). \\
+\hline
+{\em i} & Index of agent (default\+: 0). \\
+\hline
+{\em v} & Pointer to the vertex where the agent is located (default\+: nullptr). \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{structLNode_a3cdfb7cd94bff11e6a9ea215bf856077}\label{structLNode_a3cdfb7cd94bff11e6a9ea215bf856077}} 
+\index{LNode@{LNode}!depth@{depth}}
+\index{depth@{depth}!LNode@{LNode}}
+\doxysubsubsection{\texorpdfstring{depth}{depth}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} LNode\+::depth}
+
+
+
+Locations of agents in this node. 
+
+\mbox{\Hypertarget{structLNode_a3f333899bd4206b1b2ef151141076cf4}\label{structLNode_a3f333899bd4206b1b2ef151141076cf4}} 
+\index{LNode@{LNode}!where@{where}}
+\index{where@{where}!LNode@{LNode}}
+\doxysubsubsection{\texorpdfstring{where}{where}}
+{\footnotesize\ttfamily \mbox{\hyperlink{graph_8hpp_ac5a2dcd1b3a95ced558d3efece4b4dc5}{Vertices}} LNode\+::where}
+
+
+
+Indices of agents involved in this node. 
+
+\mbox{\Hypertarget{structLNode_a749455359c4fb37a5700a2da0137fbae}\label{structLNode_a749455359c4fb37a5700a2da0137fbae}} 
+\index{LNode@{LNode}!who@{who}}
+\index{who@{who}!LNode@{LNode}}
+\doxysubsubsection{\texorpdfstring{who}{who}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}$>$ LNode\+::who}
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lacam2/include/\mbox{\hyperlink{planner_8hpp}{planner.\+hpp}}\item 
+lacam2/src/\mbox{\hyperlink{planner_8cpp}{planner.\+cpp}}\end{DoxyCompactItemize}

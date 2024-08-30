@@ -1,0 +1,264 @@
+\hypertarget{classFactAlgo}{}\doxysection{Fact\+Algo Class Reference}
+\label{classFactAlgo}\index{FactAlgo@{FactAlgo}}
+
+
+Base class for different factorization algorithms.  
+
+
+
+
+{\ttfamily \#include $<$factorizer.\+hpp$>$}
+
+
+
+Inheritance diagram for Fact\+Algo\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFactAlgo__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Fact\+Algo\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classFactAlgo__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classFactAlgo_af5c523e00b23fc85fdf75e3fad30a02e}{Fact\+Algo}} (int \mbox{\hyperlink{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}{width}})
+\begin{DoxyCompactList}\small\item\em Indicates the use of \mbox{\hyperlink{classFactDef}{Fact\+Def}} heuristic. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classFactAlgo_ae57eea5cb50b83630f1dcf0cbb07ca33}{Fact\+Algo}} (int \mbox{\hyperlink{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}{width}}, bool \mbox{\hyperlink{classFactAlgo_aff8b16f2cab55f8a7ae8ac8a76bb0851}{need\+\_\+astar}})
+\begin{DoxyCompactList}\small\item\em Constructs a \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} with the specified graph width and A$\ast$ requirement. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classFactAlgo_af6a881e6cab109b5298919394b966ade}{Fact\+Algo}} (int \mbox{\hyperlink{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}{width}}, bool \mbox{\hyperlink{classFactAlgo_aff8b16f2cab55f8a7ae8ac8a76bb0851}{need\+\_\+astar}}, bool \mbox{\hyperlink{classFactAlgo_aecabe751ccf660fc5935e25d0fb9f18a}{use\+\_\+def}})
+\begin{DoxyCompactList}\small\item\em Constructs a \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} with the specified graph width, A$\ast$ requirement, and default use flag. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classFactAlgo_ab9b8cff4ece755b3e7422a7d9dada4b4}{$\sim$\+Fact\+Algo}} ()=default
+\item 
+std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ \mbox{\hyperlink{classFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb}{is\+\_\+factorizable}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&goals, int verbose, const std\+::vector$<$ int $>$ \&enabled, const std\+::vector$<$ int $>$ \&distances, const std\+::vector$<$ float $>$ \&priorities)
+\begin{DoxyCompactList}\small\item\em Determines if the problem is factorizable at a given timestep. \end{DoxyCompactList}\item 
+std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ \mbox{\hyperlink{classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad}{split\+\_\+ins}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C\+\_\+new, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&goals, int verbose, const std\+::vector$<$ int $>$ \&enabled, const \mbox{\hyperlink{factorizer_8hpp_a1aabbff88f0399596b2b56a5664ffb24}{Partitions}} \&partitions, const std\+::vector$<$ float $>$ \&priorities) const
+\begin{DoxyCompactList}\small\item\em Splits the current instance into multiple smaller sub-\/instances if possible. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classFactAlgo_ad703e85131bd2581b87f1496af2a09bb}{get\+\_\+manhattan}} (int index1, int index2) const
+\begin{DoxyCompactList}\small\item\em Computes the Manhattan distance between two vertices on the map. \end{DoxyCompactList}\item 
+virtual std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ \mbox{\hyperlink{classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb}{is\+\_\+factorizable\+\_\+def}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C\+\_\+new, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&goals, int verbose, const std\+::vector$<$ int $>$ \&enabled, const std\+::vector$<$ float $>$ \&priorities, int timestep) const =0
+\begin{DoxyCompactList}\small\item\em Allows factorization according to definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}{width}}
+\item 
+const bool \mbox{\hyperlink{classFactAlgo_aff8b16f2cab55f8a7ae8ac8a76bb0851}{need\+\_\+astar}}
+\begin{DoxyCompactList}\small\item\em Width of the graph. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \mbox{\hyperlink{classFactAlgo_aeec4ec0b68a94887c966294371878de3}{partitions\+\_\+map}}
+\begin{DoxyCompactList}\small\item\em Indicates if A$\ast$ estimates from the \mbox{\hyperlink{structDistTable}{Dist\+Table}} are needed. \end{DoxyCompactList}\item 
+const bool \mbox{\hyperlink{classFactAlgo_aecabe751ccf660fc5935e25d0fb9f18a}{use\+\_\+def}}
+\begin{DoxyCompactList}\small\item\em Map storing the partitions per timestep. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Base class for different factorization algorithms. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classFactAlgo_af5c523e00b23fc85fdf75e3fad30a02e}\label{classFactAlgo_af5c523e00b23fc85fdf75e3fad30a02e}} 
+\index{FactAlgo@{FactAlgo}!FactAlgo@{FactAlgo}}
+\index{FactAlgo@{FactAlgo}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{FactAlgo()}{FactAlgo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Fact\+Algo\+::\+Fact\+Algo (\begin{DoxyParamCaption}\item[{int}]{width }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Indicates the use of \mbox{\hyperlink{classFactDef}{Fact\+Def}} heuristic. 
+
+Constructs a \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} with the specified graph width, general constructor. \mbox{\Hypertarget{classFactAlgo_ae57eea5cb50b83630f1dcf0cbb07ca33}\label{classFactAlgo_ae57eea5cb50b83630f1dcf0cbb07ca33}} 
+\index{FactAlgo@{FactAlgo}!FactAlgo@{FactAlgo}}
+\index{FactAlgo@{FactAlgo}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{FactAlgo()}{FactAlgo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Fact\+Algo\+::\+Fact\+Algo (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{bool}]{need\+\_\+astar }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} with the specified graph width and A$\ast$ requirement. 
+
+\mbox{\Hypertarget{classFactAlgo_af6a881e6cab109b5298919394b966ade}\label{classFactAlgo_af6a881e6cab109b5298919394b966ade}} 
+\index{FactAlgo@{FactAlgo}!FactAlgo@{FactAlgo}}
+\index{FactAlgo@{FactAlgo}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{FactAlgo()}{FactAlgo()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Fact\+Algo\+::\+Fact\+Algo (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{bool}]{need\+\_\+astar,  }\item[{bool}]{use\+\_\+def }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} with the specified graph width, A$\ast$ requirement, and default use flag. 
+
+\mbox{\Hypertarget{classFactAlgo_ab9b8cff4ece755b3e7422a7d9dada4b4}\label{classFactAlgo_ab9b8cff4ece755b3e7422a7d9dada4b4}} 
+\index{FactAlgo@{FactAlgo}!````~FactAlgo@{$\sim$FactAlgo}}
+\index{````~FactAlgo@{$\sim$FactAlgo}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{$\sim$FactAlgo()}{~FactAlgo()}}
+{\footnotesize\ttfamily virtual Fact\+Algo\+::$\sim$\+Fact\+Algo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classFactAlgo_ad703e85131bd2581b87f1496af2a09bb}\label{classFactAlgo_ad703e85131bd2581b87f1496af2a09bb}} 
+\index{FactAlgo@{FactAlgo}!get\_manhattan@{get\_manhattan}}
+\index{get\_manhattan@{get\_manhattan}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{get\_manhattan()}{get\_manhattan()}}
+{\footnotesize\ttfamily int Fact\+Algo\+::get\+\_\+manhattan (\begin{DoxyParamCaption}\item[{int}]{index1,  }\item[{int}]{index2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the Manhattan distance between two vertices on the map. 
+
+\mbox{\Hypertarget{classFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb}\label{classFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb}} 
+\index{FactAlgo@{FactAlgo}!is\_factorizable@{is\_factorizable}}
+\index{is\_factorizable@{is\_factorizable}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{is\_factorizable()}{is\_factorizable()}}
+{\footnotesize\ttfamily std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ Fact\+Algo\+::is\+\_\+factorizable (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C,  }\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{goals,  }\item[{int}]{verbose,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{const std\+::vector$<$ int $>$ \&}]{distances,  }\item[{const std\+::vector$<$ float $>$ \&}]{priorities }\end{DoxyParamCaption})}
+
+
+
+Determines if the problem is factorizable at a given timestep. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C} & Current configuration. \\
+\hline
+{\em goals} & Goal configuration. \\
+\hline
+{\em verbose} & Verbosity level. \\
+\hline
+{\em enabled} & List of enabled agents. \\
+\hline
+{\em distances} & Distance vector. \\
+\hline
+{\em priorities} & Priority list for agents. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of shared pointers to instances that are factorizable. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb}\label{classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb}} 
+\index{FactAlgo@{FactAlgo}!is\_factorizable\_def@{is\_factorizable\_def}}
+\index{is\_factorizable\_def@{is\_factorizable\_def}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{is\_factorizable\_def()}{is\_factorizable\_def()}}
+{\footnotesize\ttfamily virtual std\+::list$<$std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{structInstance}{Instance}}$>$ $>$ Fact\+Algo\+::is\+\_\+factorizable\+\_\+def (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C\+\_\+new,  }\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{goals,  }\item[{int}]{verbose,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{const std\+::vector$<$ float $>$ \&}]{priorities,  }\item[{int}]{timestep }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Allows factorization according to definition. 
+
+Uses the timesteps and pre-\/loaded Partitions to determine factorizability. Only used by the \mbox{\hyperlink{classFactDef}{Fact\+Def}} class 
+
+Implemented in \mbox{\hyperlink{classFactDef_abf170fb43013dd4f19977abbb5590e0a}{Fact\+Def}}, \mbox{\hyperlink{classFactAstar_ae6bfa6201ec475f5819b26b27f958e02}{Fact\+Astar}}, \mbox{\hyperlink{classFactOrient_aa7e01e0c19e39e0aa51b3ce03c6df7d8}{Fact\+Orient}}, \mbox{\hyperlink{classFactBbox_ad3566444649e0eabc59ece5ee66c3c34}{Fact\+Bbox}}, and \mbox{\hyperlink{classFactDistance_a32c6cdbfa95a9d895e60e747df77c9a4}{Fact\+Distance}}.
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad}\label{classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad}} 
+\index{FactAlgo@{FactAlgo}!split\_ins@{split\_ins}}
+\index{split\_ins@{split\_ins}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{split\_ins()}{split\_ins()}}
+{\footnotesize\ttfamily std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ Fact\+Algo\+::split\+\_\+ins (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C\+\_\+new,  }\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{goals,  }\item[{int}]{verbose,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{const \mbox{\hyperlink{factorizer_8hpp_a1aabbff88f0399596b2b56a5664ffb24}{Partitions}} \&}]{partitions,  }\item[{const std\+::vector$<$ float $>$ \&}]{priorities }\end{DoxyParamCaption}) const}
+
+
+
+Splits the current instance into multiple smaller sub-\/instances if possible. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+\_\+new} & New configuration. \\
+\hline
+{\em goals} & Goal configuration. \\
+\hline
+{\em verbose} & Verbosity level. \\
+\hline
+{\em enabled} & List of enabled agents. \\
+\hline
+{\em partitions} & Partitions of the agents. \\
+\hline
+{\em priorities} & Priority list for agents. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of shared pointers to sub-\/instances. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{classFactAlgo_aff8b16f2cab55f8a7ae8ac8a76bb0851}\label{classFactAlgo_aff8b16f2cab55f8a7ae8ac8a76bb0851}} 
+\index{FactAlgo@{FactAlgo}!need\_astar@{need\_astar}}
+\index{need\_astar@{need\_astar}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{need\_astar}{need\_astar}}
+{\footnotesize\ttfamily const bool Fact\+Algo\+::need\+\_\+astar}
+
+
+
+Width of the graph. 
+
+\mbox{\Hypertarget{classFactAlgo_aeec4ec0b68a94887c966294371878de3}\label{classFactAlgo_aeec4ec0b68a94887c966294371878de3}} 
+\index{FactAlgo@{FactAlgo}!partitions\_map@{partitions\_map}}
+\index{partitions\_map@{partitions\_map}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{partitions\_map}{partitions\_map}}
+{\footnotesize\ttfamily \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} Fact\+Algo\+::partitions\+\_\+map}
+
+
+
+Indicates if A$\ast$ estimates from the \mbox{\hyperlink{structDistTable}{Dist\+Table}} are needed. 
+
+\mbox{\Hypertarget{classFactAlgo_aecabe751ccf660fc5935e25d0fb9f18a}\label{classFactAlgo_aecabe751ccf660fc5935e25d0fb9f18a}} 
+\index{FactAlgo@{FactAlgo}!use\_def@{use\_def}}
+\index{use\_def@{use\_def}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{use\_def}{use\_def}}
+{\footnotesize\ttfamily const bool Fact\+Algo\+::use\+\_\+def}
+
+
+
+Map storing the partitions per timestep. 
+
+\mbox{\Hypertarget{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}\label{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}} 
+\index{FactAlgo@{FactAlgo}!width@{width}}
+\index{width@{width}!FactAlgo@{FactAlgo}}
+\doxysubsubsection{\texorpdfstring{width}{width}}
+{\footnotesize\ttfamily const int Fact\+Algo\+::width}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lacam2/include/\mbox{\hyperlink{factorizer_8hpp}{factorizer.\+hpp}}\item 
+lacam2/src/\mbox{\hyperlink{factorizer_8cpp}{factorizer.\+cpp}}\end{DoxyCompactItemize}

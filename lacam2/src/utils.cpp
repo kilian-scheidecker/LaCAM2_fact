@@ -1,3 +1,8 @@
+/**
+ * @file utils.cpp
+ * @brief Implementation of some utility functions.
+ */
+
 #include "../include/utils.hpp"
 
 void info(const int level, const int verbose) { std::cout << std::endl; }

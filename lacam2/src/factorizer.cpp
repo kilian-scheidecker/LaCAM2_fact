@@ -1,14 +1,16 @@
-//
-// Created by ale on 28/05/24.
-//
+/**
+ * @file factorizer.cpp
+ * @brief Implements various factorization algorithms for multi-agent pathfinding.
+ * 
+ * This file contains the definitions of the methods declared in the `factorizer.hpp` header file.
+ * It includes the logic for different factorization strategies such as distance-based, bounding box-based,
+ * orientation-based, A*-based, and definition-based factorization algorithms. The implementation details
+ * of these strategies are encapsulated in their respective classes, which inherit from the base class `FactAlgo`.
+ * Additionally, utility functions and heuristics for determining agent factorization are provided.
+ */
+
 #include "../include/factorizer.hpp"
 #include <easy/profiler.h>
-
-//#include "../include/instance.hpp"
-//#include "../include/dist_table.hpp"
-//#include "../include/utils.hpp"
-
-
 
 
 /****************************************************************************************\
@@ -356,23 +358,23 @@ std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& 
     // Create a set for quick lookups
     std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());
 
-    const auto& partitions = it->second;  // Partitions for the given timestep
+    const auto& partition = it->second;  // Partitions for the given timestep
 
-    Partitions filtered_partitions;
+    Partitions filtered_partition;
 
-    // Iterate through each partition
-    for (const auto& partition : partitions) {
+    // Iterate through each block of the partition
+    for (const auto& block : partition) {
         // Check if any element in the partition is in the enabled_set
-        for (int agent : partition) {
+        for (int agent : block) {
             if (enabled_set.find(agent) != enabled_set.end()) {
-                filtered_partitions.push_back(partition);
+                filtered_partition.push_back(block);
                 break;  // Break inner loop to avoid unnecessary checks
             }
         }
     }
     
-    if (filtered_partitions.size() > 1) {
-        return split_from_file(C_new, goals, verbose, enabled, filtered_partitions, priorities);    // most expensive
+    if (filtered_partition.size() > 1) {
+        return split_from_file(C_new, goals, verbose, enabled, filtered_partition, priorities);    // most expensive
     } 
     else {
         return {};
@@ -381,7 +383,7 @@ std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& 
 
 
 std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_new, const Config& goals, int verbose,
-                             const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const
+                             const std::vector<int>& enabled, const Partitions& partition, const std::vector<float>& priorities) const
 {
     PROFILE_FUNC(profiler::colors::Yellow200);
 
@@ -392,11 +394,11 @@ std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_ne
         agent_map[enabled[j]] = j;
     }
 
+    // Initialize the sub_instance list
     std::list<std::shared_ptr<Instance>> sub_instances;
 
-    for (auto& new_enabled : partitions) 
-    {
-
+    // loop through all partition blocks
+    for (auto& new_enabled : partition) {
         Config C0(new_enabled.size());
         Config G0(new_enabled.size());
 
@@ -405,8 +407,7 @@ std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_ne
         int new_id = 0;  // id of the agents in the new instance
 
         // loop through every agent to emplace correct position back
-        for (int true_id : new_enabled) 
-        {
+        for (int true_id : new_enabled) {
             auto it = agent_map.find(true_id);
             int prev_id = it->second;
             sub_priorities[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
@@ -417,18 +418,12 @@ std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_ne
 
         // sanity check
         if (!C0.empty()) {
-
             sub_instances.emplace_back(std::make_shared<Instance>(C0, G0, std::move(new_enabled), new_enabled.size(), std::move(sub_priorities)));
-
             info(1, verbose, "Pushed new sub-instance with ", new_enabled.size(), " agents.");
-        
         } 
-        else 
-        {
-             std::cerr << "Something wrong with Instance generation";
-        }
+        else
+            std::cerr << "Something wrong with Instance generation";
     }
-
     return sub_instances;
 }
 
@@ -440,8 +435,6 @@ std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_ne
 *                        Implementation of the Factory pattern                           *
 \****************************************************************************************/
 
-
-// Factory function to create FactAlgo objects
 std::unique_ptr<FactAlgo> createFactAlgo(const std::string& type, int width) {
     static const std::unordered_map<std::string, std::function<std::unique_ptr<FactAlgo>(int)>> factory_map = {
         {"FactDistance", [](int width) { return std::make_unique<FactDistance>(width); }},
