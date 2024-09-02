@@ -1,6 +1,6 @@
 <map id="Planner::rewrite" name="Planner::rewrite">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,131,57"/>
-<area shape="rect" id="node2" href="$structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="179,5,352,32"/>
+<area shape="rect" id="node1" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="5,31,131,57"/>
+<area shape="rect" id="node2" href="$structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="179,5,352,32"/>
 <area shape="rect" id="node3" href="$structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="190,56,341,83"/>
 <area shape="rect" id="node4" href="$utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="400,31,500,57"/>
 <area shape="rect" id="node6" href="$utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="427,81,473,108"/>

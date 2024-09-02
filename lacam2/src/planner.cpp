@@ -155,7 +155,10 @@ Planner::Planner(std::shared_ptr<Instance> _ins, const Deadline* _deadline,
 
 Planner::~Planner() {}
 
-// standard solving
+/**
+ * @brief Standard solver of LaCAM2.
+ * @return The solution to the MAPF problem.
+ */
 Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 {
     PROFILE_FUNC(profiler::colors::Orange500);
@@ -291,7 +294,10 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 
 
 
-// factorized solving
+/**
+ * @brief Factorized version of LaCAM2. The solving is the same as in standard LaCAM but checks for factorizability among agents.
+ * @return A bundle containing the sub-instances in case of factorization and the local solution (from start to split).
+ */
 Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions)
 {
     PROFILE_FUNC(profiler::colors::Green);
@@ -499,7 +505,9 @@ Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactA
 }
 
 
-// Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality
+/**
+ * @brief Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality.
+ */
 void Planner::rewrite(HNode* H_from, HNode* H_to, HNode* H_goal, std::stack<HNode*>& OPEN)
 {
     // update neighbors. Means H_to is reachable from H_from
@@ -525,8 +533,10 @@ void Planner::rewrite(HNode* H_from, HNode* H_to, HNode* H_goal, std::stack<HNod
     }
 }
 
-// Can pass it either configs or 2 Hnodes.
-// Compute the 'edge cost' aka the difference in # of agents at their goal position
+
+/**
+ * @brief Compute the 'edge cost' aka the difference in # of agents at their goal position. Can pass it either configs or 2 Hnodes.
+ */
 uint Planner::get_edge_cost(const Config& C1, const Config& C2)
 {
     if (objective == OBJ_SUM_OF_LOSS) {
@@ -547,7 +557,9 @@ uint Planner::get_edge_cost(HNode* H_from, HNode* H_to)
     return get_edge_cost(H_from->C, H_to->C);
 }
 
-// compute the heuristic
+/**
+ * @brief Computes the heuristic.
+ */ 
 uint Planner::get_h_value(const Config& C, const std::vector<int>& enabled)
 {
     uint cost = 0;
@@ -581,7 +593,9 @@ void Planner::expand_lowlevel_tree(HNode* H, LNode* L)
     for (auto v : C) H->search_tree.push(new LNode(L, i, v));
 }
 
-// Create a new configuration given some constraints for the next step. Basically the same as in LaCAM
+/**
+ * @brief Creates a new configuration given some constraints for the next step. Basically the same as in LaCAM.
+ */
 bool Planner::get_new_config(HNode* H, LNode* L, const std::vector<int>& enabled)
 {
     PROFILE_FUNC(profiler::colors::Yellow);
@@ -623,14 +637,14 @@ bool Planner::get_new_config(HNode* H, LNode* L, const std::vector<int>& enabled
     // perform PIBT
     if (!enabled.empty()) {       // if factorized use
         for (int k : H->order) {
-            auto a = A[k];              // changed to PIBT_fact for rule_based decision making
+            auto a = A[k];
             if (a->v_next == nullptr && !funcPIBT(a, enabled)) return false;  // planning failure
         }
         return true;
     } 
     else {                        // standard use
         for (int k : H->order) {
-            auto a = A[k];              // changed to PIBT_fact for rule_based decision making
+            auto a = A[k];
             if (a->v_next == nullptr && !funcPIBT(a)) return false;  // planning failure
         }
         return true;
@@ -638,7 +652,9 @@ bool Planner::get_new_config(HNode* H, LNode* L, const std::vector<int>& enabled
 }
 
 
-// PIBT planner for the low level node
+/**
+ * @brief PIBT planner for the low level node.
+ */
 bool Planner::funcPIBT(Agent* ai, const std::vector<int>& enabled)
 {
     const auto i = ai->id;
@@ -728,7 +744,9 @@ bool Planner::funcPIBT(Agent* ai, const std::vector<int>& enabled)
     return false;
 }
 
-// Define the swap operation
+/**
+ * @brief Define the swap operation.
+ */
 Agent* Planner::swap_possible_and_required(Agent* ai)
 {
     const int i = ai->id;
@@ -757,7 +775,9 @@ Agent* Planner::swap_possible_and_required(Agent* ai)
     return nullptr;
 }
 
-// simulate whether the swap is required
+/**
+ * @brief Simulate whether the swap is required.
+ */
 bool Planner::is_swap_required(const uint pusher, const uint puller, std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin)
 {
     auto v_pusher = v_pusher_origin;
@@ -787,7 +807,9 @@ bool Planner::is_swap_required(const uint pusher, const uint puller, std::shared
             D.get(pusher, v_puller) < D.get(pusher, v_pusher));
 }
 
-// simulate whether the swap is possible
+/**
+ * @brief Simulate whether the swap is possible.
+ */
 bool Planner::is_swap_possible(std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin)
 {
     auto v_pusher = v_pusher_origin;
@@ -812,7 +834,9 @@ bool Planner::is_swap_possible(std::shared_ptr<Vertex> v_pusher_origin, std::sha
     return false;
 }
 
-// adjustements made for true_id
+/**
+ * @brief Define the swap operation but with true IDs of the agents.
+ */
 Agent* Planner::swap_possible_and_required_fact(Agent* ai, const std::vector<int>& enabled)
 {
     const int i = ai->id;
@@ -842,7 +866,9 @@ Agent* Planner::swap_possible_and_required_fact(Agent* ai, const std::vector<int
     return nullptr;
 }
 
-// adjustments made for true_id
+/**
+ * @brief Simulate whether the swap is required but with true IDs of the agents.
+ */
 bool Planner::is_swap_required_fact(const uint true_pusher_id, const uint true_puller_id, std::shared_ptr<Vertex> v_pusher_origin, std::shared_ptr<Vertex> v_puller_origin)
 {
     auto v_pusher = v_pusher_origin;
@@ -887,7 +913,9 @@ std::ostream& operator<<(std::ostream& os, const Objective obj)
 
 
 
-// To transpose a a matrix
+/**
+ * @brief Transposes a matrix. Used to transpose the solution to have timesteps in y-axis instead of x-axis.
+ */
 Solution transpose(const Solution& matrix) {
 
     if (matrix.empty() || matrix[0].empty())
@@ -919,7 +947,9 @@ Solution transpose(const Solution& matrix) {
     return transposed;
 }
 
-// Add padding to make the solution transposable
+/**
+ * @brief Pad the global solution to make sure the matrix is full. For agents that reached their goal sooner than others, it adds the goal position to the end of their solution until the matrix is full.
+ */
 void padSolution(Solution& sol) {
     // Find the length of the longest row
     size_t maxLength = 0;

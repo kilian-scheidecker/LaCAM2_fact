@@ -6,7 +6,7 @@
 <area shape="rect" id="node6" href="$structDistTable.html#aedb58b97524d5688ac9a7cb516464be3" title="Singleton management." alt="" coords="143,157,289,184"/>
 <area shape="rect" id="node8" href="$planner_8hpp.html#ab4aa52241a4e6626d5aa157336c6b56d" title="Pads the solution to ensure consistency in dimensions." alt="" coords="167,208,265,235"/>
 <area shape="rect" id="node9" href="$planner_8hpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes the solution matrix." alt="" coords="173,259,259,285"/>
-<area shape="rect" id="node10" href="$lacam2_8cpp.html#af47d9fbe3418e883bc9a62350515024f" title="Function to write the lcoal solution to the global solution." alt="" coords="175,309,257,336"/>
+<area shape="rect" id="node10" href="$lacam2_8cpp.html#aed13ad81fd055ef3617a3a2a61deec33" title="Function to write the local solution to the global solution." alt="" coords="175,309,257,336"/>
 <area shape="rect" id="node4" href="$structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="337,56,504,83"/>
 <area shape="rect" id="node7" href="$structDistTable.html#acae7a9248c50ea575275b53943a347b0" title="Cleanup the DistTable." alt="" coords="345,157,496,184"/>
 </map>

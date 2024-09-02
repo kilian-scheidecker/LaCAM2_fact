@@ -1,6 +1,6 @@
 <map id="Planner::swap_possible_and_required_fact" name="Planner::swap_possible_and_required_fact">
-<area shape="rect" id="node1" title=" " alt="" coords="5,23,180,65"/>
-<area shape="rect" id="node2" href="$structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="228,5,420,32"/>
-<area shape="rect" id="node3" href="$structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="228,56,420,83"/>
+<area shape="rect" id="node1" title="Define the swap operation but with true IDs of the agents." alt="" coords="5,23,180,65"/>
+<area shape="rect" id="node2" href="$structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="228,5,420,32"/>
+<area shape="rect" id="node3" href="$structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="228,56,420,83"/>
 <area shape="rect" id="node4" href="$structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="468,56,579,83"/>
 </map>

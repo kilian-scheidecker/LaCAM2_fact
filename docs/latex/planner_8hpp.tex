@@ -10,16 +10,14 @@ Definition of \mbox{\hyperlink{structPlanner}{Planner}} class and core component
 {\ttfamily \#include \char`\"{}instance.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}factorizer.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
-Include dependency graph for planner.\+hpp\+:
-\nopagebreak
+Include dependency graph for planner.\+hpp\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{planner_8hpp__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -129,7 +127,9 @@ OBJ\+\_\+\+SUM\+\_\+\+OF\+\_\+\+LOSS&Minimize the makespan. Minimize the sum of 
 
 Pads the solution to ensure consistency in dimensions. 
 
-Here is the caller graph for this function\+:\nopagebreak
+Pads the solution to ensure consistency in dimensions.
+
+For agents that reached their goal sooner than others, it adds the goal position to the end of their solution until the matrix is full. Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -146,7 +146,10 @@ Here is the caller graph for this function\+:\nopagebreak
 
 Transposes the solution matrix. 
 
-Here is the caller graph for this function\+:\nopagebreak
+Transposes the solution matrix.
+
+Used to transpose the solution to have timesteps in y-\/axis instead of x-\/axis. Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

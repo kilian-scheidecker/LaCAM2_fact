@@ -19,8 +19,7 @@ Definition of the three main solving methods\+: standard, factorized and factori
 {\ttfamily \#include \char`\"{}post\+\_\+processing.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}factorizer.\+hpp\char`\"{}}\newline
-Include dependency graph for lacam2.\+hpp\+:
-\nopagebreak
+Include dependency graph for lacam2.\+hpp\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -43,7 +42,7 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \begin{DoxyCompactList}\small\item\em Main function for solving the MAPF instance using factorized approach without multi-\/threading. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{lacam2_8hpp_a6f1654c9cbdca2a96c43a54de4e3ec5b}{solve\+\_\+fact\+\_\+\+MT}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, std\+::string \&additional\+\_\+info, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, bool save\+\_\+partitions, const int verbose=0, const \mbox{\hyperlink{structDeadline}{Deadline}} $\ast$deadline=nullptr, std\+::mt19937 $\ast$MT=nullptr, const \mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6b}{Objective}} objective=\mbox{\hyperlink{planner_8hpp_affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626}{OBJ\+\_\+\+NONE}}, const float restart\+\_\+rate=0.\+001, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos=nullptr)
 \begin{DoxyCompactList}\small\item\em Main function for solving the MAPF instance using factorized approach with multi-\/threading. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{lacam2_8hpp_acaf8e939cc49066c532f498ed21943ff}{write\+\_\+sol}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const std\+::vector$<$ int $>$ \&enabled, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structSol}{Sol}} $>$ global\+\_\+solution, int N)
+void \mbox{\hyperlink{lacam2_8hpp_aed13ad81fd055ef3617a3a2a61deec33}{write\+\_\+sol}} (const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const std\+::vector$<$ int $>$ \&enabled, \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&global\+\_\+solution, int N)
 \begin{DoxyCompactList}\small\item\em Function to write the lcoal solution to the global solution. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -137,7 +136,8 @@ Main function for solving the MAPF instance using factorized approach without mu
 \begin{DoxyReturn}{Returns}
 Solution The solution as a sequence of configurations. 
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -189,7 +189,8 @@ Main function for solving the MAPF instance using factorized approach with multi
 \begin{DoxyReturn}{Returns}
 Solution The solution as a sequence of configurations. 
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -203,11 +204,11 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=244pt]{lacam2_8hpp_a6f1654c9cbdca2a96c43a54de4e3ec5b_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{lacam2_8hpp_acaf8e939cc49066c532f498ed21943ff}\label{lacam2_8hpp_acaf8e939cc49066c532f498ed21943ff}} 
+\mbox{\Hypertarget{lacam2_8hpp_aed13ad81fd055ef3617a3a2a61deec33}\label{lacam2_8hpp_aed13ad81fd055ef3617a3a2a61deec33}} 
 \index{lacam2.hpp@{lacam2.hpp}!write\_sol@{write\_sol}}
 \index{write\_sol@{write\_sol}!lacam2.hpp@{lacam2.hpp}}
 \doxysubsubsection{\texorpdfstring{write\_sol()}{write\_sol()}}
-{\footnotesize\ttfamily void write\+\_\+sol (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structSol}{Sol}} $>$}]{global\+\_\+solution,  }\item[{int}]{N }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void write\+\_\+sol (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{solution,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled,  }\item[{\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&}]{global\+\_\+solution,  }\item[{int}]{N }\end{DoxyParamCaption})}
 
 
 
@@ -221,6 +222,14 @@ Function to write the lcoal solution to the global solution.
 \hline
 {\em global\+\_\+solution} & A shared pointer to an empty solution object representing the global solution. \\
 \hline
-{\em N} & The number of agents. \\
+{\em N} & The number of agents.\\
 \hline
 \end{DoxyParams}
+Function to write the lcoal solution to the global solution. Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{lacam2_8hpp_aed13ad81fd055ef3617a3a2a61deec33_icgraph}
+\end{center}
+\end{figure}

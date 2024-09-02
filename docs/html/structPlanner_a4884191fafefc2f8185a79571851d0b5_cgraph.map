@@ -1,12 +1,12 @@
 <map id="Planner::get_new_config" name="Planner::get_new_config">
-<area shape="rect" id="node1" title=" " alt="" coords="5,155,185,182"/>
-<area shape="rect" id="node2" href="$structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="233,155,369,182"/>
+<area shape="rect" id="node1" title="Creates a new configuration given some constraints for the next step." alt="" coords="5,155,185,182"/>
+<area shape="rect" id="node2" href="$structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="233,155,369,182"/>
 <area shape="rect" id="node3" href="$structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="880,57,991,83"/>
 <area shape="rect" id="node4" href="$utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="437,185,573,211"/>
 <area shape="rect" id="node5" href="$utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="481,235,528,262"/>
 <area shape="rect" id="node6" href="$graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="454,286,555,313"/>
-<area shape="rect" id="node7" href="$structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="417,119,592,160"/>
-<area shape="rect" id="node10" href="$structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="417,53,592,95"/>
-<area shape="rect" id="node8" href="$structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="640,61,832,87"/>
-<area shape="rect" id="node9" href="$structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="640,111,832,138"/>
+<area shape="rect" id="node7" href="$structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="417,119,592,160"/>
+<area shape="rect" id="node10" href="$structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="417,53,592,95"/>
+<area shape="rect" id="node8" href="$structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="640,61,832,87"/>
+<area shape="rect" id="node9" href="$structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="640,111,832,138"/>
 </map>

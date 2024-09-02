@@ -1,4 +1,4 @@
 <map id="Planner::get_edge_cost" name="Planner::get_edge_cost">
 <area shape="rect" id="node1" title=" " alt="" coords="5,5,179,32"/>
-<area shape="rect" id="node2" href="$structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="227,5,400,32"/>
+<area shape="rect" id="node2" href="$structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="227,5,400,32"/>
 </map>

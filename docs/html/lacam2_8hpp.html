@@ -157,9 +157,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a6f1654c9cbdca2a96c43a54de4e3ec5b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b">solve_fact_MT</a> (const <a class="el" href="structInstance.html">Instance</a> &amp;ins, std::string &amp;additional_info, <a class="el" href="factorizer_8hpp.html#a6b0b91f4cdb2a8e36445e255d5678593">PartitionsMap</a> &amp;partitions_per_timestep, <a class="el" href="classFactAlgo.html">FactAlgo</a> &amp;factalgo, bool save_partitions, const int verbose=0, const <a class="el" href="structDeadline.html">Deadline</a> *deadline=nullptr, std::mt19937 *MT=nullptr, const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a> objective=<a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6ba01ff4d160d4dacb219fa040042af5626">OBJ_NONE</a>, const float restart_rate=0.001, <a class="el" href="structInfos.html">Infos</a> *infos=nullptr)</td></tr>
 <tr class="memdesc:a6f1654c9cbdca2a96c43a54de4e3ec5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function for solving the MAPF instance using factorized approach with multi-threading.  <a href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b">More...</a><br /></td></tr>
 <tr class="separator:a6f1654c9cbdca2a96c43a54de4e3ec5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaf8e939cc49066c532f498ed21943ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lacam2_8hpp.html#acaf8e939cc49066c532f498ed21943ff">write_sol</a> (const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;solution, const std::vector&lt; int &gt; &amp;enabled, std::shared_ptr&lt; <a class="el" href="structSol.html">Sol</a> &gt; global_solution, int N)</td></tr>
-<tr class="memdesc:acaf8e939cc49066c532f498ed21943ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to write the lcoal solution to the global solution.  <a href="lacam2_8hpp.html#acaf8e939cc49066c532f498ed21943ff">More...</a><br /></td></tr>
-<tr class="separator:acaf8e939cc49066c532f498ed21943ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed13ad81fd055ef3617a3a2a61deec33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lacam2_8hpp.html#aed13ad81fd055ef3617a3a2a61deec33">write_sol</a> (const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;solution, const std::vector&lt; int &gt; &amp;enabled, <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;global_solution, int N)</td></tr>
+<tr class="memdesc:aed13ad81fd055ef3617a3a2a61deec33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to write the lcoal solution to the global solution.  <a href="lacam2_8hpp.html#aed13ad81fd055ef3617a3a2a61deec33">More...</a><br /></td></tr>
+<tr class="separator:aed13ad81fd055ef3617a3a2a61deec33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Definition of the three main solving methods: standard, factorized and factorized with multi-threading. </p>
@@ -373,7 +373,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="structDistTable.html#aedb58b97524d5688ac9a7cb516464be3" title="Singleton management." alt="" coords="143,157,289,184"/>
 <area shape="rect" href="planner_8hpp.html#ab4aa52241a4e6626d5aa157336c6b56d" title="Pads the solution to ensure consistency in dimensions." alt="" coords="167,208,265,235"/>
 <area shape="rect" href="planner_8hpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes the solution matrix." alt="" coords="173,259,259,285"/>
-<area shape="rect" href="lacam2_8cpp.html#af47d9fbe3418e883bc9a62350515024f" title="Function to write the lcoal solution to the global solution." alt="" coords="175,309,257,336"/>
+<area shape="rect" href="lacam2_8cpp.html#aed13ad81fd055ef3617a3a2a61deec33" title="Function to write the local solution to the global solution." alt="" coords="175,309,257,336"/>
 <area shape="rect" href="structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="337,56,504,83"/>
 <area shape="rect" href="structDistTable.html#acae7a9248c50ea575275b53943a347b0" title="Cleanup the DistTable." alt="" coords="345,157,496,184"/>
 </map>
@@ -500,30 +500,30 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="structDistTable.html#aedb58b97524d5688ac9a7cb516464be3" title="Singleton management." alt="" coords="169,816,316,843"/>
 <area shape="rect" href="planner_8hpp.html#ab4aa52241a4e6626d5aa157336c6b56d" title="Pads the solution to ensure consistency in dimensions." alt="" coords="193,867,292,893"/>
 <area shape="rect" href="graph_8hpp.html#aabd9d91fb32cf70532ed3247d863122e" title=" " alt="" coords="420,843,531,869"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="169,461,316,488"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="169,461,316,488"/>
 <area shape="rect" href="planner_8hpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes the solution matrix." alt="" coords="199,917,286,944"/>
-<area shape="rect" href="lacam2_8cpp.html#af47d9fbe3418e883bc9a62350515024f" title="Function to write the lcoal solution to the global solution." alt="" coords="202,968,283,995"/>
+<area shape="rect" href="lacam2_8cpp.html#aed13ad81fd055ef3617a3a2a61deec33" title="Function to write the local solution to the global solution." alt="" coords="202,968,283,995"/>
 <area shape="rect" href="structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="1091,132,1258,159"/>
 <area shape="rect" href="structDistTable.html#acae7a9248c50ea575275b53943a347b0" title="Cleanup the DistTable." alt="" coords="400,893,551,920"/>
 <area shape="rect" href="structPlanner.html#af9b36da56775f1fd5aeeb7395f206cf1" title=" " alt="" coords="364,157,587,184"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="1319,619,1429,645"/>
-<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="635,360,808,387"/>
-<area shape="rect" href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title=" " alt="" coords="1095,785,1254,812"/>
-<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="385,664,565,691"/>
+<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="635,360,808,387"/>
+<area shape="rect" href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title="Computes the heuristic." alt="" coords="1095,785,1254,812"/>
+<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="385,664,565,691"/>
 <area shape="rect" href="utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title="Checks if the given deadline has expired." alt="" coords="677,107,766,133"/>
 <area shape="rect" href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the problem is factorizable at a given timestep." alt="" coords="385,563,565,589"/>
 <area shape="rect" href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb" title="Allows factorization according to definition." alt="" coords="371,208,579,235"/>
 <area shape="rect" href="graph_8hpp.html#a44b479382634c1b3415e08bc84d972e9" title="Check the equivalence of two configurations." alt="" coords="414,259,537,285"/>
-<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="413,360,538,387"/>
+<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="413,360,538,387"/>
 <area shape="rect" href="structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="646,309,797,336"/>
-<area shape="rect" href="planner_8cpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes the solution matrix." alt="" coords="432,461,519,488"/>
-<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="653,664,789,691"/>
+<area shape="rect" href="planner_8cpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes a matrix." alt="" coords="432,461,519,488"/>
+<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="653,664,789,691"/>
 <area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="875,747,1011,773"/>
 <area shape="rect" href="graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="893,797,994,824"/>
-<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="856,681,1031,722"/>
-<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="856,615,1031,657"/>
-<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="1079,623,1271,649"/>
-<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="1079,673,1271,700"/>
+<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="856,681,1031,722"/>
+<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="856,615,1031,657"/>
+<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="1079,623,1271,649"/>
+<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="1079,673,1271,700"/>
 <area shape="rect" href="classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="652,487,791,513"/>
 </map>
 </div>
@@ -539,8 +539,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="acaf8e939cc49066c532f498ed21943ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acaf8e939cc49066c532f498ed21943ff">&#9670;&nbsp;</a></span>write_sol()</h2>
+<a id="aed13ad81fd055ef3617a3a2a61deec33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed13ad81fd055ef3617a3a2a61deec33">&#9670;&nbsp;</a></span>write_sol()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -560,7 +560,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="structSol.html">Sol</a> &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;&#160;</td>
           <td class="paramname"><em>global_solution</em>, </td>
         </tr>
         <tr>
@@ -583,10 +583,22 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramname">solution</td><td>The local solution represented as a sequence of configurations. </td></tr>
     <tr><td class="paramname">enabled</td><td>List of enabled agents in the solution. </td></tr>
     <tr><td class="paramname">global_solution</td><td>A shared pointer to an empty solution object representing the global solution. </td></tr>
-    <tr><td class="paramname">N</td><td>The number of agents. </td></tr>
+    <tr><td class="paramname">N</td><td>The number of agents.</td></tr>
   </table>
   </dd>
 </dl>
+<p>Function to write the lcoal solution to the global solution. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="lacam2_8hpp_aed13ad81fd055ef3617a3a2a61deec33_icgraph.png" border="0" usemap="#alacam2_8hpp_aed13ad81fd055ef3617a3a2a61deec33_icgraph" alt=""/></div>
+<map name="alacam2_8hpp_aed13ad81fd055ef3617a3a2a61deec33_icgraph" id="alacam2_8hpp_aed13ad81fd055ef3617a3a2a61deec33_icgraph">
+<area shape="rect" title="Function to write the lcoal solution to the global solution." alt="" coords="272,31,353,57"/>
+<area shape="rect" href="lacam2_8hpp.html#a78f1c710f640dc4f94eed2e9022624c5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="121,5,211,32"/>
+<area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
+<area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,60,57"/>
+</map>
+</div>
 
 </div>
 </div>

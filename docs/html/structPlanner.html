@@ -98,32 +98,44 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac3db7cf113ad368fa6fce636b6e94abe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#ac3db7cf113ad368fa6fce636b6e94abe">~Planner</a> ()</td></tr>
 <tr class="separator:ac3db7cf113ad368fa6fce636b6e94abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73e83c66c7a158575eeedd8a9f122a67"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67">solve</a> (std::string &amp;additional_info, <a class="el" href="structInfos.html">Infos</a> *infos_ptr)</td></tr>
+<tr class="memdesc:a73e83c66c7a158575eeedd8a9f122a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard solver of LaCAM2.  <a href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67">More...</a><br /></td></tr>
 <tr class="separator:a73e83c66c7a158575eeedd8a9f122a67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4722161407b657c3c178f56e61dc412e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structBundle.html">Bundle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e">solve_fact</a> (std::string &amp;additional_info, <a class="el" href="structInfos.html">Infos</a> *infos_ptr, <a class="el" href="classFactAlgo.html">FactAlgo</a> &amp;factalgo, <a class="el" href="factorizer_8hpp.html#a6b0b91f4cdb2a8e36445e255d5678593">PartitionsMap</a> &amp;partitions_per_timestep, bool save_partitions)</td></tr>
+<tr class="memdesc:a4722161407b657c3c178f56e61dc412e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factorized version of LaCAM2.  <a href="structPlanner.html#a4722161407b657c3c178f56e61dc412e">More...</a><br /></td></tr>
 <tr class="separator:a4722161407b657c3c178f56e61dc412e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9b36da56775f1fd5aeeb7395f206cf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#af9b36da56775f1fd5aeeb7395f206cf1">expand_lowlevel_tree</a> (<a class="el" href="structHNode.html">HNode</a> *H, <a class="el" href="structLNode.html">LNode</a> *L)</td></tr>
 <tr class="separator:af9b36da56775f1fd5aeeb7395f206cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9af3dcf185b5ccd49f03869da7812a24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24">rewrite</a> (<a class="el" href="structHNode.html">HNode</a> *H_from, <a class="el" href="structHNode.html">HNode</a> *T, <a class="el" href="structHNode.html">HNode</a> *H_goal, std::stack&lt; <a class="el" href="structHNode.html">HNode</a> * &gt; &amp;OPEN)</td></tr>
+<tr class="memdesc:a9af3dcf185b5ccd49f03869da7812a24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality.  <a href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24">More...</a><br /></td></tr>
 <tr class="separator:a9af3dcf185b5ccd49f03869da7812a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f9686dc55f4deab11cc1a43220b1b3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b">get_edge_cost</a> (const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;C1, const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;C2)</td></tr>
+<tr class="memdesc:a2f9686dc55f4deab11cc1a43220b1b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the 'edge cost' aka the difference in # of agents at their goal position.  <a href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b">More...</a><br /></td></tr>
 <tr class="separator:a2f9686dc55f4deab11cc1a43220b1b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6dd9d2e1d190687c52181060d8077fe4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a6dd9d2e1d190687c52181060d8077fe4">get_edge_cost</a> (<a class="el" href="structHNode.html">HNode</a> *H_from, <a class="el" href="structHNode.html">HNode</a> *H_to)</td></tr>
 <tr class="separator:a6dd9d2e1d190687c52181060d8077fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35515b67b9f715d1cb8396ebfa791a6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c">get_h_value</a> (const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;C, const std::vector&lt; int &gt; &amp;enabled={})</td></tr>
+<tr class="memdesc:a35515b67b9f715d1cb8396ebfa791a6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the heuristic.  <a href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c">More...</a><br /></td></tr>
 <tr class="separator:a35515b67b9f715d1cb8396ebfa791a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4884191fafefc2f8185a79571851d0b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5">get_new_config</a> (<a class="el" href="structHNode.html">HNode</a> *H, <a class="el" href="structLNode.html">LNode</a> *L, const std::vector&lt; int &gt; &amp;enabled={})</td></tr>
+<tr class="memdesc:a4884191fafefc2f8185a79571851d0b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new configuration given some constraints for the next step.  <a href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5">More...</a><br /></td></tr>
 <tr class="separator:a4884191fafefc2f8185a79571851d0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ceb9857727ef266b7abf427741d936b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b">funcPIBT</a> (<a class="el" href="structAgent.html">Agent</a> *ai, const std::vector&lt; int &gt; &amp;enabled={})</td></tr>
+<tr class="memdesc:a5ceb9857727ef266b7abf427741d936b"><td class="mdescLeft">&#160;</td><td class="mdescRight">PIBT planner for the low level node.  <a href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b">More...</a><br /></td></tr>
 <tr class="separator:a5ceb9857727ef266b7abf427741d936b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a507deba5497854e8e5ff7fb8062a9016"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structAgent.html">Agent</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016">swap_possible_and_required</a> (<a class="el" href="structAgent.html">Agent</a> *ai)</td></tr>
+<tr class="memdesc:a507deba5497854e8e5ff7fb8062a9016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the swap operation.  <a href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016">More...</a><br /></td></tr>
 <tr class="separator:a507deba5497854e8e5ff7fb8062a9016"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10abbb6c2a56e757152b838c0bcf5cf2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2">is_swap_required</a> (const <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> pusher, const <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> puller, std::shared_ptr&lt; <a class="el" href="structVertex.html">Vertex</a> &gt; v_pusher_origin, std::shared_ptr&lt; <a class="el" href="structVertex.html">Vertex</a> &gt; v_puller_origin)</td></tr>
+<tr class="memdesc:a10abbb6c2a56e757152b838c0bcf5cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulate whether the swap is required.  <a href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2">More...</a><br /></td></tr>
 <tr class="separator:a10abbb6c2a56e757152b838c0bcf5cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf828472e9944a04858f55d1b84830f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5">is_swap_possible</a> (std::shared_ptr&lt; <a class="el" href="structVertex.html">Vertex</a> &gt; v_pusher_origin, std::shared_ptr&lt; <a class="el" href="structVertex.html">Vertex</a> &gt; v_puller_origin)</td></tr>
+<tr class="memdesc:aaf828472e9944a04858f55d1b84830f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulate whether the swap is possible.  <a href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5">More...</a><br /></td></tr>
 <tr class="separator:aaf828472e9944a04858f55d1b84830f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09cfd2c89775990497002a8b054f4694"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structAgent.html">Agent</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694">swap_possible_and_required_fact</a> (<a class="el" href="structAgent.html">Agent</a> *ai, const std::vector&lt; int &gt; &amp;enabled)</td></tr>
+<tr class="memdesc:a09cfd2c89775990497002a8b054f4694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the swap operation but with true IDs of the agents.  <a href="structPlanner.html#a09cfd2c89775990497002a8b054f4694">More...</a><br /></td></tr>
 <tr class="separator:a09cfd2c89775990497002a8b054f4694"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f1783abd06cbf4999bde1bb111fc438"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPlanner.html#a2f1783abd06cbf4999bde1bb111fc438">is_swap_required_fact</a> (const <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> true_pusher_id, const <a class="el" href="instance_8hpp.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> true_puller_id, std::shared_ptr&lt; <a class="el" href="structVertex.html">Vertex</a> &gt; v_pusher_origin, std::shared_ptr&lt; <a class="el" href="structVertex.html">Vertex</a> &gt; v_puller_origin)</td></tr>
+<tr class="memdesc:a2f1783abd06cbf4999bde1bb111fc438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulate whether the swap is required but with true IDs of the agents.  <a href="structPlanner.html#a2f1783abd06cbf4999bde1bb111fc438">More...</a><br /></td></tr>
 <tr class="separator:a2f1783abd06cbf4999bde1bb111fc438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4672665dd15c43cea5d697e100101213"><td class="memTemplParams" colspan="2">template&lt;typename... Body&gt; </td></tr>
 <tr class="memitem:a4672665dd15c43cea5d697e100101213"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structPlanner.html#a4672665dd15c43cea5d697e100101213">solver_info</a> (const int level, Body &amp;&amp;... body)</td></tr>
@@ -364,8 +376,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="structPlanner_af9b36da56775f1fd5aeeb7395f206cf1_icgraph.png" border="0" usemap="#astructPlanner_af9b36da56775f1fd5aeeb7395f206cf1_icgraph" alt=""/></div>
 <map name="astructPlanner_af9b36da56775f1fd5aeeb7395f206cf1_icgraph" id="astructPlanner_af9b36da56775f1fd5aeeb7395f206cf1_icgraph">
 <area shape="rect" title=" " alt="" coords="467,31,689,57"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,5,403,32"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,56,419,83"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
@@ -398,20 +410,22 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>PIBT planner for the low level node. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a5ceb9857727ef266b7abf427741d936b_cgraph.png" border="0" usemap="#astructPlanner_a5ceb9857727ef266b7abf427741d936b_cgraph" alt=""/></div>
 <map name="astructPlanner_a5ceb9857727ef266b7abf427741d936b_cgraph" id="astructPlanner_a5ceb9857727ef266b7abf427741d936b_cgraph">
-<area shape="rect" title=" " alt="" coords="5,155,141,182"/>
+<area shape="rect" title="PIBT planner for the low level node." alt="" coords="5,155,141,182"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="652,57,763,83"/>
 <area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="209,185,345,211"/>
 <area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="253,235,300,262"/>
 <area shape="rect" href="graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="226,286,327,313"/>
-<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="189,119,364,160"/>
-<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="189,53,364,95"/>
-<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="412,61,604,87"/>
-<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="412,111,604,138"/>
+<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="189,119,364,160"/>
+<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="189,53,364,95"/>
+<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="412,61,604,87"/>
+<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="412,111,604,138"/>
 </map>
 </div>
 <div class="dynheader">
@@ -419,10 +433,10 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a5ceb9857727ef266b7abf427741d936b_icgraph.png" border="0" usemap="#astructPlanner_a5ceb9857727ef266b7abf427741d936b_icgraph" alt=""/></div>
 <map name="astructPlanner_a5ceb9857727ef266b7abf427741d936b_icgraph" id="astructPlanner_a5ceb9857727ef266b7abf427741d936b_icgraph">
-<area shape="rect" title=" " alt="" coords="695,31,831,57"/>
-<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,31,647,57"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
+<area shape="rect" title="PIBT planner for the low level node." alt="" coords="695,31,831,57"/>
+<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="467,31,647,57"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,5,403,32"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,56,419,83"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
@@ -455,16 +469,19 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the 'edge cost' aka the difference in # of agents at their goal position. </p>
+<p>Can pass it either configs or 2 Hnodes. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a2f9686dc55f4deab11cc1a43220b1b3b_icgraph.png" border="0" usemap="#astructPlanner_a2f9686dc55f4deab11cc1a43220b1b3b_icgraph" alt=""/></div>
 <map name="astructPlanner_a2f9686dc55f4deab11cc1a43220b1b3b_icgraph" id="astructPlanner_a2f9686dc55f4deab11cc1a43220b1b3b_icgraph">
-<area shape="rect" title=" " alt="" coords="688,81,861,108"/>
+<area shape="rect" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="688,81,861,108"/>
 <area shape="rect" href="structPlanner.html#a6dd9d2e1d190687c52181060d8077fe4" title=" " alt="" coords="467,5,640,32"/>
-<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="491,107,616,133"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,81,403,108"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,144,419,171"/>
+<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="491,107,616,133"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,81,403,108"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,144,419,171"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,144,224,171"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,144,60,171"/>
 </map>
@@ -503,7 +520,7 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="structPlanner_a6dd9d2e1d190687c52181060d8077fe4_cgraph.png" border="0" usemap="#astructPlanner_a6dd9d2e1d190687c52181060d8077fe4_cgraph" alt=""/></div>
 <map name="astructPlanner_a6dd9d2e1d190687c52181060d8077fe4_cgraph" id="astructPlanner_a6dd9d2e1d190687c52181060d8077fe4_cgraph">
 <area shape="rect" title=" " alt="" coords="5,5,179,32"/>
-<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="227,5,400,32"/>
+<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="227,5,400,32"/>
 </map>
 </div>
 
@@ -534,12 +551,14 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Computes the heuristic. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a35515b67b9f715d1cb8396ebfa791a6c_cgraph.png" border="0" usemap="#astructPlanner_a35515b67b9f715d1cb8396ebfa791a6c_cgraph" alt=""/></div>
 <map name="astructPlanner_a35515b67b9f715d1cb8396ebfa791a6c_cgraph" id="astructPlanner_a35515b67b9f715d1cb8396ebfa791a6c_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,164,32"/>
+<area shape="rect" title="Computes the heuristic." alt="" coords="5,5,164,32"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="212,5,323,32"/>
 </map>
 </div>
@@ -548,9 +567,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a35515b67b9f715d1cb8396ebfa791a6c_icgraph.png" border="0" usemap="#astructPlanner_a35515b67b9f715d1cb8396ebfa791a6c_icgraph" alt=""/></div>
 <map name="astructPlanner_a35515b67b9f715d1cb8396ebfa791a6c_icgraph" id="astructPlanner_a35515b67b9f715d1cb8396ebfa791a6c_icgraph">
-<area shape="rect" title=" " alt="" coords="467,31,625,57"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
+<area shape="rect" title="Computes the heuristic." alt="" coords="467,31,625,57"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,5,403,32"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,56,419,83"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
@@ -589,21 +608,24 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Creates a new configuration given some constraints for the next step. </p>
+<p>Basically the same as in LaCAM. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a4884191fafefc2f8185a79571851d0b5_cgraph.png" border="0" usemap="#astructPlanner_a4884191fafefc2f8185a79571851d0b5_cgraph" alt=""/></div>
 <map name="astructPlanner_a4884191fafefc2f8185a79571851d0b5_cgraph" id="astructPlanner_a4884191fafefc2f8185a79571851d0b5_cgraph">
-<area shape="rect" title=" " alt="" coords="5,155,185,182"/>
-<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="233,155,369,182"/>
+<area shape="rect" title="Creates a new configuration given some constraints for the next step." alt="" coords="5,155,185,182"/>
+<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="233,155,369,182"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="880,57,991,83"/>
 <area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="437,185,573,211"/>
 <area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="481,235,528,262"/>
 <area shape="rect" href="graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="454,286,555,313"/>
-<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="417,119,592,160"/>
-<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="417,53,592,95"/>
-<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="640,61,832,87"/>
-<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="640,111,832,138"/>
+<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="417,119,592,160"/>
+<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="417,53,592,95"/>
+<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="640,61,832,87"/>
+<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="640,111,832,138"/>
 </map>
 </div>
 <div class="dynheader">
@@ -611,9 +633,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a4884191fafefc2f8185a79571851d0b5_icgraph.png" border="0" usemap="#astructPlanner_a4884191fafefc2f8185a79571851d0b5_icgraph" alt=""/></div>
 <map name="astructPlanner_a4884191fafefc2f8185a79571851d0b5_icgraph" id="astructPlanner_a4884191fafefc2f8185a79571851d0b5_icgraph">
-<area shape="rect" title=" " alt="" coords="467,31,647,57"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
+<area shape="rect" title="Creates a new configuration given some constraints for the next step." alt="" coords="467,31,647,57"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,5,403,32"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,56,419,83"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
@@ -646,18 +668,20 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Simulate whether the swap is possible. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_aaf828472e9944a04858f55d1b84830f5_icgraph.png" border="0" usemap="#astructPlanner_aaf828472e9944a04858f55d1b84830f5_icgraph" alt=""/></div>
 <map name="astructPlanner_aaf828472e9944a04858f55d1b84830f5_icgraph" id="astructPlanner_aaf828472e9944a04858f55d1b84830f5_icgraph">
-<area shape="rect" title=" " alt="" coords="1101,46,1293,73"/>
-<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="879,5,1053,47"/>
-<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="879,71,1053,112"/>
-<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="695,46,831,73"/>
-<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,46,647,73"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,21,403,47"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,71,419,98"/>
+<area shape="rect" title="Simulate whether the swap is possible." alt="" coords="1101,46,1293,73"/>
+<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="879,5,1053,47"/>
+<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="879,71,1053,112"/>
+<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="695,46,831,73"/>
+<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="467,46,647,73"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,21,403,47"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,71,419,98"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,71,224,98"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,71,60,98"/>
 </map>
@@ -702,12 +726,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Simulate whether the swap is required. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_cgraph.png" border="0" usemap="#astructPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_cgraph" alt=""/></div>
 <map name="astructPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_cgraph" id="astructPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,197,32"/>
+<area shape="rect" title="Simulate whether the swap is required." alt="" coords="5,5,197,32"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="245,5,356,32"/>
 </map>
 </div>
@@ -716,13 +742,13 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_icgraph.png" border="0" usemap="#astructPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_icgraph" alt=""/></div>
 <map name="astructPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_icgraph" id="astructPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_icgraph">
-<area shape="rect" title=" " alt="" coords="1101,46,1293,73"/>
-<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="879,5,1053,47"/>
-<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="879,71,1053,112"/>
-<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="695,46,831,73"/>
-<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,46,647,73"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,21,403,47"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,71,419,98"/>
+<area shape="rect" title="Simulate whether the swap is required." alt="" coords="1101,46,1293,73"/>
+<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="879,5,1053,47"/>
+<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="879,71,1053,112"/>
+<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="695,46,831,73"/>
+<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="467,46,647,73"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,21,403,47"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,71,419,98"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,71,224,98"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,71,60,98"/>
 </map>
@@ -767,12 +793,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Simulate whether the swap is required but with true IDs of the agents. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a2f1783abd06cbf4999bde1bb111fc438_cgraph.png" border="0" usemap="#astructPlanner_a2f1783abd06cbf4999bde1bb111fc438_cgraph" alt=""/></div>
 <map name="astructPlanner_a2f1783abd06cbf4999bde1bb111fc438_cgraph" id="astructPlanner_a2f1783abd06cbf4999bde1bb111fc438_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,229,32"/>
+<area shape="rect" title="Simulate whether the swap is required but with true IDs of the agents." alt="" coords="5,5,229,32"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="277,5,388,32"/>
 </map>
 </div>
@@ -816,13 +844,15 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a9af3dcf185b5ccd49f03869da7812a24_cgraph.png" border="0" usemap="#astructPlanner_a9af3dcf185b5ccd49f03869da7812a24_cgraph" alt=""/></div>
 <map name="astructPlanner_a9af3dcf185b5ccd49f03869da7812a24_cgraph" id="astructPlanner_a9af3dcf185b5ccd49f03869da7812a24_cgraph">
-<area shape="rect" title=" " alt="" coords="5,31,131,57"/>
-<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="179,5,352,32"/>
+<area shape="rect" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="5,31,131,57"/>
+<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="179,5,352,32"/>
 <area shape="rect" href="structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="190,56,341,83"/>
 <area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="400,31,500,57"/>
 <area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="427,81,473,108"/>
@@ -834,9 +864,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a9af3dcf185b5ccd49f03869da7812a24_icgraph.png" border="0" usemap="#astructPlanner_a9af3dcf185b5ccd49f03869da7812a24_icgraph" alt=""/></div>
 <map name="astructPlanner_a9af3dcf185b5ccd49f03869da7812a24_icgraph" id="astructPlanner_a9af3dcf185b5ccd49f03869da7812a24_icgraph">
-<area shape="rect" title=" " alt="" coords="467,31,592,57"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
+<area shape="rect" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="467,31,592,57"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,5,403,32"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,56,419,83"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
@@ -869,30 +899,33 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Standard solver of LaCAM2. </p>
+<dl class="section return"><dt>Returns</dt><dd>The solution to the MAPF problem. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a73e83c66c7a158575eeedd8a9f122a67_cgraph.png" border="0" usemap="#astructPlanner_a73e83c66c7a158575eeedd8a9f122a67_cgraph" alt=""/></div>
 <map name="astructPlanner_a73e83c66c7a158575eeedd8a9f122a67_cgraph" id="astructPlanner_a73e83c66c7a158575eeedd8a9f122a67_cgraph">
-<area shape="rect" title=" " alt="" coords="5,233,120,260"/>
+<area shape="rect" title="Standard solver of LaCAM2." alt="" coords="5,233,120,260"/>
 <area shape="rect" href="structPlanner.html#af9b36da56775f1fd5aeeb7395f206cf1" title=" " alt="" coords="168,5,391,32"/>
-<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="439,107,612,133"/>
-<area shape="rect" href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title=" " alt="" coords="446,425,605,452"/>
-<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="189,309,369,336"/>
+<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="439,107,612,133"/>
+<area shape="rect" href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title="Computes the heuristic." alt="" coords="446,425,605,452"/>
+<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="189,309,369,336"/>
 <area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="724,157,771,184"/>
 <area shape="rect" href="utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title="Checks if the given deadline has expired." alt="" coords="481,56,570,83"/>
 <area shape="rect" href="graph_8hpp.html#a44b479382634c1b3415e08bc84d972e9" title="Check the equivalence of two configurations." alt="" coords="218,411,341,437"/>
 <area shape="rect" href="graph_8hpp.html#aabd9d91fb32cf70532ed3247d863122e" title=" " alt="" coords="224,461,335,488"/>
-<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="217,157,342,184"/>
+<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="217,157,342,184"/>
 <area shape="rect" href="structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="450,157,601,184"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="1123,441,1233,468"/>
-<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="457,309,593,336"/>
+<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="457,309,593,336"/>
 <area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="679,340,815,367"/>
 <area shape="rect" href="graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="697,391,798,417"/>
-<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="660,274,835,315"/>
-<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="660,209,835,250"/>
-<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="883,281,1075,308"/>
-<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="883,231,1075,257"/>
+<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="660,274,835,315"/>
+<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="660,209,835,250"/>
+<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="883,281,1075,308"/>
+<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="883,231,1075,257"/>
 <area shape="rect" href="structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="895,81,1062,108"/>
 <area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="697,107,797,133"/>
 </map>
@@ -943,33 +976,36 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Factorized version of LaCAM2. </p>
+<p>The solving is the same as in standard LaCAM but checks for factorizability among agents. </p><dl class="section return"><dt>Returns</dt><dd>A bundle containing the sub-instances in case of factorization and the local solution (from start to split). </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a4722161407b657c3c178f56e61dc412e_cgraph.png" border="0" usemap="#astructPlanner_a4722161407b657c3c178f56e61dc412e_cgraph" alt=""/></div>
 <map name="astructPlanner_a4722161407b657c3c178f56e61dc412e_cgraph" id="astructPlanner_a4722161407b657c3c178f56e61dc412e_cgraph">
-<area shape="rect" title=" " alt="" coords="5,456,152,483"/>
+<area shape="rect" title="Factorized version of LaCAM2." alt="" coords="5,456,152,483"/>
 <area shape="rect" href="structPlanner.html#af9b36da56775f1fd5aeeb7395f206cf1" title=" " alt="" coords="200,5,423,32"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="1155,132,1265,159"/>
-<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="471,529,644,556"/>
-<area shape="rect" href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title=" " alt="" coords="931,107,1090,133"/>
-<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="221,279,401,305"/>
+<area shape="rect" href="structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="471,529,644,556"/>
+<area shape="rect" href="structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title="Computes the heuristic." alt="" coords="931,107,1090,133"/>
+<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="221,279,401,305"/>
 <area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="756,441,803,468"/>
 <area shape="rect" href="utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title="Checks if the given deadline has expired." alt="" coords="513,580,602,607"/>
 <area shape="rect" href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the problem is factorizable at a given timestep." alt="" coords="221,380,401,407"/>
 <area shape="rect" href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb" title="Allows factorization according to definition." alt="" coords="207,633,415,660"/>
 <area shape="rect" href="graph_8hpp.html#a44b479382634c1b3415e08bc84d972e9" title="Check the equivalence of two configurations." alt="" coords="250,684,373,711"/>
 <area shape="rect" href="graph_8hpp.html#aabd9d91fb32cf70532ed3247d863122e" title=" " alt="" coords="256,735,367,761"/>
-<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="249,481,374,508"/>
+<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="249,481,374,508"/>
 <area shape="rect" href="structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="482,460,633,487"/>
-<area shape="rect" href="planner_8cpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes the solution matrix." alt="" coords="268,785,355,812"/>
-<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="489,279,625,305"/>
+<area shape="rect" href="planner_8cpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes a matrix." alt="" coords="268,785,355,812"/>
+<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="489,279,625,305"/>
 <area shape="rect" href="utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="711,340,847,367"/>
 <area shape="rect" href="graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="729,391,830,417"/>
-<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="692,209,867,250"/>
-<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="692,274,867,315"/>
-<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="915,275,1107,301"/>
-<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="915,216,1107,243"/>
+<area shape="rect" href="structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="692,209,867,250"/>
+<area shape="rect" href="structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="692,274,867,315"/>
+<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="915,275,1107,301"/>
+<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="915,216,1107,243"/>
 <area shape="rect" href="structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="927,523,1094,549"/>
 <area shape="rect" href="classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="488,396,627,423"/>
 <area shape="rect" href="utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="729,497,829,524"/>
@@ -980,7 +1016,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a4722161407b657c3c178f56e61dc412e_icgraph.png" border="0" usemap="#astructPlanner_a4722161407b657c3c178f56e61dc412e_icgraph" alt=""/></div>
 <map name="astructPlanner_a4722161407b657c3c178f56e61dc412e_icgraph" id="astructPlanner_a4722161407b657c3c178f56e61dc412e_icgraph">
-<area shape="rect" title=" " alt="" coords="272,5,419,32"/>
+<area shape="rect" title="Factorized version of LaCAM2." alt="" coords="272,5,419,32"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>
@@ -1040,9 +1076,9 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="structPlanner_a4672665dd15c43cea5d697e100101213_icgraph.png" border="0" usemap="#astructPlanner_a4672665dd15c43cea5d697e100101213_icgraph" alt=""/></div>
 <map name="astructPlanner_a4672665dd15c43cea5d697e100101213_icgraph" id="astructPlanner_a4672665dd15c43cea5d697e100101213_icgraph">
 <area shape="rect" title=" " alt="" coords="640,31,791,57"/>
-<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="467,31,592,57"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,68,419,95"/>
+<area shape="rect" href="structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="467,31,592,57"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,5,403,32"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,68,419,95"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,68,224,95"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,68,60,95"/>
 </map>
@@ -1065,14 +1101,16 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Define the swap operation. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a507deba5497854e8e5ff7fb8062a9016_cgraph.png" border="0" usemap="#astructPlanner_a507deba5497854e8e5ff7fb8062a9016_cgraph" alt=""/></div>
 <map name="astructPlanner_a507deba5497854e8e5ff7fb8062a9016_cgraph" id="astructPlanner_a507deba5497854e8e5ff7fb8062a9016_cgraph">
-<area shape="rect" title=" " alt="" coords="5,23,180,65"/>
-<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="228,5,420,32"/>
-<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="228,56,420,83"/>
+<area shape="rect" title="Define the swap operation." alt="" coords="5,23,180,65"/>
+<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="228,5,420,32"/>
+<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="228,56,420,83"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="468,56,579,83"/>
 </map>
 </div>
@@ -1081,11 +1119,11 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a507deba5497854e8e5ff7fb8062a9016_icgraph.png" border="0" usemap="#astructPlanner_a507deba5497854e8e5ff7fb8062a9016_icgraph" alt=""/></div>
 <map name="astructPlanner_a507deba5497854e8e5ff7fb8062a9016_icgraph" id="astructPlanner_a507deba5497854e8e5ff7fb8062a9016_icgraph">
-<area shape="rect" title=" " alt="" coords="879,23,1053,65"/>
-<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="695,31,831,57"/>
-<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,31,647,57"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
+<area shape="rect" title="Define the swap operation." alt="" coords="879,23,1053,65"/>
+<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="695,31,831,57"/>
+<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="467,31,647,57"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,5,403,32"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,56,419,83"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>
@@ -1118,14 +1156,16 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Define the swap operation but with true IDs of the agents. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a09cfd2c89775990497002a8b054f4694_cgraph.png" border="0" usemap="#astructPlanner_a09cfd2c89775990497002a8b054f4694_cgraph" alt=""/></div>
 <map name="astructPlanner_a09cfd2c89775990497002a8b054f4694_cgraph" id="astructPlanner_a09cfd2c89775990497002a8b054f4694_cgraph">
-<area shape="rect" title=" " alt="" coords="5,23,180,65"/>
-<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="228,5,420,32"/>
-<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="228,56,420,83"/>
+<area shape="rect" title="Define the swap operation but with true IDs of the agents." alt="" coords="5,23,180,65"/>
+<area shape="rect" href="structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="228,5,420,32"/>
+<area shape="rect" href="structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="228,56,420,83"/>
 <area shape="rect" href="structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="468,56,579,83"/>
 </map>
 </div>
@@ -1134,11 +1174,11 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structPlanner_a09cfd2c89775990497002a8b054f4694_icgraph.png" border="0" usemap="#astructPlanner_a09cfd2c89775990497002a8b054f4694_icgraph" alt=""/></div>
 <map name="astructPlanner_a09cfd2c89775990497002a8b054f4694_icgraph" id="astructPlanner_a09cfd2c89775990497002a8b054f4694_icgraph">
-<area shape="rect" title=" " alt="" coords="879,23,1053,65"/>
-<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="695,31,831,57"/>
-<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="467,31,647,57"/>
-<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
+<area shape="rect" title="Define the swap operation but with true IDs of the agents." alt="" coords="879,23,1053,65"/>
+<area shape="rect" href="structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="695,31,831,57"/>
+<area shape="rect" href="structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="467,31,647,57"/>
+<area shape="rect" href="structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,5,403,32"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,56,419,83"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>

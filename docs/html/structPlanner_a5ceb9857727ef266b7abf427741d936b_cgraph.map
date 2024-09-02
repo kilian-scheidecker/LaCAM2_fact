@@ -1,11 +1,11 @@
 <map id="Planner::funcPIBT" name="Planner::funcPIBT">
-<area shape="rect" id="node1" title=" " alt="" coords="5,155,141,182"/>
+<area shape="rect" id="node1" title="PIBT planner for the low level node." alt="" coords="5,155,141,182"/>
 <area shape="rect" id="node2" href="$structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="652,57,763,83"/>
 <area shape="rect" id="node3" href="$utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="209,185,345,211"/>
 <area shape="rect" id="node4" href="$utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="253,235,300,262"/>
 <area shape="rect" id="node5" href="$graph_8hpp.html#a5cd3a128e63b65212d574d2d381c1798" title=" " alt="" coords="226,286,327,313"/>
-<area shape="rect" id="node6" href="$structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="189,119,364,160"/>
-<area shape="rect" id="node9" href="$structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="189,53,364,95"/>
-<area shape="rect" id="node7" href="$structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="412,61,604,87"/>
-<area shape="rect" id="node8" href="$structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="412,111,604,138"/>
+<area shape="rect" id="node6" href="$structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="189,119,364,160"/>
+<area shape="rect" id="node9" href="$structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="189,53,364,95"/>
+<area shape="rect" id="node7" href="$structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="412,61,604,87"/>
+<area shape="rect" id="node8" href="$structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="412,111,604,138"/>
 </map>

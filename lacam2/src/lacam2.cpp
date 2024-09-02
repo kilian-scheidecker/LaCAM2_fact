@@ -214,7 +214,7 @@ Solution solve_fact_MT(const Instance& ins, std::string& additional_info, Partit
 
 
 /**
- * @brief Function to write the lcoal solution to the global solution.
+ * @brief Function to write the local solution to the global solution.
  */
 void write_sol(const Solution& solution, const std::vector<int>& enabled, Solution& global_solution, int N){
     

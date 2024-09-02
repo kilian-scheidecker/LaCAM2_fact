@@ -1,9 +1,9 @@
 <map id="Planner::get_edge_cost" name="Planner::get_edge_cost">
-<area shape="rect" id="node1" title=" " alt="" coords="688,81,861,108"/>
+<area shape="rect" id="node1" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="688,81,861,108"/>
 <area shape="rect" id="node2" href="$structPlanner.html#a6dd9d2e1d190687c52181060d8077fe4" title=" " alt="" coords="467,5,640,32"/>
-<area shape="rect" id="node3" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="491,107,616,133"/>
-<area shape="rect" id="node4" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,81,403,108"/>
-<area shape="rect" id="node5" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,144,419,171"/>
+<area shape="rect" id="node3" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="491,107,616,133"/>
+<area shape="rect" id="node4" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,81,403,108"/>
+<area shape="rect" id="node5" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,144,419,171"/>
 <area shape="rect" id="node6" href="$lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,144,224,171"/>
 <area shape="rect" id="node7" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,144,60,171"/>
 </map>

@@ -28,33 +28,33 @@ Collaboration diagram for Planner\+:\nopagebreak
 \mbox{\hyperlink{structPlanner_ac3db7cf113ad368fa6fce636b6e94abe}{$\sim$\+Planner}} ()
 \item 
 \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{structPlanner_a73e83c66c7a158575eeedd8a9f122a67}{solve}} (std\+::string \&additional\+\_\+info, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr)
-\item 
+\begin{DoxyCompactList}\small\item\em Standard solver of La\+CAM2. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structBundle}{Bundle}} \mbox{\hyperlink{structPlanner_a4722161407b657c3c178f56e61dc412e}{solve\+\_\+fact}} (std\+::string \&additional\+\_\+info, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, bool save\+\_\+partitions)
-\item 
+\begin{DoxyCompactList}\small\item\em Factorized version of La\+CAM2. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{structPlanner_af9b36da56775f1fd5aeeb7395f206cf1}{expand\+\_\+lowlevel\+\_\+tree}} (\mbox{\hyperlink{structHNode}{HNode}} $\ast$H, \mbox{\hyperlink{structLNode}{LNode}} $\ast$L)
 \item 
 void \mbox{\hyperlink{structPlanner_a9af3dcf185b5ccd49f03869da7812a24}{rewrite}} (\mbox{\hyperlink{structHNode}{HNode}} $\ast$H\+\_\+from, \mbox{\hyperlink{structHNode}{HNode}} $\ast$T, \mbox{\hyperlink{structHNode}{HNode}} $\ast$H\+\_\+goal, std\+::stack$<$ \mbox{\hyperlink{structHNode}{HNode}} $\ast$ $>$ \&OPEN)
-\item 
+\begin{DoxyCompactList}\small\item\em Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a2f9686dc55f4deab11cc1a43220b1b3b}{get\+\_\+edge\+\_\+cost}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C1, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C2)
-\item 
+\begin{DoxyCompactList}\small\item\em Compute the \textquotesingle{}edge cost\textquotesingle{} aka the difference in \# of agents at their goal position. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a6dd9d2e1d190687c52181060d8077fe4}{get\+\_\+edge\+\_\+cost}} (\mbox{\hyperlink{structHNode}{HNode}} $\ast$H\+\_\+from, \mbox{\hyperlink{structHNode}{HNode}} $\ast$H\+\_\+to)
 \item 
 \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} \mbox{\hyperlink{structPlanner_a35515b67b9f715d1cb8396ebfa791a6c}{get\+\_\+h\+\_\+value}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C, const std\+::vector$<$ int $>$ \&enabled=\{\})
-\item 
+\begin{DoxyCompactList}\small\item\em Computes the heuristic. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{structPlanner_a4884191fafefc2f8185a79571851d0b5}{get\+\_\+new\+\_\+config}} (\mbox{\hyperlink{structHNode}{HNode}} $\ast$H, \mbox{\hyperlink{structLNode}{LNode}} $\ast$L, const std\+::vector$<$ int $>$ \&enabled=\{\})
-\item 
+\begin{DoxyCompactList}\small\item\em Creates a new configuration given some constraints for the next step. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{structPlanner_a5ceb9857727ef266b7abf427741d936b}{func\+PIBT}} (\mbox{\hyperlink{structAgent}{Agent}} $\ast$ai, const std\+::vector$<$ int $>$ \&enabled=\{\})
-\item 
+\begin{DoxyCompactList}\small\item\em PIBT planner for the low level node. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structAgent}{Agent}} $\ast$ \mbox{\hyperlink{structPlanner_a507deba5497854e8e5ff7fb8062a9016}{swap\+\_\+possible\+\_\+and\+\_\+required}} (\mbox{\hyperlink{structAgent}{Agent}} $\ast$ai)
-\item 
+\begin{DoxyCompactList}\small\item\em Define the swap operation. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2}{is\+\_\+swap\+\_\+required}} (const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} pusher, const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} puller, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+pusher\+\_\+origin, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+puller\+\_\+origin)
-\item 
+\begin{DoxyCompactList}\small\item\em Simulate whether the swap is required. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{structPlanner_aaf828472e9944a04858f55d1b84830f5}{is\+\_\+swap\+\_\+possible}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+pusher\+\_\+origin, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+puller\+\_\+origin)
-\item 
+\begin{DoxyCompactList}\small\item\em Simulate whether the swap is possible. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structAgent}{Agent}} $\ast$ \mbox{\hyperlink{structPlanner_a09cfd2c89775990497002a8b054f4694}{swap\+\_\+possible\+\_\+and\+\_\+required\+\_\+fact}} (\mbox{\hyperlink{structAgent}{Agent}} $\ast$ai, const std\+::vector$<$ int $>$ \&enabled)
-\item 
+\begin{DoxyCompactList}\small\item\em Define the swap operation but with true IDs of the agents. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{structPlanner_a2f1783abd06cbf4999bde1bb111fc438}{is\+\_\+swap\+\_\+required\+\_\+fact}} (const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} true\+\_\+pusher\+\_\+id, const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} true\+\_\+puller\+\_\+id, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+pusher\+\_\+origin, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$ v\+\_\+puller\+\_\+origin)
-\item 
+\begin{DoxyCompactList}\small\item\em Simulate whether the swap is required but with true IDs of the agents. \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename... Body$>$ }\\void \mbox{\hyperlink{structPlanner_a4672665dd15c43cea5d697e100101213}{solver\+\_\+info}} (const int level, Body \&\&... body)
 \end{DoxyCompactItemize}
 \doxysubsection*{Data Fields}
@@ -150,7 +150,8 @@ Constructor for \mbox{\hyperlink{structPlanner}{Planner}} class using pointer to
 \doxysubsubsection{\texorpdfstring{expand\_lowlevel\_tree()}{expand\_lowlevel\_tree()}}
 {\footnotesize\ttfamily void Planner\+::expand\+\_\+lowlevel\+\_\+tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H,  }\item[{\mbox{\hyperlink{structLNode}{LNode}} $\ast$}]{L }\end{DoxyParamCaption})}
 
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -163,14 +164,20 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{funcPIBT()}{funcPIBT()}}
 {\footnotesize\ttfamily bool Planner\+::func\+PIBT (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAgent}{Agent}} $\ast$}]{ai,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled = {\ttfamily \{\}} }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+PIBT planner for the low level node. 
+
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a5ceb9857727ef266b7abf427741d936b_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -183,7 +190,12 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{get\_edge\_cost()}{get\_edge\_cost()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::get\+\_\+edge\+\_\+cost (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C1,  }\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C2 }\end{DoxyParamCaption})}
 
-Here is the caller graph for this function\+:\nopagebreak
+
+
+Compute the \textquotesingle{}edge cost\textquotesingle{} aka the difference in \# of agents at their goal position. 
+
+Can pass it either configs or 2 Hnodes. Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -196,7 +208,8 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{get\_edge\_cost()}{get\_edge\_cost()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::get\+\_\+edge\+\_\+cost (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+from,  }\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+to }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -209,14 +222,20 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{get\_h\_value()}{get\_h\_value()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::get\+\_\+h\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&}]{C,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled = {\ttfamily \{\}} }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+Computes the heuristic. 
+
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=318pt]{structPlanner_a35515b67b9f715d1cb8396ebfa791a6c_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -229,14 +248,20 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{get\_new\_config()}{get\_new\_config()}}
 {\footnotesize\ttfamily bool Planner\+::get\+\_\+new\+\_\+config (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H,  }\item[{\mbox{\hyperlink{structLNode}{LNode}} $\ast$}]{L,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled = {\ttfamily \{\}} }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+Creates a new configuration given some constraints for the next step. 
+
+Basically the same as in La\+CAM. Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a4884191fafefc2f8185a79571851d0b5_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -249,7 +274,12 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{is\_swap\_possible()}{is\_swap\_possible()}}
 {\footnotesize\ttfamily bool Planner\+::is\+\_\+swap\+\_\+possible (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+pusher\+\_\+origin,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+puller\+\_\+origin }\end{DoxyParamCaption})}
 
-Here is the caller graph for this function\+:\nopagebreak
+
+
+Simulate whether the swap is possible. 
+
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -262,14 +292,20 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{is\_swap\_required()}{is\_swap\_required()}}
 {\footnotesize\ttfamily bool Planner\+::is\+\_\+swap\+\_\+required (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{pusher,  }\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{puller,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+pusher\+\_\+origin,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+puller\+\_\+origin }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+Simulate whether the swap is required. 
+
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=343pt]{structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -282,7 +318,12 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{is\_swap\_required\_fact()}{is\_swap\_required\_fact()}}
 {\footnotesize\ttfamily bool Planner\+::is\+\_\+swap\+\_\+required\+\_\+fact (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{true\+\_\+pusher\+\_\+id,  }\item[{const \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}}}]{true\+\_\+puller\+\_\+id,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+pusher\+\_\+origin,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structVertex}{Vertex}} $>$}]{v\+\_\+puller\+\_\+origin }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+Simulate whether the swap is required but with true IDs of the agents. 
+
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -295,14 +336,20 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{rewrite()}{rewrite()}}
 {\footnotesize\ttfamily void Planner\+::rewrite (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+from,  }\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{T,  }\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+goal,  }\item[{std\+::stack$<$ \mbox{\hyperlink{structHNode}{HNode}} $\ast$ $>$ \&}]{OPEN }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality. 
+
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a9af3dcf185b5ccd49f03869da7812a24_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -315,7 +362,15 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{solve()}{solve()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} Planner\+::solve (\begin{DoxyParamCaption}\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+Standard solver of La\+CAM2. 
+
+\begin{DoxyReturn}{Returns}
+The solution to the MAPF problem. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -328,14 +383,23 @@ Here is the call graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{solve\_fact()}{solve\_fact()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structBundle}{Bundle}} Planner\+::solve\+\_\+fact (\begin{DoxyParamCaption}\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{bool}]{save\+\_\+partitions }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+Factorized version of La\+CAM2. 
+
+The solving is the same as in standard La\+CAM but checks for factorizability among agents. \begin{DoxyReturn}{Returns}
+A bundle containing the sub-\/instances in case of factorization and the local solution (from start to split). 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a4722161407b657c3c178f56e61dc412e_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -356,7 +420,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{structPlanner_a4672665dd15c43cea5d697e100101213_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -369,14 +434,20 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{swap\_possible\_and\_required()}{swap\_possible\_and\_required()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structAgent}{Agent}} $\ast$ Planner\+::swap\+\_\+possible\+\_\+and\+\_\+required (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAgent}{Agent}} $\ast$}]{ai }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+Define the swap operation. 
+
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a507deba5497854e8e5ff7fb8062a9016_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -389,14 +460,20 @@ Here is the caller graph for this function\+:\nopagebreak
 \doxysubsubsection{\texorpdfstring{swap\_possible\_and\_required\_fact()}{swap\_possible\_and\_required\_fact()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structAgent}{Agent}} $\ast$ Planner\+::swap\+\_\+possible\+\_\+and\+\_\+required\+\_\+fact (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAgent}{Agent}} $\ast$}]{ai,  }\item[{const std\+::vector$<$ int $>$ \&}]{enabled }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+
+
+Define the swap operation but with true IDs of the agents. 
+
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a09cfd2c89775990497002a8b054f4694_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

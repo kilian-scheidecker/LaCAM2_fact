@@ -1,6 +1,6 @@
 <map id="FactAlgo::is_factorizable_def" name="FactAlgo::is_factorizable_def">
 <area shape="rect" id="node1" title="Allows factorization according to definition." alt="" coords="467,5,675,32"/>
-<area shape="rect" id="node2" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,5,419,32"/>
+<area shape="rect" id="node2" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,5,419,32"/>
 <area shape="rect" id="node3" href="$lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>

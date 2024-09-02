@@ -1,4 +1,4 @@
 <map id="Planner::is_swap_required" name="Planner::is_swap_required">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,197,32"/>
+<area shape="rect" id="node1" title="Simulate whether the swap is required." alt="" coords="5,5,197,32"/>
 <area shape="rect" id="node2" href="$structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319" title="DistTable setup at first use." alt="" coords="245,5,356,32"/>
 </map>

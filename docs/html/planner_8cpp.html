@@ -118,10 +118,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ad3208153efca8ae826779eabafddaf25"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="planner_8cpp.html#ad3208153efca8ae826779eabafddaf25">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a> obj)</td></tr>
 <tr class="separator:ad3208153efca8ae826779eabafddaf25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adec0ef604594ebdb20dc833098255079"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="planner_8cpp.html#adec0ef604594ebdb20dc833098255079">transpose</a> (const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;matrix)</td></tr>
-<tr class="memdesc:adec0ef604594ebdb20dc833098255079"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transposes the solution matrix.  <a href="planner_8cpp.html#adec0ef604594ebdb20dc833098255079">More...</a><br /></td></tr>
+<tr class="memdesc:adec0ef604594ebdb20dc833098255079"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transposes a matrix.  <a href="planner_8cpp.html#adec0ef604594ebdb20dc833098255079">More...</a><br /></td></tr>
 <tr class="separator:adec0ef604594ebdb20dc833098255079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4aa52241a4e6626d5aa157336c6b56d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="planner_8cpp.html#ab4aa52241a4e6626d5aa157336c6b56d">padSolution</a> (<a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;sol)</td></tr>
-<tr class="memdesc:ab4aa52241a4e6626d5aa157336c6b56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pads the solution to ensure consistency in dimensions.  <a href="planner_8cpp.html#ab4aa52241a4e6626d5aa157336c6b56d">More...</a><br /></td></tr>
+<tr class="memdesc:ab4aa52241a4e6626d5aa157336c6b56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pad the global solution to make sure the matrix is full.  <a href="planner_8cpp.html#ab4aa52241a4e6626d5aa157336c6b56d">More...</a><br /></td></tr>
 <tr class="separator:ab4aa52241a4e6626d5aa157336c6b56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -171,13 +171,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Pads the solution to ensure consistency in dimensions. </p>
+<p>Pad the global solution to make sure the matrix is full. </p>
+<p>Pads the solution to ensure consistency in dimensions.</p>
+<p>For agents that reached their goal sooner than others, it adds the goal position to the end of their solution until the matrix is full. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="planner_8cpp_ab4aa52241a4e6626d5aa157336c6b56d_icgraph.png" border="0" usemap="#aplanner_8cpp_ab4aa52241a4e6626d5aa157336c6b56d_icgraph" alt=""/></div>
 <map name="aplanner_8cpp_ab4aa52241a4e6626d5aa157336c6b56d_icgraph" id="aplanner_8cpp_ab4aa52241a4e6626d5aa157336c6b56d_icgraph">
-<area shape="rect" title="Pads the solution to ensure consistency in dimensions." alt="" coords="272,31,371,57"/>
+<area shape="rect" title="Pad the global solution to make sure the matrix is full." alt="" coords="272,31,371,57"/>
 <area shape="rect" href="lacam2_8hpp.html#a78f1c710f640dc4f94eed2e9022624c5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="121,5,211,32"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,60,57"/>
@@ -202,15 +204,17 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Transposes the solution matrix. </p>
+<p>Transposes a matrix. </p>
+<p>Transposes the solution matrix.</p>
+<p>Used to transpose the solution to have timesteps in y-axis instead of x-axis. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="planner_8cpp_adec0ef604594ebdb20dc833098255079_icgraph.png" border="0" usemap="#aplanner_8cpp_adec0ef604594ebdb20dc833098255079_icgraph" alt=""/></div>
 <map name="aplanner_8cpp_adec0ef604594ebdb20dc833098255079_icgraph" id="aplanner_8cpp_adec0ef604594ebdb20dc833098255079_icgraph">
-<area shape="rect" title="Transposes the solution matrix." alt="" coords="467,56,553,83"/>
+<area shape="rect" title="Transposes a matrix." alt="" coords="467,56,553,83"/>
 <area shape="rect" href="lacam2_8hpp.html#a78f1c710f640dc4f94eed2e9022624c5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="121,5,211,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
+<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,56,419,83"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,60,57"/>
 </map>

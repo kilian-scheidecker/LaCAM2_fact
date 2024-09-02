@@ -1,7 +1,7 @@
 <map id="print_vertices" name="print_vertices">
 <area shape="rect" id="node1" title=" " alt="" coords="467,56,577,83"/>
-<area shape="rect" id="node2" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title=" " alt="" coords="288,5,403,32"/>
-<area shape="rect" id="node3" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="272,56,419,83"/>
+<area shape="rect" id="node2" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="288,5,403,32"/>
+<area shape="rect" id="node3" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,56,419,83"/>
 <area shape="rect" id="node4" href="$lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,81,224,108"/>
 <area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,81,60,108"/>
 </map>

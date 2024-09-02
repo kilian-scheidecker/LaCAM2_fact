@@ -28,25 +28,25 @@
 <area shape="rect" id="node25" href="$utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="1009,1259,1109,1285"/>
 <area shape="rect" id="node27" href="$planner_8hpp.html#ab4aa52241a4e6626d5aa157336c6b56d" title="Pads the solution to ensure consistency in dimensions." alt="" coords="307,1069,406,1096"/>
 <area shape="rect" id="node28" href="$planner_8hpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes the solution matrix." alt="" coords="313,1120,400,1147"/>
-<area shape="rect" id="node29" href="$lacam2_8cpp.html#af47d9fbe3418e883bc9a62350515024f" title="Function to write the lcoal solution to the global solution." alt="" coords="316,1171,397,1197"/>
+<area shape="rect" id="node29" href="$lacam2_8cpp.html#aed13ad81fd055ef3617a3a2a61deec33" title="Function to write the local solution to the global solution." alt="" coords="316,1171,397,1197"/>
 <area shape="rect" id="node26" href="$structDeadline.html#ada95c4e41c00d006277b39fe16d205e9" title=" " alt="" coords="1207,1208,1374,1235"/>
 <area shape="rect" id="node31" href="$graph_8hpp.html#aabd9d91fb32cf70532ed3247d863122e" title=" " alt="" coords="536,512,647,539"/>
-<area shape="rect" id="node32" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title=" " alt="" coords="283,816,430,843"/>
+<area shape="rect" id="node32" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="283,816,430,843"/>
 <area shape="rect" id="node33" href="$structPlanner.html#af9b36da56775f1fd5aeeb7395f206cf1" title=" " alt="" coords="480,867,703,893"/>
-<area shape="rect" id="node34" href="$structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title=" " alt="" coords="751,904,924,931"/>
-<area shape="rect" id="node35" href="$structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title=" " alt="" coords="1211,328,1370,355"/>
-<area shape="rect" id="node36" href="$structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title=" " alt="" coords="501,664,681,691"/>
+<area shape="rect" id="node34" href="$structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b" title="Compute the &#39;edge cost&#39; aka the difference in # of agents at their goal position." alt="" coords="751,904,924,931"/>
+<area shape="rect" id="node35" href="$structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c" title="Computes the heuristic." alt="" coords="1211,328,1370,355"/>
+<area shape="rect" id="node36" href="$structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="501,664,681,691"/>
 <area shape="rect" id="node43" href="$utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title="Checks if the given deadline has expired." alt="" coords="793,1171,882,1197"/>
 <area shape="rect" id="node44" href="$classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the problem is factorizable at a given timestep." alt="" coords="501,715,681,741"/>
 <area shape="rect" id="node46" href="$classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb" title="Allows factorization according to definition." alt="" coords="487,917,695,944"/>
-<area shape="rect" id="node47" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title=" " alt="" coords="529,1019,654,1045"/>
+<area shape="rect" id="node47" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="529,1019,654,1045"/>
 <area shape="rect" id="node48" href="$structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="762,1044,913,1071"/>
-<area shape="rect" id="node49" href="$planner_8cpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes the solution matrix." alt="" coords="548,968,635,995"/>
-<area shape="rect" id="node37" href="$structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title=" " alt="" coords="769,480,905,507"/>
+<area shape="rect" id="node49" href="$planner_8cpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes a matrix." alt="" coords="548,968,635,995"/>
+<area shape="rect" id="node37" href="$structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="769,480,905,507"/>
 <area shape="rect" id="node38" href="$utils_8hpp.html#aca56ac2b051497916b0362b3ae92f9b6" title="Generates a random floats within the given range." alt="" coords="991,612,1127,639"/>
-<area shape="rect" id="node39" href="$structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title=" " alt="" coords="972,481,1147,522"/>
-<area shape="rect" id="node42" href="$structPlanner.html#a09cfd2c89775990497002a8b054f4694" title=" " alt="" coords="972,546,1147,587"/>
-<area shape="rect" id="node40" href="$structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title=" " alt="" coords="1195,488,1387,515"/>
-<area shape="rect" id="node41" href="$structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title=" " alt="" coords="1195,539,1387,565"/>
+<area shape="rect" id="node39" href="$structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="972,481,1147,522"/>
+<area shape="rect" id="node42" href="$structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="972,546,1147,587"/>
+<area shape="rect" id="node40" href="$structPlanner.html#aaf828472e9944a04858f55d1b84830f5" title="Simulate whether the swap is possible." alt="" coords="1195,488,1387,515"/>
+<area shape="rect" id="node41" href="$structPlanner.html#a10abbb6c2a56e757152b838c0bcf5cf2" title="Simulate whether the swap is required." alt="" coords="1195,539,1387,565"/>
 <area shape="rect" id="node45" href="$classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="768,715,907,741"/>
 </map>

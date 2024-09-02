@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['g_36',['G',['../structInstance.html#a841d74a6c32b090cd8f7f77acc254db8',1,'Instance']]],
-  ['g_37',['g',['../structHNode.html#a2fcb220d83ad9ab2288349bcaa93c30c',1,'HNode']]],
+  ['g_36',['g',['../structHNode.html#a2fcb220d83ad9ab2288349bcaa93c30c',1,'HNode']]],
+  ['g_37',['G',['../structInstance.html#a841d74a6c32b090cd8f7f77acc254db8',1,'Instance']]],
   ['get_38',['get',['../structDistTable.html#a69e35fd62a42d3230a3b1afd513f7319',1,'DistTable::get(uint i, uint v_id, int true_id=-1)'],['../structDistTable.html#a8a40b3c5ccf9acb7f92ff23cac19faeb',1,'DistTable::get(uint i, std::shared_ptr&lt; Vertex &gt; v, int true_id=-1)']]],
   ['get_5fedge_5fcost_39',['get_edge_cost',['../structPlanner.html#a2f9686dc55f4deab11cc1a43220b1b3b',1,'Planner::get_edge_cost(const Config &amp;C1, const Config &amp;C2)'],['../structPlanner.html#a6dd9d2e1d190687c52181060d8077fe4',1,'Planner::get_edge_cost(HNode *H_from, HNode *H_to)']]],
   ['get_5fh_5fvalue_40',['get_h_value',['../structPlanner.html#a35515b67b9f715d1cb8396ebfa791a6c',1,'Planner']]],

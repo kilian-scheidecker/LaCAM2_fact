@@ -95,8 +95,10 @@ float get_random_float(std::mt19937* MT, float from = 0, float to = 1);
 /// Generates a random integer within the given range.
 int get_random_int(std::mt19937* MT, int from = 0, int to = 1);
 
-
-struct Infos {    // store information
+/**
+ * @brief Structure to strore different intersting metrics throughout the code.
+ */
+struct Infos {
     int loop_count;
     int PIBT_calls;
     int PIBT_calls_active;
