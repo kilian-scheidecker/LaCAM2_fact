@@ -33,7 +33,7 @@
  * 
  * @return Solution The solution as a sequence of configurations.
  */
-Solution solve(const Instance& ins, 
+Solution lacam2(const Instance& ins, 
                std::string& additional_info,
                const int verbose = 0, 
                const Deadline* deadline = nullptr,
@@ -59,7 +59,7 @@ Solution solve(const Instance& ins,
  * 
  * @return Solution The solution as a sequence of configurations.
  */
-Solution solve_fact(const Instance& ins, 
+Solution lacam2_fact(const Instance& ins, 
                     std::string& additional_info, 
                     PartitionsMap& partitions_per_timestep, 
                     FactAlgo& factalgo, 
@@ -88,7 +88,7 @@ Solution solve_fact(const Instance& ins,
  * 
  * @return Solution The solution as a sequence of configurations.
  */
-Solution solve_fact_MT(const Instance& ins, 
+Solution lacam2_fact_MT(const Instance& ins, 
                        std::string& additional_info, 
                        PartitionsMap& partitions_per_timestep,
                        FactAlgo& factalgo, 

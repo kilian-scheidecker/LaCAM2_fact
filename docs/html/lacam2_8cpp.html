@@ -73,7 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Implementation of the solve, solve_fact and solve_fact_MT functions.  
+<p>Implementation of the solve, solve_fact and lacam2_fact_MT functions.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="lacam2_8hpp_source.html">../include/lacam2.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -81,7 +81,7 @@ Include dependency graph for lacam2.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="lacam2_8cpp__incl.png" border="0" usemap="#alacam2_2src_2lacam2_8cpp" alt=""/></div>
 <map name="alacam2_2src_2lacam2_8cpp" id="alacam2_2src_2lacam2_8cpp">
-<area shape="rect" title="Implementation of the solve, solve_fact and solve_fact_MT functions." alt="" coords="615,5,787,32"/>
+<area shape="rect" title="Implementation of the solve, solve_fact and lacam2_fact_MT functions." alt="" coords="615,5,787,32"/>
 <area shape="rect" href="lacam2_8hpp.html" title="Definition of the three main solving methods: standard, factorized and factorized with multi&#45;threadin..." alt="" coords="621,80,782,107"/>
 <area shape="rect" title=" " alt="" coords="5,155,69,181"/>
 <area shape="rect" title=" " alt="" coords="93,155,171,181"/>
@@ -130,7 +130,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a4928456bba588f2e8332d05c5041dedf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lacam2_8cpp.html#a4928456bba588f2e8332d05c5041dedf">solve_fact</a> (const <a class="el" href="structInstance.html">Instance</a> &amp;ins, std::string &amp;additional_info, <a class="el" href="factorizer_8hpp.html#a6b0b91f4cdb2a8e36445e255d5678593">PartitionsMap</a> &amp;partitions_per_timestep, <a class="el" href="classFactAlgo.html">FactAlgo</a> &amp;factalgo, bool save_partitions, const int verbose, const <a class="el" href="structDeadline.html">Deadline</a> *deadline, std::mt19937 *MT, const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a> objective, const float restart_rate, <a class="el" href="structInfos.html">Infos</a> *infos_ptr)</td></tr>
 <tr class="memdesc:a4928456bba588f2e8332d05c5041dedf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function for solving the MAPF instance using factorized approach without multi-threading.  <a href="lacam2_8cpp.html#a4928456bba588f2e8332d05c5041dedf">More...</a><br /></td></tr>
 <tr class="separator:a4928456bba588f2e8332d05c5041dedf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d6fe7b31159634f123695521b8e4cc8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lacam2_8cpp.html#a9d6fe7b31159634f123695521b8e4cc8">solve_fact_MT</a> (const <a class="el" href="structInstance.html">Instance</a> &amp;ins, std::string &amp;additional_info, <a class="el" href="factorizer_8hpp.html#a6b0b91f4cdb2a8e36445e255d5678593">PartitionsMap</a> &amp;partitions_per_timestep, <a class="el" href="classFactAlgo.html">FactAlgo</a> &amp;factalgo, bool save_partitions, const int verbose, const <a class="el" href="structDeadline.html">Deadline</a> *deadline, std::mt19937 *MT, const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a> objective, const float restart_rate, <a class="el" href="structInfos.html">Infos</a> *infos_ptr)</td></tr>
+<tr class="memitem:a9d6fe7b31159634f123695521b8e4cc8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lacam2_8cpp.html#a9d6fe7b31159634f123695521b8e4cc8">lacam2_fact_MT</a> (const <a class="el" href="structInstance.html">Instance</a> &amp;ins, std::string &amp;additional_info, <a class="el" href="factorizer_8hpp.html#a6b0b91f4cdb2a8e36445e255d5678593">PartitionsMap</a> &amp;partitions_per_timestep, <a class="el" href="classFactAlgo.html">FactAlgo</a> &amp;factalgo, bool save_partitions, const int verbose, const <a class="el" href="structDeadline.html">Deadline</a> *deadline, std::mt19937 *MT, const <a class="el" href="planner_8hpp.html#affff5f405069a39239a7719a81670c6b">Objective</a> objective, const float restart_rate, <a class="el" href="structInfos.html">Infos</a> *infos_ptr)</td></tr>
 <tr class="memdesc:a9d6fe7b31159634f123695521b8e4cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function for solving the MAPF instance using factorized approach with multi-threading.  <a href="lacam2_8cpp.html#a9d6fe7b31159634f123695521b8e4cc8">More...</a><br /></td></tr>
 <tr class="separator:a9d6fe7b31159634f123695521b8e4cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed13ad81fd055ef3617a3a2a61deec33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lacam2_8cpp.html#aed13ad81fd055ef3617a3a2a61deec33">write_sol</a> (const <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;solution, const std::vector&lt; int &gt; &amp;enabled, <a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> &amp;global_solution, int N)</td></tr>
@@ -138,7 +138,7 @@ Functions</h2></td></tr>
 <tr class="separator:aed13ad81fd055ef3617a3a2a61deec33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implementation of the solve, solve_fact and solve_fact_MT functions. </p>
+<div class="textblock"><p>Implementation of the solve, solve_fact and lacam2_fact_MT functions. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a52d8f0bbf88d7407bf7846e350f074fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a52d8f0bbf88d7407bf7846e350f074fd">&#9670;&nbsp;</a></span>solve()</h2>
@@ -367,13 +367,13 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <a id="a9d6fe7b31159634f123695521b8e4cc8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d6fe7b31159634f123695521b8e4cc8">&#9670;&nbsp;</a></span>solve_fact_MT()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d6fe7b31159634f123695521b8e4cc8">&#9670;&nbsp;</a></span>lacam2_fact_MT()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> solve_fact_MT </td>
+          <td class="memname"><a class="el" href="instance_8hpp.html#adf707c115c81383fa47f3fad90047c45">Solution</a> lacam2_fact_MT </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structInstance.html">Instance</a> &amp;&#160;</td>
           <td class="paramname"><em>ins</em>, </td>

@@ -1,4 +1,4 @@
-<map id="solve_fact_MT" name="solve_fact_MT">
+<map id="lacam2_fact_MT" name="lacam2_fact_MT">
 <area shape="rect" id="node1" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="5,765,121,792"/>
 <area shape="rect" id="node2" href="$structDistTable.html#a27b32217ef8d5d7182282117eb9fa8e1" title="Initialize the DistTable once." alt="" coords="172,5,313,32"/>
 <area shape="rect" id="node3" href="$utils_8hpp.html#ae11a00a48e9734c067db837ee9ddf692" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="893,157,993,184"/>
