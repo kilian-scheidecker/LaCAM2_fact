@@ -11,7 +11,7 @@
 /**
  * @brief Main function for solving the MAPF instance using standard LaCAM.
  */
-Solution lacam2(const Instance& ins, std::string& additional_info,
+Solution solve(const Instance& ins, std::string& additional_info,
                const int verbose, const Deadline* deadline, std::mt19937* MT,
                const Objective objective, const float restart_rate,
                Infos* infos_ptr)
@@ -26,14 +26,14 @@ Solution lacam2(const Instance& ins, std::string& additional_info,
     auto planner = Planner(ins, deadline, MT, verbose, objective, restart_rate);
     END_BLOCK();
 
-    return planner.solve(additional_info, infos_ptr);
+    return planner.lacam2(additional_info, infos_ptr);
 }
 
 
 /**
  * @brief Main function for solving the MAPF instance using factorized approach without multi-threading.
  */
-Solution lacam2_fact(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo, bool save_partitions,
+Solution solve_fact(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo, bool save_partitions,
                const int verbose, const Deadline* deadline, std::mt19937* MT, 
                const Objective objective, const float restart_rate, 
                Infos* infos_ptr)
@@ -65,7 +65,7 @@ Solution lacam2_fact(const Instance& ins, std::string& additional_info, Partitio
         END_BLOCK();
         
         PROFILE_BLOCK("Solving");
-        Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep, save_partitions);
+        Bundle bundle = planner.lacam2_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep, save_partitions);
         END_BLOCK();
         
         PROFILE_BLOCK("Push sub-instances");
@@ -92,7 +92,7 @@ Solution lacam2_fact(const Instance& ins, std::string& additional_info, Partitio
 /**
  * @brief Main function for solving the MAPF instance using factorized approach with multi-threading.
  */
-Solution lacam2_fact_MT(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo, bool save_partitions,
+Solution solve_fact_MT(const Instance& ins, std::string& additional_info, PartitionsMap& partitions_per_timestep, FactAlgo& factalgo, bool save_partitions,
                        const int verbose, const Deadline* deadline, std::mt19937* MT,
                        const Objective objective, const float restart_rate,
                        Infos* infos_ptr)
@@ -162,7 +162,7 @@ Solution lacam2_fact_MT(const Instance& ins, std::string& additional_info, Parti
                 END_BLOCK();
 
                 PROFILE_BLOCK("Solving");
-                Bundle bundle = planner.solve_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep, save_partitions);
+                Bundle bundle = planner.lacam2_fact(additional_info, infos_ptr, factalgo, partitions_per_timestep, save_partitions);
                 END_BLOCK();
                 PROFILE_BLOCK("Push sub-instances");
                 {

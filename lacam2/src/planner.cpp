@@ -159,7 +159,7 @@ Planner::~Planner() {}
  * @brief Standard solver of LaCAM2.
  * @return The solution to the MAPF problem.
  */
-Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
+Solution Planner::lacam2(std::string& additional_info, Infos* infos_ptr)
 {
     PROFILE_FUNC(profiler::colors::Orange500);
     PROFILE_BLOCK("Initialization");
@@ -298,7 +298,7 @@ Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
  * @brief Factorized version of LaCAM2. The solving is the same as in standard LaCAM but checks for factorizability among agents.
  * @return A bundle containing the sub-instances in case of factorization and the local solution (from start to split).
  */
-Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions)
+Bundle Planner::lacam2_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions)
 {
     PROFILE_FUNC(profiler::colors::Green);
     PROFILE_BLOCK("Initialization");
