@@ -108,10 +108,12 @@ def compute_averages(data: pd.DataFrame) :
 
 def compute_success(data: pd.DataFrame) :
 
-    data = data[['Number of agents', 'Map name', 'Factorized', 'Multi threading', 'Success']]
-    data2 = data.groupby(['Number of agents', 'Map name', 'Factorized', 'Multi threading']).sum().reset_index()
+    data_standard = data[['Number of agents', 'Map name', 'Factorized', 'Multi threading', 'Success']].drop(data[data['Multi threading'] == True].index)
+    data_MT = data[['Number of agents', 'Map name', 'Factorized', 'Multi threading', 'Success']].drop(data[data['Multi threading'] == False].index)
+    success = data_standard.groupby(['Number of agents', 'Map name', 'Factorized']).sum().reset_index()
+    success_MT = data_MT.groupby(['Number of agents', 'Map name', 'Factorized']).sum().reset_index()
 
-    return data2
+    return success, success_MT
 
 def get_data(map_name: str, read_from: str=None):
 
@@ -137,15 +139,15 @@ def get_data(map_name: str, read_from: str=None):
     n_tests = n_tot/n_algos
 
     # Drop entries where there is no solution
-    # data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
+    data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
     
     # Compute averages and successes
-    # data_avg = compute_averages(data_clipped)
-    data_avg = compute_averages(data_full)
-    data_success = compute_success(data_full)
+    data_avg = compute_averages(data_clipped)
+    # data_avg = compute_averages(data_full)
+    data_success, data_success_MT = compute_success(data_full)
 
     #data_avg.insert(loc=2, column='Number of successes', value=data_success['Success'])
 
     # print(n_tests)
 
-    return data_avg, data_success, n_tests
+    return data_avg, data_success, data_success_MT, n_tests

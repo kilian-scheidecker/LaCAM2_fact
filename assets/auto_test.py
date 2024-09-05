@@ -42,7 +42,7 @@ def auto_test() :
     success = 0
     total = 0
 
-    n_agents = [100, 200, 300, 400, 500]
+    # n_agents = [100, 200, 300, 400, 500]
 
     for map_name in maps :
         for N in n_agents :
