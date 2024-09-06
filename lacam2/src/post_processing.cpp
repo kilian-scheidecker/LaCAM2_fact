@@ -274,7 +274,7 @@ void make_stats(const std::string file_name, const std::string factorize, const 
         {"Success", success},
         {"Computation time (ms)", comp_time_ms},
         {"Makespan", get_makespan(solution)},
-        {"Factorized", factorize},
+        {"Algorithm", factorize},
         {"Multi threading", multi_threading},
         {"Loop count", infos.loop_count},
         {"PIBT calls", infos.PIBT_calls},

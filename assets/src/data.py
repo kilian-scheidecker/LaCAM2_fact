@@ -1,98 +1,15 @@
+import json, subprocess
 import pandas as pd
-from os.path import dirname as up
+from os.path import join, dirname as up
 
-# Append line to file
-"""def line_appender(filename, line):
-    with open(filename, 'a') as f:
-        f.write(line + '\n')"""
-
-"""def line_appender(filename, line):
-    with open(filename, 'rb+') as f:
-        lines = f.readlines()
-        if lines and lines[-2].strip() == '},'.encode('UTF-8'):
-            f.seek(-3, 2)
-            f.truncate()
-            f.seek(0, 2)
-            f.write('\n'.encode('UTF-8') + line.encode('UTF-8'))
-        elif lines and lines[-1].strip() == '},'.encode('UTF-8'):
-            f.seek(-3, 2)
-            f.truncate()
-            f.seek(0, 2)
-            f.write('\n'.encode('UTF-8') + line.encode('UTF-8'))
-
-
-# Prepend line to file
-def line_prepender(filename, line):
-    with open(filename, 'r+') as f:
-        content = f.read()
-        f.seek(0, 0)
-        if content.strip() and content.strip()[0] == '[':
-            # First character is already a bracket, don't prepend the line
-            pass
-        else:
-            f.write(line.rstrip('\r\n') + '\n' + content)
-
-# Removes the last bracket at the end of the test such that the file can be used again later
-def remove_last_bracket(filename):
-    with open(filename, 'rb+') as f:
-        lines = f.readlines()
-        if lines and lines[-2].strip() == ']'.encode('UTF-8'):
-            f.seek(-3, 2) 
-            f.truncate()
-            f.seek(0, 2)
-            f.write(',\n'.encode('UTF-8'))
-        elif lines and lines[-1].strip() == ']'.encode('UTF-8'):
-            f.seek(-4, 2)
-            f.truncate()
-            f.seek(0, 2)
-            f.write('},\n'.encode('UTF-8'))
-
-
-# Reshape the stats_json.txt in json
-def stats_txt_to_json(filename) :
-
-    line_prepender(filename, '[')
-    line_appender(filename, ']')
-
-    data = pd.read_json(filename)
-
-    # Remove last bracket from 'stats_json.txt' to be able to add data back
-    remove_last_bracket(filename)
-
-    return data
-
-
-def stats_to_json(filename) :
-
-    base_path = up(up(up(__file__)))            # ../LaCAM2_fact
-
-    with open(base_path + '/' + filename, 'r') as file:
-        original_data = file.read()
-        
-    if original_data.strip().endswith(','):
-        data = original_data.strip()[:-1] + '\n]'
-
-    if original_data.strip().endswith('}'):
-        data = original_data + '\n]'
-    
-    if not original_data.strip().startswith('[') :
-        data = '[\n' + data
-
-    with open(base_path + '/stats.json', 'w+') as file:
-        file.write(data)
-    
-    data = pd.read_json(base_path + '/stats.json')
-
-    return data
-"""
 
 def compute_averages(data: pd.DataFrame) :
 
     # Average all tests
-    data = data[['Number of agents', 'Factorized', 'Multi threading', 'Sum of loss', 'Sum of costs', 'CPU usage (percent)', 'Maximum RAM usage (Mbytes)', 'Average RAM usage (Mbytes)', 'Computation time (ms)', 'Makespan']]
-    data2 = data.groupby(['Number of agents', 'Factorized', 'Multi threading']).mean().reset_index()
-    data_std = data.groupby(['Number of agents', 'Factorized', 'Multi threading']).var().pow(1./2).reset_index()
-    #print(data_std[['Number of agents', 'Factorized', 'Computation time (ms)']])
+    data = data[['Number of agents', 'Algorithm', 'Multi threading', 'Sum of loss', 'Sum of costs', 'CPU usage (percent)', 'Maximum RAM usage (Mbytes)', 'Average RAM usage (Mbytes)', 'Computation time (ms)', 'Makespan']]
+    data2 = data.groupby(['Number of agents', 'Algorithm', 'Multi threading']).mean().reset_index()
+    data_std = data.groupby(['Number of agents', 'Algorithm', 'Multi threading']).var().pow(1./2).reset_index()
+    #print(data_std[['Number of agents', 'Algorithm', 'Computation time (ms)']])
     # Normalize by the number of agents for PIBT calls and action counts and costs/losses
     costs_average = data[['Sum of loss', 'Sum of costs']].div(data['Number of agents'], axis = 0)
 
@@ -108,19 +25,36 @@ def compute_averages(data: pd.DataFrame) :
 
 def compute_success(data: pd.DataFrame) :
 
-    data_standard = data[['Number of agents', 'Map name', 'Factorized', 'Multi threading', 'Success']].drop(data[data['Multi threading'] == True].index)
-    data_MT = data[['Number of agents', 'Map name', 'Factorized', 'Multi threading', 'Success']].drop(data[data['Multi threading'] == False].index)
-    success = data_standard.groupby(['Number of agents', 'Map name', 'Factorized']).sum().reset_index()
-    success_MT = data_MT.groupby(['Number of agents', 'Map name', 'Factorized']).sum().reset_index()
+    data_standard = data[['Number of agents', 'Map name', 'Algorithm', 'Multi threading', 'Success']].drop(data[data['Multi threading'] == True].index)
+    data_MT = data[['Number of agents', 'Map name', 'Algorithm', 'Multi threading', 'Success']].drop(data[data['Multi threading'] == False].index)
+    success = data_standard.groupby(['Number of agents', 'Map name', 'Algorithm']).sum().reset_index()
+    success_MT = data_MT.groupby(['Number of agents', 'Map name', 'Algorithm']).sum().reset_index()
 
     return success, success_MT
+
+
+def compute_success_rate(df):
+    # Group by both 'Algorithm' and 'Multi threading' columns
+    success_data = df.groupby(['Algorithm', 'Multi threading']).agg(
+        total_tests=('Success', 'size'),
+        success_count=('Success', 'sum')
+    ).reset_index()
+
+    # Calculate success rate percentage
+    success_data['Success rate'] = round((success_data['success_count'] / success_data['total_tests'])*100, 1)
+
+    # Format the success rate column as a percentage string
+    success_data['Success rate str'] = success_data['Success rate'].apply(lambda x: f"{x:.1f}%")
+
+    # print(success_data)
+
+    return success_data, success_data['total_tests'].iloc[0]
 
 def get_data(map_name: str, read_from: str=None):
 
     # Base path of repo
     base_path = up(up(up(__file__)))            # ../LaCAM2_fact
 
-    
     if read_from is None : 
         data = pd.read_json(base_path + '/stats.json')       # Read from previously formatted file 'stats.json'.
     else :
@@ -129,25 +63,77 @@ def get_data(map_name: str, read_from: str=None):
     # Get readings from particular map
     data_full = data[data['Map name'] == map_name]
     
-    # Further filter for better visualization
-    # data_full = data_full.drop(data_full[data_full['Factorized'] == 'FactOrient'].index)        # drop FactOrient
-    # data_full = data_full.drop(data_full[data_full['Number of agents'] >= 200].index)  
-    
-    # Get the total number of tests
-    n_tot = len(data)
-    n_algos = len(data['Factorized'].value_counts())
-    n_tests = n_tot/n_algos
-
     # Drop entries where there is no solution
     data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
-    
+
     # Compute averages and successes
     data_avg = compute_averages(data_clipped)
-    # data_avg = compute_averages(data_full)
-    data_success, data_success_MT = compute_success(data_full)
+    data_success, data_success_MT = compute_success(data_clipped)
 
-    #data_avg.insert(loc=2, column='Number of successes', value=data_success['Success'])
+    # Get the success rate for each algo
+    success_rate, total_tests = compute_success_rate(data_full)
 
-    # print(n_tests)
+    return data_avg, data_success, data_success_MT, success_rate, total_tests
 
-    return data_avg, data_success, data_success_MT, n_tests
+
+
+
+def get_hardware_info():
+    # Retrieve CPU information
+    try:
+        cpu_info = subprocess.check_output("lscpu", shell=True).decode().splitlines()
+        cpu_model = [line.split(":")[1].strip() for line in cpu_info if "Model name" in line][0]
+        cpu_cores = [line.split(":")[1].strip() for line in cpu_info if "CPU(s):" in line][0]
+    except Exception as e:
+        cpu_model, cpu_cores = f"Error retrieving CPU info: {e}", ""
+    
+    # Retrieve RAM information
+    try:
+        mem_info = subprocess.check_output("free -h", shell=True).decode().splitlines()
+        ram_size = mem_info[1].split()[1]
+        ram_size = ram_size[:-1] + 'b'
+    except Exception as e:
+        ram_size = f"Error retrieving RAM info: {e}"
+    
+    # Retrieve OS information
+    try:
+        os_info = subprocess.check_output("uname -o && uname -r", shell=True).decode().splitlines()
+        os_name = os_info[0]
+        os_version = os_info[1]
+    except Exception as e:
+        os_name, os_version = f"Error retrieving OS info: {e}", ""
+    
+    if 'WSL' in os_info[1]: 
+        cpu_cores = str(int(int(cpu_cores)/2))
+
+    hardware_info = {
+        "CPU Model": cpu_model,
+        "CPU cores": cpu_cores,
+        "RAM Size": ram_size,
+        "OS name": os_name,
+        "OS version": os_version,
+    }
+
+    return hardware_info
+
+
+
+def get_additionnal_info() :
+
+    assets_path = up(up(__file__))            # ../LaCAM2_fact/assets/
+
+    # Get data from test parameters
+    with open(join(assets_path, 'test_params.json'), 'r') as file:
+        data = json.load(file)
+
+        from_ = data.get("from")
+        to_ = data.get("to")
+        factorize = data.get("factorize")
+
+    additionnal_data = get_hardware_info()
+
+    additionnal_data['Agent range'] = (from_, to_)
+    additionnal_data['Algorithms'] = factorize
+
+    return additionnal_data
+    
