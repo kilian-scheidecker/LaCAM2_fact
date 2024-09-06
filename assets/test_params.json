@@ -1,11 +1,11 @@
 {
-  "from": 50,
-  "to": 200,
-  "jump": 50,
+  "from": 10,
+  "to": 380,
+  "jump": 10,
   "n": 30,
   "map_name": ["warehouse_small"],
   "factorize": ["FactDistance", "FactBbox", "FactOrient", "FactAstar", "FactDef", "standard"],
   "use_heuristic": "FactAstar",
-  "multi_threading": ["yes"]
+  "multi_threading": ["no", "yes"]
 }
 
