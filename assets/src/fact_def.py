@@ -5,6 +5,15 @@ from typing import Iterable, List, Tuple, Dict
 from src.utils import run_command_in_ubuntu, parse_file
 
 class Instance:
+    """
+    Represents an instance of a task with start positions, goal positions, enabled agents, and start time.
+
+    Attributes:
+        starts (List[Tuple[int, int]]): A list of tuples representing the starting positions of agents.
+        goals (List[Tuple[int, int]]):  A list of tuples representing the goal positions of agents.
+        enabled (List[int]):            A list of integers representing the indices of agents that are enabled for the task.
+        time_start (int):               The start time for the instance.
+    """
     def __init__(self, starts: List[Tuple[int, int]], goals: List[Tuple[int, int]], enabled: List[int], time_start: int):
         self.starts = starts
         self.goals = goals
@@ -13,6 +22,17 @@ class Instance:
         
 
 def get_partitions(iterable: Iterable) -> List[List[List[int]]]:
+    """
+    Generate all possible partitions of an iterable into non-empty subsets.
+
+    Args:
+        iterable (Iterable): An iterable (e.g., list or set) to be partitioned.
+
+    Returns:
+        List[List[List[int]]]: A list of partitions, where each partition is represented as a list of subsets.
+    
+    Note : The partitions are sorted in decreasing order of the number of subsets.
+    """
     def partitions(s):
         if not s:
             return [[]]
@@ -31,11 +51,21 @@ def get_partitions(iterable: Iterable) -> List[List[List[int]]]:
     s = list(iterable)
     all_partitions = partitions(s)
     # all_partitions.remove([s])
+
     # Return the partitions in decreasing order of cardinality
     return sorted(all_partitions, key=len, reverse=True)
 
 
 def extract_width(filepath: str) -> int:
+    """
+    Extract the width value from the map file.
+
+    Args:
+        filepath (str): The path to the file containing the width information.
+
+    Returns:
+        int: The width value extracted from the file.
+    """
     with open(filepath, 'r') as file:
         for line in file:
             line = line.strip()
@@ -43,13 +73,31 @@ def extract_width(filepath: str) -> int:
                 # Split the line by space and extract the width value
                 _, width_value = line.split()
                 return int(width_value)
+    
     raise ValueError("Width not found in the file")
 
 
-
 def create_temp_scenario(enabled, starts, goals, map_name):
-    assets_path = up(up(__file__))      # LaCAM2_fact/assets
-    temp_filepath = join(assets_path, 'temp', 'temp_scenario.scen')      # LaCAM2_fact/assets/temp/temp_scenario.scen
+    """
+    Create a temporary scenario file based on provided agent information and map name.
+
+    Args:
+        enabled (List[int]):            A list indicating which agents are enabled.
+        starts (List[Tuple[int, int]]): A list of tuples representing the starting positions of the agents.
+        goals (List[Tuple[int, int]]):  A list of tuples representing the goal positions of the agents.
+        map_name (str):                 The name of the map for which the scenario file is created.
+
+    Returns: None
+
+    Raises:
+        ValueError:
+            If the provided map name is not supported.
+
+    Note : The file is written to the 'temp' directory within the 'assets' directory of the project.
+    """
+    assets_path = up(up(__file__))                                      # LaCAM2_fact/assets
+    temp_filepath = join(assets_path, 'temp', 'temp_scenario.scen')     # LaCAM2_fact/assets/temp/temp_scenario.scen
+    
     with open(temp_filepath, 'w') as new_file:
         for agent in range(len(enabled)):
             start = starts[agent]
@@ -77,12 +125,26 @@ def create_temp_scenario(enabled, starts, goals, map_name):
             else :
                 raise ValueError("Mapname is not supported")
 
-    return 
 
-def write_sol(solution, enabled, global_solution, N):
+def write_sol(local_solution, enabled, global_solution, N):
+    """
+    Write the local solution to the global solution.
 
+    Args:
+        local_solution (List[List[int]]):   A list of paths, where each sublist contains vertex indices corresponding to agent positions of the freshly solved sub-problem.
+        enabled (List[int]):                A list of indices indicating which lines in the global solution to update.
+        global_solution (List[List[int]]):  A list of paths, where each sublist contains vertex indices corresponding to agent positions of the ORIGINAL problem.
+        N (int):                            The number of agents enabled in the sub-problem.
+
+    Returns:
+        None
+
+    Notes:
+        - For each index in the range N, the function appends vertices from the solution to the corresponding line in `global_solution`.
+        - The `enabled` list determines which lines in `global_solution` are updated with the vertices from `local_solution`.
+    """
     for id in range(N):
-        sol_bit = solution[id]              # Access the solution at index id
+        sol_bit = local_solution[id]              # Access the solution at index id
         line = global_solution[enabled[id]]
 
         for v in sol_bit:
@@ -94,9 +156,9 @@ def update_local_solution(temp_solution, local_solution, enabled_agents, enabled
     Updates the local solution with the temporary solution of enabled agents.
     
     Args:
-        temp_solution (list): List of tuples representing the solution steps for enabled agents.
-        local_solution (dict): Dictionary representing the global solution steps.
-        enabled_agents (list): List of enabled agent IDs.
+        temp_solution (list):   List of tuples representing the solution steps for enabled agents.
+        local_solution (dict):  Dictionary representing the global solution steps.
+        enabled_agents (list):  List of enabled agent IDs.
     """
     N = len(enabled_ins)
 
@@ -110,15 +172,14 @@ def update_local_solution(temp_solution, local_solution, enabled_agents, enabled
             local_solution[step][id_loc] = positions[i]
 
 
-
 def pad_local_solution(local_solution, n, goals):
     """
     Pads the local solution for agents that have reached their goals.
     
     Args:
-        local_solution (dict): Dictionary representing the global solution steps.
-        enabled_agents (list): List of enabled agent IDs.
-        goals (list): List of goal positions for all agents.
+        local_solution (dict):  Dictionary representing the global solution steps.
+        enabled_agents (list):  List of enabled agent IDs.
+        goals (list):           List of goal positions for all agents.
     """
     for step, positions in local_solution.items():
         if step != 0 :
@@ -134,9 +195,9 @@ def is_neighbor(pos1, pos2, width):
     Check if pos1 and pos2 are neighbors in a grid of given width.
     
     Args:
-        pos1 (tuple): Position (x, y) of the first point.
-        pos2 (tuple): Position (x, y) of the second point.
-        width (int): Width of the grid.
+        pos1 (tuple):   Position (x, y) of the first point.
+        pos2 (tuple):   Position (x, y) of the second point.
+        width (int):    Width of the grid.
     
     Returns:
         bool: True if the positions are neighbors, False otherwise.
@@ -148,18 +209,16 @@ def is_neighbor(pos1, pos2, width):
     return False
 
 
-
-
 def is_valid_solution(local_solution, start, goal, width):
     """
     Validates the solution by checking for vertex collisions, edge collisions,
     correct start and goals, and connectivity.
     
     Args:
-        local_solution (dict): Dictionary representing the global solution steps.
-        starts (list): List of start positions for all agents.
-        goals (list): List of goal positions for all agents.
-        width (int): Width of the grid.
+        local_solution (dict):  Dictionary representing the global solution steps.
+        starts (list):          List of start positions for all agents.
+        goals (list):           List of goal positions for all agents.
+        width (int):            Width of the grid.
     
     Returns:
         bool: True if the solution is valid, False otherwise.
@@ -208,7 +267,6 @@ def clean_partition_dict(partition_dict):
     Returns:
         dict: Cleaned dictionary with only the entries where partitions change.
     """
-
     cleaned_dict = {}
     prev_partition = None
 
@@ -221,7 +279,25 @@ def clean_partition_dict(partition_dict):
 
 
 def max_fact_partitions(map_name, N):
+    """
+    Compute the maximum factorization for a given map and number of agents, and store partitions at each timestep.
+    Basically the python version of LaCAM2.
 
+    Args:
+        map_name (str): The name of the map for which the factorization is to be computed.
+        N (int):        The number of agents involved in the factorization.
+
+    Returns: None
+
+    Notes:
+        - The function first sets up necessary directories and extracts map width.
+        - It launches an external process to solve the MAPF problem and parses the result.
+        - It creates initial instances and manages an open list of instances to solve.
+        - For each instance, it generates all possible partitions and solves the problem for each partition.
+        - Valid solutions are added to the global solution, and partitions per timestep are recorded.
+        - Sub-instances are created for further processing and added to the open list.
+        - The results, including partitions per timestep, are saved to a JSON file.
+    """
     # Setup directories 
     base_path = up(up(up(__file__)))     # LaCAM2_fact/
     res_path = join(base_path, 'build', 'result.txt')
@@ -230,7 +306,7 @@ def max_fact_partitions(map_name, N):
 
     # Launch lacam a first time and parse result
     start_comm = "build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no -sp no"
-    # print(start_comm)
+
     run_command_in_ubuntu(start_comm)
     result = parse_file(res_path)
 
@@ -330,7 +406,15 @@ def max_fact_partitions(map_name, N):
 
 
 def smallest_partitions(N):
+    """
+    Generate and save the smallest possible partitions for a given number of agents.
+    Example: {{0}, {1}, {2}, {3}} for N = 3=4 agents.
 
+    Args:
+        N (int): The number of agents for which the partitions are to be generated.
+
+    Returns: None
+    """
     assets_path = up(up(__file__))     # LaCAM2_fact/assets/
 
     partitions_per_timestep = {}
@@ -346,9 +430,16 @@ def smallest_partitions(N):
             json.dump(partitions_per_timestep, file, indent=4)
 
 
-
 def half_smallest_partitions(N):
+    """
+    Generate and save the smallest possible partitions for a given number of agents by grouping agents in pairs.
+    Example: {{0, 1}, {2, 3}} for N = 3=4 agents.
 
+    Args:
+        N (int): The number of agents for which the partitions are to be generated.
+
+    Returns: None
+    """
     assets_path = up(up(__file__))     # LaCAM2_fact/assets/
 
     partitions_per_timestep = {}

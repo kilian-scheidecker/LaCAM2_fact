@@ -4,8 +4,22 @@ from os.path import join, dirname as up
 import pandas as pd
 
 
-def queue_graphs() :
-    
+def queue_graphs() -> tuple:
+    """
+    Generate and return a series of graphs based on partition data.
+
+    Returns:
+        tuple: A tuple containing four Plotly figures:
+                - `fig1`: A bar chart showing the queue size over time.
+                - `fig2`: A bar chart showing the dynamic queue size with adjustments.
+                - `fig3`: A histogram of queue size frequencies.
+                - `fig4`: A histogram of sub-instance size frequencies.
+
+    Notes:
+        - The function reads partition data from a JSON file and processes it to extract relevant metrics.
+        - It creates time series bar charts to visualize queue sizes and dynamic queue sizes over time.
+        - It also generates histograms to show the distribution of queue sizes and sub-instance sizes.
+    """
     # Load the data from the JSON file
     assets_path = up(up(__file__))     # LaCAM2_fact/assets/
     with open(join(assets_path,'temp/temp_partitions.json'), 'r') as f:
@@ -30,8 +44,6 @@ def queue_graphs() :
     full_timesteps = list(range(min_timestep, max_timestep + 1))
     full_queue_sizes = [None]*(max_timestep+1)
 
-    
-
     for t in full_timesteps :
         if t in queue_sizes.keys():
             full_queue_sizes[t] = queue_sizes[t]
@@ -39,8 +51,7 @@ def queue_graphs() :
     # Create the DataFrame
     df = pd.DataFrame({
         'Timestep': full_timesteps,
-        'Queue Size': full_queue_sizes
-    })
+        'Queue Size': full_queue_sizes})
 
     # Graph 1: Time Series Bar Chart of Queue Size
     fig1 = px.bar(df, x='Timestep', y='Queue Size', title='Time Series Bar Chart of Queue Size')

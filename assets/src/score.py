@@ -4,10 +4,22 @@ from src.utils import parse_file
 from math import log
 
 
-
 def complexity_score():
+    """
+    Calculates a complexity score based on the partitions and makespan of a solution.
 
+    Returns:
+        float:
+            The complexity score computed as the logarithm of the ratio of the weighted score to the makespan, where weights are derived from partitions and action space.
+            Returns -1 if the problem was not solved.
 
+    Notes:
+        - The function reads the result from a file located at `build/result.txt`.
+        - It reads the partition data from `assets/temp/temp_partitions.json`.
+        - The score is calculated using the makespan, number of agents, and action space.
+        - The complexity score is computed as `log(score / makespan, N)`, where `score` accounts for the partitions and agent distribution over time.
+        - The function returns -1 if the solution was not marked as solved in the result file.
+    """
     base_path = up(up(up(__file__)))    # LaCAM2_fact/
     res_path = join(base_path, 'build', 'result.txt')
     result = parse_file(res_path)

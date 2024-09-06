@@ -4,7 +4,7 @@
   "jump": 10,
   "n": 30,
   "map_name": ["warehouse_small"],
-  "factorize": ["FactDistance", "FactBbox", "FactOrient", "FactAstar", "FactDef", "standard"],
+  "algorithms": ["FactDistance", "FactBbox", "FactOrient", "FactAstar", "FactDef", "standard"],
   "use_heuristic": "FactAstar",
   "multi_threading": ["no", "yes"]
 }

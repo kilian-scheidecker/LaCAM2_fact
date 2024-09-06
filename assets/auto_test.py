@@ -11,7 +11,16 @@ from src.scenario_generator import create_scen
 
 # Main function that creates random tests and runs them automatically
 def auto_test() :
-       
+    """
+    Automatically tests various configurations by executing commands for different maps and agent counts.
+
+    The function loads parameters from a JSON file, validates the maps, generates scenarios, 
+    creates commands, and executes them. It handles different heuristic options and records 
+    the results.
+
+    Raises:
+        ValueError: If an unsupported map is specified.
+    """
     dir_py = up(__file__)       #/lacam_fact/assets
 
     with open(join(dir_py, 'test_params.json'), 'r') as file:
@@ -23,7 +32,7 @@ def auto_test() :
         jump = data.get("jump")
         n = data.get("n")
         maps = data.get("map_name")
-        factorize = data.get("factorize")
+        factorize = data.get("algorithm")
         multi_threading = data.get("multi_threading")
         use_heuristic = data.get("use_heuristic")
 
@@ -82,5 +91,5 @@ def auto_test() :
     return
 
 
-
-auto_test()
+if __name__ == "__main__":
+    auto_test()

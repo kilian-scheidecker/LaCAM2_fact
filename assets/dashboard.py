@@ -35,6 +35,14 @@ COLUMN NAMES
 
 
 def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
+    """
+    Main function to display plots using Dash.
+
+    Args:
+        map_name (str): Name of the map.
+        read_from (str): Path to the data file.
+        theme (str): Theme for the Dash app ('dark' or 'light').
+    """
 
     app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, "https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"])
 
@@ -542,6 +550,14 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
 
 
 def main():
+    """
+    Parse command-line arguments and launch the Dash application with the specified parameters.
+
+    Command-line arguments:
+        --map_name: The name of the map to display. This argument is required.
+        --read_from: The file to read data from. This argument is optional.
+        --theme: The theme of the application, which can be 'dark' or 'light'. Defaults to 'dark'.
+    """
     parser = argparse.ArgumentParser(description='Launch the Dash application with specified parameters.')
     parser.add_argument('--map_name', type=str, required=True, help='Name of the map to display')
     parser.add_argument('--read_from', type=str, help='File to read data from')
