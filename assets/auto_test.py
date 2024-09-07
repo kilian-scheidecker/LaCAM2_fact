@@ -32,7 +32,7 @@ def auto_test() :
         jump = data.get("jump")
         n = data.get("n")
         maps = data.get("map_name")
-        factorize = data.get("algorithm")
+        algorithms = data.get("algorithms")
         multi_threading = data.get("multi_threading")
         use_heuristic = data.get("use_heuristic")
 
@@ -65,7 +65,7 @@ def auto_test() :
             
             for i in range(n) :
                 print(f"\nTesting with {N} agents in {map_name}")
-                commmands = create_command(map_name=map_name, N=N, factorize=factorize, multi_threading=multi_threading)
+                commmands = create_command(map_name=map_name, N=N, algorithms=algorithms, multi_threading=multi_threading)
                 create_scen(N, dir_py, map_name)
                 for command in commmands :
 
@@ -80,7 +80,7 @@ def auto_test() :
                         # Determine the max factorizability and store it assets/temp/def_partitions.json
                         half_smallest_partitions(N)
                     elif 'FactDef' in command :
-                        hcom = create_command(map_name=map_name, N=N, factorize=[use_heuristic], multi_threading=["no"])[0] + ' -sp -s'    # to save partitions
+                        hcom = create_command(map_name=map_name, N=N, algorithms=[use_heuristic], multi_threading=["no"])[0] + ' -sp -s'    # to save partitions
                         run_command_in_ubuntu(hcom)
 
                     success += run_command_in_ubuntu(command)

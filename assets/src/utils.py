@@ -3,7 +3,7 @@ from typing import Dict, Any
 from os.path import join, dirname as up
 
 
-def create_command(map_name: str, N: int, factorize: list, multi_threading: list):
+def create_command(map_name: str, N: int, algorithms: list, multi_threading: list):
     """
     Creates command strings for running simulations with various factorization algorithms and multi-threading options.
 
@@ -18,7 +18,7 @@ def create_command(map_name: str, N: int, factorize: list, multi_threading: list
     """
 
     commands = []
-    for factalgo in factorize :
+    for factalgo in algorithms :
         for thread in multi_threading :
             if thread == "yes":
                 if factalgo not in ["standard"] :

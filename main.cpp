@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
     const auto output_name = program.get<std::string>("output");
     const auto log_short = program.get<bool>("log_short");
     const auto N = std::stoi(program.get<std::string>("num"));
-    const auto factorize = program.get<std::string>("algorithm");
+    const auto factorize = program.get<std::string>("factorize");
     const bool multi_threading = program.get<bool>("multi_threading");
     const auto objective = static_cast<Objective>(std::stoi(program.get<std::string>("objective")));
     const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
