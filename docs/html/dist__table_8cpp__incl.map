@@ -1,9 +1,9 @@
 <map id="lacam2/src/dist_table.cpp" name="lacam2/src/dist_table.cpp">
-<area shape="rect" id="node1" title="Implementation of the DistTable class (initialization and singleton management) and especially the La..." alt="" coords="841,5,1029,32"/>
-<area shape="rect" id="node2" href="$dist__table_8hpp.html" title="Definition of DistTable with lazy evaluation, using BFS." alt="" coords="846,80,1023,107"/>
-<area shape="rect" id="node3" href="$graph_8hpp.html" title="Definition of the Graph class that represents the environment." alt="" coords="911,229,998,256"/>
-<area shape="rect" id="node4" href="$utils_8hpp.html" title="Define profiler setup and some utility functions." alt="" coords="915,304,994,331"/>
-<area shape="rect" id="node26" href="$instance_8hpp.html" title="Definition of the Instance class." alt="" coords="973,155,1078,181"/>
+<area shape="rect" id="node1" title="Implementation of the DistTable class (initialization and singleton management) and especially the La..." alt="" coords="878,5,1066,32"/>
+<area shape="rect" id="node2" href="$dist__table_8hpp.html" title="Definition of DistTable with lazy evaluation, using BFS." alt="" coords="883,80,1061,107"/>
+<area shape="rect" id="node3" href="$graph_8hpp.html" title="Definition of the Graph class that represents the environment." alt="" coords="949,229,1035,256"/>
+<area shape="rect" id="node4" href="$utils_8hpp.html" title="Define profiler setup and some utility functions." alt="" coords="953,304,1031,331"/>
+<area shape="rect" id="node27" href="$instance_8hpp.html" title="Definition of the Instance class." alt="" coords="1010,155,1115,181"/>
 <area shape="rect" id="node5" title=" " alt="" coords="5,379,61,405"/>
 <area shape="rect" id="node6" title=" " alt="" coords="85,379,152,405"/>
 <area shape="rect" id="node7" title=" " alt="" coords="176,379,243,405"/>
@@ -18,11 +18,12 @@
 <area shape="rect" id="node16" title=" " alt="" coords="1001,379,1058,405"/>
 <area shape="rect" id="node17" title=" " alt="" coords="1083,379,1141,405"/>
 <area shape="rect" id="node18" title=" " alt="" coords="1166,379,1221,405"/>
-<area shape="rect" id="node19" title=" " alt="" coords="1245,379,1369,405"/>
-<area shape="rect" id="node20" title=" " alt="" coords="1393,379,1455,405"/>
-<area shape="rect" id="node21" title=" " alt="" coords="1480,379,1523,405"/>
-<area shape="rect" id="node22" title=" " alt="" coords="1547,379,1597,405"/>
-<area shape="rect" id="node23" title=" " alt="" coords="1621,379,1707,405"/>
-<area shape="rect" id="node24" title=" " alt="" coords="1731,379,1805,405"/>
-<area shape="rect" id="node25" title=" " alt="" coords="1829,379,1976,405"/>
+<area shape="rect" id="node19" title=" " alt="" coords="1245,379,1307,405"/>
+<area shape="rect" id="node20" title=" " alt="" coords="1331,379,1455,405"/>
+<area shape="rect" id="node21" title=" " alt="" coords="1479,379,1542,405"/>
+<area shape="rect" id="node22" title=" " alt="" coords="1567,379,1609,405"/>
+<area shape="rect" id="node23" title=" " alt="" coords="1633,379,1684,405"/>
+<area shape="rect" id="node24" title=" " alt="" coords="1708,379,1793,405"/>
+<area shape="rect" id="node25" title=" " alt="" coords="1817,379,1892,405"/>
+<area shape="rect" id="node26" title=" " alt="" coords="1916,379,2063,405"/>
 </map>

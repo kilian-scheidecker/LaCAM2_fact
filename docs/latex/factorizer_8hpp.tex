@@ -40,7 +40,7 @@ class \mbox{\hyperlink{classFactDef}{Fact\+Def}}
 \doxysubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \mbox{\hyperlink{factorizer_8hpp_a8ed4cb0ddaead2f6489bb41f7ed8e091}{SAFETY\+\_\+\+DISTANCE}}~2
+\#define \mbox{\hyperlink{factorizer_8hpp_a8ed4cb0ddaead2f6489bb41f7ed8e091}{SAFETY\+\_\+\+DISTANCE}}~0
 \end{DoxyCompactItemize}
 \doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
@@ -68,7 +68,7 @@ This file defines several classes that implement different algorithms for factor
 \index{factorizer.hpp@{factorizer.hpp}!SAFETY\_DISTANCE@{SAFETY\_DISTANCE}}
 \index{SAFETY\_DISTANCE@{SAFETY\_DISTANCE}!factorizer.hpp@{factorizer.hpp}}
 \doxysubsubsection{\texorpdfstring{SAFETY\_DISTANCE}{SAFETY\_DISTANCE}}
-{\footnotesize\ttfamily \#define SAFETY\+\_\+\+DISTANCE~2}
+{\footnotesize\ttfamily \#define SAFETY\+\_\+\+DISTANCE~0}
 
 
 
@@ -106,11 +106,30 @@ Factory function to create \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} objects.
 
 
 \begin{DoxyParams}{Parameters}
-{\em type} & describes the type of factorization to use \\
+{\em type} & describes the type of factorization to use. \\
 \hline
-{\em width} & width of the graph \\
+{\em width} & width of the graph.\\
 \hline
 \end{DoxyParams}
+Factory function to create \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} objects.
+
+This function creates a unique pointer to a {\ttfamily \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}} object based on the given type. It uses a static unordered map to store lambda functions that instantiate the appropriate subclass based on the provided {\ttfamily type} string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & The string representing the type of \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} to create. Valid types are\+: \char`\"{}\+Fact\+Distance\char`\"{}, \char`\"{}\+Fact\+Bbox\char`\"{}, \char`\"{}\+Fact\+Orient\char`\"{}, \char`\"{}\+Fact\+Astar\char`\"{}, \char`\"{}\+Fact\+Def\char`\"{}. \\
+\hline
+{\em width} & The width parameter to initialize the created \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A unique pointer to the created \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} object.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & If the provided {\ttfamily type} does not match any valid \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} type. \\
+\hline
+\end{DoxyExceptions}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}

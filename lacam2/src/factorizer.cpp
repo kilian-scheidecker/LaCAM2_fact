@@ -17,6 +17,23 @@
 *                       Implementation of the FactAlgo base class                        *
 \****************************************************************************************/
 
+/**
+ * @brief Determines if the given configuration can be factorized and generates sub-instances accordingly.
+ * 
+ * This function attempts to partition agents into groups based on a heuristic that evaluates if they can be
+ * factorized together. It merges partitions if they meet the heuristic criteria, and if a single partition 
+ * containing all agents is found, it returns an empty list. Otherwise, it splits the configuration into multiple 
+ * sub-instances based on the partitions and returns the list of these sub-instances.
+ * 
+ * @param C The configuration of the agents' current positions.
+ * @param goals The goals of the agents.
+ * @param verbose The verbosity level for logging information.
+ * @param enabled A vector indicating which agents are enabled.
+ * @param distances A vector of precomputed distances for each agent.
+ * @param priorities A vector of priorities for each agent.
+ * 
+ * @return A list of shared pointers to the newly created sub-instances if partitioning is required; otherwise, an empty list.
+ */
 std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, const Config& goals, int verbose,
                                      const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities)
 {
@@ -70,10 +87,12 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, 
         if (break_flag) break;
     } 
 
+    // remove empty partitions
     partitions.erase(std::remove_if(partitions.begin(), partitions.end(),
                                     [](const std::vector<int>& partition) { return partition.empty(); }),
                         partitions.end());
 
+    // check for possibility to split into sub-problems
     if (partitions.size() > 1) {
         return split_ins(C, goals, verbose, enabled, partitions, priorities);
     } else {
@@ -83,6 +102,23 @@ std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable(const Config& C, 
     END_BLOCK();
 }
 
+
+/**
+ * @brief Splits a configuration into multiple sub-instances based on given partitions.
+ * 
+ * This function creates sub-instances from a given configuration by dividing the agents according to the 
+ * provided partitions. It initializes each sub-instance with the relevant agents, their positions, goals, 
+ * and priorities.
+ * 
+ * @param C_new The configuration of the agents' current positions.
+ * @param goals The goals of the agents.
+ * @param verbose The verbosity level for logging information.
+ * @param enabled A vector indicating which agents are enabled.
+ * @param partitions A list of partitions where each partition is a set of agent IDs.
+ * @param priorities A vector of priorities for each agent.
+ * 
+ * @return A list of shared pointers to the newly created sub-instances.
+ */
 std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, const Config& goals, int verbose,
                              const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const
 {
@@ -158,6 +194,22 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, co
 *                        Implementation of the FactDistance class                        *
 \****************************************************************************************/
 
+/**
+ * @brief Evaluates if two agents can be factorized based on manhattan distances.
+ * 
+ * This heuristic checks if the manhattan distance between two agents is greater than the sum 
+ * of their manhattan distances to goal plus a safety distance.
+ * 
+ * @param rel_id_1 The relative ID of the first agent.
+ * @param index1 The index of the first agent's current position.
+ * @param goal1 The goal position of the first agent.
+ * @param rel_id_2 The relative ID of the second agent.
+ * @param index2 The index of the second agent's current position.
+ * @param goal2 The goal position of the second agent.
+ * @param distances A vector of precomputed distances for each agent.
+ * 
+ * @return True if the agents can be factorized, false otherwise.
+ */
 const bool FactDistance::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const
 {
     PROFILE_FUNC(profiler::colors::Yellow500);
@@ -175,7 +227,22 @@ const bool FactDistance::heuristic(int rel_id_1, int index1, int goal1, int rel_
 *                          Implementation of the FactBbox class                          *
 \****************************************************************************************/
 
-
+/**
+ * @brief Evaluates if two agents can be factorized based on the estimated area their future paths will occupy.
+ * 
+ * This heuristic creates a bounding box around the points 'agent, goal' and checks for overlap with the box of another agent.
+ * If the boxes do not overlap and are apart more than SAFETY_DISTANCE, then the agents can be factorized.
+ * 
+ * @param rel_id_1 The relative ID of the first agent.
+ * @param index1 The index of the first agent's current position.
+ * @param goal1 The goal position of the first agent.
+ * @param rel_id_2 The relative ID of the second agent.
+ * @param index2 The index of the second agent's current position.
+ * @param goal2 The goal position of the second agent.
+ * @param distances A vector of precomputed distances for each agent.
+ * 
+ * @return True if the agents can be factorized, false otherwise.
+ */
 const bool FactBbox::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const 
 {
     PROFILE_FUNC(profiler::colors::Yellow500);
@@ -207,7 +274,22 @@ const bool FactBbox::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2
 *                        Implementation of the FactOrient class                          *
 \****************************************************************************************/
 
-
+/**
+ * @brief Determines if two agents can be factorized based on their orientation.
+ * 
+ * This heuristics considers the vector 'agent->goal' to represent the orientation of an agent. If two agents have non-intersecting vectors
+ * and if these vectors are more than SAFETY_DISTANCE apart, then the agents can be factorized.
+ * 
+ * @param rel_id_1 The relative ID of the first agent.
+ * @param index1 The index of the first agent's current position.
+ * @param goal1 The goal position of the first agent.
+ * @param rel_id_2 The relative ID of the second agent.
+ * @param index2 The index of the second agent's current position.
+ * @param goal2 The goal position of the second agent.
+ * @param distances A vector of precomputed distances for each agent. Unused
+ * 
+ * @return True if the agents can be factorized, false otherwise.
+ */
 const bool FactOrient::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const 
 {
     PROFILE_FUNC(profiler::colors::Yellow500);
@@ -249,14 +331,24 @@ const bool FactOrient::heuristic(int rel_id_1, int index1, int goal1, int rel_id
     return not_intersecting;
 }
 
+
+/**
+ * @brief Computes the orientation of the triplet (p, q, r).
+ * 
+ * This function determines the orientation of the ordered triplet of points (p, q, r) and returns:
+ * - 0 if the points are collinear,
+ * - 1 if the points are oriented clockwise,
+ * - 2 if the points are oriented counterclockwise.
+ * 
+ * @param p The first point of the triplet.
+ * @param q The second point of the triplet.
+ * @param r The third point of the triplet.
+ * 
+ * @return An integer indicating the orientation of the triplet.
+ */
 int FactOrient::orientation(const std::tuple<int, int>& p, const std::tuple<int, int>& q, 
                             const std::tuple<int, int>& r) const 
 {
-    // The function returns:
-    // 0 : Collinear points
-    // 1 : Clockwise points
-    // 2 : Counterclockwise
-
     int val = (std::get<1>(q) - std::get<1>(p)) * (std::get<0>(r) - std::get<0>(q)) -
                 (std::get<0>(q) - std::get<0>(p)) * (std::get<1>(r) - std::get<1>(q));
 
@@ -264,6 +356,18 @@ int FactOrient::orientation(const std::tuple<int, int>& p, const std::tuple<int,
     return (val > 0) ? 1 : 2; // clock or counterclockwise
 }
 
+/**
+ * @brief Checks if a point lies on a line segment.
+ * 
+ * This function determines if a point `q` is located on the line segment defined by endpoints `p` and `r`.
+ * It performs a bounding box check to see if `q` falls within the rectangle formed by `p` and `r`.
+ * 
+ * @param p The first endpoint of the line segment.
+ * @param q The point to check.
+ * @param r The second endpoint of the line segment.
+ * 
+ * @return True if point `q` lies on the line segment `p`-`r`, false otherwise.
+ */
 bool FactOrient::onSegment(const std::tuple<int, int>& p, const std::tuple<int, int>& q, 
                            const std::tuple<int, int>& r) const 
 { 
@@ -277,6 +381,20 @@ bool FactOrient::onSegment(const std::tuple<int, int>& p, const std::tuple<int, 
     else return false;
 }
 
+
+/**
+ * @brief Determines whether two line segments intersect.
+ * 
+ * This function checks if two line segments, defined by points (p1, q1) and (p2, q2), intersect.
+ * It considers both general cases of intersection and special cases where the segments are collinear.
+ * 
+ * @param p1 The first endpoint of the first line segment.
+ * @param q1 The second endpoint of the first line segment.
+ * @param p2 The first endpoint of the second line segment.
+ * @param q2 The second endpoint of the second line segment.
+ * 
+ * @return True if the line segments intersect, false otherwise.
+ */
 bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<int, int>& q1, 
                              const std::tuple<int, int>& p2, const std::tuple<int, int>& q2) const
 {
@@ -308,7 +426,19 @@ bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<in
 }
 
 
-
+/**
+ * @brief Computes the shortest distance from a point to a line segment.
+ * 
+ * This function calculates the minimum distance between a point `p` and a line segment defined 
+ * by the endpoints `segA` and `segB`. It projects the point onto the line segment and checks 
+ * if the projection lies on the segment; otherwise, it returns the distance to the nearest endpoint.
+ * 
+ * @param p The point for which the distance is to be computed.
+ * @param segA The first endpoint of the line segment.
+ * @param segB The second endpoint of the line segment.
+ * 
+ * @return The shortest distance from the point `p` to the line segment `segA`-`segB`.
+ */
 double FactOrient::pointToSegmentDistance(const std::tuple<int, int>& p, const std::tuple<int, int>& segA, const std::tuple<int, int>& segB) const
 {
     double px = std::get<0>(p);
@@ -335,6 +465,20 @@ double FactOrient::pointToSegmentDistance(const std::tuple<int, int>& p, const s
     }
 }
 
+
+/**
+ * @brief Computes the minimum distance between two line segments defined by points A1, A2 and B1, B2.
+ * 
+ * This function calculates the shortest distance between two line segments by computing the distance 
+ * from each endpoint of one segment to the other segment.
+ * 
+ * @param A1 The first endpoint of the first line segment.
+ * @param A2 The second endpoint of the first line segment.
+ * @param B1 The first endpoint of the second line segment.
+ * @param B2 The second endpoint of the second line segment.
+ * 
+ * @return The minimum distance between the two line segments.
+ */
 double FactOrient::segmentsMinDistance(const std::tuple<int, int>& A1, const std::tuple<int, int>& A2, 
                            const std::tuple<int, int>& B1, const std::tuple<int, int>& B2) const
 {
@@ -352,7 +496,22 @@ double FactOrient::segmentsMinDistance(const std::tuple<int, int>& A1, const std
 *                        Implementation of the FactAstar class                        *
 \****************************************************************************************/
 
-
+/**
+ * @brief Evaluates if two agents can be factorized based on (precomputed) A* distances.
+ * 
+ * This heuristic checks if the manhattan distance between two agents is greater than the sum 
+ * of their A* distances to goal plus a safety distance.
+ * 
+ * @param rel_id_1 The relative ID of the first agent.
+ * @param index1 The index of the first agent's current position.
+ * @param goal1 The goal position of the first agent.
+ * @param rel_id_2 The relative ID of the second agent.
+ * @param index2 The index of the second agent's current position.
+ * @param goal2 The goal position of the second agent.
+ * @param distances A vector of precomputed distances for each agent.
+ * 
+ * @return True if the agents can be factorized, false otherwise.
+ */
 const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const
 {
   PROFILE_FUNC(profiler::colors::Yellow500);
@@ -370,6 +529,16 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
 *                        Implementation of the FactDef class                             *
 \****************************************************************************************/
 
+/**
+ * @brief Constructor for the `FactDef` class that initializes the object with a given width 
+ *        and handles the initialization of the `partitions_map` from a JSON file.
+ * 
+ * This constructor reads partitioning data from a JSON file located at a predefined path 
+ * (`assets/temp/temp_partitions.json`) and initializes the `partitions_map` member variable with it.
+ * If the file cannot be opened or a JSON parsing error occurs, it outputs an error message to `std::cerr`.
+ * 
+ * @param width The width parameter used to initialize the base class `FactAlgo`.
+ */
 FactDef::FactDef(int width) : FactAlgo(width, false, true) {
     // Constructor with width, handle partitions_map initialization
     std::string path = "assets/temp/temp_partitions.json";
@@ -396,6 +565,22 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
 }
 
 
+/**
+ * @brief Determines if the current instance is factorable based on a predefined partitioning at a given timestep.
+ * 
+ * This function checks if a given timestep exists in the `partitions_map` and then filters partitions based on the 
+ * currently enabled agents. If the filtered partitions contain more than one group, the function invokes 
+ * `split_from_file` to create sub-instances for each partition.
+ * 
+ * @param C_new The current configuration of the agents.
+ * @param goals The goal configuration for the agents.
+ * @param verbose The verbosity level for logging and debugging purposes.
+ * @param enabled A vector of agent IDs that are enabled in the current instance.
+ * @param priorities A vector of priorities associated with the agents.
+ * @param timestep The current timestep used to find the relevant partition in the partitions map.
+ * 
+ * @return A list of shared pointers to sub-instances if factorization is possible, otherwise an empty list.
+ */
 std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const 
 {
     // Check if timestep corresponds to a key in the partitions_map
@@ -432,6 +617,22 @@ std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& 
 }
 
 
+/**
+ * @brief Splits the current instance into multiple sub-instances based on partitioning information.
+ * 
+ * This function takes the current configuration of agents (`C_new`), their goals (`goals`), and a 
+ * partitioning scheme (`partition`), and splits the instance into multiple sub-instances. 
+ * Each sub-instance contains a subset of the agents, their corresponding positions, goals, and priorities.
+ * 
+ * @param C_new The current configuration of the agents.
+ * @param goals The goal configuration for the agents.
+ * @param verbose Verbosity level for logging and debugging purposes.
+ * @param enabled A vector of agent IDs that are enabled in the current context.
+ * @param partition The partitioning scheme that specifies how agents should be grouped into sub-instances.
+ * @param priorities A vector of priorities associated with the agents.
+ * 
+ * @return A list of shared pointers to sub-instances created based on the partitioning scheme.
+ */
 std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_new, const Config& goals, int verbose,
                              const std::vector<int>& enabled, const Partitions& partition, const std::vector<float>& priorities) const
 {
@@ -485,6 +686,19 @@ std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_ne
 *                        Implementation of the Factory pattern                           *
 \****************************************************************************************/
 
+/**
+ * @brief Factory function to create instances of different FactAlgo subclasses.
+ * This function creates a unique pointer to a `FactAlgo` object based on the given type. 
+ * It uses a static unordered map to store lambda functions that instantiate the appropriate 
+ * subclass based on the provided `type` string.
+ * 
+ * @param type The string representing the type of FactAlgo to create. Valid types are:
+ *             "FactDistance", "FactBbox", "FactOrient", "FactAstar", "FactDef".
+ * @param width The width parameter to initialize the created FactAlgo object.
+ * @return A unique pointer to the created FactAlgo object.
+ * 
+ * @throws std::invalid_argument If the provided `type` does not match any valid FactAlgo type.
+ */
 std::unique_ptr<FactAlgo> createFactAlgo(const std::string& type, int width) {
     static const std::unordered_map<std::string, std::function<std::unique_ptr<FactAlgo>(int)>> factory_map = {
         {"FactDistance", [](int width) { return std::make_unique<FactDistance>(width); }},

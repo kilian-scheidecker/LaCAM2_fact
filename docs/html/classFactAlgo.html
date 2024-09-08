@@ -365,6 +365,7 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Determines if the problem is factorizable at a given timestep. </p>
+<p>Determines if the given configuration can be factorized and generates sub-instances accordingly.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">C</td><td>Current configuration. </td></tr>
@@ -376,7 +377,20 @@ Data Fields</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A list of shared pointers to instances that are factorizable. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A list of shared pointers to instances that are factorizable.</dd></dl>
+<p>This function attempts to partition agents into groups based on a heuristic that evaluates if they can be factorized together. It merges partitions if they meet the heuristic criteria, and if a single partition containing all agents is found, it returns an empty list. Otherwise, it splits the configuration into multiple sub-instances based on the partitions and returns the list of these sub-instances.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">C</td><td>The configuration of the agents' current positions. </td></tr>
+    <tr><td class="paramname">goals</td><td>The goals of the agents. </td></tr>
+    <tr><td class="paramname">verbose</td><td>The verbosity level for logging information. </td></tr>
+    <tr><td class="paramname">enabled</td><td>A vector indicating which agents are enabled. </td></tr>
+    <tr><td class="paramname">distances</td><td>A vector of precomputed distances for each agent. </td></tr>
+    <tr><td class="paramname">priorities</td><td>A vector of priorities for each agent.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A list of shared pointers to the newly created sub-instances if partitioning is required; otherwise, an empty list. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -392,8 +406,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph.png" border="0" usemap="#aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph" alt=""/></div>
 <map name="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph" id="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph">
-<area shape="rect" title="Determines if the problem is factorizable at a given timestep." alt="" coords="467,5,647,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,5,419,32"/>
+<area shape="rect" title="Determines if the problem is factorizable at a given timestep." alt="" coords="479,5,659,32"/>
+<area shape="rect" href="structPlanner.html#a7c698601a12848d8421f68dc65d617e8" title="Factorized version of LaCAM2." alt="" coords="272,5,431,32"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>
@@ -460,7 +474,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Allows factorization according to definition. </p>
-<p>Uses the timesteps and pre-loaded Partitions to determine factorizability. Only used by the <a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a> class </p>
+<p>Uses the timesteps and pre-loaded Partitions to determine factorizability. Only used by the <a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a> class. </p>
 
 <p>Implemented in <a class="el" href="classFactDef.html#abf170fb43013dd4f19977abbb5590e0a">FactDef</a>, <a class="el" href="classFactAstar.html#ae6bfa6201ec475f5819b26b27f958e02">FactAstar</a>, <a class="el" href="classFactOrient.html#aa7e01e0c19e39e0aa51b3ce03c6df7d8">FactOrient</a>, <a class="el" href="classFactBbox.html#ad3566444649e0eabc59ece5ee66c3c34">FactBbox</a>, and <a class="el" href="classFactDistance.html#a32c6cdbfa95a9d895e60e747df77c9a4">FactDistance</a>.</p>
 <div class="dynheader">
@@ -468,8 +482,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph.png" border="0" usemap="#aclassFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph" alt=""/></div>
 <map name="aclassFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph" id="aclassFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph">
-<area shape="rect" title="Allows factorization according to definition." alt="" coords="467,5,675,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,5,419,32"/>
+<area shape="rect" title="Allows factorization according to definition." alt="" coords="479,5,687,32"/>
+<area shape="rect" href="structPlanner.html#a7c698601a12848d8421f68dc65d617e8" title="Factorized version of LaCAM2." alt="" coords="272,5,431,32"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>
@@ -528,6 +542,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Splits the current instance into multiple smaller sub-instances if possible. </p>
+<p>Splits a configuration into multiple sub-instances based on given partitions.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">C_new</td><td>New configuration. </td></tr>
@@ -539,7 +554,20 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A list of shared pointers to sub-instances. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A list of shared pointers to sub-instances.</dd></dl>
+<p>This function creates sub-instances from a given configuration by dividing the agents according to the provided partitions. It initializes each sub-instance with the relevant agents, their positions, goals, and priorities.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">C_new</td><td>The configuration of the agents' current positions. </td></tr>
+    <tr><td class="paramname">goals</td><td>The goals of the agents. </td></tr>
+    <tr><td class="paramname">verbose</td><td>The verbosity level for logging information. </td></tr>
+    <tr><td class="paramname">enabled</td><td>A vector indicating which agents are enabled. </td></tr>
+    <tr><td class="paramname">partitions</td><td>A list of partitions where each partition is a set of agent IDs. </td></tr>
+    <tr><td class="paramname">priorities</td><td>A vector of priorities for each agent.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A list of shared pointers to the newly created sub-instances. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -554,9 +582,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_icgraph.png" border="0" usemap="#aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_icgraph" alt=""/></div>
 <map name="aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_icgraph" id="aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_icgraph">
-<area shape="rect" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="695,5,833,32"/>
-<area shape="rect" href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the problem is factorizable at a given timestep." alt="" coords="467,5,647,32"/>
-<area shape="rect" href="structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="272,5,419,32"/>
+<area shape="rect" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="707,5,845,32"/>
+<area shape="rect" href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the problem is factorizable at a given timestep." alt="" coords="479,5,659,32"/>
+<area shape="rect" href="structPlanner.html#a7c698601a12848d8421f68dc65d617e8" title="Factorized version of LaCAM2." alt="" coords="272,5,431,32"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>

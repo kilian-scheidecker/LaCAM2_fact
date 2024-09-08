@@ -107,7 +107,7 @@ public:
     /**
      * @brief Allows factorization according to definition.
      * Uses the timesteps and pre-loaded Partitions to determine factorizability.
-     * Only used by the FactDef class
+     * Only used by the FactDef class.
      */
     virtual std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const = 0;
 
@@ -179,22 +179,22 @@ public:
 
 private:
 
-    // Simple heuristic to determine if 2 agents can be factorized based on the orientation of their (position, goal) vectors
+    // Simple heuristic to determine if 2 agents can be factorized based on the orientation of their (position, goal) vectors.
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
 
     // Function to find the orientation of the ordered triplet (p, q, r).
     int orientation(const std::tuple<int, int>& p, const std::tuple<int, int>& q, const std::tuple<int, int>& r) const;
 
-    // Function to check if point q lies on line segment pr
+    // Function to check if point q lies on line segment pr.
     bool onSegment(const std::tuple<int, int>& p, const std::tuple<int, int>& q, const std::tuple<int, int>& r) const;
 
-    // Function to check if line segments p1q1 and p2q2 intersect
+    // Function to check if line segments p1q1 and p2q2 intersect.
     bool doIntersect(const std::tuple<int, int>& p1, const std::tuple<int, int>& q1, const std::tuple<int, int>& p2, const std::tuple<int, int>& q2) const;
 
-
+    // Function to calculate the distance from a point to a line segment.
     double pointToSegmentDistance(const std::tuple<int, int>& p, const std::tuple<int, int>& segA, const std::tuple<int, int>& segB) const; 
 
-
+    // Function to calculate the minimum distance between two line segments.
     double segmentsMinDistance(const std::tuple<int, int>& A1, const std::tuple<int, int>& A2, const std::tuple<int, int>& B1, const std::tuple<int, int>& B2) const;
 };
 
@@ -205,16 +205,16 @@ private:
 class FactAstar : public FactAlgo
 {
 public:
-    // Default constructor
+    // Default constructor.
     FactAstar() : FactAlgo(0) {}
     FactAstar(int width) : FactAlgo(width, true) {}
 
-    // Placeholder for the virtual function
+    // Placeholder for the virtual function.
     std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const {return {};};
 
 private:
 
-    // Simple heuristic to determine if 2 agents can be factorized based on distance
+    // Simple heuristic to determine if 2 agents can be factorized based on A* distance.
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const;
 };
 
@@ -225,26 +225,26 @@ private:
 class FactDef : public FactAlgo
 {
 public:
-    // Default constructor
+    // Default constructor.
     FactDef() : FactAlgo(0) {}
     FactDef(int width);
 
-    // Applies the precomputed partitions to minimize time spent in factorization
+    // Applies the precomputed partitions to minimize time spent in factorization.
     std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const override;
 
 private :
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const {return 0;};
     
-    // Same as split_ins but with true_id instead of local ids
+    // Same as split_ins but with true_id instead of local ids.
     std::list<std::shared_ptr<Instance>> split_from_file(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
     
 };
 
 
 /**
- * Factory function to create FactAlgo objects
- * @param type describes the type of factorization to use
- * @param width width of the graph
+ * Factory function to create FactAlgo objects.
+ * @param type describes the type of factorization to use.
+ * @param width width of the graph.
  */
 std::unique_ptr<FactAlgo> createFactAlgo(const std::string& type, int width);
 

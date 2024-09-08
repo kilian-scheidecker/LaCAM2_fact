@@ -122,6 +122,8 @@ Computes the Manhattan distance between two vertices on the map.
 
 Determines if the problem is factorizable at a given timestep. 
 
+Determines if the given configuration can be factorized and generates sub-\/instances accordingly.
+
 
 \begin{DoxyParams}{Parameters}
 {\em C} & Current configuration. \\
@@ -138,7 +140,27 @@ Determines if the problem is factorizable at a given timestep.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A list of shared pointers to instances that are factorizable. 
+A list of shared pointers to instances that are factorizable.
+\end{DoxyReturn}
+This function attempts to partition agents into groups based on a heuristic that evaluates if they can be factorized together. It merges partitions if they meet the heuristic criteria, and if a single partition containing all agents is found, it returns an empty list. Otherwise, it splits the configuration into multiple sub-\/instances based on the partitions and returns the list of these sub-\/instances.
+
+
+\begin{DoxyParams}{Parameters}
+{\em C} & The configuration of the agents\textquotesingle{} current positions. \\
+\hline
+{\em goals} & The goals of the agents. \\
+\hline
+{\em verbose} & The verbosity level for logging information. \\
+\hline
+{\em enabled} & A vector indicating which agents are enabled. \\
+\hline
+{\em distances} & A vector of precomputed distances for each agent. \\
+\hline
+{\em priorities} & A vector of priorities for each agent.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of shared pointers to the newly created sub-\/instances if partitioning is required; otherwise, an empty list. 
 \end{DoxyReturn}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -147,8 +169,7 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{classFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -165,12 +186,11 @@ Here is the caller graph for this function\+:
 
 Allows factorization according to definition. 
 
-Uses the timesteps and pre-\/loaded Partitions to determine factorizability. Only used by the \mbox{\hyperlink{classFactDef}{Fact\+Def}} class 
+Uses the timesteps and pre-\/loaded Partitions to determine factorizability. Only used by the \mbox{\hyperlink{classFactDef}{Fact\+Def}} class. 
 
 Implemented in \mbox{\hyperlink{classFactDef_abf170fb43013dd4f19977abbb5590e0a}{Fact\+Def}}, \mbox{\hyperlink{classFactAstar_ae6bfa6201ec475f5819b26b27f958e02}{Fact\+Astar}}, \mbox{\hyperlink{classFactOrient_aa7e01e0c19e39e0aa51b3ce03c6df7d8}{Fact\+Orient}}, \mbox{\hyperlink{classFactBbox_ad3566444649e0eabc59ece5ee66c3c34}{Fact\+Bbox}}, and \mbox{\hyperlink{classFactDistance_a32c6cdbfa95a9d895e60e747df77c9a4}{Fact\+Distance}}.
 
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -186,6 +206,8 @@ Here is the caller graph for this function\+:
 
 
 Splits the current instance into multiple smaller sub-\/instances if possible. 
+
+Splits a configuration into multiple sub-\/instances based on given partitions.
 
 
 \begin{DoxyParams}{Parameters}
@@ -203,7 +225,27 @@ Splits the current instance into multiple smaller sub-\/instances if possible.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A list of shared pointers to sub-\/instances. 
+A list of shared pointers to sub-\/instances.
+\end{DoxyReturn}
+This function creates sub-\/instances from a given configuration by dividing the agents according to the provided partitions. It initializes each sub-\/instance with the relevant agents, their positions, goals, and priorities.
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+\_\+new} & The configuration of the agents\textquotesingle{} current positions. \\
+\hline
+{\em goals} & The goals of the agents. \\
+\hline
+{\em verbose} & The verbosity level for logging information. \\
+\hline
+{\em enabled} & A vector indicating which agents are enabled. \\
+\hline
+{\em partitions} & A list of partitions where each partition is a set of agent IDs. \\
+\hline
+{\em priorities} & A vector of priorities for each agent.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of shared pointers to the newly created sub-\/instances. 
 \end{DoxyReturn}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -212,8 +254,7 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=255pt]{classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

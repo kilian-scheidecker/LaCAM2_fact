@@ -27,9 +27,9 @@ Collaboration diagram for Planner\+:\nopagebreak
 \begin{DoxyCompactList}\small\item\em Constructor for \mbox{\hyperlink{structPlanner}{Planner}} class using pointer to \mbox{\hyperlink{structInstance}{Instance}}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structPlanner_ac3db7cf113ad368fa6fce636b6e94abe}{$\sim$\+Planner}} ()
 \item 
-\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{structPlanner_a73e83c66c7a158575eeedd8a9f122a67}{solve}} (std\+::string \&additional\+\_\+info, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr)
+\mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \mbox{\hyperlink{structPlanner_a4b0c0810afb28fb4e420bb3f6252c3f3}{lacam2}} (std\+::string \&additional\+\_\+info, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr)
 \begin{DoxyCompactList}\small\item\em Standard solver of La\+CAM2. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structBundle}{Bundle}} \mbox{\hyperlink{structPlanner_a4722161407b657c3c178f56e61dc412e}{solve\+\_\+fact}} (std\+::string \&additional\+\_\+info, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, bool save\+\_\+partitions)
+\mbox{\hyperlink{structBundle}{Bundle}} \mbox{\hyperlink{structPlanner_a7c698601a12848d8421f68dc65d617e8}{lacam2\+\_\+fact}} (std\+::string \&additional\+\_\+info, \mbox{\hyperlink{structInfos}{Infos}} $\ast$infos\+\_\+ptr, \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&factalgo, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, bool save\+\_\+partitions)
 \begin{DoxyCompactList}\small\item\em Factorized version of La\+CAM2. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{structPlanner_af9b36da56775f1fd5aeeb7395f206cf1}{expand\+\_\+lowlevel\+\_\+tree}} (\mbox{\hyperlink{structHNode}{HNode}} $\ast$H, \mbox{\hyperlink{structLNode}{LNode}} $\ast$L)
 \item 
@@ -150,8 +150,7 @@ Constructor for \mbox{\hyperlink{structPlanner}{Planner}} class using pointer to
 \doxysubsubsection{\texorpdfstring{expand\_lowlevel\_tree()}{expand\_lowlevel\_tree()}}
 {\footnotesize\ttfamily void Planner\+::expand\+\_\+lowlevel\+\_\+tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H,  }\item[{\mbox{\hyperlink{structLNode}{LNode}} $\ast$}]{L }\end{DoxyParamCaption})}
 
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -168,16 +167,14 @@ Here is the caller graph for this function\+:
 
 PIBT planner for the low level node. 
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a5ceb9857727ef266b7abf427741d936b_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -194,8 +191,7 @@ Here is the caller graph for this function\+:
 
 Compute the \textquotesingle{}edge cost\textquotesingle{} aka the difference in \# of agents at their goal position. 
 
-Can pass it either configs or 2 Hnodes. Here is the caller graph for this function\+:
-\nopagebreak
+Can pass it either configs or 2 Hnodes. Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -208,8 +204,7 @@ Can pass it either configs or 2 Hnodes. Here is the caller graph for this functi
 \doxysubsubsection{\texorpdfstring{get\_edge\_cost()}{get\_edge\_cost()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}} Planner\+::get\+\_\+edge\+\_\+cost (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+from,  }\item[{\mbox{\hyperlink{structHNode}{HNode}} $\ast$}]{H\+\_\+to }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -226,16 +221,14 @@ Here is the call graph for this function\+:
 
 Computes the heuristic. 
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=318pt]{structPlanner_a35515b67b9f715d1cb8396ebfa791a6c_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -252,16 +245,14 @@ Here is the caller graph for this function\+:
 
 Creates a new configuration given some constraints for the next step. 
 
-Basically the same as in La\+CAM. Here is the call graph for this function\+:
-\nopagebreak
+Basically the same as in La\+CAM. Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a4884191fafefc2f8185a79571851d0b5_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -278,8 +269,7 @@ Here is the caller graph for this function\+:
 
 Simulate whether the swap is possible. 
 
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -296,16 +286,14 @@ Here is the caller graph for this function\+:
 
 Simulate whether the swap is required. 
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=343pt]{structPlanner_a10abbb6c2a56e757152b838c0bcf5cf2_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -322,12 +310,58 @@ Here is the caller graph for this function\+:
 
 Simulate whether the swap is required but with true IDs of the agents. 
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a2f1783abd06cbf4999bde1bb111fc438_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a4b0c0810afb28fb4e420bb3f6252c3f3}\label{structPlanner_a4b0c0810afb28fb4e420bb3f6252c3f3}} 
+\index{Planner@{Planner}!lacam2@{lacam2}}
+\index{lacam2@{lacam2}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{lacam2()}{lacam2()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} Planner\+::lacam2 (\begin{DoxyParamCaption}\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+Standard solver of La\+CAM2. 
+
+\begin{DoxyReturn}{Returns}
+The solution to the MAPF problem. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a4b0c0810afb28fb4e420bb3f6252c3f3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structPlanner_a7c698601a12848d8421f68dc65d617e8}\label{structPlanner_a7c698601a12848d8421f68dc65d617e8}} 
+\index{Planner@{Planner}!lacam2\_fact@{lacam2\_fact}}
+\index{lacam2\_fact@{lacam2\_fact}!Planner@{Planner}}
+\doxysubsubsection{\texorpdfstring{lacam2\_fact()}{lacam2\_fact()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structBundle}{Bundle}} Planner\+::lacam2\+\_\+fact (\begin{DoxyParamCaption}\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{bool}]{save\+\_\+partitions }\end{DoxyParamCaption})}
+
+
+
+Factorized version of La\+CAM2. 
+
+The solving is the same as in standard La\+CAM but checks for factorizability among agents. \begin{DoxyReturn}{Returns}
+A bundle containing the sub-\/instances in case of factorization and the local solution (from start to split). 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a7c698601a12848d8421f68dc65d617e8_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPlanner_a7c698601a12848d8421f68dc65d617e8_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{structPlanner_a9af3dcf185b5ccd49f03869da7812a24}\label{structPlanner_a9af3dcf185b5ccd49f03869da7812a24}} 
@@ -340,70 +374,18 @@ Here is the call graph for this function\+:
 
 Update the relation between 2 configurations by updating their costs and rewriting the net of configurations to converge to optimality. 
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a9af3dcf185b5ccd49f03869da7812a24_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a9af3dcf185b5ccd49f03869da7812a24_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{structPlanner_a73e83c66c7a158575eeedd8a9f122a67}\label{structPlanner_a73e83c66c7a158575eeedd8a9f122a67}} 
-\index{Planner@{Planner}!solve@{solve}}
-\index{solve@{solve}!Planner@{Planner}}
-\doxysubsubsection{\texorpdfstring{solve()}{solve()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} Planner\+::solve (\begin{DoxyParamCaption}\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr }\end{DoxyParamCaption})}
-
-
-
-Standard solver of La\+CAM2. 
-
-\begin{DoxyReturn}{Returns}
-The solution to the MAPF problem. 
-\end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{structPlanner_a73e83c66c7a158575eeedd8a9f122a67_cgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{structPlanner_a4722161407b657c3c178f56e61dc412e}\label{structPlanner_a4722161407b657c3c178f56e61dc412e}} 
-\index{Planner@{Planner}!solve\_fact@{solve\_fact}}
-\index{solve\_fact@{solve\_fact}!Planner@{Planner}}
-\doxysubsubsection{\texorpdfstring{solve\_fact()}{solve\_fact()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structBundle}{Bundle}} Planner\+::solve\+\_\+fact (\begin{DoxyParamCaption}\item[{std\+::string \&}]{additional\+\_\+info,  }\item[{\mbox{\hyperlink{structInfos}{Infos}} $\ast$}]{infos\+\_\+ptr,  }\item[{\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} \&}]{factalgo,  }\item[{\mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep,  }\item[{bool}]{save\+\_\+partitions }\end{DoxyParamCaption})}
-
-
-
-Factorized version of La\+CAM2. 
-
-The solving is the same as in standard La\+CAM but checks for factorizability among agents. \begin{DoxyReturn}{Returns}
-A bundle containing the sub-\/instances in case of factorization and the local solution (from start to split). 
-\end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{structPlanner_a4722161407b657c3c178f56e61dc412e_cgraph}
-\end{center}
-\end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{structPlanner_a4722161407b657c3c178f56e61dc412e_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{structPlanner_a4672665dd15c43cea5d697e100101213}\label{structPlanner_a4672665dd15c43cea5d697e100101213}} 
@@ -420,8 +402,7 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{structPlanner_a4672665dd15c43cea5d697e100101213_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -438,16 +419,14 @@ Here is the caller graph for this function\+:
 
 Define the swap operation. 
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a507deba5497854e8e5ff7fb8062a9016_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -464,16 +443,14 @@ Here is the caller graph for this function\+:
 
 Define the swap operation but with true IDs of the agents. 
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{structPlanner_a09cfd2c89775990497002a8b054f4694_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

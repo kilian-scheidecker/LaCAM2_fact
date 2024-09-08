@@ -97,9 +97,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2ed0052cb7bfe89574d1ce50992626df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactDef.html#a2ed0052cb7bfe89574d1ce50992626df">FactDef</a> ()</td></tr>
 <tr class="separator:a2ed0052cb7bfe89574d1ce50992626df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4716c53823ac13a09705717bb1d08cc8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactDef.html#a4716c53823ac13a09705717bb1d08cc8">FactDef</a> (int <a class="el" href="classFactAlgo.html#ae69794255caed8036cc0e976fbe5f869">width</a>)</td></tr>
+<tr class="memdesc:a4716c53823ac13a09705717bb1d08cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <code><a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a></code> class that initializes the object with a given width and handles the initialization of the <code>partitions_map</code> from a JSON file.  <a href="classFactDef.html#a4716c53823ac13a09705717bb1d08cc8">More...</a><br /></td></tr>
 <tr class="separator:a4716c53823ac13a09705717bb1d08cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf170fb43013dd4f19977abbb5590e0a"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::shared_ptr&lt; <a class="el" href="structInstance.html">Instance</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactDef.html#abf170fb43013dd4f19977abbb5590e0a">is_factorizable_def</a> (const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;C_new, const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;goals, int verbose, const std::vector&lt; int &gt; &amp;enabled, const std::vector&lt; float &gt; &amp;priorities, int timestep) const override</td></tr>
-<tr class="memdesc:abf170fb43013dd4f19977abbb5590e0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows factorization according to definition.  <a href="classFactDef.html#abf170fb43013dd4f19977abbb5590e0a">More...</a><br /></td></tr>
+<tr class="memdesc:abf170fb43013dd4f19977abbb5590e0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the current instance is factorable based on a predefined partitioning at a given timestep.  <a href="classFactDef.html#abf170fb43013dd4f19977abbb5590e0a">More...</a><br /></td></tr>
 <tr class="separator:abf170fb43013dd4f19977abbb5590e0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classFactAlgo"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classFactAlgo')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classFactAlgo.html">FactAlgo</a></td></tr>
 <tr class="memitem:af5c523e00b23fc85fdf75e3fad30a02e inherit pub_methods_classFactAlgo"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#af5c523e00b23fc85fdf75e3fad30a02e">FactAlgo</a> (int <a class="el" href="classFactAlgo.html#ae69794255caed8036cc0e976fbe5f869">width</a>)</td></tr>
@@ -182,6 +183,15 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor for the <code><a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a></code> class that initializes the object with a given width and handles the initialization of the <code>partitions_map</code> from a JSON file. </p>
+<p>This constructor reads partitioning data from a JSON file located at a predefined path (<code>assets/temp/temp_partitions.json</code>) and initializes the <code>partitions_map</code> member variable with it. If the file cannot be opened or a JSON parsing error occurs, it outputs an error message to <code>std::cerr</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>The width parameter used to initialize the base class <code><a class="el" href="classFactAlgo.html" title="Base class for different factorization algorithms.">FactAlgo</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -243,8 +253,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Allows factorization according to definition. </p>
-<p>Uses the timesteps and pre-loaded Partitions to determine factorizability. Only used by the <a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a> class </p>
+<p>Determines if the current instance is factorable based on a predefined partitioning at a given timestep. </p>
+<p>This function checks if a given timestep exists in the <code>partitions_map</code> and then filters partitions based on the currently enabled agents. If the filtered partitions contain more than one group, the function invokes <code>split_from_file</code> to create sub-instances for each partition.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">C_new</td><td>The current configuration of the agents. </td></tr>
+    <tr><td class="paramname">goals</td><td>The goal configuration for the agents. </td></tr>
+    <tr><td class="paramname">verbose</td><td>The verbosity level for logging and debugging purposes. </td></tr>
+    <tr><td class="paramname">enabled</td><td>A vector of agent IDs that are enabled in the current instance. </td></tr>
+    <tr><td class="paramname">priorities</td><td>A vector of priorities associated with the agents. </td></tr>
+    <tr><td class="paramname">timestep</td><td>The current timestep used to find the relevant partition in the partitions map.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A list of shared pointers to sub-instances if factorization is possible, otherwise an empty list. </dd></dl>
 
 <p>Implements <a class="el" href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb">FactAlgo</a>.</p>
 

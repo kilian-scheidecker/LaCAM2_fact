@@ -33,9 +33,9 @@ Collaboration diagram for Fact\+Def\+:\nopagebreak
 \mbox{\hyperlink{classFactDef_a2ed0052cb7bfe89574d1ce50992626df}{Fact\+Def}} ()
 \item 
 \mbox{\hyperlink{classFactDef_a4716c53823ac13a09705717bb1d08cc8}{Fact\+Def}} (int \mbox{\hyperlink{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}{width}})
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor for the {\ttfamily \mbox{\hyperlink{classFactDef}{Fact\+Def}}} class that initializes the object with a given width and handles the initialization of the {\ttfamily partitions\+\_\+map} from a JSON file. \end{DoxyCompactList}\item 
 std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ \mbox{\hyperlink{classFactDef_abf170fb43013dd4f19977abbb5590e0a}{is\+\_\+factorizable\+\_\+def}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C\+\_\+new, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&goals, int verbose, const std\+::vector$<$ int $>$ \&enabled, const std\+::vector$<$ float $>$ \&priorities, int timestep) const override
-\begin{DoxyCompactList}\small\item\em Allows factorization according to definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Determines if the current instance is factorable based on a predefined partitioning at a given timestep. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
@@ -57,6 +57,17 @@ Class that implements factorization using pre-\/computed partitions.
 
 
 
+Constructor for the {\ttfamily \mbox{\hyperlink{classFactDef}{Fact\+Def}}} class that initializes the object with a given width and handles the initialization of the {\ttfamily partitions\+\_\+map} from a JSON file. 
+
+This constructor reads partitioning data from a JSON file located at a predefined path ({\ttfamily assets/temp/temp\+\_\+partitions.\+json}) and initializes the {\ttfamily partitions\+\_\+map} member variable with it. If the file cannot be opened or a JSON parsing error occurs, it outputs an error message to {\ttfamily std\+::cerr}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & The width parameter used to initialize the base class {\ttfamily \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}}. \\
+\hline
+\end{DoxyParams}
+
+
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classFactDef_abf170fb43013dd4f19977abbb5590e0a}\label{classFactDef_abf170fb43013dd4f19977abbb5590e0a}} 
 \index{FactDef@{FactDef}!is\_factorizable\_def@{is\_factorizable\_def}}
@@ -66,9 +77,29 @@ Class that implements factorization using pre-\/computed partitions.
 
 
 
-Allows factorization according to definition. 
+Determines if the current instance is factorable based on a predefined partitioning at a given timestep. 
 
-Uses the timesteps and pre-\/loaded Partitions to determine factorizability. Only used by the \mbox{\hyperlink{classFactDef}{Fact\+Def}} class 
+This function checks if a given timestep exists in the {\ttfamily partitions\+\_\+map} and then filters partitions based on the currently enabled agents. If the filtered partitions contain more than one group, the function invokes {\ttfamily split\+\_\+from\+\_\+file} to create sub-\/instances for each partition.
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+\_\+new} & The current configuration of the agents. \\
+\hline
+{\em goals} & The goal configuration for the agents. \\
+\hline
+{\em verbose} & The verbosity level for logging and debugging purposes. \\
+\hline
+{\em enabled} & A vector of agent IDs that are enabled in the current instance. \\
+\hline
+{\em priorities} & A vector of priorities associated with the agents. \\
+\hline
+{\em timestep} & The current timestep used to find the relevant partition in the partitions map.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of shared pointers to sub-\/instances if factorization is possible, otherwise an empty list. 
+\end{DoxyReturn}
+
 
 Implements \mbox{\hyperlink{classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb}{Fact\+Algo}}.
 
