@@ -23,6 +23,7 @@ typedef unsigned int uint;
 #include <stack>
 #include <string>
 #include <tuple>
+#include <cmath>
 #include <unordered_map>
 #include <vector>
 #include <list>

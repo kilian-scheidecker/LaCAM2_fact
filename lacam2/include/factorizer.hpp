@@ -9,7 +9,7 @@
 
 #ifndef FACTORIZER_HPP
 #define FACTORIZER_HPP
-#define SAFETY_DISTANCE 2
+#define SAFETY_DISTANCE 0
 
 #include "dist_table.hpp"
 #include "utils.hpp"
@@ -190,6 +190,12 @@ private:
 
     // Function to check if line segments p1q1 and p2q2 intersect
     bool doIntersect(const std::tuple<int, int>& p1, const std::tuple<int, int>& q1, const std::tuple<int, int>& p2, const std::tuple<int, int>& q2) const;
+
+
+    double pointToSegmentDistance(const std::tuple<int, int>& p, const std::tuple<int, int>& segA, const std::tuple<int, int>& segB) const; 
+
+
+    double segmentsMinDistance(const std::tuple<int, int>& A1, const std::tuple<int, int>& A2, const std::tuple<int, int>& B1, const std::tuple<int, int>& B2) const;
 };
 
 

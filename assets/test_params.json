@@ -2,10 +2,10 @@
   "from": 50,
   "to": 200,
   "jump": 50,
-  "n": 10,
+  "n": 5,
   "map_name": ["warehouse_small"],
-  "algorithms": ["FactAstar", "FactDef", "standard"],
+  "algorithms": ["FactBbox", "FactOrient", "standard"],
   "use_heuristic": "FactAstar",
-  "multi_threading": ["no", "yes"]
+  "multi_threading": ["no"]
 }
 

@@ -235,8 +235,18 @@ const bool FactOrient::heuristic(int rel_id_1, int index1, int goal1, int rel_id
     if (da < SAFETY_DISTANCE && dg < SAFETY_DISTANCE)
         return false;
 
-    // return true if they are apart enough and if their vectors don't cross
-    return !doIntersect(std::make_tuple(x1, y1), std::make_tuple(xg1, yg1), std::make_tuple(x2, y2), std::make_tuple(xg2,yg2)); 
+    //Verify that the agents 'paths' are not intersecting
+    bool not_intersecting = !doIntersect(std::make_tuple(x1, y1), std::make_tuple(xg1, yg1), std::make_tuple(x2, y2), std::make_tuple(xg2,yg2)); 
+    
+    // Check for minimal distance between the agents and their paths
+    double minDistance = segmentsMinDistance(std::make_tuple(x1, y1), std::make_tuple(xg1, yg1),
+                                             std::make_tuple(x2, y2), std::make_tuple(xg2, yg2));
+
+    // Return true if they are non-intersecting and apart enough
+    if (SAFETY_DISTANCE != 0)
+        return not_intersecting && minDistance >= SAFETY_DISTANCE;
+    
+    return not_intersecting;
 }
 
 int FactOrient::orientation(const std::tuple<int, int>& p, const std::tuple<int, int>& q, 
@@ -296,6 +306,46 @@ bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<in
 
     return false; // Doesn't fall in any of the above cases
 }
+
+
+
+double FactOrient::pointToSegmentDistance(const std::tuple<int, int>& p, const std::tuple<int, int>& segA, const std::tuple<int, int>& segB) const
+{
+    double px = std::get<0>(p);
+    double py = std::get<1>(p);
+    double ax = std::get<0>(segA);
+    double ay = std::get<1>(segA);
+    double bx = std::get<0>(segB);
+    double by = std::get<1>(segB);
+
+    double ABx = bx - ax;
+    double ABy = by - ay;
+    double APx = px - ax;
+    double APy = py - ay;
+    double t = (ABx * APx + ABy * APy) / (ABx * ABx + ABy * ABy);
+
+    if (t < 0.0) {
+        return std::sqrt((px - ax) * (px - ax) + (py - ay) * (py - ay));
+    } else if (t > 1.0) {
+        return std::sqrt((px - bx) * (px - bx) + (py - by) * (py - by));
+    } else {
+        double projX = ax + t * ABx;
+        double projY = ay + t * ABy;
+        return std::sqrt((px - projX) * (px - projX) + (py - projY) * (py - projY));
+    }
+}
+
+double FactOrient::segmentsMinDistance(const std::tuple<int, int>& A1, const std::tuple<int, int>& A2, 
+                           const std::tuple<int, int>& B1, const std::tuple<int, int>& B2) const
+{
+    return std::min({ 
+        pointToSegmentDistance(A1, B1, B2),
+        pointToSegmentDistance(A2, B1, B2),
+        pointToSegmentDistance(B1, A1, A2),
+        pointToSegmentDistance(B2, A1, A2)
+    });
+}
+
 
 
 /****************************************************************************************\
