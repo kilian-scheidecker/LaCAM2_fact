@@ -35,6 +35,86 @@ COLUMN NAMES
 },
 """
 
+def beautify(graph, colors: dict, title: str, height: int, width: int, xtitle: str=None, ytitle: str=None, rangemode: str=None, legend: bool=False) :
+
+    # Layout updates
+    graph.update_layout(
+        plot_bgcolor=colors['card'],
+        paper_bgcolor=colors['card'],
+        font=dict(color=colors['text'], family="Inter, sans-serif"),
+        showlegend=legend,
+        legend=dict(title="Algorithms"),
+        title_text=title,
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title=xtitle,
+        yaxis_title=ytitle,
+        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
+        height=height,
+        width=width,
+        margin=dict(l=40, r=40, t=60, b=40),
+    )
+    graph.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
+    if rangemode is None :
+        graph.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
+    else :
+        graph.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
+
+
+def beautify_bar(graph, colors: dict, title: str, height: int, width: int, xtitle: str=None, ytitle: str=None, legend: bool=False) :
+    
+    # Layout updates
+    graph.update_layout(
+        plot_bgcolor=colors['card'],
+        paper_bgcolor=colors['card'],
+        font=dict(color=colors['text'], family="Inter, sans-serif"),
+        showlegend=legend,
+        legend=dict(title="Algorithms"),
+        title_text=title,
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title=xtitle,
+        yaxis_title=ytitle,
+        xaxis={'showgrid':False, 'showticklabels':False},
+        yaxis={'showgrid':False, 'showticklabels':False},
+        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
+        height=height,
+        width=width,
+        margin=dict(l=40, r=40, t=60, b=40),
+    )
+    graph.update_xaxes(showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
+    graph.update_yaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
+
+def adjust_success_plots(num_bars, bar_success_agents, bar_success_agents_MT) :
+    
+    # Explicitly add the agent number under the bar graphs if not too many bars :
+    if num_bars < 10 :
+        for i, value in enumerate(data_success['Number of agents']):
+            bar_success_agents.add_annotation(
+                x=value, 
+                y=-0.05,  # Adjust this value to position the label below the bar
+                text=str(value),
+                showarrow=False,
+                font=dict(size=11, color=colors['text']),
+                align="center",
+                yshift=-15
+            )
+            bar_success_agents_MT.add_annotation(
+                x=value, 
+                y=-0.05,  # Adjust this value to position the label below the bar
+                text=str(value),
+                showarrow=False,
+                font=dict(size=11, color=colors['text']),
+                align="center",
+                yshift=-15
+            )
+    else :
+        bar_success_agents.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
+        bar_success_agents_MT.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
+
+    # Display the data inside the bars :
+    bar_success_agents.update_traces(textposition='inside')
+    bar_success_agents_MT.update_traces(textposition='inside')
 
 def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     """
@@ -51,7 +131,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     # Lightmode theme.
     if theme == 'light' :
         colors = {
-            'background': '#F7F7F7',
+            'background': '#333333',  #F7F7F7
             'text': '#333333',
             'card': '#FFFFFF',
             'accent1': '#5A9BD5',
@@ -124,8 +204,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         line=dict(color='#00d97f'),
     ))
 
-
-    # Bar charts for 
+    # Bar charts for queue visualization (primarily for debug purposes)
     queue_line, queue_line_MT, queue_freq, sub_ins_freq = queue_graphs()
 
     # Create the bar charts
@@ -136,335 +215,29 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     bar_success_rate_MT = px.bar(success_rate_MT, x="Algorithm", y="Success rate", color="Algorithm", color_discrete_map=color_map, text_auto=True, orientation='v', labels=None)
 
     # Layout updates
-    line_CPU.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="Average CPU load",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title="Average CPU usage [%]",
-        yaxis_range=[0,100],
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=340,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_CPU.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_CPU.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
+    beautify(graph=line_CPU, colors=colors, title="Average CPU load", xtitle="Number of agents", ytitle="Average CPU usage [%]", height=260, width=340, rangemode="tozero")
+    beautify(graph=line_CPU_MT, colors=colors, title="Average CPU load (MT)", xtitle="Number of agents", ytitle="Average CPU usage [%]", height=260, width=340, rangemode="tozero")
+    beautify(graph=line_RAM, colors=colors, title="Max. RAM load", xtitle="Number of agents", ytitle="Max. RAM usage [Mb]", height=260, width=340, rangemode="tozero")
+    beautify(graph=line_RAM_MT, colors=colors, title="Max. RAM load (MT)", xtitle="Number of agents", ytitle="Max. RAM usage [Mb]", height=260, width=340, rangemode="tozero")
+    beautify(graph=line_time, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero")
+    beautify(graph=line_time_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
+    beautify(graph=line_time_std, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero")
+    beautify(graph=line_time_std_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
+    beautify(graph=line_span_std, colors=colors, title="Makespan", xtitle="Number of agents",  height=260, width=475, rangemode="tozero", legend=True)
     
-    line_CPU_MT.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="Average CPU load (MT)",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title="Average CPU load",
-        yaxis_range=[0,100],
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=340,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_CPU_MT.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_CPU_MT.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
+    beautify_bar(graph=bar_success_agents, colors=colors, title="Successfully solved instances", xtitle="Number of agents",  height=260, width=475, legend=True)
+    beautify_bar(graph=bar_success_agents_MT, colors=colors, title="Successfully solved instances (MT)", xtitle="Number of agents",  height=260, width=475, legend=True)
+    beautify_bar(graph=bar_success_rate, colors=colors, title="Success rate [%]",  height=212, width=295)
+    beautify_bar(graph=bar_success_rate_MT, colors=colors, title="Success rate [%] (MT)",  height=212, width=295)
 
-    line_RAM.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="Max. RAM load",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title='Max. RAM usage [Mb]',
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=340,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_RAM.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_RAM.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
+    beautify(graph=queue_freq, colors=colors, title="OPENins queue pushes", xtitle="Number of instances pushed", ytitle="Frequency", height=260, width=475)
+    beautify(graph=sub_ins_freq, colors=colors, title="Size of instances", xtitle="Number of agents in instance", ytitle="Frequency", height=260, width=475)
+    beautify(graph=line_score, colors=colors, title="Complexity score", xtitle="Number of agents", ytitle="log(score)", height=260, width=475, rangemode="tozero", legend=True)
 
-    line_RAM_MT.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="Max. RAM load (MT)",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title='Max. RAM usage [Mb]',
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=340,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_RAM_MT.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_RAM_MT.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
-
+    # Manage the x_axis of the success plots
+    adjust_success_plots(len(data_success['Number of agents']), bar_success_agents, bar_success_agents_MT)
     
-    line_time.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="Computation time [ms]",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title=None,
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_time.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_time.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
-
-    line_time_MT.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="Computation time [ms] (MT)",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title=None,
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_time_MT.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_time_MT.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
-
-    line_time_std.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="Computation time [ms]",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title=None,
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_time_std.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_time_std.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
-
-    line_time_std_MT.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="Computation time [ms] (MT)",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title=None,
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_time_std_MT.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_time_std_MT.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
-
-    line_span_std.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=True,
-        legend=dict(title="Algorithms"),
-        title_text="Makespan",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title=None,
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_span_std.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_span_std.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
-
-    bar_success_agents.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=True,
-        legend=dict(title="Algorithms"),
-        title_text="Successfully solved instances",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title=None,
-        xaxis={'showgrid':False, 'showticklabels':False},
-        yaxis={'showgrid':False, 'showticklabels':False},
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    bar_success_agents.update_xaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    bar_success_agents.update_yaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-
-    bar_success_agents_MT.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=True,
-        legend=dict(title="Algorithms"),
-        title_text="Successfully solved instances (MT)",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title=None,
-        xaxis={'showgrid':False, 'showticklabels':False},
-        yaxis={'showgrid':False, 'showticklabels':False},
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    bar_success_agents_MT.update_xaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    bar_success_agents_MT.update_yaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-
-
-    bar_success_rate.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        legend=dict(title="Algorithms"),
-        title_text="Success rate [%]",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title=None,
-        yaxis_title=None,
-        xaxis={'showgrid':False, 'showticklabels':False},
-        yaxis={'showgrid':False, 'showticklabels':False},
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=212,
-        width=295,
-        margin=dict(l=30, r=30, t=50, b=30),
-    )
-    bar_success_rate.update_xaxes(showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    bar_success_rate.update_yaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-
-    bar_success_rate_MT.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        legend=dict(title="Algorithms"),
-        title_text="Success rate [%] (MT)",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title=None,
-        yaxis_title=None,
-        xaxis={'showgrid':False, 'showticklabels':False},
-        yaxis={'showgrid':False, 'showticklabels':False},
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=212,
-        width=280,
-        margin=dict(l=30, r=30, t=50, b=30),
-    )
-    bar_success_rate_MT.update_xaxes(showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    bar_success_rate_MT.update_yaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-
-    queue_freq.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="OPENins queue pushes",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of instances pushed",
-        yaxis_title="Frequency",
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-
-    sub_ins_freq.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=False,
-        title_text="Size of instances",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents in instance",
-        yaxis_title="Frequency",
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-
-    line_score.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=True,
-        title_text="Complexity score",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents",
-        yaxis_title="log(score)",
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    line_score.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_score.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
-
-    # Explicitly add the agent number under the bar graphs :
-    if len(data_success['Number of agents']) < 10 :
-        for i, value in enumerate(data_success['Number of agents']):
-            bar_success_agents.add_annotation(
-                x=value, 
-                y=-0.05,  # Adjust this value to position the label below the bar
-                text=str(value),
-                showarrow=False,
-                font=dict(size=11, color=colors['text']),
-                align="center",
-                yshift=-15  # Adjust this to control the distance from the bar
-            )
-            bar_success_agents_MT.add_annotation(
-                x=value, 
-                y=-0.05,  # Adjust this value to position the label below the bar
-                text=str(value),
-                showarrow=False,
-                font=dict(size=11, color=colors['text']),
-                align="center",
-                yshift=-15  # Adjust this to control the distance from the bar
-            )
-    else :
-        bar_success_agents.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
-        bar_success_agents_MT.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
-
-    # Display the data inside the bars :
-    bar_success_agents.update_traces(textposition='inside')
-    bar_success_agents_MT.update_traces(textposition='inside')
+    
 
     print("\nDashboard updated")
 
