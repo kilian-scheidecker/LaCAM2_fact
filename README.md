@@ -79,7 +79,7 @@ Note that some parameters are only compatible with the standard version and some
 This repository is compatible with [@Kei18/mapf-visualizer](https://github.com/kei18/mapf-visualizer).
 
 <div style="text-align: center;">
-  <img src="assets/misc/MAPF_viz_snapshot.png" alt="Image" style="width: 400px; height: auto;"/>
+  <img src="assets/misc/MAPF_viz_snapshot.png" alt="Image" width=90%/>
   <div>Example with 200 agents in random-32-32-20.map</div>
 </div>
 
