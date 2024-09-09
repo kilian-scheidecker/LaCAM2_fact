@@ -79,7 +79,7 @@ Note that some parameters are only compatible with the standard version and some
 This repository is compatible with [@Kei18/mapf-visualizer](https://github.com/kei18/mapf-visualizer).
 
 <div style="text-align: center;">
-  <img src="assets/misc/MAPF_viz_snapshot.png" width=90%/>
+  <img src="assets/misc/MAPF_viz_snapshot.png" width=60% align="center"/>
   <div>Example with 200 agents in random-32-32-20.map</div>
 </div>
 
@@ -98,7 +98,7 @@ The two graphs on the top right represent the succes rate of the different algor
 The fourth row shows data about average CPU and maximum RAM usage during the solving.
 
 <div style="text-align: center;">
-  <img src="assets/misc/screenshot_dashboard.png" width=90%/>
+  <img src="assets/misc/screenshot_dashboard.png" width=100% align="center/>
   <div>Screenshot of the dashboard.</div>
 </div>
 
