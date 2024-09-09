@@ -98,10 +98,12 @@ The two graphs on the top right represent the succes rate of the different algor
 
 The fourth row shows data about average CPU and maximum RAM usage during the solving.
 
-<div style="text-align: center;">
-  <img src="assets/misc/screenshot_dashboard.png" width=100% align="center"/>
-  <div>Screenshot of the dashboard.</div>
-</div>
+<p align="center">
+  <img src="assets/misc/screenshot_dashboard.png" width="100%">
+  <br>
+  <p align="center">Screenshot of the dashboard.</p>
+</p>
+
 
 
 ## Documentation
@@ -121,6 +123,10 @@ You can take advantage of the [Easy Profiler library](https://github.com/yse/eas
 
 To use the profiling, the variable ENABLE_PROFILING needs to be defined. Be aware that toggling the profiler may affect performances.
 
+<p align="center">
+  <img src="assets/misc/screenshot_profiler.png" width="100%">
+</p>
+
 To toggle the profiling mode, you need to build the project accordingly by setting ENABLE_PROFILING=ON.
 
 ```bash
@@ -138,9 +144,7 @@ This file can then be vizualised by using the Easy Profiler Visualizer. There sh
 
 Once you opened the visualizer, you can use the folder icon at the top left to open the 'profile.prof' file.
 
-<p align="center">
-  <img src="assets/misc/screenshot_profiler.png" width="100%">
-</p>
+
 
 To stop profiling, clean build the project again using the instructions in the 'Building' section.
 
