@@ -14,16 +14,21 @@ def queue_graphs() -> tuple:
                 - `fig2`: A bar chart showing the dynamic queue size with adjustments.
                 - `fig3`: A histogram of queue size frequencies.
                 - `fig4`: A histogram of sub-instance size frequencies.
+        None if the file temp_partitions.json does not exist
 
     Notes:
         - The function reads partition data from a JSON file and processes it to extract relevant metrics.
         - It creates time series bar charts to visualize queue sizes and dynamic queue sizes over time.
         - It also generates histograms to show the distribution of queue sizes and sub-instance sizes.
     """
-    # Load the data from the JSON file
+    # Load the data from the latest available partitions
     assets_path = up(up(__file__))     # LaCAM2_fact/assets/
-    with open(join(assets_path,'temp/temp_partitions.json'), 'r') as f:
-        data = json.load(f)
+    try:
+        with open(join(assets_path, 'temp/temp_partitions.json'), 'r') as f:                # can change here to FactOrient_partitions.json or some other file if needed
+            data = json.load(f)
+    except FileNotFoundError:
+        print("File not found. Please check if the file exists in the specified path.")
+        return None, None, None, None
 
     # Extract the time steps and partition sizes
     timesteps = []

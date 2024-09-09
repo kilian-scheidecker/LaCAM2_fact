@@ -126,6 +126,10 @@ def get_data(map_name: str, read_from: str=None):
     
     # Get readings from particular map
     data_full = data[data['Map name'] == map_name]
+
+    # Filter out other stuff if necessary
+    # data_full = data_full[data_full['Number of agents'] < 700]
+    # data_full = data_full[data_full['Algorithm'] != "FactBbox"]
     
     # Drop entries where there is no solution
     data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
@@ -149,9 +153,9 @@ def get_hardware_info():
     Returns:
         dict:
             A dictionary containing:
-            - "CPU Model": The model name of the CPU.
+            - "CPU model": The model name of the CPU.
             - "CPU cores": The number of CPU cores.
-            - "RAM Size": The total size of RAM.
+            - "RAM size": The total size of RAM.
             - "OS name": The operating system name.
             - "OS version": The operating system version.
     """
@@ -185,9 +189,9 @@ def get_hardware_info():
         cpu_cores = str(int(int(cpu_cores)/2))
 
     hardware_info = {
-        "CPU Model": cpu_model,
+        "CPU model": cpu_model,
         "CPU cores": cpu_cores,
-        "RAM Size": ram_size,
+        "RAM size": ram_size,
         "OS name": os_name,
         "OS version": os_version,
     }
@@ -203,9 +207,9 @@ def get_additionnal_info() :
     Returns:
         dict:
             A dictionary containing:
-            - "CPU Model": The model name of the CPU.
+            - "CPU model": The model name of the CPU.
             - "CPU cores": The number of CPU cores.
-            - "RAM Size": The total size of RAM.
+            - "RAM size": The total size of RAM.
             - "OS name": The operating system name.
             - "OS version": The operating system version.
             - "Agent range": A tuple indicating the range of agents used in the test (min. and max. number of agents used).

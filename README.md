@@ -78,11 +78,29 @@ This repository is compatible with [@Kei18/mapf-visualizer](https://github.com/k
 
 ## Data visualization
 
-TODO
+Once you ran a couple tests, you can visualize the .json files using a dedicated dashboard in the `assets` folder. To use this script, run it from the command line with the required and optional arguments.The `--map_name` argument is mandatory and specifies the name of the map to display. Optionally, you can provide the `--read_from` argument to specify a file to read data from , and the `--theme argument` to set the application theme to either 'dark' or 'light' (default is 'dark').
+
+```sh
+python3 assets/dashboard.py --map_name random-32-32-10 --read_from stats.json --theme dark
+```
+
+The dashboard contains a lot of interesting data, starting with simple general information about the tests (what map, how many agents, how many tests). Then some information about the current hardware of the machine (careful, this data does not represent the hardware used to generate a given .json file). 
+
+The two graphs on the top right represent the succes rate of the different algorithms in %. The first row of charts is for sequential solving of MAPF instances and the second row is about the multi-threaded solving (MT). The solving times are averaged out and plotted as a function of the agent number in the map. Information about the variance can be viewed in the center charts. The charts on the far right depict the successfully solved instances as a function of agent number.
+
+The fourth row shows data about average CPU and maximum RAM usage during the solving.
+
+<div style="text-align: center;">
+  <img src="assets/misc/screenshot_dashboard.png" alt="Image" style="width: 400px; height: auto;"/>
+  <div>Screenshot of the dashboard.</div>
+</div>
+
+
+
 
 ## Documentation
 
-The [docs](docs) folder contains the documentation of this project. Simply open the [index](docs/html/index.html) and navigate through the docs.
+The [docs](docs) folder contains the documentation of this project. Simply open the [index](docs/html/index.html) and navigate through the docs. 
 
 
 ## Code Profiling
