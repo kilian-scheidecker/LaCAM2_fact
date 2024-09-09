@@ -8,7 +8,7 @@
 
 LaCAM2_fact is a factorized version of the LaCAM2 algorithm from Keisuke Okumura.
 
-The original work is from code repository of the paper ["Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding"](https://kei18.github.io/lacam2/) (IJCAI-23), extended from from [the LaCAM repo](https://kei18.github.io/lacam/) presented at AAAI-23. The factorization part is based on the paper ["Factorization of Dynamic Games over Spatio-Temporal Resources"](https://ieeexplore.ieee.org/document/9981416) (IROS 2022) by Alessandro Zanardi.
+The original work is from code repository of the paper ["Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding"](https://kei18.github.io/lacam2/) (IJCAI-23), extended from from [the LaCAM repo](https://kei18.github.io/lacam/) presented at AAAI-23. The factorization part is based on the paper ["Factorization of Dynamic Games over Spatio-Temporal Resources"](https://ieeexplore.ieee.org/document/9981416) (2022 IEEE/RSJ) by Alessandro Zanardi.
 
 ## Building
 
