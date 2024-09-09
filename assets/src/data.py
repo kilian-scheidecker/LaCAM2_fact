@@ -128,8 +128,8 @@ def get_data(map_name: str, read_from: str=None):
     data_full = data[data['Map name'] == map_name]
 
     # Filter out other stuff if necessary
-    data_full = data_full[data_full['Number of agents'] < 700]
-    data_full = data_full[data_full['Algorithm'] != "FactBbox"]
+    # data_full = data_full[data_full['Number of agents'] < 700]
+    # data_full = data_full[data_full['Algorithm'] != "FactBbox"]
     
     # Drop entries where there is no solution
     data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)

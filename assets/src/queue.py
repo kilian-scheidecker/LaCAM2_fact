@@ -21,10 +21,10 @@ def queue_graphs() -> tuple:
         - It creates time series bar charts to visualize queue sizes and dynamic queue sizes over time.
         - It also generates histograms to show the distribution of queue sizes and sub-instance sizes.
     """
-    # Load the data from the JSON file
+    # Load the data from the latest available partitions
     assets_path = up(up(__file__))     # LaCAM2_fact/assets/
     try:
-        with open(join(assets_path, 'temp/FactOrient_partitions.json'), 'r') as f:
+        with open(join(assets_path, 'temp/temp_partitions.json'), 'r') as f:                # can change here to FactOrient_partitions.json or some other file if needed
             data = json.load(f)
     except FileNotFoundError:
         print("File not found. Please check if the file exists in the specified path.")

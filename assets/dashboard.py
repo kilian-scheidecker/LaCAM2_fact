@@ -335,7 +335,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         font=dict(color=colors['text'], family="Inter, sans-serif"),
         showlegend=False,
         legend=dict(title="Algorithms"),
-        title_text="Success rate",
+        title_text="Success rate [%]",
         title_x=0.5,
         title_xanchor="center",
         xaxis_title=None,
@@ -356,7 +356,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         font=dict(color=colors['text'], family="Inter, sans-serif"),
         showlegend=False,
         legend=dict(title="Algorithms"),
-        title_text="Success rate (MT)",
+        title_text="Success rate [%] (MT)",
         title_x=0.5,
         title_xanchor="center",
         xaxis_title=None,
@@ -541,14 +541,15 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
-        dbc.Row(
-            [
-                #dbc.Col(width=4, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph11',figure=queue_freq, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph12',figure=sub_ins_freq, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'})
-            ],
-            style={'marginBottom': '30px'}
-        ),
+        # Used for visualizing the queues. Reads data from the last found partitions
+        # dbc.Row(
+        #     [
+        #         #dbc.Col(width=4, style={'textAlign': 'center'}),
+        #         dbc.Col(dcc.Graph(id='graph11',figure=queue_freq, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
+        #         dbc.Col(dcc.Graph(id='graph12',figure=sub_ins_freq, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'})
+        #     ],
+        #     style={'marginBottom': '30px'}
+        # ),
 
         dbc.Row(dbc.Col(html.Div("")), style={'height' : '200px'}),
 
