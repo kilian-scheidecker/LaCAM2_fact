@@ -12,25 +12,25 @@ from src.queue import queue_graphs
 """
 COLUMN NAMES
 {
-    "Number of agents": "90",
-    "Map name": "random-32-32-20.map",
-    "Success": "1",
-    "Computation time (ms)": "60",
-    "Makespan": "50",
-    "Algorithm": "Standard",
-    "Multi threading": "no",
-    "Loop count": "53",
-    "PIBT calls": "4677",
-    "Active PIBT calls": "2446",
-    "Action counts": "5247",
-    "Active action counts": "2911",
-    "Sum of costs": "2782",
-    "Sum of loss": "2782",
-    "CPU usage (percent)": "57",
-    "Maximum RAM usage (Mbytes)": "5.112",
-    "Average RAM usage (Mbytes)": "0.0",
-    "Complexity score": 1255
-}
+    "Action counts": 0,
+    "Active PIBT calls": 0,
+    "Active action counts": 0,
+    "Algorithm": "standard",
+    "Average RAM usage (Mbytes)": 0.0,
+    "CPU usage (percent)": 94.0,
+    "Complexity score": null,
+    "Computation time (ms)": 6,
+    "Loop count": 0,
+    "Makespan": 55,
+    "Map name": "random-32-32-10.map",
+    "Maximum RAM usage (Mbytes)": 5.244,
+    "Multi threading": false,
+    "Number of agents": 50,
+    "PIBT calls": 0,
+    "Success": 1,
+    "Sum of costs": 1212,
+    "Sum of loss": 1212
+},
 """
 
 
@@ -109,7 +109,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     line_span_std = px.scatter(data_std, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
     line_span_std_MT = px.scatter(data_std_MT, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
     
-    queue_line, queue_line_MT, queue_freq, sub_ins_freq = queue_graphs()
+    # queue_line, queue_line_MT, queue_freq, sub_ins_freq = queue_graphs()
 
     # Create the bar charts
     bar_success_agents = px.bar(data_success, x="Number of agents", y="Success", color="Algorithm", color_discrete_map=color_map, text_auto=True, orientation='v', labels=None)
@@ -370,37 +370,37 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     bar_success_rate_MT.update_xaxes(showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
     bar_success_rate_MT.update_yaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
 
-    queue_freq.update_layout(
-        plot_bgcolor=colors['background'],
-        paper_bgcolor=colors['background'],
-        font_color=colors['text'],
-        showlegend=False,
-        title_text="OPENins queue pushes",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of instances pushed",
-        yaxis_title="# of times",
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
+    # queue_freq.update_layout(
+    #     plot_bgcolor=colors['background'],
+    #     paper_bgcolor=colors['background'],
+    #     font_color=colors['text'],
+    #     showlegend=False,
+    #     title_text="OPENins queue pushes",
+    #     title_x=0.5,
+    #     title_xanchor="center",
+    #     xaxis_title="Number of instances pushed",
+    #     yaxis_title="# of times",
+    #     title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
+    #     height=260,
+    #     width=475,
+    #     margin=dict(l=40, r=40, t=60, b=40),
+    # )
 
-    sub_ins_freq.update_layout(
-        plot_bgcolor=colors['background'],
-        paper_bgcolor=colors['background'],
-        font_color=colors['text'],
-        showlegend=False,
-        title_text="Size of instances",
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title="Number of agents in instance",
-        yaxis_title="Number of agents",
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=260,
-        width=475,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
+    # sub_ins_freq.update_layout(
+    #     plot_bgcolor=colors['background'],
+    #     paper_bgcolor=colors['background'],
+    #     font_color=colors['text'],
+    #     showlegend=False,
+    #     title_text="Size of instances",
+    #     title_x=0.5,
+    #     title_xanchor="center",
+    #     xaxis_title="Number of agents in instance",
+    #     yaxis_title="Number of agents",
+    #     title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
+    #     height=260,
+    #     width=475,
+    #     margin=dict(l=40, r=40, t=60, b=40),
+    # )
 
     # Explicitly add the agent number under the bar graphs :
     for i, value in enumerate(data_success['Number of agents']):
@@ -472,7 +472,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
                         html.H5("Hardware Information", style={'color': colors['text'], 'fontWeight': 'bold'}),
                         html.Div([
                             html.P(html.Strong("CPU model"), style={'fontSize': '15px', 'color': colors['text'], 'display': 'inline-block', 'width': '100px'}),
-                            html.P(f"   {additionnal_info['CPU Model']}", style={'fontSize': '15px', 'color': colors['text'], 'display': 'inline-block'})
+                            html.P(f"   {additionnal_info['CPU model']}", style={'fontSize': '15px', 'color': colors['text'], 'display': 'inline-block'})
                         ], style={'height': '30px'}),
                         html.Div([
                             html.P(html.Strong("CPU cores"), style={'fontSize': '15px', 'color': colors['text'], 'display': 'inline-block', 'width': '100px'}),
@@ -480,7 +480,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
                         ], style={'height': '30px'}),
                         html.Div([
                             html.P(html.Strong("RAM size"), style={'fontSize': '15px', 'color': colors['text'], 'display': 'inline-block', 'width': '100px'}),
-                            html.P(f"   {additionnal_info['RAM Size']}", style={'fontSize': '15px', 'color': colors['text'], 'display': 'inline-block'})
+                            html.P(f"   {additionnal_info['RAM size']}", style={'fontSize': '15px', 'color': colors['text'], 'display': 'inline-block'})
                         ], style={'height': '30px'}),
                         html.Div([
                             html.P(html.Strong("OS name"), style={'fontSize': '15px', 'color': colors['text'], 'display': 'inline-block', 'width': '100px'}),
