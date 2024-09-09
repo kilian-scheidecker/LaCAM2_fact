@@ -56,7 +56,7 @@ Try running the following command :
 solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=1.19)   sum_of_loss: 1198 (lb=1098, ub=1.1)
 ```
 
-There are other arguments you can specify in order to use all the feature of LaCAM2_fact. The `-f`, `-mt`, `-s` and `-sp` arguments are command-line options used to control the behavior of the LaCAM2 application:
+There are other arguments you can specify in order to use all the feature of LaCAM2_fact :
 
 - `-mt` (or `--multi_threading`): This argument toggles whether the program uses multiple cores to solve MAPF instances in parallel (if applicable). By defauly it is set to false. use `-mt` or `-mt yes` to enable multi threading.
 
