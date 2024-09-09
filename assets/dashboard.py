@@ -435,7 +435,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         margin=dict(l=40, r=40, t=60, b=40),
     )
     line_score.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    line_score.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, range=[1, None], type="log")
+    line_score.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
 
     # Explicitly add the agent number under the bar graphs :
     if len(data_success['Number of agents']) < 10 :
