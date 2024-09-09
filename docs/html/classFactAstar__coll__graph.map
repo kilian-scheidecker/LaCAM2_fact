@@ -1,4 +1,4 @@
 <map id="FactAstar" name="FactAstar">
-<area shape="rect" id="node1" title="Class that implements A* distance&#45;based factorization heuristic." alt="" coords="5,277,176,384"/>
-<area shape="rect" id="node2" href="$classFactAlgo.html" title="Base class for different factorization algorithms." alt="" coords="5,5,176,229"/>
+<area shape="rect" id="node1" title="Class that implements A* distance&#45;based factorization heuristic." alt="" coords="5,292,176,399"/>
+<area shape="rect" id="node2" href="$classFactAlgo.html" title="Base class for different factorization algorithms." alt="" coords="5,5,176,244"/>
 </map>

@@ -4,10 +4,12 @@
 import argparse
 import dash_bootstrap_components as dbc
 import plotly.express as px
+import plotly.graph_objects as go
 from dash import Dash, dcc, html
 
 from src.data import get_data, get_additionnal_info
 from src.queue import queue_graphs
+from src.score import min_complexity_score
 
 """
 COLUMN NAMES
@@ -86,9 +88,9 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     data = raw_data.drop(raw_data[raw_data['Multi threading'] == True].index)      # without MT
     data_MT = raw_data.drop(raw_data[raw_data['Multi threading'] == False].index)     # with MT
     
-    # Data for std viz split in MT / no MT
-    data_std = data.drop(data[data['Number of agents']%50 != 0].index)     # without MT
-    data_std_MT = data_MT.drop(data_MT[data_MT['Number of agents']%50 != 0].index)  # with MT
+    # Data for std viz split in MT / no MT. Show only every 50 agents
+    data_std = data.drop(data[data['Number of agents']%5 != 0].index)     # without MT
+    data_std_MT = data_MT.drop(data_MT[data_MT['Number of agents']%5 != 0].index)  # with MT
     
     # Data for success rates
     success_rate = succes_rates.drop(succes_rates[succes_rates['Multi threading'] == True].index)       # without MT
@@ -96,6 +98,9 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     
     # Gather additionnal data
     additionnal_info = get_additionnal_info()
+
+    # Extra dataframe for minimum complexity score
+    min_score = min_complexity_score(raw_data[['Number of agents', 'Makespan']])
 
     # Create the line charts
     line_CPU = px.line(data, x="Number of agents", y="CPU usage (percent)", color="Algorithm", color_discrete_map=color_map)
@@ -108,7 +113,18 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     line_time_std_MT = px.scatter(data_std_MT, x="Number of agents", y="Computation time (ms)", color="Algorithm", color_discrete_map=color_map, error_y="Computation time (ms) std")
     line_span_std = px.scatter(data_std, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
     line_span_std_MT = px.scatter(data_std_MT, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
-    
+    line_score = px.line(data, x="Number of agents", y="Complexity score", color="Algorithm", color_discrete_map=color_map)
+
+    # Add the min factorization score line :
+    line_score.add_trace(go.Scatter(
+        x=data['Number of agents'],
+        y=min_score['Min complexity score'],
+        mode='lines',
+        name='Min. score',
+        line=dict(color='#00d97f'),
+    ))
+
+
     # Bar charts for 
     queue_line, queue_line_MT, queue_freq, sub_ins_freq = queue_graphs()
 
@@ -403,26 +419,48 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         margin=dict(l=40, r=40, t=60, b=40),
     )
 
+    line_score.update_layout(
+        plot_bgcolor=colors['card'],
+        paper_bgcolor=colors['card'],
+        font=dict(color=colors['text'], family="Inter, sans-serif"),
+        showlegend=True,
+        title_text="Complexity score",
+        title_x=0.5,
+        title_xanchor="center",
+        xaxis_title="Number of agents",
+        yaxis_title="log(score)",
+        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
+        height=260,
+        width=475,
+        margin=dict(l=40, r=40, t=60, b=40),
+    )
+    line_score.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
+    line_score.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, range=[1, None], type="log")
+
     # Explicitly add the agent number under the bar graphs :
-    for i, value in enumerate(data_success['Number of agents']):
-        bar_success_agents.add_annotation(
-            x=value, 
-            y=-0.05,  # Adjust this value to position the label below the bar
-            text=str(value),
-            showarrow=False,
-            font=dict(size=11, color=colors['text']),
-            align="center",
-            yshift=-15  # Adjust this to control the distance from the bar
-        )
-        bar_success_agents_MT.add_annotation(
-            x=value, 
-            y=-0.05,  # Adjust this value to position the label below the bar
-            text=str(value),
-            showarrow=False,
-            font=dict(size=11, color=colors['text']),
-            align="center",
-            yshift=-15  # Adjust this to control the distance from the bar
-        )
+    if len(data_success['Number of agents']) < 10 :
+        for i, value in enumerate(data_success['Number of agents']):
+            bar_success_agents.add_annotation(
+                x=value, 
+                y=-0.05,  # Adjust this value to position the label below the bar
+                text=str(value),
+                showarrow=False,
+                font=dict(size=11, color=colors['text']),
+                align="center",
+                yshift=-15  # Adjust this to control the distance from the bar
+            )
+            bar_success_agents_MT.add_annotation(
+                x=value, 
+                y=-0.05,  # Adjust this value to position the label below the bar
+                text=str(value),
+                showarrow=False,
+                font=dict(size=11, color=colors['text']),
+                align="center",
+                yshift=-15  # Adjust this to control the distance from the bar
+            )
+    else :
+        bar_success_agents.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
+        bar_success_agents_MT.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
 
     # Display the data inside the bars :
     bar_success_agents.update_traces(textposition='inside')
@@ -541,15 +579,25 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
-        # Used for visualizing the queues. Reads data from the last found partitions
+        
+        dbc.Row(
+            [
+                dbc.Col(dcc.Graph(id='graph11',figure=line_score, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph12',figure=line_span_std, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'})
+            ],
+            style={'marginBottom': '30px'}
+        ),
+
+        # Used for visualizing the queues. Reads data from the last found partitions. Not very comprehensive, was mainly used for debugging purposes
         # dbc.Row(
         #     [
-        #         #dbc.Col(width=4, style={'textAlign': 'center'}),
-        #         dbc.Col(dcc.Graph(id='graph11',figure=queue_freq, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
-        #         dbc.Col(dcc.Graph(id='graph12',figure=sub_ins_freq, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'})
+        #         dbc.Col(dcc.Graph(id='graph12',figure=queue_freq, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'}),
+        #         dbc.Col(dcc.Graph(id='graph13',figure=sub_ins_freq), width=4, style={'textAlign': 'center'})
         #     ],
         #     style={'marginBottom': '30px'}
         # ),
+
+
 
         dbc.Row(dbc.Col(html.Div("")), style={'height' : '200px'}),
 

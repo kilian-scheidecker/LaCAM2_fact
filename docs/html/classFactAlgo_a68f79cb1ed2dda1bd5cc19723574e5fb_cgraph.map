@@ -1,5 +1,5 @@
 <map id="FactAlgo::is_factorizable" name="FactAlgo::is_factorizable">
-<area shape="rect" id="node1" title="Determines if the problem is factorizable at a given timestep." alt="" coords="5,5,185,32"/>
-<area shape="rect" id="node2" href="$classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="233,5,372,32"/>
+<area shape="rect" id="node1" title="Determines if the given configuration can be factorized and generates sub&#45;instances accordingly." alt="" coords="5,5,185,32"/>
+<area shape="rect" id="node2" href="$classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits a configuration into multiple sub&#45;instances based on given partitions." alt="" coords="233,5,372,32"/>
 <area shape="rect" id="node3" href="$utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="420,5,467,32"/>
 </map>

@@ -1,4 +1,4 @@
-import json
+import json, pandas as pd
 from os.path import join, dirname as up
 from src.utils import parse_file
 from math import log
@@ -61,5 +61,20 @@ def complexity_score():
             delta_t = prev_t[0]
             score += delta_t*a**N
 
-    return log(score/makespan, N)
+    return log(score)
     # return score
+
+
+
+def min_complexity_score(makespan_data: pd.DataFrame):
+
+    scores = []
+    makespans = makespan_data['Makespan']
+    agents = makespan_data['Number of agents']
+    a = 5 
+
+    for i, agent in enumerate(agents) :
+        score = log(makespans[i]*a*agent)
+        scores.append(score)
+
+    return pd.DataFrame({'Number of agents': agents, 'Min complexity score': scores})

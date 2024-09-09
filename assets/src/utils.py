@@ -28,7 +28,7 @@ def create_command(map_name: str, N: int, algorithms: list, multi_threading: lis
                     continue
             else :
                 end = ' -v 0' + ' -f ' + factalgo
-            command = "/usr/bin/time -v build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + '/' + map_name + ".map -N " + str(N) + end
+            command = "/usr/bin/time -v build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + '/' + map_name + ".map -sp -N " + str(N) + end
             commands.append(command)
 
     return commands

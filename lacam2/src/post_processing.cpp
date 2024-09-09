@@ -248,7 +248,9 @@ void make_log(const Instance& ins, const Solution& solution,
 
 
 void make_stats(const std::string file_name, const std::string factorize, const int N, 
-                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const bool multi_threading)
+                const int comp_time_ms, const Infos infos, const Solution solution, 
+                const std::string mapname, int success, const bool multi_threading,
+                const PartitionsMap& partitions_per_timestep)
 { 
     json j;
 
@@ -286,7 +288,7 @@ void make_stats(const std::string file_name, const std::string factorize, const 
         {"CPU usage (percent)", nullptr},
         {"Maximum RAM usage (Mbytes)", nullptr},
         {"Average RAM usage (Mbytes)", nullptr},
-        {"Complexity score", nullptr}
+        {"Complexity score", compute_score(N, partitions_per_timestep, get_makespan(solution))}
     };
 
     // Append the new stats to the JSON array
@@ -335,4 +337,66 @@ void write_partitions(const PartitionsMap& partitions_per_timestep, const std::s
             throw std::runtime_error("Unable to open file " + filename);
         }
     }
+}
+
+
+/**
+ * @brief Computes the complexity score based on partitions and timesteps.
+ * 
+ * This function calculates a score using the time of factorization and 
+ * applies an exponential weighting factor based on the partition sizes. The result is 
+ * returned as the logarithm of the computed score.
+ * 
+ * @param N The total number of agents.
+ * @param data_dict A map where each key is a timestep, and the corresponding value is a partition, each partition representing the splitting of the problem.
+ * @param makespan The total time duration considered for the computation.
+ * @return The logarithm of the computed score.
+ */
+double compute_score(int N, const PartitionsMap& data_dict, int makespan) {
+    double score = 0.0;
+    int a = 5;                  // Action space
+    std::map<int, int> prev_t;  // To store the last seen timestep for each agent
+
+    // Iterate over the timesteps in reverse order
+    for (auto it = data_dict.rbegin(); it != data_dict.rend(); ++it) {
+        int timestep = it->first;
+        int agent_count = 0;
+
+        // Calculate the total number of agents at the current timestep
+        for (const auto& sublist : it->second) {
+            agent_count += sublist.size();
+        }
+
+        for (const auto& partition : it->second) {
+            for (const auto& enabled : partition) {
+                // Compute delta_t from the previous split to the current timestep
+                int delta_t;
+                if (prev_t.find(enabled) == prev_t.end()) {
+                    delta_t = makespan - timestep;
+                } else if (prev_t[enabled] > timestep) {
+                    delta_t = prev_t[enabled] - timestep;
+                }
+
+                // Update previous timestep
+                prev_t[enabled] = timestep;
+
+                score += delta_t * std::pow(a, partition.size());
+                if (score > std::numeric_limits<double>::max()) {
+                    score = std::numeric_limits<double>::quiet_NaN();  // Set score to NaN if overflow is detected
+                }
+            }
+        }
+
+        if (agent_count == N) {
+            int delta_t = prev_t[0];
+            score += delta_t * std::pow(a, N);
+
+            // Check for overflow after final score update
+            if (score > std::numeric_limits<double>::max()) {
+                score = std::numeric_limits<double>::quiet_NaN();  // Set score to NaN if overflow is detected
+            }
+        }
+    }
+
+    return std::isnan(score) ? score : std::log(score);
 }

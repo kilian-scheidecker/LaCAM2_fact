@@ -9,7 +9,7 @@
 
 #ifndef FACTORIZER_HPP
 #define FACTORIZER_HPP
-#define SAFETY_DISTANCE 2
+#define SAFETY_DISTANCE 1
 
 #include "dist_table.hpp"
 #include "utils.hpp"
@@ -67,30 +67,10 @@ public:
 
     virtual ~FactAlgo() = default;
 
-    /**
-     * @brief Determines if the problem is factorizable at a given timestep.
-     * 
-     * @param C Current configuration.
-     * @param goals Goal configuration.
-     * @param verbose Verbosity level.
-     * @param enabled List of enabled agents.
-     * @param distances Distance vector.
-     * @param priorities Priority list for agents.
-     * @return A list of shared pointers to instances that are factorizable.
-     */
+    // Determines if the given configuration can be factorized and generates sub-instances accordingly.
     std::list<std::shared_ptr<Instance>> is_factorizable(const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities);
 
-    /**
-     * @brief Splits the current instance into multiple smaller sub-instances if possible.
-     * 
-     * @param C_new New configuration.
-     * @param goals Goal configuration.
-     * @param verbose Verbosity level.
-     * @param enabled List of enabled agents.
-     * @param partitions Partitions of the agents.
-     * @param priorities Priority list for agents.
-     * @return A list of shared pointers to sub-instances.
-     */
+    // Splits a configuration into multiple sub-instances based on given partitions.
     std::list<std::shared_ptr<Instance>> split_ins(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
 
     /**
@@ -105,20 +85,18 @@ public:
     };
 
     /**
-     * @brief Allows factorization according to definition.
-     * Uses the timesteps and pre-loaded Partitions to determine factorizability.
-     * Only used by the FactDef class.
+     * @brief Allows factorization according to pre-computed partitions (and thus also according to the definition of factorization)
      */
     virtual std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const = 0;
 
+    std::vector<std::pair<int, int>> coords;  //! Precomputed map of vertex id to 2D coordinates.
+
 private:
 
-    /**
-     * @brief Specific logic to determine if two agents can be factorized.
-     */
+    // Specific logic to determine if two agents can be factorized.
     virtual const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const = 0;
 
-    std::vector<std::pair<int, int>> coords;  //! Precomputed map of vertex id to 2D coordinates.
+
   
 };
 

@@ -52,13 +52,21 @@ Try running the following command \+:
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{> build/main -\/i assets/maps/random-\/32-\/32-\/20/other\_scenes/random-\/32-\/32-\/20-\/50.scen -\/m assets/maps/random-\/32-\/32-\/20/random-\/32-\/32-\/20.map -\/N 50 -\/v 1}
+\DoxyCodeLine{> build/main -\/i assets/maps/random-\/32-\/32-\/20/other\_scenes/random-\/32-\/32-\/20-\/700.scen -\/m assets/maps/random-\/32-\/32-\/20/random-\/32-\/32-\/20.map -\/N 10 -\/v 1}
 \DoxyCodeLine{solved: 1ms     makespan: 47 (lb=47, ub=1)      sum\_of\_costs: 1297 (lb=1098, ub=1.19)   sum\_of\_loss: 1198 (lb=1098, ub=1.1)}
 
 \end{DoxyCode}
 
 
-There are other arguments you can specify in order to use all the feature of La\+CAM2\+\_\+fact \+: -\/f \+: the heuristic used in the factorization. \textquotesingle{}-\/f no\textquotesingle{} will use standard La\+CAM2. -\/mt \+: to enable multi-\/threading.
+There are other arguments you can specify in order to use all the feature of La\+CAM2\+\_\+fact \+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily -\/mt} (or {\ttfamily -\/-\/multi\+\_\+threading})\+: This argument toggles whether the program uses multiple cores to solve MAPF instances in parallel (if applicable). By defauly it is set to false. use {\ttfamily -\/mt} or {\ttfamily -\/mt yes} to enable multi threading.
+\item {\ttfamily -\/f} (or {\ttfamily -\/-\/factorize})\+: This argument specifies the mode of factorization to be used in the solving process. The options are standard, \mbox{\hyperlink{classFactDistance}{Fact\+Distance}}, \mbox{\hyperlink{classFactBbox}{Fact\+Bbox}}, Factorient, \mbox{\hyperlink{classFactAstar}{Fact\+Astar}}, or \mbox{\hyperlink{classFactDef}{Fact\+Def}}, with the default being standard. This determines how the algorithm factorizes the problem for more efficient solving.
+\item {\ttfamily -\/s} (or {\ttfamily -\/-\/save\+\_\+stats})\+: This argument toggles whether the program should save statistics about the run. The satistics are saved in the {\ttfamily stats.\+json} file. By default, it is set to true. Use {\ttfamily -\/s false} to disable saving statistics.
+\item {\ttfamily -\/sp} (or {\ttfamily -\/-\/save\+\_\+partitions})\+: This argument controls whether the program saves the partitions generated during the solving process. By default, it is set to false. Use {\ttfamily -\/sp} to enable saving partitions.
+\end{DoxyItemize}
 
 You can find details of all parameters with\+: 
 \begin{DoxyCode}{0}
@@ -70,12 +78,39 @@ You can find details of all parameters with\+:
 Note that some parameters are only compatible with the standard version and some others only with the factorized verison of La\+CAM2.\hypertarget{index_autotoc_md2}{}\doxysection{Visualizer}\label{index_autotoc_md2}
 This repository is compatible with \href{https://github.com/kei18/mapf-visualizer}{\texttt{ @\+Kei18/mapf-\/visualizer}}.
 
-  Example with 200 agents in random-\/32-\/32-\/20.\+map \hypertarget{index_autotoc_md3}{}\doxysection{Data visualization}\label{index_autotoc_md3}
-TODO\hypertarget{index_autotoc_md4}{}\doxysection{Documentation}\label{index_autotoc_md4}
-The \mbox{[}docs\mbox{]}(docs) folder contains the documentation of this project. Simply open the \href{docs/html/index.html}{\texttt{ index}} and navigate through the docs.\hypertarget{index_autotoc_md5}{}\doxysection{Code Profiling}\label{index_autotoc_md5}
+ ~\newline
+ 
+
+Example with 200 agents in random-\/32-\/32-\/20.\+map\hypertarget{index_autotoc_md3}{}\doxysection{Data visualization}\label{index_autotoc_md3}
+Once you ran a couple tests, you can visualize the .json files using a dedicated dashboard in the {\ttfamily assets} folder. To use this script, run it from the command line with the required and optional arguments.\+The {\ttfamily -\/-\/map\+\_\+name} argument is mandatory and specifies the name of the map to display. Optionally, you can provide the {\ttfamily -\/-\/read\+\_\+from} argument to specify a file to read data from , and the {\ttfamily -\/-\/theme argument} to set the application theme to either \textquotesingle{}dark\textquotesingle{} or \textquotesingle{}light\textquotesingle{} (default is \textquotesingle{}dark\textquotesingle{}).
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python3 assets/dashboard.py -\/-\/map\_name random-\/32-\/32-\/10 -\/-\/read\_from stats.json -\/-\/theme dark}
+
+\end{DoxyCode}
+
+
+The dashboard contains a lot of interesting data, starting with simple general information about the tests (what map, how many agents, how many tests). Then some information about the current hardware of the machine (careful, this data does not represent the hardware used to generate a given .json file).
+
+The two graphs on the top right represent the succes rate of the different algorithms in \%. The first row of charts is for sequential solving of MAPF instances and the second row is about the multi-\/threaded solving (MT). The solving times are averaged out and plotted as a function of the agent number in the map. Information about the variance can be viewed in the center charts. The charts on the far right depict the successfully solved instances as a function of agent number.
+
+The fourth row shows data about average CPU and maximum RAM usage during the solving.
+
+ ~\newline
+ 
+
+Screenshot of the dashboard.\hypertarget{index_autotoc_md4}{}\doxysection{Documentation}\label{index_autotoc_md4}
+The \mbox{[}docs\mbox{]}(docs) folder contains the documentation of this project. It is accessible via the {\ttfamily Documentation} link in the root folder.
+
+ 
+
+Alternatively, you can navigate to {\ttfamily docs/html} and open the \href{docs/html/index.html}{\texttt{ index}} file. This will open the html page in the browser and you can scroll through the documentation.\hypertarget{index_autotoc_md5}{}\doxysection{Code Profiling}\label{index_autotoc_md5}
 You can take advantage of the \href{https://github.com/yse/easy_profiler}{\texttt{ Easy Profiler library}} in order to analyze the code and dive into the internals of the algorithms.
 
 To use the profiling, the variable ENABLE\+\_\+\+PROFILING needs to be defined. Be aware that toggling the profiler may affect performances.
+
+ 
 
 To toggle the profiling mode, you need to build the project accordingly by setting ENABLE\+\_\+\+PROFILING=ON.
 
@@ -103,16 +138,7 @@ To stop profiling, clean build the project again using the instructions in the \
 
 \begin{DoxyItemize}
 \item The grid maps and scenarios in {\ttfamily assets/maps/} are from \href{https://movingai.com/benchmarks/mapf.html}{\texttt{ MAPF benchmarks}}.
-\item {\ttfamily tests/} is not comprehensive. It was used in early developments.
-\item Auto formatting (clang-\/format) when committing\+:
-\end{DoxyItemize}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{git config core.hooksPath .githooks \&\& chmod a+x .githooks/pre-\/commit}
-
-\end{DoxyCode}
-
-
-La\+CAM$\ast$ variants are available in \href{https://github.com/Kei18/lacam2/tags}{\texttt{ tags}}.\hypertarget{index_autotoc_md7}{}\doxysection{Licence}\label{index_autotoc_md7}
+\item To run the python scripts in the {\ttfamily assets} folder, you might need to download/update some of the python packages (like dash, plotly, pandas, ...).
+\item La\+CAM$\ast$ variants are available in \href{https://github.com/Kei18/lacam2/tags}{\texttt{ tags}}.
+\end{DoxyItemize}\hypertarget{index_autotoc_md7}{}\doxysection{Licence}\label{index_autotoc_md7}
 This software is released under the MIT License, see \href{LICENCE.txt}{\texttt{ LICENSE.\+txt}}. 

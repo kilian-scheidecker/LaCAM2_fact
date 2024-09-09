@@ -1,0 +1,7 @@
+<map id="make_stats" name="make_stats">
+<area shape="rect" id="node1" title="Creates a statistics log for the MAPF instance and its solution." alt="" coords="5,56,103,83"/>
+<area shape="rect" id="node2" href="$post__processing_8cpp.html#a4d2b7a1a55aa40a6fc0229ae87689c84" title="Computes the complexity score based on partitions and timesteps." alt="" coords="159,5,281,32"/>
+<area shape="rect" id="node3" href="$post__processing_8cpp.html#adba9b96d1a3e654c235ea55897ed9934" title="Calculates the makespan of the solution, which is the maximum time step taken by any agent to reach i..." alt="" coords="161,56,279,83"/>
+<area shape="rect" id="node4" href="$post__processing_8cpp.html#a39cfe28ac85859787c08bb54967b6a37" title="Computes the sum of costs for all agents in the solution." alt="" coords="151,107,289,133"/>
+<area shape="rect" id="node5" href="$post__processing_8cpp.html#a0a30f5f9c90ae0df8b51bc6121ccfc75" title="Computes the path cost for a single agent." alt="" coords="337,107,451,133"/>
+</map>
