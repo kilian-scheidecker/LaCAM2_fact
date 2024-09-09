@@ -1,6 +1,6 @@
 <map id="get_sum_of_costs" name="get_sum_of_costs">
 <area shape="rect" id="node1" title="Computes the sum of costs for all agents in the solution." alt="" coords="259,31,397,57"/>
-<area shape="rect" id="node2" href="$post__processing_8hpp.html#a463686520526c847ecdb13254ac9204c" title="Creates a statistics log for the MAPF instance and its solution." alt="" coords="111,5,208,32"/>
+<area shape="rect" id="node2" href="$post__processing_8hpp.html#aaba1a4da7969a041c32527197f236c3c" title="Creates a statistics log for the MAPF instance and its solution." alt="" coords="111,5,208,32"/>
 <area shape="rect" id="node4" href="$post__processing_8hpp.html#a44d299eb5b2e052d6afeb0742b48cd0c" title=" " alt="" coords="108,56,211,83"/>
 <area shape="rect" id="node3" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,60,57"/>
 </map>

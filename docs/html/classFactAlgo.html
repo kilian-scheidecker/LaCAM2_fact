@@ -79,12 +79,12 @@ Inheritance diagram for FactAlgo:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo__inherit__graph.png" border="0" usemap="#aFactAlgo_inherit__map" alt="Inheritance graph"/></div>
 <map name="aFactAlgo_inherit__map" id="aFactAlgo_inherit__map">
-<area shape="rect" title="Base class for different factorization algorithms." alt="" coords="395,5,565,229"/>
-<area shape="rect" href="classFactAstar.html" title="Class that implements A* distance&#45;based factorization heuristic." alt="" coords="5,277,176,384"/>
-<area shape="rect" href="classFactBbox.html" title="Implements Bounding&#45;Box&#45;based factorization heuristic." alt="" coords="200,277,371,384"/>
-<area shape="rect" href="classFactDef.html" title="Class that implements factorization using pre&#45;computed partitions." alt="" coords="395,277,565,384"/>
-<area shape="rect" href="classFactDistance.html" title="Implements manhattan&#45;distance&#45;based factorization heuristic." alt="" coords="589,277,760,384"/>
-<area shape="rect" href="classFactOrient.html" title="Class that implements orientation&#45;based factorization heuristic." alt="" coords="784,277,955,384"/>
+<area shape="rect" title="Base class for different factorization algorithms." alt="" coords="395,5,565,244"/>
+<area shape="rect" href="classFactAstar.html" title="Class that implements A* distance&#45;based factorization heuristic." alt="" coords="5,292,176,399"/>
+<area shape="rect" href="classFactBbox.html" title="Implements Bounding&#45;Box&#45;based factorization heuristic." alt="" coords="200,292,371,399"/>
+<area shape="rect" href="classFactDef.html" title="Class that implements factorization using pre&#45;computed partitions." alt="" coords="395,292,565,399"/>
+<area shape="rect" href="classFactDistance.html" title="Implements manhattan&#45;distance&#45;based factorization heuristic." alt="" coords="589,292,760,399"/>
+<area shape="rect" href="classFactOrient.html" title="Class that implements orientation&#45;based factorization heuristic." alt="" coords="784,292,955,399"/>
 </map>
 </div>
 <div class="dynheader">
@@ -92,7 +92,7 @@ Collaboration diagram for FactAlgo:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo__coll__graph.png" border="0" usemap="#aFactAlgo_coll__map" alt="Collaboration graph"/></div>
 <map name="aFactAlgo_coll__map" id="aFactAlgo_coll__map">
-<area shape="rect" title="Base class for different factorization algorithms." alt="" coords="5,5,176,229"/>
+<area shape="rect" title="Base class for different factorization algorithms." alt="" coords="5,5,176,244"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -110,16 +110,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab9b8cff4ece755b3e7422a7d9dada4b4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#ab9b8cff4ece755b3e7422a7d9dada4b4">~FactAlgo</a> ()=default</td></tr>
 <tr class="separator:ab9b8cff4ece755b3e7422a7d9dada4b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68f79cb1ed2dda1bd5cc19723574e5fb"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::shared_ptr&lt; <a class="el" href="structInstance.html">Instance</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb">is_factorizable</a> (const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;C, const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;goals, int verbose, const std::vector&lt; int &gt; &amp;enabled, const std::vector&lt; int &gt; &amp;distances, const std::vector&lt; float &gt; &amp;priorities)</td></tr>
-<tr class="memdesc:a68f79cb1ed2dda1bd5cc19723574e5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the problem is factorizable at a given timestep.  <a href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb">More...</a><br /></td></tr>
+<tr class="memdesc:a68f79cb1ed2dda1bd5cc19723574e5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the given configuration can be factorized and generates sub-instances accordingly.  <a href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb">More...</a><br /></td></tr>
 <tr class="separator:a68f79cb1ed2dda1bd5cc19723574e5fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96e4d312eb0b7aed8e2e0f73daf165ad"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::shared_ptr&lt; <a class="el" href="structInstance.html">Instance</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad">split_ins</a> (const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;C_new, const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;goals, int verbose, const std::vector&lt; int &gt; &amp;enabled, const <a class="el" href="factorizer_8hpp.html#a1aabbff88f0399596b2b56a5664ffb24">Partitions</a> &amp;partitions, const std::vector&lt; float &gt; &amp;priorities) const</td></tr>
-<tr class="memdesc:a96e4d312eb0b7aed8e2e0f73daf165ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits the current instance into multiple smaller sub-instances if possible.  <a href="classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad">More...</a><br /></td></tr>
+<tr class="memdesc:a96e4d312eb0b7aed8e2e0f73daf165ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a configuration into multiple sub-instances based on given partitions.  <a href="classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad">More...</a><br /></td></tr>
 <tr class="separator:a96e4d312eb0b7aed8e2e0f73daf165ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad703e85131bd2581b87f1496af2a09bb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#ad703e85131bd2581b87f1496af2a09bb">get_manhattan</a> (int index1, int index2) const</td></tr>
 <tr class="memdesc:ad703e85131bd2581b87f1496af2a09bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the Manhattan distance between two vertices on the map.  <a href="classFactAlgo.html#ad703e85131bd2581b87f1496af2a09bb">More...</a><br /></td></tr>
 <tr class="separator:ad703e85131bd2581b87f1496af2a09bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59571e70bad92ddd2cdd813258f0b3eb"><td class="memItemLeft" align="right" valign="top">virtual std::list&lt; std::shared_ptr&lt; <a class="el" href="structInstance.html">Instance</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb">is_factorizable_def</a> (const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;C_new, const <a class="el" href="graph_8hpp.html#a90e282ed66f994959dc11799754f86c6">Config</a> &amp;goals, int verbose, const std::vector&lt; int &gt; &amp;enabled, const std::vector&lt; float &gt; &amp;priorities, int timestep) const =0</td></tr>
-<tr class="memdesc:a59571e70bad92ddd2cdd813258f0b3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows factorization according to definition.  <a href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb">More...</a><br /></td></tr>
+<tr class="memdesc:a59571e70bad92ddd2cdd813258f0b3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows factorization according to pre-computed partitions (and thus also according to the definition of factorization)  <a href="classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb">More...</a><br /></td></tr>
 <tr class="separator:a59571e70bad92ddd2cdd813258f0b3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -135,6 +135,8 @@ Data Fields</h2></td></tr>
 <tr class="memitem:aecabe751ccf660fc5935e25d0fb9f18a"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#aecabe751ccf660fc5935e25d0fb9f18a">use_def</a></td></tr>
 <tr class="memdesc:aecabe751ccf660fc5935e25d0fb9f18a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map storing the partitions per timestep.  <a href="classFactAlgo.html#aecabe751ccf660fc5935e25d0fb9f18a">More...</a><br /></td></tr>
 <tr class="separator:aecabe751ccf660fc5935e25d0fb9f18a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f4d8cf7d20b88e90be5e6e97d2ecd60"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; int, int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactAlgo.html#a6f4d8cf7d20b88e90be5e6e97d2ecd60">coords</a></td></tr>
+<tr class="separator:a6f4d8cf7d20b88e90be5e6e97d2ecd60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for different factorization algorithms. </p>
@@ -364,20 +366,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Determines if the problem is factorizable at a given timestep. </p>
-<p>Determines if the given configuration can be factorized and generates sub-instances accordingly.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">C</td><td>Current configuration. </td></tr>
-    <tr><td class="paramname">goals</td><td>Goal configuration. </td></tr>
-    <tr><td class="paramname">verbose</td><td>Verbosity level. </td></tr>
-    <tr><td class="paramname">enabled</td><td>List of enabled agents. </td></tr>
-    <tr><td class="paramname">distances</td><td>Distance vector. </td></tr>
-    <tr><td class="paramname">priorities</td><td>Priority list for agents. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A list of shared pointers to instances that are factorizable.</dd></dl>
+<p>Determines if the given configuration can be factorized and generates sub-instances accordingly. </p>
 <p>This function attempts to partition agents into groups based on a heuristic that evaluates if they can be factorized together. It merges partitions if they meet the heuristic criteria, and if a single partition containing all agents is found, it returns an empty list. Otherwise, it splits the configuration into multiple sub-instances based on the partitions and returns the list of these sub-instances.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -396,8 +385,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_cgraph.png" border="0" usemap="#aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_cgraph" alt=""/></div>
 <map name="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_cgraph" id="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_cgraph">
-<area shape="rect" title="Determines if the problem is factorizable at a given timestep." alt="" coords="5,5,185,32"/>
-<area shape="rect" href="classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="233,5,372,32"/>
+<area shape="rect" title="Determines if the given configuration can be factorized and generates sub&#45;instances accordingly." alt="" coords="5,5,185,32"/>
+<area shape="rect" href="classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits a configuration into multiple sub&#45;instances based on given partitions." alt="" coords="233,5,372,32"/>
 <area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="420,5,467,32"/>
 </map>
 </div>
@@ -406,7 +395,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph.png" border="0" usemap="#aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph" alt=""/></div>
 <map name="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph" id="aclassFactAlgo_a68f79cb1ed2dda1bd5cc19723574e5fb_icgraph">
-<area shape="rect" title="Determines if the problem is factorizable at a given timestep." alt="" coords="479,5,659,32"/>
+<area shape="rect" title="Determines if the given configuration can be factorized and generates sub&#45;instances accordingly." alt="" coords="479,5,659,32"/>
 <area shape="rect" href="structPlanner.html#a7c698601a12848d8421f68dc65d617e8" title="Factorized version of LaCAM2." alt="" coords="272,5,431,32"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
@@ -473,8 +462,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Allows factorization according to definition. </p>
-<p>Uses the timesteps and pre-loaded Partitions to determine factorizability. Only used by the <a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a> class. </p>
+<p>Allows factorization according to pre-computed partitions (and thus also according to the definition of factorization) </p>
 
 <p>Implemented in <a class="el" href="classFactDef.html#abf170fb43013dd4f19977abbb5590e0a">FactDef</a>, <a class="el" href="classFactAstar.html#ae6bfa6201ec475f5819b26b27f958e02">FactAstar</a>, <a class="el" href="classFactOrient.html#aa7e01e0c19e39e0aa51b3ce03c6df7d8">FactOrient</a>, <a class="el" href="classFactBbox.html#ad3566444649e0eabc59ece5ee66c3c34">FactBbox</a>, and <a class="el" href="classFactDistance.html#a32c6cdbfa95a9d895e60e747df77c9a4">FactDistance</a>.</p>
 <div class="dynheader">
@@ -482,7 +470,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph.png" border="0" usemap="#aclassFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph" alt=""/></div>
 <map name="aclassFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph" id="aclassFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb_icgraph">
-<area shape="rect" title="Allows factorization according to definition." alt="" coords="479,5,687,32"/>
+<area shape="rect" title="Allows factorization according to pre&#45;computed partitions (and thus also according to the definition ..." alt="" coords="479,5,687,32"/>
 <area shape="rect" href="structPlanner.html#a7c698601a12848d8421f68dc65d617e8" title="Factorized version of LaCAM2." alt="" coords="272,5,431,32"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
@@ -541,20 +529,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Splits the current instance into multiple smaller sub-instances if possible. </p>
-<p>Splits a configuration into multiple sub-instances based on given partitions.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">C_new</td><td>New configuration. </td></tr>
-    <tr><td class="paramname">goals</td><td>Goal configuration. </td></tr>
-    <tr><td class="paramname">verbose</td><td>Verbosity level. </td></tr>
-    <tr><td class="paramname">enabled</td><td>List of enabled agents. </td></tr>
-    <tr><td class="paramname">partitions</td><td>Partitions of the agents. </td></tr>
-    <tr><td class="paramname">priorities</td><td>Priority list for agents. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A list of shared pointers to sub-instances.</dd></dl>
+<p>Splits a configuration into multiple sub-instances based on given partitions. </p>
 <p>This function creates sub-instances from a given configuration by dividing the agents according to the provided partitions. It initializes each sub-instance with the relevant agents, their positions, goals, and priorities.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -573,7 +548,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph.png" border="0" usemap="#aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph" alt=""/></div>
 <map name="aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph" id="aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_cgraph">
-<area shape="rect" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="5,5,144,32"/>
+<area shape="rect" title="Splits a configuration into multiple sub&#45;instances based on given partitions." alt="" coords="5,5,144,32"/>
 <area shape="rect" href="utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="192,5,239,32"/>
 </map>
 </div>
@@ -582,8 +557,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_icgraph.png" border="0" usemap="#aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_icgraph" alt=""/></div>
 <map name="aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_icgraph" id="aclassFactAlgo_a96e4d312eb0b7aed8e2e0f73daf165ad_icgraph">
-<area shape="rect" title="Splits the current instance into multiple smaller sub&#45;instances if possible." alt="" coords="707,5,845,32"/>
-<area shape="rect" href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the problem is factorizable at a given timestep." alt="" coords="479,5,659,32"/>
+<area shape="rect" title="Splits a configuration into multiple sub&#45;instances based on given partitions." alt="" coords="707,5,845,32"/>
+<area shape="rect" href="classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the given configuration can be factorized and generates sub&#45;instances accordingly." alt="" coords="479,5,659,32"/>
 <area shape="rect" href="structPlanner.html#a7c698601a12848d8421f68dc65d617e8" title="Factorized version of LaCAM2." alt="" coords="272,5,431,32"/>
 <area shape="rect" href="lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
@@ -593,6 +568,20 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Field Documentation</h2>
+<a id="a6f4d8cf7d20b88e90be5e6e97d2ecd60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f4d8cf7d20b88e90be5e6e97d2ecd60">&#9670;&nbsp;</a></span>coords</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::pair&lt;int, int&gt; &gt; FactAlgo::coords</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aff8b16f2cab55f8a7ae8ac8a76bb0851"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aff8b16f2cab55f8a7ae8ac8a76bb0851">&#9670;&nbsp;</a></span>need_astar</h2>
 

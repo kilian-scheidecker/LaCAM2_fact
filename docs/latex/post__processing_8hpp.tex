@@ -7,7 +7,9 @@ Definition of a variety of metric calculations (sum of loss, makespan, etc).
 
 {\ttfamily \#include \char`\"{}instance.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}factorizer.\+hpp\char`\"{}}\newline
-Include dependency graph for post\+\_\+processing.\+hpp\+:\nopagebreak
+{\ttfamily \#include $<$limits$>$}\newline
+Include dependency graph for post\+\_\+processing.\+hpp\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -44,10 +46,12 @@ void \mbox{\hyperlink{post__processing_8hpp_a44d299eb5b2e052d6afeb0742b48cd0c}{p
 \item 
 void \mbox{\hyperlink{post__processing_8hpp_a5214454662f3c347f961deaae33d68b4}{make\+\_\+log}} (const \mbox{\hyperlink{structInstance}{Instance}} \&ins, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} \&solution, const std\+::string \&output\+\_\+name, const double comp\+\_\+time\+\_\+ms, const std\+::string \&map\+\_\+name, const int seed, const std\+::string \&additional\+\_\+info, \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, const bool log\+\_\+short=false)
 \begin{DoxyCompactList}\small\item\em Creates a log of the solution and the above metriucs, can be found in \char`\"{}build/results.\+txt\char`\"{}. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{post__processing_8hpp_a463686520526c847ecdb13254ac9204c}{make\+\_\+stats}} (const std\+::string file\+\_\+name, const std\+::string factorize, const int N, const int comp\+\_\+time\+\_\+ms, const \mbox{\hyperlink{structInfos}{Infos}} infos, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solution, const std\+::string mapname, int success, const bool multi\+\_\+threading)
+void \mbox{\hyperlink{post__processing_8hpp_aaba1a4da7969a041c32527197f236c3c}{make\+\_\+stats}} (const std\+::string file\+\_\+name, const std\+::string factorize, const int N, const int comp\+\_\+time\+\_\+ms, const \mbox{\hyperlink{structInfos}{Infos}} infos, const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}} solution, const std\+::string mapname, int success, const bool multi\+\_\+threading, const \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep)
 \begin{DoxyCompactList}\small\item\em Creates a statistics log for the MAPF instance and its solution. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{post__processing_8hpp_a6658463f55f0eee7647b85b50204d0ce}{write\+\_\+partitions}} (const \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&partitions\+\_\+per\+\_\+timestep, const std\+::string factorize)
-\begin{DoxyCompactList}\small\item\em Writes the partitions information to a file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Writes the partitions information to a file. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{post__processing_8hpp_a4d2b7a1a55aa40a6fc0229ae87689c84}{compute\+\_\+score}} (int N, const \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&data\+\_\+dict, int makespan)
+\begin{DoxyCompactList}\small\item\em Computes the complexity score based on partitions and timesteps. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -56,6 +60,38 @@ Definition of a variety of metric calculations (sum of loss, makespan, etc).
 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{post__processing_8hpp_a4d2b7a1a55aa40a6fc0229ae87689c84}\label{post__processing_8hpp_a4d2b7a1a55aa40a6fc0229ae87689c84}} 
+\index{post\_processing.hpp@{post\_processing.hpp}!compute\_score@{compute\_score}}
+\index{compute\_score@{compute\_score}!post\_processing.hpp@{post\_processing.hpp}}
+\doxysubsubsection{\texorpdfstring{compute\_score()}{compute\_score()}}
+{\footnotesize\ttfamily double compute\+\_\+score (\begin{DoxyParamCaption}\item[{int}]{N,  }\item[{const \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{data\+\_\+dict,  }\item[{int}]{makespan }\end{DoxyParamCaption})}
+
+
+
+Computes the complexity score based on partitions and timesteps. 
+
+This function calculates a score using the time of factorization and applies an exponential weighting factor based on the partition sizes. The result is returned as the logarithm of the computed score.
+
+
+\begin{DoxyParams}{Parameters}
+{\em N} & The total number of agents. \\
+\hline
+{\em data\+\_\+dict} & A map where each key is a timestep, and the corresponding value is a partition, each partition representing the splitting of the problem. \\
+\hline
+{\em makespan} & The total time duration considered for the computation. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The logarithm of the computed score. 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{post__processing_8hpp_a4d2b7a1a55aa40a6fc0229ae87689c84_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{post__processing_8hpp_adba9b96d1a3e654c235ea55897ed9934}\label{post__processing_8hpp_adba9b96d1a3e654c235ea55897ed9934}} 
 \index{post\_processing.hpp@{post\_processing.hpp}!get\_makespan@{get\_makespan}}
 \index{get\_makespan@{get\_makespan}!post\_processing.hpp@{post\_processing.hpp}}
@@ -66,7 +102,8 @@ Definition of a variety of metric calculations (sum of loss, makespan, etc).
 
 Calculates the makespan of the solution, which is the maximum time step taken by any agent to reach its goal. 
 
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -107,7 +144,8 @@ Here is the caller graph for this function\+:\nopagebreak
 
 Computes the path cost for a single agent. 
 
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -131,7 +169,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=305pt]{post__processing_8hpp_a39cfe28ac85859787c08bb54967b6a37_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -237,28 +276,30 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=221pt]{post__processing_8hpp_a5214454662f3c347f961deaae33d68b4_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{post__processing_8hpp_a463686520526c847ecdb13254ac9204c}\label{post__processing_8hpp_a463686520526c847ecdb13254ac9204c}} 
+\mbox{\Hypertarget{post__processing_8hpp_aaba1a4da7969a041c32527197f236c3c}\label{post__processing_8hpp_aaba1a4da7969a041c32527197f236c3c}} 
 \index{post\_processing.hpp@{post\_processing.hpp}!make\_stats@{make\_stats}}
 \index{make\_stats@{make\_stats}!post\_processing.hpp@{post\_processing.hpp}}
 \doxysubsubsection{\texorpdfstring{make\_stats()}{make\_stats()}}
-{\footnotesize\ttfamily void make\+\_\+stats (\begin{DoxyParamCaption}\item[{const std\+::string}]{file\+\_\+name,  }\item[{const std\+::string}]{factorize,  }\item[{const int}]{N,  }\item[{const int}]{comp\+\_\+time\+\_\+ms,  }\item[{const \mbox{\hyperlink{structInfos}{Infos}}}]{infos,  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}}}]{solution,  }\item[{const std\+::string}]{mapname,  }\item[{int}]{success,  }\item[{const bool}]{multi\+\_\+threading }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void make\+\_\+stats (\begin{DoxyParamCaption}\item[{const std\+::string}]{file\+\_\+name,  }\item[{const std\+::string}]{factorize,  }\item[{const int}]{N,  }\item[{const int}]{comp\+\_\+time\+\_\+ms,  }\item[{const \mbox{\hyperlink{structInfos}{Infos}}}]{infos,  }\item[{const \mbox{\hyperlink{instance_8hpp_adf707c115c81383fa47f3fad90047c45}{Solution}}}]{solution,  }\item[{const std\+::string}]{mapname,  }\item[{int}]{success,  }\item[{const bool}]{multi\+\_\+threading,  }\item[{const \mbox{\hyperlink{factorizer_8hpp_a6b0b91f4cdb2a8e36445e255d5678593}{Partitions\+Map}} \&}]{partitions\+\_\+per\+\_\+timestep }\end{DoxyParamCaption})}
 
 
 
 Creates a statistics log for the MAPF instance and its solution. 
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{post__processing_8hpp_a463686520526c847ecdb13254ac9204c_cgraph}
+\includegraphics[width=350pt]{post__processing_8hpp_aaba1a4da7969a041c32527197f236c3c_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=230pt]{post__processing_8hpp_a463686520526c847ecdb13254ac9204c_icgraph}
+\includegraphics[width=230pt]{post__processing_8hpp_aaba1a4da7969a041c32527197f236c3c_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{post__processing_8hpp_a44d299eb5b2e052d6afeb0742b48cd0c}\label{post__processing_8hpp_a44d299eb5b2e052d6afeb0742b48cd0c}} 

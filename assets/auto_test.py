@@ -5,7 +5,7 @@ import numpy as np
 
 from src.fact_def import max_fact_partitions, smallest_partitions, half_smallest_partitions
 from src.score import complexity_score
-from src.utils import create_command, run_command_in_ubuntu
+from src.utils import create_command, run_command_in_ubuntu, update_stats
 from src.scenario_generator import create_scen
 
 

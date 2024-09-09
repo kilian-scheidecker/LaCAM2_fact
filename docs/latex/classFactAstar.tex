@@ -11,7 +11,8 @@ Class that implements A$\ast$ distance-\/based factorization heuristic.
 
 
 
-Inheritance diagram for Fact\+Astar\+:\nopagebreak
+Inheritance diagram for Fact\+Astar\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,7 +21,8 @@ Inheritance diagram for Fact\+Astar\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Fact\+Astar\+:\nopagebreak
+Collaboration diagram for Fact\+Astar\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -35,7 +37,7 @@ Collaboration diagram for Fact\+Astar\+:\nopagebreak
 \mbox{\hyperlink{classFactAstar_a2cc02422c492410230bcc55286f9a5f4}{Fact\+Astar}} (int \mbox{\hyperlink{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}{width}})
 \item 
 std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{structInstance}{Instance}} $>$ $>$ \mbox{\hyperlink{classFactAstar_ae6bfa6201ec475f5819b26b27f958e02}{is\+\_\+factorizable\+\_\+def}} (const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&C\+\_\+new, const \mbox{\hyperlink{graph_8hpp_a90e282ed66f994959dc11799754f86c6}{Config}} \&goals, int verbose, const std\+::vector$<$ int $>$ \&enabled, const std\+::vector$<$ float $>$ \&priorities, int timestep) const
-\begin{DoxyCompactList}\small\item\em Allows factorization according to definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Allows factorization according to pre-\/computed partitions (and thus also according to the definition of factorization) \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
@@ -66,9 +68,9 @@ Class that implements A$\ast$ distance-\/based factorization heuristic.
 
 
 
-Allows factorization according to definition. 
+Allows factorization according to pre-\/computed partitions (and thus also according to the definition of factorization) 
 
-Uses the timesteps and pre-\/loaded Partitions to determine factorizability. Only used by the \mbox{\hyperlink{classFactDef}{Fact\+Def}} class. 
+
 
 Implements \mbox{\hyperlink{classFactAlgo_a59571e70bad92ddd2cdd813258f0b3eb}{Fact\+Algo}}.
 

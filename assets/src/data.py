@@ -23,7 +23,7 @@ def compute_averages(data: pd.DataFrame) :
 
 
     # Average all tests
-    data = data[['Number of agents', 'Algorithm', 'Multi threading', 'Sum of loss', 'Sum of costs', 'CPU usage (percent)', 'Maximum RAM usage (Mbytes)', 'Average RAM usage (Mbytes)', 'Computation time (ms)', 'Makespan']]
+    data = data[['Number of agents', 'Algorithm', 'Multi threading', 'Sum of loss', 'Sum of costs', 'CPU usage (percent)', 'Maximum RAM usage (Mbytes)', 'Average RAM usage (Mbytes)', 'Computation time (ms)', 'Makespan', 'Complexity score']]
     data_avg = data.groupby(['Number of agents', 'Algorithm', 'Multi threading']).mean().reset_index()
     data_std = data.groupby(['Number of agents', 'Algorithm', 'Multi threading']).var().pow(1./2).reset_index()
 
@@ -36,6 +36,7 @@ def compute_averages(data: pd.DataFrame) :
     data_avg.insert(loc=2, column='Computation time (ms) std', value=data_std['Computation time (ms)'])
     data_avg.insert(loc=2, column='CPU usage (percent) std', value=data_std['CPU usage (percent)'])
     data_avg.insert(loc=2, column='Makespan std', value=data_std['Makespan'])
+    data_avg.insert(loc=2, column='Complexity std', value=data_std['Complexity score'])
 
     return data_avg
 

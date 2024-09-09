@@ -6,6 +6,7 @@
 #pragma once
 #include "instance.hpp"
 #include "factorizer.hpp"
+#include <limits>
 
 
 /// Checks if the given solution is feasible for the provided instance.
@@ -45,7 +46,12 @@ void make_log(const Instance& ins, const Solution& solution,
 
 /// Creates a statistics log for the MAPF instance and its solution.
 void make_stats(const std::string file_name, const std::string factorize, const int N, 
-                const int comp_time_ms, const Infos infos, const Solution solution, const std::string mapname, int success, const bool multi_threading);
+                const int comp_time_ms, const Infos infos, const Solution solution, 
+                const std::string mapname, int success, const bool multi_threading,
+                const PartitionsMap& partitions_per_timestep);
 
 /// Writes the partitions information to a file.
 void write_partitions(const PartitionsMap& partitions_per_timestep, const std::string factorize);
+
+// Compute the factorization score
+double compute_score(int N, const PartitionsMap& data_dict, int makespan);

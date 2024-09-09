@@ -248,10 +248,10 @@ const bool FactBbox::heuristic(int rel_id_1, int index1, int goal1, int rel_id_2
     PROFILE_FUNC(profiler::colors::Yellow500);
 
     // Extract positions and goals
-    int x1 = index1 % width, y1 = index1 / width;
-    int xg1 = goal1 % width, yg1 = goal1 / width;
-    int x2 = index2 % width, y2 = index2 / width;
-    int xg2 = goal2 % width, yg2 = goal2 / width;
+    const auto& [y1, x1] = coords[index1];
+    const auto& [yg1, xg1] = coords[goal1];
+    const auto& [y2, x2] = coords[index2];
+    const auto& [yg2, xg2] = coords[goal2];
 
     // Calculate min and max bounds
     int x1_min = std::min(x1, xg1), x1_max = std::max(x1, xg1);
@@ -294,15 +294,11 @@ const bool FactOrient::heuristic(int rel_id_1, int index1, int goal1, int rel_id
 {
     PROFILE_FUNC(profiler::colors::Yellow500);
 
-    int y1 = (int) index1/width;    // agent1 y position
-    int x1 = index1%width;          // agent1 x position
-    int yg1 = (int) goal1/width;    // goal1 y position
-    int xg1 = goal1%width;          // goal1 x position
-
-    int y2 = (int) index2/width;    // agent2 y position
-    int x2 = index2%width;          // agent2 x position
-    int yg2 = (int) goal2/width;    // goal2 y position
-    int xg2 = goal2%width;          // goal2 x position
+    // Extract positions and goals
+    const auto& [y1, x1] = coords[index1];
+    const auto& [yg1, xg1] = coords[goal1];
+    const auto& [y2, x2] = coords[index2];
+    const auto& [yg2, xg2] = coords[goal2];
 
     // Compute the Manhattan distance between the agents as well as between their goals
     int dx = std::abs(x1 - x2);
@@ -321,8 +317,8 @@ const bool FactOrient::heuristic(int rel_id_1, int index1, int goal1, int rel_id
     bool not_intersecting = !doIntersect(std::make_tuple(x1, y1), std::make_tuple(xg1, yg1), std::make_tuple(x2, y2), std::make_tuple(xg2,yg2)); 
     
     // Check for minimal distance between the agents and their paths
-    double minDistance = segmentsMinDistance(std::make_tuple(x1, y1), std::make_tuple(xg1, yg1),
-                                             std::make_tuple(x2, y2), std::make_tuple(xg2, yg2));
+    double minDistance = segmentsMinDistance(std::make_tuple(x1, y1), std::make_tuple(xg1, yg1),    // agent-to-goal line of agent 1
+                                             std::make_tuple(x2, y2), std::make_tuple(xg2, yg2));   // agent-to-goal line of agent 2
 
     // Return true if they are non-intersecting and apart enough
     if (SAFETY_DISTANCE != 0)
@@ -434,8 +430,8 @@ bool FactOrient::doIntersect(const std::tuple<int, int>& p1, const std::tuple<in
  * if the projection lies on the segment; otherwise, it returns the distance to the nearest endpoint.
  * 
  * @param p The point for which the distance is to be computed.
- * @param segA The first endpoint of the line segment.
- * @param segB The second endpoint of the line segment.
+ * @param segA The starting point of the line segment.
+ * @param segB The endpoint of the line segment.
  * 
  * @return The shortest distance from the point `p` to the line segment `segA`-`segB`.
  */
@@ -467,26 +463,26 @@ double FactOrient::pointToSegmentDistance(const std::tuple<int, int>& p, const s
 
 
 /**
- * @brief Computes the minimum distance between two line segments defined by points A1, A2 and B1, B2.
+ * @brief Computes the minimum distance between two line segments defined by points a1, g1 and a2, g2.
  * 
  * This function calculates the shortest distance between two line segments by computing the distance 
  * from each endpoint of one segment to the other segment.
  * 
- * @param A1 The first endpoint of the first line segment.
- * @param A2 The second endpoint of the first line segment.
- * @param B1 The first endpoint of the second line segment.
- * @param B2 The second endpoint of the second line segment.
+ * @param a1 The position of the first agent.
+ * @param g1 The goal of the first agent.
+ * @param a2 The position of the second agent.
+ * @param g2 The goal of the second agent.
  * 
  * @return The minimum distance between the two line segments.
  */
-double FactOrient::segmentsMinDistance(const std::tuple<int, int>& A1, const std::tuple<int, int>& A2, 
-                           const std::tuple<int, int>& B1, const std::tuple<int, int>& B2) const
+double FactOrient::segmentsMinDistance(const std::tuple<int, int>& a1, const std::tuple<int, int>& g1, 
+                           const std::tuple<int, int>& a2, const std::tuple<int, int>& g2) const
 {
     return std::min({ 
-        pointToSegmentDistance(A1, B1, B2),
-        pointToSegmentDistance(A2, B1, B2),
-        pointToSegmentDistance(B1, A1, A2),
-        pointToSegmentDistance(B2, A1, A2)
+        pointToSegmentDistance(a1, a2, g2), // distance of agent 1 to path of a2
+        pointToSegmentDistance(g1, a2, g2), // distance of goal 1 to path of a2
+        pointToSegmentDistance(a2, a1, g1), // distance of agent 2 to path of a1
+        pointToSegmentDistance(g2, a1, g1)  // distance of goal 2 to path of a1
     });
 }
 

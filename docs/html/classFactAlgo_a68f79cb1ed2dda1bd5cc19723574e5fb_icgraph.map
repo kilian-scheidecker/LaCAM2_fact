@@ -1,5 +1,5 @@
 <map id="FactAlgo::is_factorizable" name="FactAlgo::is_factorizable">
-<area shape="rect" id="node1" title="Determines if the problem is factorizable at a given timestep." alt="" coords="479,5,659,32"/>
+<area shape="rect" id="node1" title="Determines if the given configuration can be factorized and generates sub&#45;instances accordingly." alt="" coords="479,5,659,32"/>
 <area shape="rect" id="node2" href="$structPlanner.html#a7c698601a12848d8421f68dc65d617e8" title="Factorized version of LaCAM2." alt="" coords="272,5,431,32"/>
 <area shape="rect" id="node3" href="$lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,5,224,32"/>
 <area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>

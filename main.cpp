@@ -166,11 +166,13 @@ int main(int argc, char* argv[])
 
     // post processing
     print_results(verbose, ins, solution, comp_time_ms);
+    if (partitions_per_timestep.empty()) partitions_per_timestep[get_makespan(solution)] = {v_enable};
     make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, partitions_per_timestep, log_short);
     if(save_stats)
-        make_stats("stats.json", factorize, N, comp_time_ms, infos, solution, mapname, success, multi_threading);
-    if(save_partitions && success == 1)
+        make_stats("stats.json", factorize, N, comp_time_ms, infos, solution, mapname, success, multi_threading, partitions_per_timestep);
+    if(save_partitions && success == 1){
         write_partitions(partitions_per_timestep, factorize);
+    }
 
     // resume cout
     std::cout.rdbuf(coutBuffer);
