@@ -99,7 +99,7 @@ The two graphs on the top right represent the succes rate of the different algor
 The fourth row shows data about average CPU and maximum RAM usage during the solving.
 
 <div style="text-align: center;">
-  <img src="assets/misc/screenshot_dashboard.png" width=100% align="center/>
+  <img src="assets/misc/screenshot_dashboard.png" width=100% align="center"/>
   <div>Screenshot of the dashboard.</div>
 </div>
 
