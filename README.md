@@ -16,19 +16,19 @@ To build the project you need is [CMake](https://cmake.org/) (≥v3.16). The cod
 
 First, clone this repo with submodules.
 
-```sh
+```bash
 git clone https://github.com/idsc-frazzoli/LaCAM2_fact.git
 ```
 
 Depending on the configuration of your environnement, you might also need other linux libraries such as qt-5-default. To install the required packages, run the following command.
 
-```sh
+```bash
 sudo apt-get install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
 ```
 
 Then dowload the required submodules. This project uses two submodules: [argparse](https://github.com/p-ranav/argparse) by P-Ranav and [easy_profiler](https://github.com/yse/easy_profiler) by yse.
 
-```sh
+```bash
 cd LaCAM2_fact
 git submodules init
 git submodules update
@@ -36,7 +36,7 @@ git submodules update
 
 Finally, you can build the project.
 
-```sh
+```bash
 cmake -B build && make -C build -j4
 ```
 
@@ -51,7 +51,7 @@ Basic run with 50 agents on the 'random-32-32-20' map. The important arguments a
 
 Try running the following command :
 
-```sh
+```bash
 > build/main -i assets/maps/random-32-32-20/other_scenes/random-32-32-20-700.scen -m assets/maps/random-32-32-20/random-32-32-20.map -N 10 -v 1
 solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=1.19)   sum_of_loss: 1198 (lb=1098, ub=1.1)
 ```
@@ -68,7 +68,7 @@ There are other arguments you can specify in order to use all the feature of LaC
 
 
 You can find details of all parameters with:
-```sh
+```bash
 build/main --help
 ```
 
@@ -87,7 +87,7 @@ This repository is compatible with [@Kei18/mapf-visualizer](https://github.com/k
 
 Once you ran a couple tests, you can visualize the .json files using a dedicated dashboard in the `assets` folder. To use this script, run it from the command line with the required and optional arguments.The `--map_name` argument is mandatory and specifies the name of the map to display. Optionally, you can provide the `--read_from` argument to specify a file to read data from , and the `--theme argument` to set the application theme to either 'dark' or 'light' (default is 'dark').
 
-```sh
+```bash
 python3 assets/dashboard.py --map_name random-32-32-10 --read_from stats.json --theme dark
 ```
 
@@ -118,7 +118,7 @@ To use the profiling, the variable ENABLE_PROFILING needs to be defined. Be awar
 
 To toggle the profiling mode, you need to build the project accordingly by setting ENABLE_PROFILING=ON.
 
-```sh
+```bash
 cmake -D ENABLE_PROFILING=ON -B build && make -C build -j4
 ```
 
@@ -127,7 +127,7 @@ At every run, the collected data will be stored in 'code_profiling/profile.prof'
 
 This file can then be vizualised by using the Easy Profiler Visualizer. There should be an executable called 'profiler_gui' in the build directory of the Easy Profiler. You can use this to visualize everything in detail.
 
-```sh
+```bash
 ./build/third_party/easy_profiler/bin/profiler_gui
 ```
 
@@ -142,7 +142,7 @@ To stop profiling, clean build the project again using the instructions in the '
 - `tests/` is not comprehensive. It was used in early developments.
 - Auto formatting (clang-format) when committing:
 
-```sh
+```bash
 git config core.hooksPath .githooks && chmod a+x .githooks/pre-commit
 ```
 
