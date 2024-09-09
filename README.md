@@ -144,22 +144,14 @@ This file can then be vizualised by using the Easy Profiler Visualizer. There sh
 
 Once you opened the visualizer, you can use the folder icon at the top left to open the 'profile.prof' file.
 
-
-
 To stop profiling, clean build the project again using the instructions in the 'Building' section.
 
 
 ## Notes
 
 - The grid maps and scenarios in `assets/maps/` are from [MAPF benchmarks](https://movingai.com/benchmarks/mapf.html).
-- `tests/` is not comprehensive. It was used in early developments.
-- Auto formatting (clang-format) when committing:
-
-```bash
-git config core.hooksPath .githooks && chmod a+x .githooks/pre-commit
-```
-
-LaCAM* variants are available in [tags](https://github.com/Kei18/lacam2/tags).
+- To run the python scripts in the `assets` folder, you might need to download/update some of the python packages (like dash, plotly, pandas, ...).
+- LaCAM* variants are available in [tags](https://github.com/Kei18/lacam2/tags).
 
 
 ## Licence
