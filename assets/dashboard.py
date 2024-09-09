@@ -237,17 +237,13 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     # Manage the x_axis of the success plots
     adjust_success_plots(len(data_success['Number of agents']), bar_success_agents, bar_success_agents_MT)
     
-    
 
     print("\nDashboard updated")
+
 
     # Layout of the Dashboard
     app.layout = html.Div(style={'backgroundColor': colors['background'], 'fontFamily': 'Inter, sans-serif'}, children=[
         
-        # dbc.Row(
-        #     dbc.Col(html.Div(html.P(["PERFORMANCE OVERVIEW (", map_name, ")"]), 
-        #     style={'textAlign': 'center', 'color': colors['text'], 'fontSize': 25, 'marginBottom': '20px', 'marginTop': '20px'})),
-        # ),
         # Title Row
         dbc.Row(
             dbc.Col(
@@ -322,6 +318,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
+        # Second row
         dbc.Row(
             [
                 dbc.Col(dcc.Graph(id='graph1',figure=line_time, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center', 'borderRadius': '10px'}),
@@ -331,9 +328,9 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
+        # Third row
         dbc.Row(
             [
-                #dbc.Col(width=4, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph4',figure=line_time_MT, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph5',figure=line_time_std_MT, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'}),
                 dbc.Col(dcc.Graph(id='graph6',figure=bar_success_agents_MT), width=4, style={'textAlign': 'center'})
@@ -341,6 +338,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
+        # Fourth row
         dbc.Row(
             [
                 #dbc.Col(width=4, style={'textAlign': 'center'}),
@@ -352,7 +350,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
-        
+        # Fifth row
         dbc.Row(
             [
                 dbc.Col(dcc.Graph(id='graph11',figure=line_score, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
@@ -370,8 +368,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         #     style={'marginBottom': '30px'}
         # ),
 
-
-
+        # Final padding
         dbc.Row(dbc.Col(html.Div("")), style={'height' : '200px'}),
 
     ])
