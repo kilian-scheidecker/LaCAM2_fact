@@ -2,19 +2,13 @@
   <img src="assets/misc/LaCAM2_fact_logo.png" width="80%">
 </p>
 
-
-
-
 ---
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![CI](https://github.com/Kei18/lacam2/actions/workflows/ci.yml/badge.svg)](https://github.com/Kei18/lacam2/actions/workflows/ci.yml)
 
-This is a factorized version of the LaCAM2 algorithm from Keisuke Okumura.
+LaCAM2_fact is a factorized version of the LaCAM2 algorithm from Keisuke Okumura.
 
-Do you want the power?
-LaCAM* could be the answer.
-
-The original work is from code repository of the paper ["Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding"](https://kei18.github.io/lacam2/) (IJCAI-23), extended from from [the LaCAM repo](https://kei18.github.io/lacam/) presented at AAAI-23.
+The original work is from code repository of the paper ["Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding"](https://kei18.github.io/lacam2/) (IJCAI-23), extended from from [the LaCAM repo](https://kei18.github.io/lacam/) presented at AAAI-23. The factorization part is based on the paper ["Factorization of Dynamic Games over Spatio-Temporal Resources"](https://ieeexplore.ieee.org/document/9981416) (IROS 2022) by Alessandro Zanardi.
 
 ## Building
 
