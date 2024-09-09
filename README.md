@@ -58,13 +58,13 @@ solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=
 
 There are other arguments you can specify in order to use all the feature of LaCAM2_fact. The `-f`, `-mt`, `-s` and `-sp` arguments are command-line options used to control the behavior of the LaCAM2 application:
 
-`-mt` (or `--multi_threading`): This argument toggles whether the program uses multiple cores to solve MAPF instances in parallel (if applicable). By defauly it is set to false. use `-mt` or `-mt yes` to enable multi threading.
+- `-mt` (or `--multi_threading`): This argument toggles whether the program uses multiple cores to solve MAPF instances in parallel (if applicable). By defauly it is set to false. use `-mt` or `-mt yes` to enable multi threading.
 
-`-f` (or `--factorize`): This argument specifies the mode of factorization to be used in the solving process. The options are standard, FactDistance, FactBbox, Factorient, FactAstar, or FactDef, with the default being standard. This determines how the algorithm factorizes the problem for more efficient solving.
+- `-f` (or `--factorize`): This argument specifies the mode of factorization to be used in the solving process. The options are standard, FactDistance, FactBbox, Factorient, FactAstar, or FactDef, with the default being standard. This determines how the algorithm factorizes the problem for more efficient solving.
 
-`-s` (or `--save_stats`): This argument toggles whether the program should save statistics about the run. The satistics are saved in the `stats.json` file. By default, it is set to true. Use `-s false` to disable saving statistics.
+- `-s` (or `--save_stats`): This argument toggles whether the program should save statistics about the run. The satistics are saved in the `stats.json` file. By default, it is set to true. Use `-s false` to disable saving statistics.
 
-`-sp` (or `--save_partitions`): This argument controls whether the program saves the partitions generated during the solving process. By default, it is set to false. Use `-sp` to enable saving partitions.
+- `-sp` (or `--save_partitions`): This argument controls whether the program saves the partitions generated during the solving process. By default, it is set to false. Use `-sp` to enable saving partitions.
 
 
 You can find details of all parameters with:
