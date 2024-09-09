@@ -79,7 +79,7 @@ Note that some parameters are only compatible with the standard version and some
 This repository is compatible with [@Kei18/mapf-visualizer](https://github.com/kei18/mapf-visualizer).
 
 <p align="center">
-  <img src="assets/misc/MAPF_viz_snapshot.png" width="60%">
+  <img src="assets/misc/MAPF_viz_snapshot.png" width="50%">
   <br>
   <div>Example with 200 agents in random-32-32-20.map</div>
 </p>
@@ -104,11 +104,17 @@ The fourth row shows data about average CPU and maximum RAM usage during the sol
 </div>
 
 
-
-
 ## Documentation
 
-The [docs](docs) folder contains the documentation of this project. Simply open the [index](docs/html/index.html) and navigate through the docs. 
+The [docs](docs) folder contains the documentation of this project. It is accessible via the `Documentation` link in the root folder. 
+
+<p align="center">
+  <img src="assets/misc/screenshot_doc.png" width="75%">
+  <br>
+  <div>Example with 200 agents in random-32-32-20.map</div>
+</p>
+
+Alternatively, you can navigate to `docs/html` and open the [index](docs/html/index.html) file. This will open the html page in the browser and you can scroll through the documentation. 
 
 
 ## Code Profiling
@@ -133,6 +139,12 @@ This file can then be vizualised by using the Easy Profiler Visualizer. There sh
 ```
 
 Once you opened the visualizer, you can use the folder icon at the top left to open the 'profile.prof' file.
+
+<p align="center">
+  <img src="assets/misc/Profiler_screenshot.png" width="100%">
+  <br>
+  <div>Example with 200 agents in random-32-32-20.map</div>
+</p>
 
 To stop profiling, clean build the project again using the instructions in the 'Building' section.
 
