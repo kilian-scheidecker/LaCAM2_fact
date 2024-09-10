@@ -9,7 +9,7 @@
 
 #ifndef FACTORIZER_HPP
 #define FACTORIZER_HPP
-#define SAFETY_DISTANCE 2
+#define SAFETY_DISTANCE 0
 
 #include "dist_table.hpp"
 #include "utils.hpp"
