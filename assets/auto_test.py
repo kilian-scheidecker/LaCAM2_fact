@@ -51,7 +51,7 @@ def auto_test() :
     success = 0
     total = 0
 
-    # n_agents = [100, 200, 300, 400, 500]
+    n_agents = [4, 6]
 
     for map_name in maps :
         for N in n_agents :
@@ -80,8 +80,9 @@ def auto_test() :
                         # Determine the max factorizability and store it assets/temp/def_partitions.json
                         half_smallest_partitions(N)
                     elif 'FactDef' in command :
-                        hcom = create_command(map_name=map_name, N=N, algorithms=[use_heuristic], multi_threading=["no"])[0] + ' -sp -s'    # to save partitions
-                        run_command_in_ubuntu(hcom)
+                        # run the algorithm used for the heuristic and save partitions
+                        heuristic_run = create_command(map_name=map_name, N=N, algorithms=[use_heuristic], multi_threading=["no"])[0] + ' -sp -s'    # to save partitions of the heuristic run
+                        run_command_in_ubuntu(heuristic_run)
 
                     success += run_command_in_ubuntu(command)
                     # update_stats("Complexity score", complexity_score())

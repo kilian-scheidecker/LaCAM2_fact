@@ -50,7 +50,7 @@ def get_partitions(iterable: Iterable) -> List[List[List[int]]]:
     
     s = list(iterable)
     all_partitions = partitions(s)
-    # all_partitions.remove([s])
+    # all_partitions.remove([s])    # remove full partition (standard one)
 
     # Return the partitions in decreasing order of cardinality
     return sorted(all_partitions, key=len, reverse=True)
@@ -305,7 +305,7 @@ def max_fact_partitions(map_name, N):
     width = extract_width(map_path)
 
     # Launch lacam a first time and parse result
-    start_comm = "build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 1 -f no -sp no"
+    start_comm = "build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + "/" + map_name + ".map -N " + str(N) + " -v 0 -s"
 
     run_command_in_ubuntu(start_comm)
     result = parse_file(res_path)
@@ -321,7 +321,9 @@ def max_fact_partitions(map_name, N):
     OPENins.append(start_ins)
 
     # Dictionnary for the glabal solution and store first step
-    global_solution= {}
+    global_solution = {}
+    for i, line in enumerate(result['solution']) :
+        global_solution[line[0]] = line[1]
     
     # Dictionary to store partitions per timestep
     partitions_per_timestep = defaultdict(list)
@@ -339,7 +341,7 @@ def max_fact_partitions(map_name, N):
 
                 # Create a temporary scenario for the current partition
                 create_temp_scenario(enabled, [ins.starts[i] for i in enabled], [ins.goals[i] for i in enabled], map_name)
-                temp_command = "build/main -i assets/temp/temp_scenario.scen -m assets/maps/" + map_name + "/" + map_name + ".map -N "+ str(len(enabled)) + " -v 0 -f no -sp no"
+                temp_command = "build/main -i assets/temp/temp_scenario.scen -m assets/maps/" + map_name + "/" + map_name + ".map -N "+ str(len(enabled)) + " -v 0 -s"
 
                 # Solve the MAPF for the current partition
                 run_command_in_ubuntu(temp_command)
@@ -359,12 +361,13 @@ def max_fact_partitions(map_name, N):
 
                 ts = ins.time_start
 
-                # Append the valid local_solution to the global_solution
-                for step, positions in local_solution.items():
-                    if step + ts not in global_solution:
-                        global_solution[step + ts] = [(-1,-1)]*N
-                        for id, true_id in enumerate(ins.enabled) :
-                            global_solution[step + ts][true_id] = positions[id]
+                # # Append the valid local_solution to the global_solution
+                # if len(enabled) != len(ins.starts) :
+                #     for step, positions in local_solution.items():
+                #         if step + ts not in global_solution:
+                #             global_solution[step + ts] = [(-1,-1)]*N
+                #             for id, true_id in enumerate(ins.enabled) :
+                #                 global_solution[step + ts][true_id] = positions[id]
 
                 # Record the partitions used for the current timestep if they differ from the previous split
                 if partition != last_split and len(partition[0]) != len(ins.enabled) :

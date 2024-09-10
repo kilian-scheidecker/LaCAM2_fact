@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LaCAM2_fact: LaCAM2_fact</title>
+<title>LaCAM2_fact: Main Page</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,15 +63,17 @@ $(function() {
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">LaCAM2_fact </div>  </div>
+<div class="title">LaCAM2_fact Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a> [<img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License" style="pointer-events: none;" class="inline"/>](LICENSE) <a href="https://github.com/Kei18/lacam2/actions/workflows/ci.yml"><img src="https://github.com/Kei18/lacam2/actions/workflows/ci.yml/badge.svg" alt="CI" style="pointer-events: none;" class="inline"/></a></p>
-<p>This is a factorized version of the LaCAM2 algorithm from Keisuke Okumura.</p>
-<p>Do you want the power? LaCAM* could be the answer.</p>
-<p>The original work is from code repository of the paper <a href="https://kei18.github.io/lacam2/">"Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding"</a> (IJCAI-23), extended from from <a href="https://kei18.github.io/lacam/">the LaCAM repo</a> presented at AAAI-23.</p>
-<h1><a class="anchor" id="autotoc_md0"></a>
-Building</h1>
+<div class="textblock"><p align="center"><a class="anchor" id="md_README"></a> </p>
+<p><img src="assets/misc/LaCAM2_fact_logo.png" alt="" width="80%" class="inline"/> </p>
+<hr  />
+<p> [<img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License" style="pointer-events: none;" class="inline"/>](LICENSE) <a href="https://github.com/Kei18/lacam2/actions/workflows/ci.yml"><img src="https://github.com/Kei18/lacam2/actions/workflows/ci.yml/badge.svg" alt="CI" style="pointer-events: none;" class="inline"/></a></p>
+<p>LaCAM2_fact is a factorized version of the LaCAM2 algorithm from Keisuke Okumura.</p>
+<p>The original work is from code repository of the paper <a href="https://kei18.github.io/lacam2/">"Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding"</a> (IJCAI-23), extended from from <a href="https://kei18.github.io/lacam/">the LaCAM repo</a> presented at AAAI-23. The factorization part is based on the paper <a href="https://ieeexplore.ieee.org/document/9981416">"Factorization of Dynamic Games over Spatio-Temporal Resources"</a> (2022 IEEE/RSJ) by Alessandro Zanardi.</p>
+<h2><a class="anchor" id="autotoc_md1"></a>
+Building</h2>
 <p>To build the project you need is <a href="https://cmake.org/">CMake</a> (≥v3.16). The code is written in C++(17).</p>
 <p>First, clone this repo with submodules.</p>
 <div class="fragment"><div class="line">git clone https://github.com/idsc-frazzoli/LaCAM2_fact.git</div>
@@ -83,8 +85,8 @@ Building</h1>
 <div class="line">git submodules update</div>
 </div><!-- fragment --><p>Finally, you can build the project.</p>
 <div class="fragment"><div class="line">cmake -B build &amp;&amp; make -C build -j4</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md1"></a>
-Usage</h1>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md2"></a>
+Usage</h2>
 <p>Basic run with 50 agents on the 'random-32-32-20' map. The important arguments are : -i : the path to the .scen file specifying the start and goal location for every agent. -m : the path to the .map file of the given problem. -N : the number of agents. -v : the verbosity level. for -v 0, the code will not provide any output to the terminal.</p>
 <p>Try running the following command :</p>
 <div class="fragment"><div class="line">&gt; build/main -i assets/maps/random-32-32-20/other_scenes/random-32-32-20-700.scen -m assets/maps/random-32-32-20/random-32-32-20.map -N 10 -v 1</div>
@@ -98,14 +100,14 @@ Usage</h1>
 </ul>
 <p>You can find details of all parameters with: </p><div class="fragment"><div class="line">build/main --help</div>
 </div><!-- fragment --><p>Note that some parameters are only compatible with the standard version and some others only with the factorized verison of LaCAM2.</p>
-<h1><a class="anchor" id="autotoc_md2"></a>
-Visualizer</h1>
+<h2><a class="anchor" id="autotoc_md3"></a>
+Visualizer</h2>
 <p>This repository is compatible with <a href="https://github.com/kei18/mapf-visualizer">@Kei18/mapf-visualizer</a>.</p>
 <p align="center"><img src="assets/misc/MAPF_viz_snapshot.png" alt="" width="50%" class="inline"/> <br  />
  </p>
 <p>Example with 200 agents in random-32-32-20.map</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
-Data visualization</h1>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Data visualization</h2>
 <p>Once you ran a couple tests, you can visualize the .json files using a dedicated dashboard in the <code>assets</code> folder. To use this script, run it from the command line with the required and optional arguments.The <code>--map_name</code> argument is mandatory and specifies the name of the map to display. Optionally, you can provide the <code>--read_from</code> argument to specify a file to read data from , and the <code>--theme argument</code> to set the application theme to either 'dark' or 'light' (default is 'dark').</p>
 <div class="fragment"><div class="line">python3 assets/dashboard.py --map_name random-32-32-10 --read_from stats.json --theme dark</div>
 </div><!-- fragment --><p>The dashboard contains a lot of interesting data, starting with simple general information about the tests (what map, how many agents, how many tests). Then some information about the current hardware of the machine (careful, this data does not represent the hardware used to generate a given .json file).</p>
@@ -114,13 +116,13 @@ Data visualization</h1>
 <p align="center"><img src="assets/misc/screenshot_dashboard.png" alt="" width="100%" class="inline"/> <br  />
  </p>
 <p>Screenshot of the dashboard.</p>
-<h1><a class="anchor" id="autotoc_md4"></a>
-Documentation</h1>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Documentation</h2>
 <p>The [docs](docs) folder contains the documentation of this project. It is accessible via the <code>Documentation</code> link in the root folder.</p>
 <p><img src="assets/misc/screenshot_doc.png" alt="" width="75%" class="inline"/> </p>
 <p>Alternatively, you can navigate to <code>docs/html</code> and open the <a href="docs/html/index.html">index</a> file. This will open the html page in the browser and you can scroll through the documentation.</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
-Code Profiling</h1>
+<h2><a class="anchor" id="autotoc_md6"></a>
+Code Profiling</h2>
 <p>You can take advantage of the <a href="https://github.com/yse/easy_profiler">Easy Profiler library</a> in order to analyze the code and dive into the internals of the algorithms.</p>
 <p>To use the profiling, the variable ENABLE_PROFILING needs to be defined. Be aware that toggling the profiler may affect performances.</p>
 <p><img src="assets/misc/screenshot_profiler.png" alt="" width="100%" class="inline"/> </p>
@@ -131,15 +133,15 @@ Code Profiling</h1>
 <div class="fragment"><div class="line">./build/third_party/easy_profiler/bin/profiler_gui</div>
 </div><!-- fragment --><p>Once you opened the visualizer, you can use the folder icon at the top left to open the 'profile.prof' file.</p>
 <p>To stop profiling, clean build the project again using the instructions in the 'Building' section.</p>
-<h1><a class="anchor" id="autotoc_md6"></a>
-Notes</h1>
+<h2><a class="anchor" id="autotoc_md7"></a>
+Notes</h2>
 <ul>
 <li>The grid maps and scenarios in <code>assets/maps/</code> are from <a href="https://movingai.com/benchmarks/mapf.html">MAPF benchmarks</a>.</li>
 <li>To run the python scripts in the <code>assets</code> folder, you might need to download/update some of the python packages (like dash, plotly, pandas, ...).</li>
 <li>LaCAM* variants are available in <a href="https://github.com/Kei18/lacam2/tags">tags</a>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md7"></a>
-Licence</h1>
+<h2><a class="anchor" id="autotoc_md8"></a>
+Licence</h2>
 <p>This software is released under the MIT License, see <a href="LICENCE.txt">LICENSE.txt</a>. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->

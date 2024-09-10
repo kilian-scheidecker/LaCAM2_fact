@@ -1,7 +1,6 @@
 <map id="transpose" name="transpose">
-<area shape="rect" id="node1" title="Transposes the solution matrix." alt="" coords="479,56,565,83"/>
-<area shape="rect" id="node2" href="$structPlanner.html#a7c698601a12848d8421f68dc65d617e8" title="Factorized version of LaCAM2." alt="" coords="272,5,431,32"/>
-<area shape="rect" id="node3" href="$lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,224,83"/>
-<area shape="rect" id="node5" href="$lacam2_8hpp.html#a78f1c710f640dc4f94eed2e9022624c5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="121,107,211,133"/>
-<area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,81,60,108"/>
+<area shape="rect" id="node1" title="Transposes the solution matrix." alt="" coords="377,56,464,83"/>
+<area shape="rect" id="node2" href="$lacam2_8hpp.html#a0211d8a769108aa4c6fe21f92b249cb5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="205,5,307,32"/>
+<area shape="rect" id="node3" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="5,81,135,108"/>
+<area shape="rect" id="node4" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="183,107,329,133"/>
 </map>

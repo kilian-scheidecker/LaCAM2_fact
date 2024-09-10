@@ -1,0 +1,5 @@
+<map id="lacam2" name="lacam2">
+<area shape="rect" id="node1" title="Main function for solving the MAPF instance using standard LaCAM." alt="" coords="5,5,76,32"/>
+<area shape="rect" id="node2" href="$structDistTable.html#aedb58b97524d5688ac9a7cb516464be3" title="Singleton management." alt="" coords="124,5,271,32"/>
+<area shape="rect" id="node3" href="$structDistTable.html#acae7a9248c50ea575275b53943a347b0" title="Cleanup the DistTable." alt="" coords="319,5,469,32"/>
+</map>

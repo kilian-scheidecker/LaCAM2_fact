@@ -139,14 +139,14 @@ int main(int argc, char* argv[])
         info(0, verbose, "\nStart solving the algorithm with factorization\n");
 
         if(multi_threading)
-            solution = solve_fact_MT(ins, additional_info, partitions_per_timestep, *algo, save_partitions, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
+            solution = lacam2_fact_MT(ins, additional_info, partitions_per_timestep, *algo, save_partitions, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
         else
-            solution = solve_fact(ins, additional_info, partitions_per_timestep, *algo, save_partitions, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
+            solution = lacam2_fact(ins, additional_info, partitions_per_timestep, *algo, save_partitions, verbose - 1, &deadline, &MT, objective, restart_rate, &infos);
     } 
     else {
         info(0, verbose, "\nStart solving the algorithm without factorization\n");
 
-        solution = solve(ins, additional_info, verbose - 1, &deadline, &MT, objective, restart_rate, &infos); 
+        solution = lacam2(ins, additional_info, verbose - 1, &deadline, &MT, objective, restart_rate, &infos); 
         partitions_per_timestep[get_makespan(solution)] = {v_enable};   
     }
 

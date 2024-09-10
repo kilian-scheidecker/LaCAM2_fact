@@ -1,12 +1,15 @@
 \label{index_md_README}%
 \Hypertarget{index_md_README}%
+ 
+
+ 
+
+\DoxyHorRuler{0}
  \mbox{[}\mbox{]}(LICENSE) \href{https://github.com/Kei18/lacam2/actions/workflows/ci.yml}{\texttt{ }}
 
-This is a factorized version of the La\+CAM2 algorithm from Keisuke Okumura.
+La\+CAM2\+\_\+fact is a factorized version of the La\+CAM2 algorithm from Keisuke Okumura.
 
-Do you want the power? La\+CAM$\ast$ could be the answer.
-
-The original work is from code repository of the paper \href{https://kei18.github.io/lacam2/}{\texttt{ \char`\"{}\+Improving La\+CAM for Scalable Eventually Optimal Multi-\/\+Agent Pathfinding\char`\"{}}} (IJCAI-\/23), extended from from \href{https://kei18.github.io/lacam/}{\texttt{ the La\+CAM repo}} presented at AAAI-\/23.\hypertarget{index_autotoc_md0}{}\doxysection{Building}\label{index_autotoc_md0}
+The original work is from code repository of the paper \href{https://kei18.github.io/lacam2/}{\texttt{ \char`\"{}\+Improving La\+CAM for Scalable Eventually Optimal Multi-\/\+Agent Pathfinding\char`\"{}}} (IJCAI-\/23), extended from from \href{https://kei18.github.io/lacam/}{\texttt{ the La\+CAM repo}} presented at AAAI-\/23. The factorization part is based on the paper \href{https://ieeexplore.ieee.org/document/9981416}{\texttt{ \char`\"{}\+Factorization of Dynamic Games over Spatio-\/\+Temporal Resources\char`\"{}}} (2022 IEEE/\+RSJ) by Alessandro Zanardi.\hypertarget{index_autotoc_md1}{}\doxysubsection{Building}\label{index_autotoc_md1}
 To build the project you need is \href{https://cmake.org/}{\texttt{ CMake}} (≥v3.16). The code is written in C++(17).
 
 First, clone this repo with submodules.
@@ -45,7 +48,7 @@ Finally, you can build the project.
 \DoxyCodeLine{cmake -\/B build \&\& make -\/C build -\/j4}
 
 \end{DoxyCode}
-\hypertarget{index_autotoc_md1}{}\doxysection{Usage}\label{index_autotoc_md1}
+\hypertarget{index_autotoc_md2}{}\doxysubsection{Usage}\label{index_autotoc_md2}
 Basic run with 50 agents on the \textquotesingle{}random-\/32-\/32-\/20\textquotesingle{} map. The important arguments are \+: -\/i \+: the path to the .scen file specifying the start and goal location for every agent. -\/m \+: the path to the .map file of the given problem. -\/N \+: the number of agents. -\/v \+: the verbosity level. for -\/v 0, the code will not provide any output to the terminal.
 
 Try running the following command \+:
@@ -75,13 +78,13 @@ You can find details of all parameters with\+:
 \end{DoxyCode}
 
 
-Note that some parameters are only compatible with the standard version and some others only with the factorized verison of La\+CAM2.\hypertarget{index_autotoc_md2}{}\doxysection{Visualizer}\label{index_autotoc_md2}
+Note that some parameters are only compatible with the standard version and some others only with the factorized verison of La\+CAM2.\hypertarget{index_autotoc_md3}{}\doxysubsection{Visualizer}\label{index_autotoc_md3}
 This repository is compatible with \href{https://github.com/kei18/mapf-visualizer}{\texttt{ @\+Kei18/mapf-\/visualizer}}.
 
  ~\newline
  
 
-Example with 200 agents in random-\/32-\/32-\/20.\+map\hypertarget{index_autotoc_md3}{}\doxysection{Data visualization}\label{index_autotoc_md3}
+Example with 200 agents in random-\/32-\/32-\/20.\+map\hypertarget{index_autotoc_md4}{}\doxysubsection{Data visualization}\label{index_autotoc_md4}
 Once you ran a couple tests, you can visualize the .json files using a dedicated dashboard in the {\ttfamily assets} folder. To use this script, run it from the command line with the required and optional arguments.\+The {\ttfamily -\/-\/map\+\_\+name} argument is mandatory and specifies the name of the map to display. Optionally, you can provide the {\ttfamily -\/-\/read\+\_\+from} argument to specify a file to read data from , and the {\ttfamily -\/-\/theme argument} to set the application theme to either \textquotesingle{}dark\textquotesingle{} or \textquotesingle{}light\textquotesingle{} (default is \textquotesingle{}dark\textquotesingle{}).
 
 
@@ -100,12 +103,12 @@ The fourth row shows data about average CPU and maximum RAM usage during the sol
  ~\newline
  
 
-Screenshot of the dashboard.\hypertarget{index_autotoc_md4}{}\doxysection{Documentation}\label{index_autotoc_md4}
+Screenshot of the dashboard.\hypertarget{index_autotoc_md5}{}\doxysubsection{Documentation}\label{index_autotoc_md5}
 The \mbox{[}docs\mbox{]}(docs) folder contains the documentation of this project. It is accessible via the {\ttfamily Documentation} link in the root folder.
 
  
 
-Alternatively, you can navigate to {\ttfamily docs/html} and open the \href{docs/html/index.html}{\texttt{ index}} file. This will open the html page in the browser and you can scroll through the documentation.\hypertarget{index_autotoc_md5}{}\doxysection{Code Profiling}\label{index_autotoc_md5}
+Alternatively, you can navigate to {\ttfamily docs/html} and open the \href{docs/html/index.html}{\texttt{ index}} file. This will open the html page in the browser and you can scroll through the documentation.\hypertarget{index_autotoc_md6}{}\doxysubsection{Code Profiling}\label{index_autotoc_md6}
 You can take advantage of the \href{https://github.com/yse/easy_profiler}{\texttt{ Easy Profiler library}} in order to analyze the code and dive into the internals of the algorithms.
 
 To use the profiling, the variable ENABLE\+\_\+\+PROFILING needs to be defined. Be aware that toggling the profiler may affect performances.
@@ -134,11 +137,11 @@ This file can then be vizualised by using the Easy Profiler Visualizer. There sh
 
 Once you opened the visualizer, you can use the folder icon at the top left to open the \textquotesingle{}profile.\+prof\textquotesingle{} file.
 
-To stop profiling, clean build the project again using the instructions in the \textquotesingle{}Building\textquotesingle{} section.\hypertarget{index_autotoc_md6}{}\doxysection{Notes}\label{index_autotoc_md6}
+To stop profiling, clean build the project again using the instructions in the \textquotesingle{}Building\textquotesingle{} section.\hypertarget{index_autotoc_md7}{}\doxysubsection{Notes}\label{index_autotoc_md7}
 
 \begin{DoxyItemize}
 \item The grid maps and scenarios in {\ttfamily assets/maps/} are from \href{https://movingai.com/benchmarks/mapf.html}{\texttt{ MAPF benchmarks}}.
 \item To run the python scripts in the {\ttfamily assets} folder, you might need to download/update some of the python packages (like dash, plotly, pandas, ...).
 \item La\+CAM$\ast$ variants are available in \href{https://github.com/Kei18/lacam2/tags}{\texttt{ tags}}.
-\end{DoxyItemize}\hypertarget{index_autotoc_md7}{}\doxysection{Licence}\label{index_autotoc_md7}
+\end{DoxyItemize}\hypertarget{index_autotoc_md8}{}\doxysubsection{Licence}\label{index_autotoc_md8}
 This software is released under the MIT License, see \href{LICENCE.txt}{\texttt{ LICENSE.\+txt}}. 

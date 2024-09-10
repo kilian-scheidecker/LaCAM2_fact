@@ -201,7 +201,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         y=min_score['Min complexity score'],
         mode='lines',
         name='Min. score',
-        line=dict(color='#00d97f'),
+        line=dict(color='#00d97f', dash='dash'),
     ))
 
     # Bar charts for queue visualization (primarily for debug purposes)

@@ -159,7 +159,7 @@ Planner::~Planner() {}
  * @brief Standard solver of LaCAM2.
  * @return The solution to the MAPF problem.
  */
-Solution Planner::lacam2(std::string& additional_info, Infos* infos_ptr)
+Solution Planner::solve(std::string& additional_info, Infos* infos_ptr)
 {
     PROFILE_FUNC(profiler::colors::Orange500);
     PROFILE_BLOCK("Initialization");
@@ -298,7 +298,7 @@ Solution Planner::lacam2(std::string& additional_info, Infos* infos_ptr)
  * @brief Factorized version of LaCAM2. The solving is the same as in standard LaCAM but checks for factorizability among agents.
  * @return A bundle containing the sub-instances in case of factorization and the local solution (from start to split).
  */
-Bundle Planner::lacam2_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions)
+Bundle Planner::solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions)
 {
     PROFILE_FUNC(profiler::colors::Green);
     PROFILE_BLOCK("Initialization");
@@ -633,6 +633,13 @@ bool Planner::get_new_config(HNode* H, LNode* L, const std::vector<int>& enabled
         A[i]->v_next = L->where[k];
         occupied_next[l] = A[i];
     }
+
+    if (H->order.size() > 1 ){
+        std::cout<<"Priorities : "<<std::endl;
+        std::cout<<"Agent first : "<<H->order[0]<<std::endl;
+        std::cout<<"Agent seconde : "<<H->order[1]<<std::endl;
+    }
+
 
     // perform PIBT
     if (!enabled.empty()) {       // if factorized use

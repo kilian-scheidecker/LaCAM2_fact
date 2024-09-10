@@ -173,10 +173,10 @@ struct Planner {
     ~Planner();
 
     // Standard solving.
-    Solution lacam2(std::string& additional_info, Infos* infos_ptr);
+    Solution solve(std::string& additional_info, Infos* infos_ptr);
 
     // Factorized solving.
-    Bundle lacam2_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions);
+    Bundle solve_fact(std::string& additional_info, Infos* infos_ptr, FactAlgo& factalgo, PartitionsMap& partitions_per_timestep, bool save_partitions);
     
     void expand_lowlevel_tree(HNode* H, LNode* L);
     void rewrite(HNode* H_from, HNode* T, HNode* H_goal, std::stack<HNode*>& OPEN);

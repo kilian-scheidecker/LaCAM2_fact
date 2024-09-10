@@ -1,8 +1,8 @@
 <map id="is_same_config" name="is_same_config">
-<area shape="rect" id="node1" title="Check the equivalence of two configurations." alt="" coords="513,43,636,69"/>
-<area shape="rect" id="node2" href="$post__processing_8hpp.html#a9d8858f121eb54885be9cd943f60fbe7" title="Checks if the given solution is feasible for the provided instance." alt="" coords="108,5,259,32"/>
-<area shape="rect" id="node4" href="$structPlanner.html#a4b0c0810afb28fb4e420bb3f6252c3f3" title="Standard solver of LaCAM2." alt="" coords="323,43,449,69"/>
-<area shape="rect" id="node5" href="$structPlanner.html#a7c698601a12848d8421f68dc65d617e8" title="Factorized version of LaCAM2." alt="" coords="307,93,465,120"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,43,60,69"/>
-<area shape="rect" id="node6" href="$lacam2_8hpp.html#a6f1654c9cbdca2a96c43a54de4e3ec5b" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="125,68,241,95"/>
+<area shape="rect" id="node1" title="Check the equivalence of two configurations." alt="" coords="381,56,504,83"/>
+<area shape="rect" id="node2" href="$post__processing_8hpp.html#a9d8858f121eb54885be9cd943f60fbe7" title="Checks if the given solution is feasible for the provided instance." alt="" coords="183,5,333,32"/>
+<area shape="rect" id="node4" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="201,56,315,83"/>
+<area shape="rect" id="node5" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="185,107,331,133"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="43,5,97,32"/>
+<area shape="rect" id="node6" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="5,107,135,133"/>
 </map>
