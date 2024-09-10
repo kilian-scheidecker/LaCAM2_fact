@@ -85,11 +85,11 @@ def beautify_bar(graph, colors: dict, title: str, height: int, width: int, xtitl
     graph.update_xaxes(showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
     graph.update_yaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
 
-def adjust_success_plots(num_bars, bar_success_agents, bar_success_agents_MT) :
+def adjust_success_plots(bar_data, colors: dict, bar_success_agents, bar_success_agents_MT) :
     
     # Explicitly add the agent number under the bar graphs if not too many bars :
-    if num_bars < 10 :
-        for i, value in enumerate(data_success['Number of agents']):
+    if len(bar_data) < 10 :
+        for i, value in enumerate(bar_data):
             bar_success_agents.add_annotation(
                 x=value, 
                 y=-0.05,  # Adjust this value to position the label below the bar
@@ -235,7 +235,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     beautify(graph=line_score, colors=colors, title="Complexity score", xtitle="Number of agents", ytitle="log(score)", height=260, width=475, rangemode="tozero", legend=True)
 
     # Manage the x_axis of the success plots
-    adjust_success_plots(len(data_success['Number of agents']), bar_success_agents, bar_success_agents_MT)
+    adjust_success_plots(bar_data=data_success['Number of agents'], colors=colors, bar_success_agents=bar_success_agents, bar_success_agents_MT=bar_success_agents_MT)
     
 
     print("\nDashboard updated")
