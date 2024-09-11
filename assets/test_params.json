@@ -3,7 +3,7 @@
   "to": 50,
   "jump": 10,
   "n": 30,
-  "map_name": ["test-5-5"],
+  "map_name": ["warehouse_small"],
   "algorithms": ["FactDistance", "FactAstar", "FactBbox", "FactOrient", "standard"],
   "use_heuristic": "FactDef",
   "multi_threading": ["no"]
