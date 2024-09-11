@@ -634,13 +634,6 @@ bool Planner::get_new_config(HNode* H, LNode* L, const std::vector<int>& enabled
         occupied_next[l] = A[i];
     }
 
-    if (H->order.size() > 1 ){
-        std::cout<<"Priorities : "<<std::endl;
-        std::cout<<"Agent first : "<<H->order[0]<<std::endl;
-        std::cout<<"Agent seconde : "<<H->order[1]<<std::endl;
-    }
-
-
     // perform PIBT
     if (!enabled.empty()) {       // if factorized use
         for (int k : H->order) {

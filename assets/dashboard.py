@@ -131,16 +131,16 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     # Used to compare with larger number of agents to get a sense of the tendency. Use with 'stats_factdef_augmented.json ONTY
     
     # Add the predicted factorization score line 
-    predict_score_data = data.drop(data[data['Algorithm'] != "FactDef"].index)
-    predict_score_data = predict_score(predict_score_data[['Number of agents', 'Complexity score']])
+    # predict_score_data = data.drop(data[data['Algorithm'] != "FactDef"].index)
+    # predict_score_data = predict_score(predict_score_data[['Number of agents', 'Complexity score']])
     
-    line_score.add_trace(go.Scatter(
-        x=predict_score_data['Number of agents'],
-        y=predict_score_data['Predicted Complexity score'],
-        mode='lines',  # Use 'lines' to create a line plot
-        line=dict(color='#00d97f', width=2),  # Line color and width
-        name='Predicted Complexity Score'  # Name for the legend
-    ))
+    # line_score.add_trace(go.Scatter(
+    #     x=predict_score_data['Number of agents'],
+    #     y=predict_score_data['Predicted Complexity score'],
+    #     mode='lines',  # Use 'lines' to create a line plot
+    #     line=dict(color='#00d97f', width=2),  # Line color and width
+    #     name='Predicted Complexity Score'  # Name for the legend
+    # ))
     ###################################################################################################
 
     

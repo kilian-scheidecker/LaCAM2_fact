@@ -388,7 +388,7 @@ double compute_score(int N, const PartitionsMap& data_dict, int makespan) {
 
             score += delta_t * std::pow(a, partition.size());
             if (score > std::numeric_limits<double>::max()) {
-                score = std::numeric_limits<double>::quiet_NaN();  // Set score to NaN if overflow is detected
+                return -1;  // Set score to -1 if overflow is detected. Return prematurely
             }
             
         }
@@ -399,7 +399,7 @@ double compute_score(int N, const PartitionsMap& data_dict, int makespan) {
 
             // Check for overflow after final score update
             if (score > std::numeric_limits<double>::max()) {
-                score = -1;  // Set score to NaN if overflow is detected
+                score = -1;  // Set score to -1 if overflow is detected
             }
         }
     }
