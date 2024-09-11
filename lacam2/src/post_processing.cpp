@@ -404,5 +404,6 @@ double compute_score(int N, const PartitionsMap& data_dict, int makespan) {
         }
     }
 
+    // std::log is actually the ln()
     return std::log(score);
 }

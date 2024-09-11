@@ -68,10 +68,11 @@ def predict_score(factdef_data: pd.DataFrame) -> pd.DataFrame:
         return a * np.exp(b * x) + c
 
     # Fit the exponential model to the data
-    popt, _ = curve_fit(exponential_model, X, y, p0=(1, 0.01, 4.8), maxfev=5000)
+    initial_guess = (1, 1, 5)   # random-32-32-10 map
+    popt, _ = curve_fit(exponential_model, X, y, p0=initial_guess, maxfev=5000)
 
     # Predict for more agents
-    X_pred = np.arange(min(X)+1, max(X)+50)
+    X_pred = np.arange(min(X)+1, 70)
     y_pred = exponential_model(X_pred, *popt)
 
     # Create the df
