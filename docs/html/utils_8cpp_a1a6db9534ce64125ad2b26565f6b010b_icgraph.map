@@ -1,18 +1,18 @@
 <map id="info" name="info">
-<area shape="rect" id="node1" title="Prints debugging information depending on verbosity level." alt="" coords="804,358,851,384"/>
-<area shape="rect" id="node2" href="$structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="613,231,749,258"/>
-<area shape="rect" id="node4" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="199,104,313,131"/>
-<area shape="rect" id="node5" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="183,206,329,232"/>
-<area shape="rect" id="node6" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="5,104,135,131"/>
-<area shape="rect" id="node7" href="$utils_8hpp.html#aafb31bb052ec9cde925b6fd8b478ca24" title=" " alt="" coords="657,383,704,410"/>
-<area shape="rect" id="node8" href="$post__processing_8hpp.html#a9d8858f121eb54885be9cd943f60fbe7" title="Checks if the given solution is feasible for the provided instance." alt="" coords="605,484,756,511"/>
-<area shape="rect" id="node9" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="440,484,495,511"/>
-<area shape="rect" id="node10" href="$structInstance.html#afc56201b1f10377894b866a40a74b442" title="Validity check for the instance." alt="" coords="613,586,748,612"/>
-<area shape="rect" id="node11" href="$lacam2_8hpp.html#a0211d8a769108aa4c6fe21f92b249cb5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="629,636,732,663"/>
-<area shape="rect" id="node12" href="$post__processing_8hpp.html#a44d299eb5b2e052d6afeb0742b48cd0c" title=" " alt="" coords="629,535,732,562"/>
-<area shape="rect" id="node13" href="$structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="605,155,756,182"/>
-<area shape="rect" id="node15" href="$classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits a configuration into multiple sub&#45;instances based on given partitions." alt="" coords="611,282,750,308"/>
-<area shape="rect" id="node3" href="$structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="377,231,557,258"/>
-<area shape="rect" id="node14" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="405,130,530,156"/>
-<area shape="rect" id="node16" href="$classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the given configuration can be factorized and generates sub&#45;instances accordingly." alt="" coords="377,282,557,308"/>
+<area shape="rect" id="node1" title="Prints debugging information depending on verbosity level." alt="" coords="928,325,975,352"/>
+<area shape="rect" id="node2" href="$structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="737,199,873,225"/>
+<area shape="rect" id="node4" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="323,72,437,99"/>
+<area shape="rect" id="node5" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="307,199,453,225"/>
+<area shape="rect" id="node6" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="119,199,248,225"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,401,60,428"/>
+<area shape="rect" id="node8" href="$utils_8hpp.html#aafb31bb052ec9cde925b6fd8b478ca24" title=" " alt="" coords="781,553,828,580"/>
+<area shape="rect" id="node9" href="$post__processing_8hpp.html#a9d8858f121eb54885be9cd943f60fbe7" title="Checks if the given solution is feasible for the provided instance." alt="" coords="108,401,259,428"/>
+<area shape="rect" id="node10" href="$structInstance.html#afc56201b1f10377894b866a40a74b442" title="Validity check for the instance." alt="" coords="737,604,872,631"/>
+<area shape="rect" id="node11" href="$lacam2_8hpp.html#a0211d8a769108aa4c6fe21f92b249cb5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="329,452,431,479"/>
+<area shape="rect" id="node12" href="$post__processing_8hpp.html#a44d299eb5b2e052d6afeb0742b48cd0c" title=" " alt="" coords="132,503,235,529"/>
+<area shape="rect" id="node13" href="$structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="729,123,880,149"/>
+<area shape="rect" id="node15" href="$classFactAlgo.html#a96e4d312eb0b7aed8e2e0f73daf165ad" title="Splits a configuration into multiple sub&#45;instances based on given partitions." alt="" coords="735,249,874,276"/>
+<area shape="rect" id="node3" href="$structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="501,199,681,225"/>
+<area shape="rect" id="node14" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="529,97,654,124"/>
+<area shape="rect" id="node16" href="$classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the given configuration can be factorized and generates sub&#45;instances accordingly." alt="" coords="501,249,681,276"/>
 </map>

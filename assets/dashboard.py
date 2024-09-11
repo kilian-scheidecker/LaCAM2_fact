@@ -1,7 +1,7 @@
 # run this app with 'python assets/dashboard.py --map_name warehouse_small --read_from stats_large_1.json --theme dark'
 # visit http://127.0.0.1:8050/ in your web browser.
 
-import argparse, pandas as pd
+import argparse
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
@@ -9,7 +9,8 @@ from dash import Dash, dcc, html
 
 from src.data import get_data, get_additionnal_info
 from src.queue import queue_graphs
-from src.score import min_complexity_score
+from src.score import min_complexity_score, predict_score
+from src.plot_layouts import beautify, beautify_bar, adjust_success_plots
 
 """
 COLUMN NAMES
@@ -35,86 +36,6 @@ COLUMN NAMES
 },
 """
 
-def beautify(graph, colors: dict, title: str, height: int, width: int, xtitle: str=None, ytitle: str=None, rangemode: str=None, legend: bool=False) :
-
-    # Layout updates
-    graph.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=legend,
-        legend=dict(title="Algorithms"),
-        title_text=title,
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title=xtitle,
-        yaxis_title=ytitle,
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=height,
-        width=width,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    graph.update_xaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    if rangemode is None :
-        graph.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    else :
-        graph.update_yaxes(linecolor=colors['line'], gridcolor=colors['line'], linewidth=1, rangemode="tozero")
-
-
-def beautify_bar(graph, colors: dict, title: str, height: int, width: int, xtitle: str=None, ytitle: str=None, legend: bool=False) :
-    
-    # Layout updates
-    graph.update_layout(
-        plot_bgcolor=colors['card'],
-        paper_bgcolor=colors['card'],
-        font=dict(color=colors['text'], family="Inter, sans-serif"),
-        showlegend=legend,
-        legend=dict(title="Algorithms"),
-        title_text=title,
-        title_x=0.5,
-        title_xanchor="center",
-        xaxis_title=xtitle,
-        yaxis_title=ytitle,
-        xaxis={'showgrid':False, 'showticklabels':False},
-        yaxis={'showgrid':False, 'showticklabels':False},
-        title=dict(font=dict(size=16, color=colors['text'], weight='bold')),
-        height=height,
-        width=width,
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-    graph.update_xaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-    graph.update_yaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
-
-def adjust_success_plots(bar_data, colors: dict, bar_success_agents, bar_success_agents_MT) :
-    
-    # Explicitly add the agent number under the bar graphs if not too many bars :
-    if bar_data.nunique() <= 12 :
-        for i, value in enumerate(bar_data):
-            bar_success_agents.add_annotation(
-                x=value, 
-                y=-0.05,  # Adjust this value to position the label slightly below the axis
-                text=str(value),
-                showarrow=False,
-                font=dict(size=12, color=colors['text']),
-                align="center",
-                yshift=-15  # Adjust this to control the distance from the bar
-            )
-            bar_success_agents_MT.add_annotation(
-                x=value, 
-                y=-0.05,  # Adjust this value to position the label slightly below the axis
-                text=str(value),
-                showarrow=False,
-                font=dict(size=12, color=colors['text']),
-                align="center",
-                yshift=-15  # Adjust this to control the distance from the bar
-            )
-    else :
-        bar_success_agents.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
-        bar_success_agents_MT.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
-
-    # Display the data inside the bars :
-    bar_success_agents.update_traces(textposition='inside')
-    bar_success_agents_MT.update_traces(textposition='inside')
 
 def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     """
@@ -202,6 +123,20 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         name='Min. score',
         line=dict(color='#00d97f', dash='dash'),
     ))
+
+    # Add the predicted factorization score line :
+    predict_score_data = data.drop(data[data['Algorithm'] != "FactDef"].index)
+    predict_score_data = predict_score(predict_score_data[['Number of agents', 'Complexity score']])
+    
+    line_score.add_trace(go.Scatter(
+        x=predict_score_data['Number of agents'],
+        y=predict_score_data['Predicted Complexity score'],
+        mode='lines',  # Use 'lines' to create a line plot
+        line=dict(color='#00d97f', width=2),  # Line color and width
+        name='Predicted Complexity Score'  # Name for the legend
+    ))
+
+    
 
     # Bar charts for queue visualization (primarily for debug purposes)
     queue_line, queue_line_MT, queue_freq, sub_ins_freq = queue_graphs()

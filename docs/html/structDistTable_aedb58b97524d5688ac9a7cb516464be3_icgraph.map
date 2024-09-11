@@ -1,6 +1,7 @@
 <map id="DistTable::initialize" name="DistTable::initialize">
-<area shape="rect" id="node1" title="Singleton management." alt="" coords="183,56,329,83"/>
-<area shape="rect" id="node2" href="$lacam2_8hpp.html#af728803cb9c88e73318a37ead9550de1" title="Main function for solving the MAPF instance using standard LaCAM." alt="" coords="35,5,105,32"/>
-<area shape="rect" id="node3" href="$lacam2_8hpp.html#a0211d8a769108aa4c6fe21f92b249cb5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="19,56,121,83"/>
-<area shape="rect" id="node4" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="5,107,135,133"/>
+<area shape="rect" id="node1" title="Singleton management." alt="" coords="285,56,432,83"/>
+<area shape="rect" id="node2" href="$lacam2_8hpp.html#af728803cb9c88e73318a37ead9550de1" title="Main function for solving the MAPF instance using standard LaCAM." alt="" coords="137,5,208,32"/>
+<area shape="rect" id="node4" href="$lacam2_8hpp.html#a0211d8a769108aa4c6fe21f92b249cb5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="121,56,224,83"/>
+<area shape="rect" id="node5" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,107,237,133"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>

@@ -1,11 +1,9 @@
 from os.path import join, dirname as up
 import json
-
 import numpy as np
 
 from src.fact_def import max_fact_partitions, smallest_partitions, half_smallest_partitions
-from src.score import complexity_score
-from src.utils import create_command, run_command_in_ubuntu, update_stats
+from src.utils import create_command, run_command_in_ubuntu
 from src.scenario_generator import create_scen
 
 
@@ -85,7 +83,6 @@ def auto_test() :
                         run_command_in_ubuntu(heuristic_run)
 
                     success += run_command_in_ubuntu(command)
-                    # update_stats("Complexity score", complexity_score())
                     total += 1
 
         print(f"\nSuccessfully completed {success}/{total} tests.\n")

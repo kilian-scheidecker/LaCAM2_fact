@@ -269,6 +269,11 @@ void make_stats(const std::string file_name, const std::string factorize, const 
         j = json::array();
     }
 
+    // Determine the value for the "Complexity score" key
+    double score = compute_score(N, partitions_per_timestep, get_makespan(solution));
+    json complexity_score = (score > 0) ? json(score) : json(nullptr);
+
+
     // Create a new JSON object for the stats
     json new_stats = {
         {"Number of agents", N},
@@ -288,7 +293,7 @@ void make_stats(const std::string file_name, const std::string factorize, const 
         {"CPU usage (percent)", nullptr},
         {"Maximum RAM usage (Mbytes)", nullptr},
         {"Average RAM usage (Mbytes)", nullptr},
-        {"Complexity score", compute_score(N, partitions_per_timestep, get_makespan(solution))}
+        {"Complexity score", complexity_score}
     };
 
     // Append the new stats to the JSON array
@@ -394,10 +399,10 @@ double compute_score(int N, const PartitionsMap& data_dict, int makespan) {
 
             // Check for overflow after final score update
             if (score > std::numeric_limits<double>::max()) {
-                score = std::numeric_limits<double>::quiet_NaN();  // Set score to NaN if overflow is detected
+                score = -1;  // Set score to NaN if overflow is detected
             }
         }
     }
 
-    return std::isnan(score) ? score : std::log(score);
+    return std::log(score);
 }

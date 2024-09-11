@@ -1,6 +1,7 @@
 <map id="Planner::get_h_value" name="Planner::get_h_value">
-<area shape="rect" id="node1" title="Computes the heuristic." alt="" coords="377,31,536,57"/>
-<area shape="rect" id="node2" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="199,5,313,32"/>
-<area shape="rect" id="node3" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="183,56,329,83"/>
-<area shape="rect" id="node4" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="5,56,135,83"/>
+<area shape="rect" id="node1" title="Computes the heuristic." alt="" coords="480,31,639,57"/>
+<area shape="rect" id="node2" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="301,5,416,32"/>
+<area shape="rect" id="node3" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="285,56,432,83"/>
+<area shape="rect" id="node4" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,237,83"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>

@@ -1,94 +1,66 @@
-import json, pandas as pd
+import pandas as pd
 import numpy as np
-from os.path import join, dirname as up
-from src.utils import parse_file
 from math import log
 from scipy.optimize import curve_fit
 
 
-def complexity_score():
+def min_complexity_score(makespan_data: pd.DataFrame) -> pd.DataFrame:
     """
-    Calculates a complexity score based on the partitions and makespan of a solution.
+    Calculates the minimum complexity score for a given dataset of makespan values and agent counts.
+
+    This function computes the minimum complexity score for each entry in the dataset using the formula:
+    score = log(Makespan * a * Number of agents), where 'a' is the action space of the agents.
+    The computed scores are then returned in a new DataFrame.
+
+    Parameters:
+    -----------
+    makespan_data : A pd.DataFrame containing the following columns:
+        - "Makespan" (float)        : The average makespan.
+        - "Number of agents" (int)  : The number of agents.
 
     Returns:
-        float:
-            The complexity score computed as the logarithm of the ratio of the weighted score to the makespan, where weights are derived from partitions and action space.
-            Returns -1 if the problem was not solved.
-
-    Notes:
-        - The function reads the result from a file located at `build/result.txt`.
-        - It reads the partition data from `assets/temp/temp_partitions.json`.
-        - The score is calculated using the makespan, number of agents, and action space.
-        - The complexity score is computed as `log(score / makespan, N)`, where `score` accounts for the partitions and agent distribution over time.
-        - The function returns -1 if the solution was not marked as solved in the result file.
+    --------
+    pd.DataFrame : A DataFrame containing the computed minimum complexity scores with the columns:
+        - "Number of agents" (int)      : The number of agents.
+        - "Min complexity score" (float): The computed minimum complexity score for each entry.
     """
-    base_path = up(up(up(__file__)))    # LaCAM2_fact/
-    res_path = join(base_path, 'build', 'result.txt')
-    result = parse_file(res_path)
-
-    if int(result['solved']) != 1 :
-        return -1   # return -1 if not solved
-    
-    partitions_path = join(base_path, 'assets', 'temp', 'temp_partitions.json')
-
-    # data_dict = result['partitions_per_timestep']
-    
-    with open(partitions_path) as f :
-        data_dict = json.load(f, object_hook=lambda d: {int(k) if k.lstrip('-').isdigit() else k: v for k, v in d.items()})
-
-    makespan = int(result['makespan'])      # makespan
-    N = int(result['agents'])               # number of agents
-    a = 5                                   # action space of the agents
-    prev_t = {}
-    score = 0
-
-    for timestep in reversed(sorted(data_dict)):
-
-        agent_count = sum(len(sublist) for sublist in data_dict[timestep])
-
-        for partition in data_dict[timestep] : 
-            for enabled in partition :
-
-                # compute the delta_t from previous split to current timestep
-                if enabled not in prev_t.keys() :
-                    delta_t = makespan - timestep
-                elif prev_t[enabled] > timestep :
-                    delta_t = prev_t[enabled] - timestep
-                # update previous timestep
-                prev_t[enabled] = timestep
-
-            score += delta_t*a**len(partition)
-
-        if agent_count == N:
-            delta_t = prev_t[0]
-            score += delta_t*a**N
-
-    return log(score)
-    # return score
-
-
-
-def min_complexity_score(makespan_data: pd.DataFrame):
-
-    # print(makespan_data)
 
     scores = []
     makespans = makespan_data['Makespan'].to_list()
     agents = makespan_data['Number of agents'].to_list()
-    a = 5 
-
-    for i, spans in enumerate(makespans) :
-        score = log(makespans[i]*a*agents[i])
+    a = 5   # 5 choices for movements
+    
+    # compute the minimal score
+    for i, makespan in enumerate(makespans) :
+        score = log(makespan*a*agents[i])
         scores.append(score)
 
     return pd.DataFrame({'Number of agents': agents, 'Min complexity score': scores})
 
 
 
-def predict_score(factdef_data: pd.DataFrame) :
+def predict_score(factdef_data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Aims to the complexity score for a given range of agents using an exponential model.
 
-    X = factdef_data["Number of agents"].values  # Independent variable (Number of agents)
-    y = factdef_data["Complexity score"].values  # Dependent variable (Complexity score)
+    This function fits an exponential model to the provided data, where the 'Number of agents' 
+    is the independent variable (X), and the 'Complexity score' is the dependent variable (y). 
+    It uses the fitted model to predict the complexity score for a wider range of agents than
+    what is compatable in a reasonable time by the computer. Used for the FactDef heuristic.
+
+    Parameters:
+        factdef_data : A pd.DataFrame containing two columns:
+            - "Number of agents" (int)  : The number of agents.
+            - "Complexity score" (float): The complexity score corresponding to each number of agents.
+
+    Returns:
+        factdef_data : A pd.DataFrame containing the predicted complexity scores for an extended range of agents, with:
+            - "Number of agents" (int)              : The predicted number of agents.
+            - "Predicted Complexity score" (float)  : The predicted complexity score corresponding to each number of agents.
+    """
+
+    X = factdef_data["Number of agents"].values
+    y = factdef_data["Complexity score"].values
 
 
     # Define the exponential function
@@ -96,15 +68,16 @@ def predict_score(factdef_data: pd.DataFrame) :
         return a * np.exp(b * x) + c
 
     # Fit the exponential model to the data
-    popt, pcov = curve_fit(exponential_model, X, y, p0=(1, 0.1, 1))
+    popt, _ = curve_fit(exponential_model, X, y, p0=(1, 0.01, 4.8), maxfev=5000)
 
     # Predict for more agents
-    X_pred = np.arange(2, 201)
+    X_pred = np.arange(min(X)+1, max(X)+50)
     y_pred = exponential_model(X_pred, *popt)
 
+    # Create the df
     predicted_df = pd.DataFrame({
         "Number of agents": X_pred,
         "Predicted Complexity score": y_pred
     })
 
-    factdef_data = pd.DataFrame(predicted_df)
+    return predicted_df

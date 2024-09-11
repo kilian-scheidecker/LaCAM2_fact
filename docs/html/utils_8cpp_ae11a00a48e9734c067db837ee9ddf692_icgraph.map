@@ -1,9 +1,10 @@
 <map id="elapsed_ms" name="elapsed_ms">
-<area shape="rect" id="node1" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="749,56,849,83"/>
-<area shape="rect" id="node2" href="$lacam2_8hpp.html#a0211d8a769108aa4c6fe21f92b249cb5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="575,5,677,32"/>
-<area shape="rect" id="node3" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="5,107,135,133"/>
-<area shape="rect" id="node4" href="$structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="551,132,701,159"/>
-<area shape="rect" id="node5" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="377,157,503,184"/>
-<area shape="rect" id="node6" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="199,107,313,133"/>
-<area shape="rect" id="node7" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="183,157,329,184"/>
+<area shape="rect" id="node1" title="Returns the elapsed time in milliseconds since the given deadline." alt="" coords="852,56,952,83"/>
+<area shape="rect" id="node2" href="$lacam2_8hpp.html#a0211d8a769108aa4c6fe21f92b249cb5" title="Main function for solving the MAPF instance using factorized approach without multi&#45;threading." alt="" coords="491,5,594,32"/>
+<area shape="rect" id="node4" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,56,237,83"/>
+<area shape="rect" id="node5" href="$structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="653,132,804,159"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,60,57"/>
+<area shape="rect" id="node6" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="480,157,605,184"/>
+<area shape="rect" id="node7" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="301,107,416,133"/>
+<area shape="rect" id="node8" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="285,157,432,184"/>
 </map>

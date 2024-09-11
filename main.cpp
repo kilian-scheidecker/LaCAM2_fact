@@ -166,7 +166,12 @@ int main(int argc, char* argv[])
 
     // post processing
     print_results(verbose, ins, solution, comp_time_ms);
-    if (partitions_per_timestep.empty()) partitions_per_timestep[get_makespan(solution)] = {v_enable};
+
+    if (partitions_per_timestep.empty() && strcmp(factorize.c_str(), "FactDef") == 0) 
+        partitions_per_timestep = algo->partitions_map;                 // if used factdef, retrieve partitions
+    else if (partitions_per_timestep.empty())
+        partitions_per_timestep[get_makespan(solution)] = {v_enable};   // else assume no factorization since empty partitions
+        
     make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, partitions_per_timestep, log_short);
     if(save_stats)
         make_stats("stats.json", factorize, N, comp_time_ms, infos, solution, mapname, success, multi_threading, partitions_per_timestep);
