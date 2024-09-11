@@ -88,7 +88,7 @@ def beautify_bar(graph, colors: dict, title: str, height: int, width: int, xtitl
 def adjust_success_plots(bar_data, colors: dict, bar_success_agents, bar_success_agents_MT) :
     
     # Explicitly add the agent number under the bar graphs if not too many bars :
-    if len(bar_data) < 10 :
+    if len(bar_data) <= 12 :
         for i, value in enumerate(bar_data):
             bar_success_agents.add_annotation(
                 x=value, 
@@ -180,7 +180,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     additionnal_info = get_additionnal_info()
 
     # Extra dataframe for minimum complexity score
-    min_score = min_complexity_score(raw_data[['Number of agents', 'Makespan']])
+    min_score = min_complexity_score(data.drop(data[data['Algorithm'] != "standard"].index))
 
     # Create the line charts
     line_CPU = px.line(data, x="Number of agents", y="CPU usage (percent)", color="Algorithm", color_discrete_map=color_map)

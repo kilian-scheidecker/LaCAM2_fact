@@ -68,6 +68,8 @@ def complexity_score():
 
 def min_complexity_score(makespan_data: pd.DataFrame):
 
+    # print(makespan_data)
+
     scores = []
     makespans = makespan_data['Makespan']
     agents = makespan_data['Number of agents']

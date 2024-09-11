@@ -51,7 +51,7 @@ def auto_test() :
     success = 0
     total = 0
 
-    n_agents = [4, 6]
+    # n_agents = [2, 3, 5, 7, 8, 9, 10]
 
     for map_name in maps :
         for N in n_agents :
@@ -66,7 +66,7 @@ def auto_test() :
             for i in range(n) :
                 print(f"\nTesting with {N} agents in {map_name}")
                 commmands = create_command(map_name=map_name, N=N, algorithms=algorithms, multi_threading=multi_threading)
-                create_scen(N, dir_py, map_name)
+                # create_scen(N, dir_py, map_name)
                 for command in commmands :
 
                     print(command)

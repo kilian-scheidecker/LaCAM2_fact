@@ -368,23 +368,24 @@ double compute_score(int N, const PartitionsMap& data_dict, int makespan) {
         }
 
         for (const auto& partition : it->second) {
+            int delta_t;
             for (const auto& enabled : partition) {
                 // Compute delta_t from the previous split to the current timestep
-                int delta_t;
+                
                 if (prev_t.find(enabled) == prev_t.end()) {
-                    delta_t = makespan - timestep;
+                    delta_t = makespan - timestep;              // if last timestep
                 } else if (prev_t[enabled] > timestep) {
-                    delta_t = prev_t[enabled] - timestep;
+                    delta_t = prev_t[enabled] - timestep;       // if not last timestep
                 }
-
                 // Update previous timestep
                 prev_t[enabled] = timestep;
-
-                score += delta_t * std::pow(a, partition.size());
-                if (score > std::numeric_limits<double>::max()) {
-                    score = std::numeric_limits<double>::quiet_NaN();  // Set score to NaN if overflow is detected
-                }
             }
+
+            score += delta_t * std::pow(a, partition.size());
+            if (score > std::numeric_limits<double>::max()) {
+                score = std::numeric_limits<double>::quiet_NaN();  // Set score to NaN if overflow is detected
+            }
+            
         }
 
         if (agent_count == N) {
