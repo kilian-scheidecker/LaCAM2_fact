@@ -1,7 +1,9 @@
 import json, pandas as pd
+import numpy as np
 from os.path import join, dirname as up
 from src.utils import parse_file
 from math import log
+from scipy.optimize import curve_fit
 
 
 def complexity_score():
@@ -71,12 +73,38 @@ def min_complexity_score(makespan_data: pd.DataFrame):
     # print(makespan_data)
 
     scores = []
-    makespans = makespan_data['Makespan']
-    agents = makespan_data['Number of agents']
+    makespans = makespan_data['Makespan'].to_list()
+    agents = makespan_data['Number of agents'].to_list()
     a = 5 
 
-    for i, agent in enumerate(agents) :
-        score = log(makespans[i]*a*agent)
+    for i, spans in enumerate(makespans) :
+        score = log(makespans[i]*a*agents[i])
         scores.append(score)
 
     return pd.DataFrame({'Number of agents': agents, 'Min complexity score': scores})
+
+
+
+def predict_score(factdef_data: pd.DataFrame) :
+
+    X = factdef_data["Number of agents"].values  # Independent variable (Number of agents)
+    y = factdef_data["Complexity score"].values  # Dependent variable (Complexity score)
+
+
+    # Define the exponential function
+    def exponential_model(x, a, b, c):
+        return a * np.exp(b * x) + c
+
+    # Fit the exponential model to the data
+    popt, pcov = curve_fit(exponential_model, X, y, p0=(1, 0.1, 1))
+
+    # Predict for more agents
+    X_pred = np.arange(2, 201)
+    y_pred = exponential_model(X_pred, *popt)
+
+    predicted_df = pd.DataFrame({
+        "Number of agents": X_pred,
+        "Predicted Complexity score": y_pred
+    })
+
+    factdef_data = pd.DataFrame(predicted_df)

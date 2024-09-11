@@ -1,7 +1,7 @@
 # run this app with 'python assets/dashboard.py --map_name warehouse_small --read_from stats_large_1.json --theme dark'
 # visit http://127.0.0.1:8050/ in your web browser.
 
-import argparse
+import argparse, pandas as pd
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
@@ -82,31 +82,31 @@ def beautify_bar(graph, colors: dict, title: str, height: int, width: int, xtitl
         width=width,
         margin=dict(l=40, r=40, t=60, b=40),
     )
-    graph.update_xaxes(showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
+    graph.update_xaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
     graph.update_yaxes(showline=False, showgrid=False, linecolor=colors['line'], gridcolor=colors['line'], linewidth=1)
 
 def adjust_success_plots(bar_data, colors: dict, bar_success_agents, bar_success_agents_MT) :
     
     # Explicitly add the agent number under the bar graphs if not too many bars :
-    if len(bar_data) <= 12 :
+    if bar_data.nunique() <= 12 :
         for i, value in enumerate(bar_data):
             bar_success_agents.add_annotation(
                 x=value, 
-                y=-0.05,  # Adjust this value to position the label below the bar
+                y=-0.05,  # Adjust this value to position the label slightly below the axis
                 text=str(value),
                 showarrow=False,
-                font=dict(size=11, color=colors['text']),
+                font=dict(size=12, color=colors['text']),
                 align="center",
-                yshift=-15
+                yshift=-15  # Adjust this to control the distance from the bar
             )
             bar_success_agents_MT.add_annotation(
                 x=value, 
-                y=-0.05,  # Adjust this value to position the label below the bar
+                y=-0.05,  # Adjust this value to position the label slightly below the axis
                 text=str(value),
                 showarrow=False,
-                font=dict(size=11, color=colors['text']),
+                font=dict(size=12, color=colors['text']),
                 align="center",
-                yshift=-15
+                yshift=-15  # Adjust this to control the distance from the bar
             )
     else :
         bar_success_agents.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
@@ -181,7 +181,6 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
 
     # Extra dataframe for minimum complexity score
     min_score = min_complexity_score(data.drop(data[data['Algorithm'] != "standard"].index))
-
     # Create the line charts
     line_CPU = px.line(data, x="Number of agents", y="CPU usage (percent)", color="Algorithm", color_discrete_map=color_map)
     line_CPU_MT = px.line(data_MT, x="Number of agents", y="CPU usage (percent)", color="Algorithm", color_discrete_map=color_map)
@@ -197,7 +196,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
 
     # Add the min factorization score line :
     line_score.add_trace(go.Scatter(
-        x=data['Number of agents'],
+        x=min_score['Number of agents'],
         y=min_score['Min complexity score'],
         mode='lines',
         name='Min. score',
