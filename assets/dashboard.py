@@ -124,6 +124,9 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         line=dict(color='#00d97f', dash='dash'),
     ))
 
+    ############################# rather 'experimental' ###############################################
+    # Makes sense to use only when using the FactDef heuristic and actually creating partitions according to the definition.
+    # Used to compare with larger number of agents to get a sense of the tendency.
     # Add the predicted factorization score line :
     predict_score_data = data.drop(data[data['Algorithm'] != "FactDef"].index)
     predict_score_data = predict_score(predict_score_data[['Number of agents', 'Complexity score']])
@@ -135,6 +138,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         line=dict(color='#00d97f', width=2),  # Line color and width
         name='Predicted Complexity Score'  # Name for the legend
     ))
+    ############################# rather 'experimental' ###############################################
 
     
 
@@ -313,6 +317,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
 
 
 def main():
+
     """
     Parse command-line arguments and launch the Dash application with the specified parameters.
 
