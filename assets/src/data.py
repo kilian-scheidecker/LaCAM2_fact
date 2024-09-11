@@ -21,7 +21,6 @@ def compute_averages(data: pd.DataFrame) :
         - Additional columns for the standard deviation of computation time, CPU usage, and makespan are included.
     """
 
-
     # Average all tests
     data = data[['Number of agents', 'Algorithm', 'Multi threading', 'Sum of loss', 'Sum of costs', 'CPU usage (percent)', 'Maximum RAM usage (Mbytes)', 'Average RAM usage (Mbytes)', 'Computation time (ms)', 'Makespan', 'Complexity score']]
     data_avg = data.groupby(['Number of agents', 'Algorithm', 'Multi threading']).mean().reset_index()
@@ -54,7 +53,6 @@ def compute_success(data: pd.DataFrame) :
             - The second DataFrame contains the total number of successful instances for multi-threaded configurations.
     """
 
-
     data_standard = data[['Number of agents', 'Map name', 'Algorithm', 'Multi threading', 'Success']].drop(data[data['Multi threading'] == True].index)
     data_MT = data[['Number of agents', 'Map name', 'Algorithm', 'Multi threading', 'Success']].drop(data[data['Multi threading'] == False].index)
     success = data_standard.groupby(['Number of agents', 'Map name', 'Algorithm']).sum().reset_index()
@@ -84,14 +82,10 @@ def compute_success_rate(data: pd.DataFrame):
 
     # Group by both 'Algorithm' and 'Multi threading' columns
     success_data = data.groupby(['Algorithm', 'Multi threading']).agg(total_tests=('Success', 'size'), success_count=('Success', 'sum')).reset_index()
-
     # Calculate success rate percentage
     success_data['Success rate'] = round((success_data['success_count'] / success_data['total_tests'])*100, 1)
-
     # Format the success rate column as a percentage string
     success_data['Success rate str'] = success_data['Success rate'].apply(lambda x: f"{x:.1f}%")
-
-    # print(success_data)
 
     return success_data, success_data['total_tests'].iloc[0]
 
@@ -161,7 +155,6 @@ def get_hardware_info():
             - "OS version": The operating system version.
     """
 
-
     # Retrieve CPU information
     try:
         cpu_info = subprocess.check_output("lscpu", shell=True).decode().splitlines()
@@ -186,6 +179,7 @@ def get_hardware_info():
     except Exception as e:
         os_name, os_version = f"Error retrieving OS info: {e}", ""
     
+    # Because in WSL, threads are counted as physical cores and in root/lacam2/src/lacam2.cpp in lacam2_fact_MT() we used the WSL number of cores divided by 2
     if 'WSL' in os_info[1]: 
         cpu_cores = str(int(int(cpu_cores)/2))
 
@@ -216,7 +210,6 @@ def get_additionnal_info() :
             - "Agent range": A tuple indicating the range of agents used in the test (min. and max. number of agents used).
             - "Algorithms": The factorization algorithms used in the test.
     """
-
 
     assets_path = up(up(__file__))            # ../LaCAM2_fact/assets/
 

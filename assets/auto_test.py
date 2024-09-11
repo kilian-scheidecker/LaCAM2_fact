@@ -1,11 +1,9 @@
 from os.path import join, dirname as up
 import json
-
 import numpy as np
 
 from src.fact_def import max_fact_partitions, smallest_partitions, half_smallest_partitions
-from src.score import complexity_score
-from src.utils import create_command, run_command_in_ubuntu, update_stats
+from src.utils import create_command, run_command_in_ubuntu
 from src.scenario_generator import create_scen
 
 
@@ -66,7 +64,7 @@ def auto_test() :
             for i in range(n) :
                 print(f"\nTesting with {N} agents in {map_name}")
                 commmands = create_command(map_name=map_name, N=N, algorithms=algorithms, multi_threading=multi_threading)
-                # create_scen(N, dir_py, map_name)
+                create_scen(N, dir_py, map_name)
                 for command in commmands :
 
                     print(command)
@@ -85,7 +83,6 @@ def auto_test() :
                         run_command_in_ubuntu(heuristic_run)
 
                     success += run_command_in_ubuntu(command)
-                    # update_stats("Complexity score", complexity_score())
                     total += 1
 
         print(f"\nSuccessfully completed {success}/{total} tests.\n")

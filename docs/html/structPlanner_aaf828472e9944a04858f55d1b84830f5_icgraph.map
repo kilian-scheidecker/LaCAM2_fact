@@ -1,10 +1,11 @@
 <map id="Planner::is_swap_possible" name="Planner::is_swap_possible">
-<area shape="rect" id="node1" title="Simulate whether the swap is possible." alt="" coords="1012,46,1204,73"/>
-<area shape="rect" id="node2" href="$structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="789,5,964,47"/>
-<area shape="rect" id="node8" href="$structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="789,71,964,112"/>
-<area shape="rect" id="node3" href="$structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="605,46,741,73"/>
-<area shape="rect" id="node4" href="$structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="377,46,557,73"/>
-<area shape="rect" id="node5" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="199,21,313,47"/>
-<area shape="rect" id="node6" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="183,71,329,98"/>
-<area shape="rect" id="node7" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="5,71,135,98"/>
+<area shape="rect" id="node1" title="Simulate whether the swap is possible." alt="" coords="1115,46,1307,73"/>
+<area shape="rect" id="node2" href="$structPlanner.html#a507deba5497854e8e5ff7fb8062a9016" title="Define the swap operation." alt="" coords="892,5,1067,47"/>
+<area shape="rect" id="node9" href="$structPlanner.html#a09cfd2c89775990497002a8b054f4694" title="Define the swap operation but with true IDs of the agents." alt="" coords="892,71,1067,112"/>
+<area shape="rect" id="node3" href="$structPlanner.html#a5ceb9857727ef266b7abf427741d936b" title="PIBT planner for the low level node." alt="" coords="708,46,844,73"/>
+<area shape="rect" id="node4" href="$structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="480,46,660,73"/>
+<area shape="rect" id="node5" href="$structPlanner.html#a73e83c66c7a158575eeedd8a9f122a67" title="Standard solver of LaCAM2." alt="" coords="301,21,416,47"/>
+<area shape="rect" id="node6" href="$structPlanner.html#a4722161407b657c3c178f56e61dc412e" title="Factorized version of LaCAM2." alt="" coords="285,71,432,98"/>
+<area shape="rect" id="node7" href="$lacam2_8hpp.html#ab40ce1ec9ecb21872c02dc68d3b02cac" title="Main function for solving the MAPF instance using factorized approach with multi&#45;threading." alt="" coords="108,71,237,98"/>
+<area shape="rect" id="node8" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,71,60,98"/>
 </map>

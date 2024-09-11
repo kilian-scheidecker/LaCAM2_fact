@@ -1,10 +1,10 @@
 {
   "from": 2,
-  "to": 2,
+  "to": 8,
   "jump": 1,
-  "n": 1,
-  "map_name": ["test-5-5"],
-  "algorithms": ["FactDef"],
+  "n": 10,
+  "map_name": ["random-32-32-10"],
+  "algorithms": ["FactDef", "FactDistance", "FactBbox", "FactOrient", "FactAstar", "standard"],
   "use_heuristic": "FactDef",
   "multi_threading": ["no"]
 }
