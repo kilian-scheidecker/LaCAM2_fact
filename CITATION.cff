@@ -1,0 +1,16 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: LaCAM2_fact
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Kilian
+    family-names: Scheidecker
+  - given-names: Keisuke
+    family-names: Okumura
+repository-code: 'https://github.com/idsc-frazzoli/LaCAM2_fact'
+repository: 'https://github.com/Kei18/lacam2'
