@@ -113,7 +113,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     line_time_std_MT = px.scatter(data_std_MT, x="Number of agents", y="Computation time (ms)", color="Algorithm", color_discrete_map=color_map, error_y="Computation time (ms) std")
     line_span = px.line(data_std, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
     line_span_MT = px.scatter(data_std_MT, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
-    line_costs = px.line(data_std, x="Number of agents", y="Sum of costs", color="Algorithm", color_discrete_map=color_map)
+    line_costs = px.line(data_std, x="Number of agents", y="Sum of costs", color="Algorithm", color_discrete_map=color_map, error_y="Sum of costs std")
     line_score = px.line(data, x="Number of agents", y="Complexity score", color="Algorithm", color_discrete_map=color_map)
 
     # Add the min factorization score line :

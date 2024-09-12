@@ -45,8 +45,13 @@ int main(int argc, char* argv[])
         .help("restart rate")
         .default_value(std::string("0.001"));
     program.add_argument("-f", "--factorize")
-        .help("mode of factorization: [standard / FactDistance / FactBbox / Factorient / FactAstar / FactDef]")
-        .default_value(std::string("standard"));
+        .help("mode of factorization: [standard / FactDistance / FactBbox / Factorient / FactAstar / FactDef / FactPre]")
+        .default_value(std::string("standard"))
+        .action([](const std::string& alg) {
+            static const std::vector<std::string> algos = {"standard", "FactDistance", "FactBbox", "Factorient", "FactAstar", "FactDef", "FactPre"};
+            if (std::find(algos.begin(), algos.end(), alg) != algos.end()) return alg;
+            throw std::invalid_argument("This factorization method is not implemented. please choose from [standard, FactDistance, FactBbox, Factorient, FactAstar, FactDef, FactPre]");
+        });
     program.add_argument("-mt", "--multi_threading")
         .help("toggle multi-threading: [default false] ")
         .default_value(false)
@@ -59,6 +64,15 @@ int main(int argc, char* argv[])
         .help("save partitions: [default false] ")
         .default_value(false)
         .implicit_value(true);
+    program.add_argument("-h", "--heuristic")
+        .help("Heuristic used for pre computed partitions: FactDistance / FactBbox / Factorient / FactAstar")
+        .default_value(std::string("FactDistance"))
+        .action([](const std::string& h) {
+            static const std::vector<std::string> heuristics = {"FactDistance", "FactBbox", "Factorient", "FactAstar"};
+            if (h=="FactDef") throw std::invalid_argument("To use the FactDef partitions, use the FactDef factorization method.");
+            if (std::find(heuristics.begin(), heuristics.end(), h) != heuristics.end()) return h;
+            throw std::invalid_argument("The partitions from this heuristic are not compatible with FactPre");
+        });
 
     try {
         program.parse_known_args(argc, argv);
@@ -84,6 +98,7 @@ int main(int argc, char* argv[])
     const auto restart_rate = std::stof(program.get<std::string>("restart_rate"));
     const bool save_stats = program.get<bool>("save_stats");
     const bool save_partitions = program.get<bool>("save_partitions");
+    const auto readfrom = program.get<std::string>("heuristic");
 
     // Redirect cout to nullstream if verbose is set to zero
     std::streambuf* coutBuffer = std::cout.rdbuf();   // save cout buffer
@@ -120,7 +135,7 @@ int main(int argc, char* argv[])
     if(strcmp(factorize.c_str(), "standard") != 0)
     {
         try {
-            algo = createFactAlgo(factorize, ins.G.width);
+            algo = createFactAlgo(factorize, readfrom, ins.G.width);
         }
         catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;

@@ -188,6 +188,122 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, co
 }
 
 
+/**
+ * @brief Determines if the current instance is factorable based on a predefined partitioning at a given timestep.
+ * 
+ * This function checks if a given timestep exists in the `partitions_map` and then filters partitions based on the 
+ * currently enabled agents. If the filtered partitions contain more than one group, the function invokes 
+ * `split_from_file` to create sub-instances for each partition.
+ * 
+ * @param C_new The current configuration of the agents.
+ * @param goals The goal configuration for the agents.
+ * @param verbose The verbosity level for logging and debugging purposes.
+ * @param enabled A vector of agent IDs that are enabled in the current instance.
+ * @param priorities A vector of priorities associated with the agents.
+ * @param timestep The current timestep used to find the relevant partition in the partitions map.
+ * 
+ * @return A list of shared pointers to sub-instances if factorization is possible, otherwise an empty list.
+ */
+std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, 
+                                        const std::vector<float>& priorities, int timestep) const 
+{
+    // Check if timestep corresponds to a key in the partitions_map
+    auto it = partitions_map.find(timestep);
+    if (it == partitions_map.end()) {
+        // Timestep not found in the partitions map
+        return {};
+    }
+
+    // Create a set for quick lookups
+    std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());
+
+    const auto& partition = it->second;  // Partitions for the given timestep
+
+    Partitions filtered_partition;
+
+    // Iterate through each block of the partition
+    for (const auto& block : partition) {
+        // Check if any element in the partition is in the enabled_set
+        for (int agent : block) {
+            if (enabled_set.find(agent) != enabled_set.end()) {
+                filtered_partition.push_back(block);
+                break;  // Break inner loop to avoid unnecessary checks
+            }
+        }
+    }
+    
+    if (filtered_partition.size() > 1) {
+        return split_from_file(C_new, goals, verbose, enabled, filtered_partition, priorities);    // most expensive
+    } 
+    else {
+        return {};
+    }
+}
+
+
+/**
+ * @brief Splits the current instance into multiple sub-instances based on partitioning information.
+ * 
+ * This function takes the current configuration of agents (`C_new`), their goals (`goals`), and a 
+ * partitioning scheme (`partition`), and splits the instance into multiple sub-instances. 
+ * Each sub-instance contains a subset of the agents, their corresponding positions, goals, and priorities.
+ * 
+ * @param C_new The current configuration of the agents.
+ * @param goals The goal configuration for the agents.
+ * @param verbose Verbosity level for logging and debugging purposes.
+ * @param enabled A vector of agent IDs that are enabled in the current context.
+ * @param partition The partitioning scheme that specifies how agents should be grouped into sub-instances.
+ * @param priorities A vector of priorities associated with the agents.
+ * 
+ * @return A list of shared pointers to sub-instances created based on the partitioning scheme.
+ */
+std::list<std::shared_ptr<Instance>> FactAlgo::split_from_file(const Config& C_new, const Config& goals, int verbose,
+                             const std::vector<int>& enabled, const Partitions& partition, const std::vector<float>& priorities) const
+{
+    PROFILE_FUNC(profiler::colors::Yellow200);
+
+    // maps the true id of the agent to its position in the instance to split (reverse enabled vector. Maps true_id to rel_id)
+    std::unordered_map<int, int> agent_map;
+    agent_map.reserve(C_new.size()); // Pre-allocate memory to avoid reallocations
+    for (int j = 0; j < static_cast<int>(C_new.size()); ++j) {
+        agent_map[enabled[j]] = j;
+    }
+
+    // Initialize the sub_instance list
+    std::list<std::shared_ptr<Instance>> sub_instances;
+
+    // loop through all partition blocks
+    for (auto& new_enabled : partition) {
+        Config C0(new_enabled.size());
+        Config G0(new_enabled.size());
+
+        std::vector<float> sub_priorities(new_enabled.size());  // priority vector for new instances
+
+        int new_id = 0;  // id of the agents in the new instance
+
+        // loop through every agent to emplace correct position back
+        for (int true_id : new_enabled) {
+            auto it = agent_map.find(true_id);
+            int prev_id = it->second;
+            sub_priorities[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
+            C0[new_id] = C_new[prev_id];
+            G0[new_id] = goals[prev_id];
+            ++new_id;
+        }
+
+        // sanity check
+        if (!C0.empty()) {
+            sub_instances.emplace_back(std::make_shared<Instance>(C0, G0, std::move(new_enabled), new_enabled.size(), std::move(sub_priorities)));
+            info(1, verbose, "Pushed new sub-instance with ", new_enabled.size(), " agents.");
+        } 
+        else
+            std::cerr << "Something wrong with Instance generation";
+    }
+    return sub_instances;
+}
+
+
+
 
 
 /****************************************************************************************\
@@ -527,7 +643,7 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
 
 /**
  * @brief Constructor for the `FactDef` class that initializes the object with a given width 
- *        and handles the initialization of the `partitions_map` from a JSON file.
+ *        and handles the initialization of the `partitions_map` from the FactDef_partitions.json file.
  * 
  * This constructor reads partitioning data from a JSON file located at a predefined path 
  * (`assets/temp/temp_partitions.json`) and initializes the `partitions_map` member variable with it.
@@ -536,13 +652,13 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
  * @param width The width parameter used to initialize the base class `FactAlgo`.
  */
 FactDef::FactDef(int width) : FactAlgo(width, false, true) {
-    // Constructor with width, handle partitions_map initialization
-    std::string path = "assets/temp/temp_partitions.json";
+
+    // Read the file from the FactDef file
+    std::string path = "assets/temp/FactDef_partitions.json";
     std::ifstream file(path);
 
     if (!file.is_open()) {
-        std::cerr << "Could not open the file: " << path << std::endl;
-        return;
+        throw std::runtime_error("Could not open the file: " + path);
     }
 
     try {
@@ -557,122 +673,55 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
         }
     } catch (const json::exception& e) {
         std::cerr << "JSON parsing error: " << e.what() << std::endl;
+        throw std::runtime_error("");
     }
 }
 
+
+
+
+/****************************************************************************************\
+*                        Implementation of the FactPre class                             *
+\****************************************************************************************/
 
 /**
- * @brief Determines if the current instance is factorable based on a predefined partitioning at a given timestep.
+ * @brief Constructor for the `FactPre` class that initializes the object with a given width 
+ *        and handles the initialization of the `partitions_map` from the FactPre_partitions.json file.
  * 
- * This function checks if a given timestep exists in the `partitions_map` and then filters partitions based on the 
- * currently enabled agents. If the filtered partitions contain more than one group, the function invokes 
- * `split_from_file` to create sub-instances for each partition.
+ * This constructor reads partitioning data from a JSON file located at a predefined path 
+ * (`assets/temp/'readfrom'_partitions.json`) and initializes the `partitions_map` member variable with it.
+ * If the file cannot be opened or a JSON parsing error occurs, it outputs an error message to `std::cerr`.
  * 
- * @param C_new The current configuration of the agents.
- * @param goals The goal configuration for the agents.
- * @param verbose The verbosity level for logging and debugging purposes.
- * @param enabled A vector of agent IDs that are enabled in the current instance.
- * @param priorities A vector of priorities associated with the agents.
- * @param timestep The current timestep used to find the relevant partition in the partitions map.
- * 
- * @return A list of shared pointers to sub-instances if factorization is possible, otherwise an empty list.
+ * @param width The width parameter used to initialize the base class `FactAlgo`.
  */
-std::list<std::shared_ptr<Instance>> FactDef::is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const 
-{
-    // Check if timestep corresponds to a key in the partitions_map
-    auto it = partitions_map.find(timestep);
-    if (it == partitions_map.end()) {
-        // Timestep not found in the partitions map
-        return {};
+FactPre::FactPre(int width, const std::string& readfrom) : FactAlgo(width), readfrom(readfrom)  {
+
+    // Read the file from the FactDef file
+    std::string path = "assets/temp/" + readfrom + "_partitions.json";
+    std::ifstream file(path);
+
+    if (!file.is_open()) {
+        throw std::runtime_error("Could not open the file: " + path);
     }
 
-    // Create a set for quick lookups
-    std::unordered_set<int> enabled_set(enabled.begin(), enabled.end());
+    try {
+        json j;
+        file >> j;
 
-    const auto& partition = it->second;  // Partitions for the given timestep
-
-    Partitions filtered_partition;
-
-    // Iterate through each block of the partition
-    for (const auto& block : partition) {
-        // Check if any element in the partition is in the enabled_set
-        for (int agent : block) {
-            if (enabled_set.find(agent) != enabled_set.end()) {
-                filtered_partition.push_back(block);
-                break;  // Break inner loop to avoid unnecessary checks
-            }
+        for (auto& [key, value] : j.items()) {
+            int map_key = std::stoi(key); // Convert JSON key to integer
+            Partitions map_value = value.get<Partitions>();
+            partitions_map[map_key] = map_value;
+            // std::cout<<"\nFound timestep "<< map_key;
         }
-    }
-    
-    if (filtered_partition.size() > 1) {
-        return split_from_file(C_new, goals, verbose, enabled, filtered_partition, priorities);    // most expensive
-    } 
-    else {
-        return {};
+    } catch (const json::exception& e) {
+        std::cerr << "JSON parsing error: " << e.what() << std::endl;
+        throw std::runtime_error("");
     }
 }
 
 
-/**
- * @brief Splits the current instance into multiple sub-instances based on partitioning information.
- * 
- * This function takes the current configuration of agents (`C_new`), their goals (`goals`), and a 
- * partitioning scheme (`partition`), and splits the instance into multiple sub-instances. 
- * Each sub-instance contains a subset of the agents, their corresponding positions, goals, and priorities.
- * 
- * @param C_new The current configuration of the agents.
- * @param goals The goal configuration for the agents.
- * @param verbose Verbosity level for logging and debugging purposes.
- * @param enabled A vector of agent IDs that are enabled in the current context.
- * @param partition The partitioning scheme that specifies how agents should be grouped into sub-instances.
- * @param priorities A vector of priorities associated with the agents.
- * 
- * @return A list of shared pointers to sub-instances created based on the partitioning scheme.
- */
-std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_new, const Config& goals, int verbose,
-                             const std::vector<int>& enabled, const Partitions& partition, const std::vector<float>& priorities) const
-{
-    PROFILE_FUNC(profiler::colors::Yellow200);
 
-    // maps the true id of the agent to its position in the instance to split (reverse enabled vector. Maps true_id to rel_id)
-    std::unordered_map<int, int> agent_map;
-    agent_map.reserve(C_new.size()); // Pre-allocate memory to avoid reallocations
-    for (int j = 0; j < static_cast<int>(C_new.size()); ++j) {
-        agent_map[enabled[j]] = j;
-    }
-
-    // Initialize the sub_instance list
-    std::list<std::shared_ptr<Instance>> sub_instances;
-
-    // loop through all partition blocks
-    for (auto& new_enabled : partition) {
-        Config C0(new_enabled.size());
-        Config G0(new_enabled.size());
-
-        std::vector<float> sub_priorities(new_enabled.size());  // priority vector for new instances
-
-        int new_id = 0;  // id of the agents in the new instance
-
-        // loop through every agent to emplace correct position back
-        for (int true_id : new_enabled) {
-            auto it = agent_map.find(true_id);
-            int prev_id = it->second;
-            sub_priorities[new_id] = priorities.at(prev_id);  // transfer priorities to newly created instance
-            C0[new_id] = C_new[prev_id];
-            G0[new_id] = goals[prev_id];
-            ++new_id;
-        }
-
-        // sanity check
-        if (!C0.empty()) {
-            sub_instances.emplace_back(std::make_shared<Instance>(C0, G0, std::move(new_enabled), new_enabled.size(), std::move(sub_priorities)));
-            info(1, verbose, "Pushed new sub-instance with ", new_enabled.size(), " agents.");
-        } 
-        else
-            std::cerr << "Something wrong with Instance generation";
-    }
-    return sub_instances;
-}
 
 
 
@@ -695,20 +744,22 @@ std::list<std::shared_ptr<Instance>> FactDef::split_from_file(const Config& C_ne
  * 
  * @throws std::invalid_argument If the provided `type` does not match any valid FactAlgo type.
  */
-std::unique_ptr<FactAlgo> createFactAlgo(const std::string& type, int width) {
+std::unique_ptr<FactAlgo> createFactAlgo(const std::string& type, const std::string& readfrom, int width) {
     static const std::unordered_map<std::string, std::function<std::unique_ptr<FactAlgo>(int)>> factory_map = {
         {"FactDistance", [](int width) { return std::make_unique<FactDistance>(width); }},
         {"FactBbox",     [](int width) { return std::make_unique<FactBbox>(width); }},
         {"FactOrient",   [](int width) { return std::make_unique<FactOrient>(width); }},
         {"FactAstar",    [](int width) { return std::make_unique<FactAstar>(width); }},
-        {"FactDef",      [](int width) { return std::make_unique<FactDef>(width); }}
+        {"FactDef",      [](int width) { return std::make_unique<FactDef>(width); }},
+        {"FactPre",      [readfrom](int width) { return std::make_unique<FactPre>(width, readfrom); }}
     };
 
     auto it = factory_map.find(type);
-    if (it != factory_map.end()) {
-        return it->second(width);
-    } else {
-        throw std::invalid_argument("Invalid factorize type: " + type);
-    }
+    return it->second(width);
+    // if (it != factory_map.end()) {
+    //     return it->second(width);
+    // } else {
+    //     throw std::invalid_argument("Invalid factorize type: " + type);
+    // }
 }
 
