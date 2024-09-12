@@ -321,27 +321,16 @@ void write_partitions(const PartitionsMap& partitions_per_timestep, const std::s
         }
     }
 
-    // Populate the JSON object with the data from the partitions
-    for (const auto& [timestep, partitions] : partitions_per_timestep) {
-        if (!partitions.empty()) {
-            j[std::to_string(timestep)] = partitions;
-        }
-    }
-
     // Write the partitions to own JSON file
-    std::string file = "assets/temp/" + factorize + "_partitions.json";
-    std::string temp_file = "assets/temp/temp_partitions.json";
-
-    for (auto filename : {file, temp_file})
-    {
-        std::ofstream file(filename);
-        if (file.is_open()) {
-            file << j.dump(4);
-            file.close();
-        } else {
-            throw std::runtime_error("Unable to open file " + filename);
-        }
+    std::string filename = "assets/temp/" + factorize + "_partitions.json";
+    std::ofstream file(filename);
+    if (file.is_open()) {
+        file << j.dump(4);
+        file.close();
+    } else {
+        throw std::runtime_error("Unable to open file " + filename);
     }
+
 }
 
 

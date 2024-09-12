@@ -126,10 +126,10 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     ))
 
     ############################# rather 'experimental' ###############################################
-    # Disclaimer: rahter unstable. Use with 'stats_factdef_augmented.json ONLY
+    # Disclaimer: unstable. This is for deeper insight in the data, not needed for overall assessment of the data.
 
     # Makes sense to use only when using the FactDef heuristic and actually creating partitions according to the definition.
-    # Used to compare with larger number of agents to get a sense of the tendency. Use with 'stats_factdef_augmented.json ONTY
+    # Used to compare with larger number of agents to get a sense of the tendency. Use with 'stats_factdef_augmented.json ONLY.
     
     # Add the predicted factorization score line 
     # predict_score_data = data.drop(data[data['Algorithm'] != "FactDef"].index)
@@ -142,12 +142,14 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     #     line=dict(color='#00d97f', width=2),  # Line color and width
     #     name='Predicted Complexity Score'  # Name for the legend
     # ))
-    ###################################################################################################
 
-    
 
     # Bar charts for queue visualization (primarily for debug purposes)
-    queue_line, queue_line_MT, queue_freq, sub_ins_freq = queue_graphs()
+
+    # queue_line, queue_line_MT, queue_freq, sub_ins_freq = queue_graphs(heuristic='FactDef')
+    # beautify(graph=queue_freq, colors=colors, title="OPENins queue pushes", xtitle="Number of instances pushed", ytitle="Frequency", height=260, width=475)
+    # beautify(graph=sub_ins_freq, colors=colors, title="Size of instances", xtitle="Number of agents in instance", ytitle="Frequency", height=260, width=475)
+    ###################################################################################################
 
     # Create the bar charts
     bar_success_agents = px.bar(data_success, x="Number of agents", y="Success", color="Algorithm", color_discrete_map=color_map, text_auto=True, orientation='v', labels=None)
@@ -167,15 +169,12 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     beautify(graph=line_time_std_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
     beautify(graph=line_span, colors=colors, title="Makespan", xtitle="Number of agents",  height=260, width=475, legend=True)
     beautify(graph=line_costs, colors=colors, title="Sum of costs", xtitle="Number of agents",  height=260, width=475, legend=True)
+    beautify(graph=line_score, colors=colors, title="Complexity score", xtitle="Number of agents", ytitle="log(score)", height=260, width=475, rangemode="tozero", legend=True)
     
     beautify_bar(graph=bar_success_agents, colors=colors, title="Success rate [%]", xtitle="Number of agents",  height=260, width=475, legend=True)
     beautify_bar(graph=bar_success_agents_MT, colors=colors, title="Success rate [%] (MT)", xtitle="Number of agents",  height=260, width=475, legend=True)
     beautify_bar(graph=bar_success_rate, colors=colors, title="Overall success rate [%]",  height=212, width=295)
     beautify_bar(graph=bar_success_rate_MT, colors=colors, title="Success rate [%] (MT)",  height=212, width=295)
-
-    beautify(graph=queue_freq, colors=colors, title="OPENins queue pushes", xtitle="Number of instances pushed", ytitle="Frequency", height=260, width=475)
-    beautify(graph=sub_ins_freq, colors=colors, title="Size of instances", xtitle="Number of agents in instance", ytitle="Frequency", height=260, width=475)
-    beautify(graph=line_score, colors=colors, title="Complexity score", xtitle="Number of agents", ytitle="log(score)", height=260, width=475, rangemode="tozero", legend=True)
 
     # Manage the x_axis of the success plots
     adjust_success_plots(bar_data=data_success['Number of agents'], colors=colors, bar_success_agents=bar_success_agents, bar_success_agents_MT=bar_success_agents_MT)
@@ -194,6 +193,8 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
                 style={'textAlign': 'center', 'paddingTop': '25px', 'color': colors['text'], 'fontSize': 25, 'fontWeight': 'bold', 'height': '90px'}
             ),
         ),
+
+        # First Row
         dbc.Row(
             [
                 # Left column: Map and algorithm details

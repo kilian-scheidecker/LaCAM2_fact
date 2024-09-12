@@ -646,7 +646,7 @@ const bool FactAstar::heuristic(int rel_id_1, int index1, int goal1, int rel_id_
  *        and handles the initialization of the `partitions_map` from the FactDef_partitions.json file.
  * 
  * This constructor reads partitioning data from a JSON file located at a predefined path 
- * (`assets/temp/temp_partitions.json`) and initializes the `partitions_map` member variable with it.
+ * (`assets/temp/FactDef_partitions.json`) and initializes the `partitions_map` member variable with it.
  * If the file cannot be opened or a JSON parsing error occurs, it outputs an error message to `std::cerr`.
  * 
  * @param width The width parameter used to initialize the base class `FactAlgo`.

@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
     const auto deadline = Deadline(time_limit_sec * 1000);
     
     // Actual solving if using factorized version
-    if (strcmp(factorize.c_str(), "standard") != 0) {
+    if (factorize != "standard") {
         info(0, verbose, "\nStart solving the algorithm with factorization\n");
 
         if(multi_threading)
@@ -180,17 +180,23 @@ int main(int argc, char* argv[])
     }
 
     // post processing
+
+    // print results to terminal
     print_results(verbose, ins, solution, comp_time_ms);
 
-    if (partitions_per_timestep.empty() && strcmp(factorize.c_str(), "FactDef") == 0) 
-        partitions_per_timestep = algo->partitions_map;                 // if used factdef, retrieve partitions
-    else if (partitions_per_timestep.empty())
-        partitions_per_timestep[get_makespan(solution)] = {v_enable};   // else assume no factorization since empty partitions
-        
+    // if no partitions (standard use) assume no factorization
+    if (partitions_per_timestep.empty()) {
+        partitions_per_timestep[get_makespan(solution)] = {v_enable};  
+    }
+
     make_log(ins, solution, output_name, comp_time_ms, map_name, seed, additional_info, partitions_per_timestep, log_short);
-    if(save_stats)
+
+    if(save_stats) {
         make_stats("stats.json", factorize, N, comp_time_ms, infos, solution, mapname, success, multi_threading, partitions_per_timestep);
-    if(save_partitions){
+    }
+
+    // save partitions if specified. No need to return partitions for FactDef or FactPre since they already exist
+    if(save_partitions && (factorize != "FactDef" || factorize != "FactPre")){
         write_partitions(partitions_per_timestep, factorize);
     }
 
