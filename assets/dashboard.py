@@ -166,9 +166,9 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     beautify(graph=line_time_std_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
     beautify(graph=line_span_std, colors=colors, title="Makespan", xtitle="Number of agents",  height=260, width=475, rangemode="tozero", legend=True)
     
-    beautify_bar(graph=bar_success_agents, colors=colors, title="Successfully solved instances", xtitle="Number of agents",  height=260, width=475, legend=True)
-    beautify_bar(graph=bar_success_agents_MT, colors=colors, title="Successfully solved instances (MT)", xtitle="Number of agents",  height=260, width=475, legend=True)
-    beautify_bar(graph=bar_success_rate, colors=colors, title="Success rate [%]",  height=212, width=295)
+    beautify_bar(graph=bar_success_agents, colors=colors, title="Success rate [%]", xtitle="Number of agents",  height=260, width=475, legend=True)
+    beautify_bar(graph=bar_success_agents_MT, colors=colors, title="Success rate [%] (MT)", xtitle="Number of agents",  height=260, width=475, legend=True)
+    beautify_bar(graph=bar_success_rate, colors=colors, title="Overall success rate [%]",  height=212, width=295)
     beautify_bar(graph=bar_success_rate_MT, colors=colors, title="Success rate [%] (MT)",  height=212, width=295)
 
     beautify(graph=queue_freq, colors=colors, title="OPENins queue pushes", xtitle="Number of instances pushed", ytitle="Frequency", height=260, width=475)

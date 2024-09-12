@@ -136,6 +136,12 @@ def get_data(map_name: str, read_from: str=None):
     # Get the success rate for each algo
     success_rate, total_tests = compute_success_rate(data_full)
 
+    # Transform sum into %age for success rate
+    N_tests = total_tests/data_success['Number of agents'].nunique()
+    data_success['Success'] = (data_success['Success'] / N_tests * 100).round(0)
+    data_success_MT['Success'] = (data_success_MT['Success'] / N_tests * 100).round(0)
+
+
     return data_avg, data_success, data_success_MT, success_rate, total_tests
 
 

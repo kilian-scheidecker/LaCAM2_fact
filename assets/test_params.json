@@ -1,11 +1,11 @@
 {
-  "from": 50,
-  "to": 700,
-  "jump": 50,
-  "n": 30,
-  "map_name": ["random-32-32-20", "random-32-32-10"],
-  "algorithms": ["FactDistance", "FactBbox", "FactOrient", "FactAstar", "FactDef", "standard"],
-  "use_heuristic": "FactOrient",
+  "from": 120,
+  "to": 300,
+  "jump": 20,
+  "n": 15,
+  "map_name": ["random-32-32-20"],
+  "algorithms": ["FactDistance", "FactDef", "standard"],
+  "use_heuristic": "FactDistance",
   "multi_threading": ["no"]
 }
 
