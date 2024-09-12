@@ -128,7 +128,7 @@ def get_data(map_name: str, read_from: str=None):
 
     # Filter out other stuff if necessary , for debug purposes
     # data_full = data_full[data_full['Number of agents'] <= 50]
-    # data_full = data_full[data_full['Algorithm'] != "FactBbox"]
+    data_full = data_full[data_full['Algorithm'] != "FactPre_orient"]
     
     # Drop entries where there is no solution
     data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)

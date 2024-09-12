@@ -17,7 +17,7 @@ def queue_graphs(heuristic: str) -> tuple:
         None if the file 'heuristic'_partitions.json does not exist
 
     Notes:
-        - The function reads partition data from a JSON file and processes it to extract relevant metrics.
+        - The function reads partition data from a JSON file and processes it to extract relevant data related to the instance splitting.
         - It creates time series bar charts to visualize queue sizes and dynamic queue sizes over time.
         - It also generates histograms to show the distribution of queue sizes and sub-instance sizes.
     """

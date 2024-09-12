@@ -27,10 +27,11 @@ using json = nlohmann::json;
 class FactAlgo
 {
 public:
-    const int width;                //! Width of the graph.
-    const bool need_astar;          //! Indicates if A* estimates from the DistTable are needed.
-    PartitionsMap partitions_map;   //! Map storing the partitions per timestep.
-    const bool use_def;             //! Indicates the use of FactDef heuristic.
+    const int width;                            //! Width of the graph.
+    const bool need_astar;                      //! Indicates if A* estimates from the DistTable are needed.
+    PartitionsMap partitions_map;               //! Map storing the partitions per timestep.
+    const bool use_def;                         //! Indicates the use of FactDef heuristic.
+    std::vector<std::pair<int, int>> coords;    //! Precomputed map of vertex id to 2D coordinates.
 
     /**
      * @brief Constructs a FactAlgo with the specified graph width, general constructor.
@@ -46,13 +47,13 @@ public:
     /**
      * @brief Constructs a FactAlgo with the specified graph width and A* requirement.
      */
-    FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar), partitions_map({}), use_def(false) {
-        // Precompute coordinates
-        coords.resize(width * width);
-        for (int i = 0; i < width * width; ++i) {
-            coords[i] = {i / width, i % width};
-        }
-    }
+    // FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar), partitions_map({}), use_def(false) {
+    //     // Precompute coordinates
+    //     coords.resize(width * width);
+    //     for (int i = 0; i < width * width; ++i) {
+    //         coords[i] = {i / width, i % width};
+    //     }
+    // }
 
     /**
      * @brief Constructs a FactAlgo with the specified graph width, A* requirement, and default use flag.
@@ -67,11 +68,11 @@ public:
 
     virtual ~FactAlgo() = default;
 
-    // Determines if the given configuration can be factorized and generates sub-instances accordingly.
     std::list<std::shared_ptr<Instance>> is_factorizable(const Config& C, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<int>& distances, const std::vector<float>& priorities);
 
-    // Splits a configuration into multiple sub-instances based on given partitions.
     std::list<std::shared_ptr<Instance>> split_ins(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
+
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const;
 
     /**
      * @brief Computes the Manhattan distance between two vertices on the map.
@@ -84,13 +85,7 @@ public:
         return std::abs(x1 - x2) + std::abs(y1 - y2);
     };
 
-    /**
-     * @brief Allows factorization according to pre-computed partitions
-     */
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const;
-
-    std::vector<std::pair<int, int>> coords;  //! Precomputed map of vertex id to 2D coordinates.
-
+    
 private:
 
     // Specific logic to determine if two agents can be factorized.
@@ -98,6 +93,9 @@ private:
 
     // Same as split_ins but with true_id instead of local ids.
     std::list<std::shared_ptr<Instance>> split_from_file(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
+
+    
+
 };
 
 
@@ -175,7 +173,7 @@ class FactAstar : public FactAlgo
 public:
     // Default constructor.
     FactAstar() : FactAlgo(0) {}
-    FactAstar(int width) : FactAlgo(width, true) {}
+    FactAstar(int width) : FactAlgo(width, true, false) {}
 
 private:
 

@@ -45,12 +45,12 @@ int main(int argc, char* argv[])
         .help("restart rate")
         .default_value(std::string("0.001"));
     program.add_argument("-f", "--factorize")
-        .help("mode of factorization: [standard / FactDistance / FactBbox / Factorient / FactAstar / FactDef / FactPre]")
+        .help("mode of factorization: [standard / FactDistance / FactBbox / FactOrient / FactAstar / FactDef / FactPre]")
         .default_value(std::string("standard"))
         .action([](const std::string& alg) {
-            static const std::vector<std::string> algos = {"standard", "FactDistance", "FactBbox", "Factorient", "FactAstar", "FactDef", "FactPre"};
+            static const std::vector<std::string> algos = {"standard", "FactDistance", "FactBbox", "FactOrient", "FactAstar", "FactDef", "FactPre"};
             if (std::find(algos.begin(), algos.end(), alg) != algos.end()) return alg;
-            throw std::invalid_argument("This factorization method is not implemented. please choose from [standard, FactDistance, FactBbox, Factorient, FactAstar, FactDef, FactPre]");
+            throw std::invalid_argument("This factorization method is not implemented. please choose from [standard, FactDistance, FactBbox, FactOrient, FactAstar, FactDef, FactPre]");
         });
     program.add_argument("-mt", "--multi_threading")
         .help("toggle multi-threading: [default false] ")
@@ -65,10 +65,10 @@ int main(int argc, char* argv[])
         .default_value(false)
         .implicit_value(true);
     program.add_argument("-h", "--heuristic")
-        .help("Heuristic used for pre computed partitions: FactDistance / FactBbox / Factorient / FactAstar")
+        .help("Heuristic used for pre computed partitions: FactDistance / FactBbox / FactOrient / FactAstar")
         .default_value(std::string("FactDistance"))
         .action([](const std::string& h) {
-            static const std::vector<std::string> heuristics = {"FactDistance", "FactBbox", "Factorient", "FactAstar"};
+            static const std::vector<std::string> heuristics = {"FactDistance", "FactBbox", "FactOrient", "FactAstar"};
             if (h=="FactDef") throw std::invalid_argument("To use the FactDef partitions, use the FactDef factorization method.");
             if (std::find(heuristics.begin(), heuristics.end(), h) != heuristics.end()) return h;
             throw std::invalid_argument("The partitions from this heuristic are not compatible with FactPre");

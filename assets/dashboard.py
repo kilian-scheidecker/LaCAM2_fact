@@ -72,12 +72,17 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
 
     # For consitent color legend across the dashboard.
     color_map = {
-        'FactAstar': '#19d3f3',     # Blue (light) 
-        'FactBbox': '#ffa15a',      # Orange
-        'FactDef': '#00d97f',       # Green
-        'FactDistance': '#ab63fa',  # Purple
-        'FactOrient': '#636efa',    # Blue (dark)
-        'standard': '#ef553b'       # Red
+        'FactAstar': '#19d3f3',         # Blue (light) 
+        'FactBbox': '#ffa15a',          # Orange
+        'FactDef': '#00d97f',           # Green
+        'FactDistance': '#ab63fa',      # Purple
+        'FactOrient': '#636efa',        # Blue (dark)
+        'standard': '#ef553b',          # Red
+        'FactPre': '#097969',           # Green (dark)
+        'FactPre_dist': '#097969',      # Green (dark)
+        'FactPre_bbox': '#097969',      # Green (dark)
+        'FactPre_orient': '#097969',    # Green (dark)
+        'FactPre_astar': '#097969'      # Green (dark)
     }
 
 
@@ -165,8 +170,8 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     beautify(graph=line_RAM_MT, colors=colors, title="Max. RAM load (MT)", xtitle="Number of agents", ytitle="Max. RAM usage [Mb]", height=260, width=340, rangemode="tozero")
     beautify(graph=line_time, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero")
     beautify(graph=line_time_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
-    beautify(graph=line_time_std, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero")
-    beautify(graph=line_time_std_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
+    beautify(graph=line_time_std, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero", legend=True)
+    beautify(graph=line_time_std_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero", legend=True)
     beautify(graph=line_span, colors=colors, title="Makespan", xtitle="Number of agents",  height=260, width=475, legend=True)
     beautify(graph=line_costs, colors=colors, title="Sum of costs", xtitle="Number of agents",  height=260, width=475, legend=True)
     beautify(graph=line_score, colors=colors, title="Complexity score", xtitle="Number of agents", ytitle="log(score)", height=260, width=475, rangemode="tozero", legend=True)

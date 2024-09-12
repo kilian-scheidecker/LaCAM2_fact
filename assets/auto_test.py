@@ -63,7 +63,7 @@ def auto_test() :
             
             for i in range(n) :
                 print(f"\nTesting with {N} agents in {map_name}")
-                commmands = create_command(map_name=map_name, N=N, algorithms=algorithms, multi_threading=multi_threading)
+                commmands = create_command(map_name=map_name, N=N, algorithms=algorithms, multi_threading=multi_threading, readfrom=use_heuristic)
                 create_scen(N, dir_py, map_name)
                 for command in commmands :
 

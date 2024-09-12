@@ -3,7 +3,7 @@ from typing import Dict, Any
 from os.path import join, dirname as up
 
 
-def create_command(map_name: str, N: int, algorithms: list, multi_threading: list):
+def create_command(map_name: str, N: int, algorithms: list, multi_threading: list, readfrom: str):
     """
     Creates command strings for running simulations with various factorization algorithms and multi-threading options.
 
@@ -21,13 +21,18 @@ def create_command(map_name: str, N: int, algorithms: list, multi_threading: lis
     for factalgo in algorithms :
         for thread in multi_threading :
             if thread == "yes":
-                if factalgo not in ["standard"] :
+                if factalgo != "standard" :
                     end = ' -v 0' + ' -f ' + factalgo + ' -mt'
                 else :
-                    print("Cannot use multi threading on standard or FactDef LaCAM")
+                    print("Cannot use multi threading on standard LaCAM")
                     continue
             else :
                 end = ' -v 0' + ' -f ' + factalgo
+            
+            # add the readfrom argument to use the correct heuristic for FactDef or FactPre
+            if factalgo in ["FactDef", "FactPre"] :
+                end += '-h ' + readfrom
+            
             command = "/usr/bin/time -v build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + '/' + map_name + ".map -sp -N " + str(N) + end
             commands.append(command)
 
