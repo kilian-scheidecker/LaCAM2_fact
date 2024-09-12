@@ -96,12 +96,12 @@ The dashboard contains a lot of interesting data, starting with simple general i
 
 The two graphs on the top right represent the succes rate of the different algorithms in %. The first row of charts is for sequential solving of MAPF instances and the second row is about the multi-threaded solving (MT). The solving times are averaged out and plotted as a function of the agent number in the map. Information about the variance can be viewed in the center charts. The charts on the far right depict the successfully solved instances as a function of agent number.
 
-The fourth row shows data about average CPU and maximum RAM usage during the solving.
+The fourth row displays information about the complexity of the search space and makespan/sum of costs data. Finally, the fifth row shows data about hardware usage during the solving process.
 
 <p align="center">
   <img src="assets/misc/screenshot_dashboard.png" width="100%">
   <br>
-  <p align="center">Screenshot of the dashboard.</p>
+  <p align="center">Screenshot of the top of the dashboard.</p>
 </p>
 
 

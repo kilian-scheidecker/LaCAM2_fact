@@ -86,7 +86,7 @@ def adjust_success_plots(
     """
     
     # Explicitly add the agent number under the bar graphs if not too many bars :
-    if bar_data.nunique() <= 12 :
+    if bar_data.nunique() <= 10 :
         for i, value in enumerate(bar_data):
             bar_success_agents.add_annotation(
                 x=value, 
@@ -111,5 +111,5 @@ def adjust_success_plots(
         bar_success_agents_MT.update_layout(xaxis={'showgrid':False, 'showticklabels':True})
 
     # Display the data inside the bars :
-    bar_success_agents.update_traces(textposition='inside')
-    bar_success_agents_MT.update_traces(textposition='inside')
+    bar_success_agents.update_traces(textposition='inside', textangle=0)
+    bar_success_agents_MT.update_traces(textposition='inside', textangle=0)

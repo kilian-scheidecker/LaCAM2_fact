@@ -4,7 +4,7 @@ from os.path import join, dirname as up
 import pandas as pd
 
 
-def queue_graphs() -> tuple:
+def queue_graphs(heuristic: str) -> tuple:
     """
     Generate and return a series of graphs based on partition data.
 
@@ -14,7 +14,7 @@ def queue_graphs() -> tuple:
                 - `fig2`: A bar chart showing the dynamic queue size with adjustments.
                 - `fig3`: A histogram of queue size frequencies.
                 - `fig4`: A histogram of sub-instance size frequencies.
-        None if the file temp_partitions.json does not exist
+        None if the file 'heuristic'_partitions.json does not exist
 
     Notes:
         - The function reads partition data from a JSON file and processes it to extract relevant metrics.
@@ -24,7 +24,7 @@ def queue_graphs() -> tuple:
     # Load the data from the latest available partitions
     assets_path = up(up(__file__))     # LaCAM2_fact/assets/
     try:
-        with open(join(assets_path, 'temp/temp_partitions.json'), 'r') as f:                # can change here to FactOrient_partitions.json or some other file if needed
+        with open(join(assets_path, 'temp/' + heuristic + '.json'), 'r') as f:                # can change here to FactOrient_partitions.json or some other file if needed
             data = json.load(f)
     except FileNotFoundError:
         print("File not found. Please check if the file exists in the specified path.")

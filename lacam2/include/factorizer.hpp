@@ -9,7 +9,7 @@
 
 #ifndef FACTORIZER_HPP
 #define FACTORIZER_HPP
-#define SAFETY_DISTANCE 0
+#define SAFETY_DISTANCE 1
 
 #include "dist_table.hpp"
 #include "utils.hpp"
@@ -85,9 +85,9 @@ public:
     };
 
     /**
-     * @brief Allows factorization according to pre-computed partitions (and thus also according to the definition of factorization)
+     * @brief Allows factorization according to pre-computed partitions
      */
-    virtual std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const = 0;
+    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const;
 
     std::vector<std::pair<int, int>> coords;  //! Precomputed map of vertex id to 2D coordinates.
 
@@ -96,8 +96,8 @@ private:
     // Specific logic to determine if two agents can be factorized.
     virtual const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const = 0;
 
-
-  
+    // Same as split_ins but with true_id instead of local ids.
+    std::list<std::shared_ptr<Instance>> split_from_file(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
 };
 
 
@@ -110,9 +110,6 @@ public:
     // Default constructor
     FactDistance() : FactAlgo(0) {}
     FactDistance(int width) : FactAlgo(width) {}
-
-    // Placeholder for the virtual function
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const {return {};};
 
 private:
     // Simple heuristic to determine if 2 agents can be factorized. Based on manhattan distance.
@@ -129,9 +126,6 @@ public:
     // Default constructor
     FactBbox() : FactAlgo(0) {}
     FactBbox(int width) : FactAlgo(width) {}
-
-    // Placeholder for the virtual function
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const {return {};};
 
 private:
 
@@ -150,10 +144,6 @@ public:
     // Default constructor
     FactOrient() : FactAlgo(0) {}
     FactOrient(int width) : FactAlgo(width) {}
-
-    // Placeholder for the virtual function
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const {return {};};
-
 
 private:
 
@@ -187,9 +177,6 @@ public:
     FactAstar() : FactAlgo(0) {}
     FactAstar(int width) : FactAlgo(width, true) {}
 
-    // Placeholder for the virtual function.
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const {return {};};
-
 private:
 
     // Simple heuristic to determine if 2 agents can be factorized based on A* distance.
@@ -198,7 +185,7 @@ private:
 
 
 /**
- * @brief Class that implements factorization using pre-computed partitions.
+ * @brief Class that implements factorization using pre-computed partitions from the defintion.
  */
 class FactDef : public FactAlgo
 {
@@ -207,15 +194,25 @@ public:
     FactDef() : FactAlgo(0) {}
     FactDef(int width);
 
-    // Applies the precomputed partitions to minimize time spent in factorization.
-    std::list<std::shared_ptr<Instance>> is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const std::vector<float>& priorities, int timestep) const override;
+private :
+    const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const {return 0;};
+};
+
+/**
+ * @brief Class that implements factorization using pre-computed partitions from other heuristics.
+ */
+class FactPre : public FactAlgo
+{
+public:
+    // Default constructor.
+    FactPre() : FactAlgo(0) {}
+    FactPre(int width, const std::string& readfrom);
 
 private :
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const {return 0;};
-    
-    // Same as split_ins but with true_id instead of local ids.
-    std::list<std::shared_ptr<Instance>> split_from_file(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, const Partitions& partitions, const std::vector<float>& priorities) const;
-    
+
+    std::string readfrom;
+
 };
 
 
@@ -224,6 +221,6 @@ private :
  * @param type describes the type of factorization to use.
  * @param width width of the graph.
  */
-std::unique_ptr<FactAlgo> createFactAlgo(const std::string& type, int width);
+std::unique_ptr<FactAlgo> createFactAlgo(const std::string& type, const std::string& readfrom, int width);
 
 #endif // FACTORIZER_HPP

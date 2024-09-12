@@ -32,6 +32,7 @@ def compute_averages(data: pd.DataFrame) :
     # Reisert the averaged data 
     data_avg.insert(loc=2, column='Average cost', value=costs_average['Sum of costs'])
     data_avg.insert(loc=2, column='Average loss', value=costs_average['Sum of loss'])
+    data_avg.insert(loc=2, column='Sum of costs std', value=data_std['Sum of costs'])
     data_avg.insert(loc=2, column='Computation time (ms) std', value=data_std['Computation time (ms)'])
     data_avg.insert(loc=2, column='CPU usage (percent) std', value=data_std['CPU usage (percent)'])
     data_avg.insert(loc=2, column='Makespan std', value=data_std['Makespan'])
@@ -122,7 +123,10 @@ def get_data(map_name: str, read_from: str=None):
     # Get readings from particular map
     data_full = data[data['Map name'] == map_name]
 
-    # Filter out other stuff if necessary
+    # Raise error if no data for specified map
+    if data_full.empty : raise ValueError(f"No data found for map {map_name}")
+
+    # Filter out other stuff if necessary , for debug purposes
     # data_full = data_full[data_full['Number of agents'] <= 50]
     # data_full = data_full[data_full['Algorithm'] != "FactBbox"]
     
@@ -135,6 +139,12 @@ def get_data(map_name: str, read_from: str=None):
 
     # Get the success rate for each algo
     success_rate, total_tests = compute_success_rate(data_full)
+
+    # Transform sum into %age for success rate
+    N_tests = total_tests/data_success['Number of agents'].nunique()
+    data_success['Success'] = (data_success['Success'] / N_tests * 100).round(0)
+    data_success_MT['Success'] = (data_success_MT['Success'] / N_tests * 100).round(0)
+
 
     return data_avg, data_success, data_success_MT, success_rate, total_tests
 

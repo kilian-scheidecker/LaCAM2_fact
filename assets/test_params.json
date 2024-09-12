@@ -1,11 +1,11 @@
 {
-  "from": 10,
-  "to": 50,
-  "jump": 10,
-  "n": 30,
-  "map_name": ["warehouse-20-40-10-2-2", "random-32-32-10"],
-  "algorithms": ["FactDistance", "FactBbox", "FactOrient", "FactAstar", "standard"],
-  "use_heuristic": "FactDef",
+  "from": 120,
+  "to": 300,
+  "jump": 20,
+  "n": 15,
+  "map_name": ["random-32-32-20"],
+  "algorithms": ["FactDistance", "FactDef", "standard"],
+  "use_heuristic": "FactDistance",
   "multi_threading": ["no"]
 }
 
