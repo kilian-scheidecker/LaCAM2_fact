@@ -111,8 +111,9 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     line_time_MT = px.line(data_MT, x="Number of agents", y="Computation time (ms)", color="Algorithm", color_discrete_map=color_map)
     line_time_std = px.scatter(data_std, x="Number of agents", y="Computation time (ms)", color="Algorithm", color_discrete_map=color_map, error_y="Computation time (ms) std")
     line_time_std_MT = px.scatter(data_std_MT, x="Number of agents", y="Computation time (ms)", color="Algorithm", color_discrete_map=color_map, error_y="Computation time (ms) std")
-    line_span_std = px.scatter(data_std, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
-    line_span_std_MT = px.scatter(data_std_MT, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
+    line_span = px.line(data_std, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
+    line_span_MT = px.scatter(data_std_MT, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
+    line_costs = px.line(data_std, x="Number of agents", y="Sum of costs", color="Algorithm", color_discrete_map=color_map)
     line_score = px.line(data, x="Number of agents", y="Complexity score", color="Algorithm", color_discrete_map=color_map)
 
     # Add the min factorization score line :
@@ -164,7 +165,8 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     beautify(graph=line_time_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
     beautify(graph=line_time_std, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero")
     beautify(graph=line_time_std_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
-    beautify(graph=line_span_std, colors=colors, title="Makespan", xtitle="Number of agents",  height=260, width=475, rangemode="tozero", legend=True)
+    beautify(graph=line_span, colors=colors, title="Makespan", xtitle="Number of agents",  height=260, width=475, legend=True)
+    beautify(graph=line_costs, colors=colors, title="Sum of costs", xtitle="Number of agents",  height=260, width=475, legend=True)
     
     beautify_bar(graph=bar_success_agents, colors=colors, title="Success rate [%]", xtitle="Number of agents",  height=260, width=475, legend=True)
     beautify_bar(graph=bar_success_agents_MT, colors=colors, title="Success rate [%] (MT)", xtitle="Number of agents",  height=260, width=475, legend=True)
@@ -259,7 +261,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
-        # Second row
+        # Second row, sequential solving data
         dbc.Row(
             [
                 dbc.Col(dcc.Graph(id='graph1',figure=line_time, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center', 'borderRadius': '10px'}),
@@ -269,7 +271,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
-        # Third row
+        # Third row, multi processing data
         dbc.Row(
             [
                 dbc.Col(dcc.Graph(id='graph4',figure=line_time_MT, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
@@ -279,7 +281,17 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
-        # Fourth row
+        # Fourth row, complexity score, solution quality
+        dbc.Row(
+            [
+                dbc.Col(dcc.Graph(id='graph11',figure=line_score, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph12',figure=line_span, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph13',figure=line_costs, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'})
+            ],
+            style={'marginBottom': '30px'}
+        ),
+        
+        # Fifth row, hardware data
         dbc.Row(
             [
                 #dbc.Col(width=4, style={'textAlign': 'center'}),
@@ -291,23 +303,14 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
             style={'marginBottom': '30px'}
         ),
 
-        # Fifth row
+        # Sixth row. Used for visualizing the queues. Reads data from the last found partitions. Not very comprehensive, was mainly used for debugging purposes
         dbc.Row(
             [
-                dbc.Col(dcc.Graph(id='graph11',figure=line_score, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph12',figure=line_span_std, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'})
+                # dbc.Col(dcc.Graph(id='graph14',figure=queue_freq, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
+                # dbc.Col(dcc.Graph(id='graph15',figure=sub_ins_freq, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'}),
             ],
             style={'marginBottom': '30px'}
         ),
-
-        # Used for visualizing the queues. Reads data from the last found partitions. Not very comprehensive, was mainly used for debugging purposes
-        # dbc.Row(
-        #     [
-        #         dbc.Col(dcc.Graph(id='graph12',figure=queue_freq, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'}),
-        #         dbc.Col(dcc.Graph(id='graph13',figure=sub_ins_freq), width=4, style={'textAlign': 'center'})
-        #     ],
-        #     style={'marginBottom': '30px'}
-        # ),
 
         # Final padding
         dbc.Row(dbc.Col(html.Div("")), style={'height' : '200px'}),
