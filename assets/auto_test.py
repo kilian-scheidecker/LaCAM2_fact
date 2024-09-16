@@ -49,8 +49,6 @@ def auto_test() :
     success = 0
     total = 0
 
-    # n_agents = [2, 3, 5, 7, 8, 9, 10]
-
     for map_name in maps :
         for N in n_agents :
 
