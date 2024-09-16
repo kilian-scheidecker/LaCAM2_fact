@@ -143,6 +143,13 @@ def get_data(map_name: str, read_from: str=None):
     # Transform sum into %age for success rate
     N_tests = total_tests/data_success['Number of agents'].nunique()
     data_success['Success'] = (data_success['Success'] / N_tests * 100).round(0)
+    # N_tests = 20
+    # data_success['Success'] = data_success.apply(
+    #     lambda row: round((row['Success'] / 7) * 100, 0) if row['Number of agents'] == 7000 
+    #     else round((row['Success'] / N_tests) * 100, 0),
+    #     axis=1
+    # )
+
     data_success_MT['Success'] = (data_success_MT['Success'] / N_tests * 100).round(0)
 
 
