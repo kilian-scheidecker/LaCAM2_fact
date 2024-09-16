@@ -52,7 +52,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     # Lightmode theme.
     if theme == 'light' :
         colors = {
-            'background': '#333333',  #F7F7F7
+            'background': '#333333',  #F7F7F7   
             'text': '#333333',
             'card': '#FFFFFF',
             'accent1': '#5A9BD5',
@@ -79,7 +79,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         'FactOrient': '#636efa',        # Blue (dark)
         'standard': '#ef553b',          # Red
         'FactPre': '#097969',           # Green (dark)
-        'FactPre_dist': '#097969',      # Green (dark)
+        'FactPre_distance': '#097969',  # Green (dark)
         'FactPre_bbox': '#097969',      # Green (dark)
         'FactPre_orient': '#097969',    # Green (dark)
         'FactPre_astar': '#097969'      # Green (dark)
@@ -120,6 +120,8 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     line_span_MT = px.scatter(data_std_MT, x="Number of agents", y="Makespan", color="Algorithm", color_discrete_map=color_map, error_y="Makespan std")
     line_costs = px.line(data_std, x="Number of agents", y="Sum of costs", color="Algorithm", color_discrete_map=color_map, error_y="Sum of costs std")
     line_score = px.line(data, x="Number of agents", y="Complexity score", color="Algorithm", color_discrete_map=color_map)
+
+    raw_data.to_csv("random_raw.csv")
 
     # Add the min factorization score line :
     line_score.add_trace(go.Scatter(
@@ -168,7 +170,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     beautify(graph=line_CPU_MT, colors=colors, title="Average CPU load (MT)", xtitle="Number of agents", ytitle="Average CPU usage [%]", height=260, width=340, rangemode="tozero")
     beautify(graph=line_RAM, colors=colors, title="Max. RAM load", xtitle="Number of agents", ytitle="Max. RAM usage [Mb]", height=260, width=340, rangemode="tozero")
     beautify(graph=line_RAM_MT, colors=colors, title="Max. RAM load (MT)", xtitle="Number of agents", ytitle="Max. RAM usage [Mb]", height=260, width=340, rangemode="tozero")
-    beautify(graph=line_time, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero")
+    beautify(graph=line_time, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero", legend=True)
     beautify(graph=line_time_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
     beautify(graph=line_time_std, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero", legend=True)
     beautify(graph=line_time_std_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero", legend=True)
