@@ -45,17 +45,6 @@ public:
     }
 
     /**
-     * @brief Constructs a FactAlgo with the specified graph width and A* requirement.
-     */
-    // FactAlgo(int width, bool need_astar) : width(width), need_astar(need_astar), partitions_map({}), use_def(false) {
-    //     // Precompute coordinates
-    //     coords.resize(width * width);
-    //     for (int i = 0; i < width * width; ++i) {
-    //         coords[i] = {i / width, i % width};
-    //     }
-    // }
-
-    /**
      * @brief Constructs a FactAlgo with the specified graph width, A* requirement, and default use flag.
      */
     FactAlgo(int width, bool need_astar, bool use_def) : width(width), need_astar(need_astar), partitions_map({}), use_def(use_def) {
@@ -195,6 +184,7 @@ public:
 private :
     const bool heuristic(int rel_id_1, int index1, int goal1, int rel_id_2, int index2, int goal2, const std::vector<int>& distances) const {return 0;};
 };
+
 
 /**
  * @brief Class that implements factorization using pre-computed partitions from other heuristics.

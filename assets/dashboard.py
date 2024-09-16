@@ -121,8 +121,6 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     line_costs = px.line(data_std, x="Number of agents", y="Sum of costs", color="Algorithm", color_discrete_map=color_map, error_y="Sum of costs std")
     line_score = px.line(data, x="Number of agents", y="Complexity score", color="Algorithm", color_discrete_map=color_map)
 
-    raw_data.to_csv("random_raw.csv")
-
     # Add the min factorization score line :
     line_score.add_trace(go.Scatter(
         x=min_score['Number of agents'],

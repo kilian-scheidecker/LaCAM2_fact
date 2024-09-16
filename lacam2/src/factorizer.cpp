@@ -207,6 +207,8 @@ std::list<std::shared_ptr<Instance>> FactAlgo::split_ins(const Config& C_new, co
 std::list<std::shared_ptr<Instance>> FactAlgo::is_factorizable_def(const Config& C_new, const Config& goals, int verbose, const std::vector<int>& enabled, 
                                         const std::vector<float>& priorities, int timestep) const 
 {
+    PROFILE_FUNC(profiler::colors::Yellow);
+    
     // Check if timestep corresponds to a key in the partitions_map
     auto it = partitions_map.find(timestep);
     if (it == partitions_map.end()) {
@@ -694,7 +696,7 @@ FactDef::FactDef(int width) : FactAlgo(width, false, true) {
  * 
  * @param width The width parameter used to initialize the base class `FactAlgo`.
  */
-FactPre::FactPre(int width, const std::string& readfrom) : FactAlgo(width), readfrom(readfrom)  {
+FactPre::FactPre(int width, const std::string& readfrom) : FactAlgo(width, false, true), readfrom(readfrom)  {
 
     // Read the file from the FactDef file
     std::string path = "assets/temp/" + readfrom + "_partitions.json";
@@ -718,6 +720,8 @@ FactPre::FactPre(int width, const std::string& readfrom) : FactAlgo(width), read
         std::cerr << "JSON parsing error: " << e.what() << std::endl;
         throw std::runtime_error("");
     }
+
+    
 }
 
 

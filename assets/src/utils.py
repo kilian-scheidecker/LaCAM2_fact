@@ -31,7 +31,7 @@ def create_command(map_name: str, N: int, algorithms: list, multi_threading: lis
             
             # add the readfrom argument to use the correct heuristic for FactDef or FactPre
             if factalgo in ["FactDef", "FactPre"] :
-                end += '-h ' + readfrom
+                end += ' -h ' + readfrom
             
             command = "/usr/bin/time -v build/main -i assets/maps/" + map_name + "/other_scenes/" + map_name + "-" + str(N) + ".scen -m assets/maps/" + map_name + '/' + map_name + ".map -sp -N " + str(N) + end
             commands.append(command)

@@ -9,7 +9,7 @@ temp/
 **/__pycache__/
 
 # Files for code profiling
-**/code_profiling/
+*.prof
 
 ### C++ ###
 # Prerequisites

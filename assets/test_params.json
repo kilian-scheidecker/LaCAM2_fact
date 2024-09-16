@@ -1,10 +1,10 @@
 {
-  "from": 120,
-  "to": 300,
+  "from": 100,
+  "to": 100,
   "jump": 20,
-  "n": 15,
+  "n": 1,
   "map_name": ["random-32-32-20"],
-  "algorithms": ["FactDistance", "FactDef", "standard"],
+  "algorithms": ["FactPre"],
   "use_heuristic": "FactDistance",
   "multi_threading": ["no"]
 }
