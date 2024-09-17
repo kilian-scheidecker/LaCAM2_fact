@@ -52,7 +52,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     # Lightmode theme.
     if theme == 'light' :
         colors = {
-            'background': '#333333',  #F7F7F7   
+            'background': '#F7F7F7',   
             'text': '#333333',
             'card': '#FFFFFF',
             'accent1': '#5A9BD5',
@@ -169,17 +169,17 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     beautify(graph=line_CPU_MT, colors=colors, title="Average CPU load (MT)", xtitle="Number of agents", ytitle="Average CPU usage [%]", height=260, width=340, rangemode="tozero")
     beautify(graph=line_RAM, colors=colors, title="Max. RAM load", xtitle="Number of agents", ytitle="Max. RAM usage [Mb]", height=260, width=340, rangemode="tozero")
     beautify(graph=line_RAM_MT, colors=colors, title="Max. RAM load (MT)", xtitle="Number of agents", ytitle="Max. RAM usage [Mb]", height=260, width=340, rangemode="tozero")
-    beautify(graph=line_time, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero", legend=True)
+    beautify(graph=line_time, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero")
     beautify(graph=line_time_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
-    beautify(graph=line_time_std, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero", legend=True)
-    beautify(graph=line_time_std_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero", legend=True)
-    beautify(graph=line_span, colors=colors, title="Makespan", xtitle="Number of agents",  height=260, width=475, legend=True)
-    beautify(graph=line_costs, colors=colors, title="Sum of costs", xtitle="Number of agents",  height=260, width=475, legend=True)
-    beautify(graph=line_score, colors=colors, title="Complexity score", xtitle="Number of agents", ytitle="log(score)", height=260, width=475, rangemode="tozero", legend=True)
+    beautify(graph=line_time_std, colors=colors, title="Computation time [ms]", xtitle="Number of agents", height=260, width=475, rangemode="tozero")
+    beautify(graph=line_time_std_MT, colors=colors, title="Computation time [ms] (MT)", xtitle="Number of agents",  height=260, width=475, rangemode="tozero")
+    beautify(graph=line_span, colors=colors, title="Makespan", xtitle="Number of agents",  height=280, width=475)
+    beautify(graph=line_costs, colors=colors, title="Sum of costs", xtitle="Number of agents",  height=280, width=475, legend=True)
+    beautify(graph=line_score, colors=colors, title="Complexity score", xtitle="Number of agents", ytitle="log(score)", height=280, width=475, rangemode="tozero", legend=True)
     
     beautify_bar(graph=bar_success_agents, colors=colors, title="Success rate [%]", xtitle="Number of agents",  height=260, width=475, legend=True)
     beautify_bar(graph=bar_success_agents_MT, colors=colors, title="Success rate [%] (MT)", xtitle="Number of agents",  height=260, width=475, legend=True)
-    beautify_bar(graph=bar_success_rate, colors=colors, title="Overall success rate [%]",  height=212, width=295)
+    beautify_bar(graph=bar_success_rate, colors=colors, title="Overall success rate [%]",  height=212, width=295, legend=True)
     beautify_bar(graph=bar_success_rate_MT, colors=colors, title="Success rate [%] (MT)",  height=212, width=295)
 
     # Manage the x_axis of the success plots
@@ -291,9 +291,9 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         # Fourth row, complexity score, solution quality
         dbc.Row(
             [
-                dbc.Col(dcc.Graph(id='graph11',figure=line_score, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph12',figure=line_span, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph13',figure=line_costs, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'})
+                dbc.Col(dcc.Graph(id='graph7',figure=line_score, style={'marginLeft': '30px'}), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph8',figure=line_span, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph9',figure=line_costs, style={'marginLeft': '15px'}), width=4, style={'textAlign': 'center'})
             ],
             style={'marginBottom': '30px'}
         ),
@@ -302,10 +302,10 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         dbc.Row(
             [
                 #dbc.Col(width=4, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph7',figure=line_RAM, style={'marginLeft': '30px'}), width=3, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph8',figure=line_RAM_MT, style={'marginLeft': '17px'}), width=3, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph9',figure=line_CPU, style={'marginLeft': '13'}), width=3, style={'textAlign': 'center'}),
-                dbc.Col(dcc.Graph(id='graph10',figure=line_CPU_MT, style={'marginLeft': '10'}), width=3, style={'textAlign': 'center'})
+                dbc.Col(dcc.Graph(id='graph10',figure=line_RAM, style={'marginLeft': '30px'}), width=3, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph11',figure=line_RAM_MT, style={'marginLeft': '17px'}), width=3, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph12',figure=line_CPU, style={'marginLeft': '13'}), width=3, style={'textAlign': 'center'}),
+                dbc.Col(dcc.Graph(id='graph13',figure=line_CPU_MT, style={'marginLeft': '10'}), width=3, style={'textAlign': 'center'})
             ],
             style={'marginBottom': '30px'}
         ),

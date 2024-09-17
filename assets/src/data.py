@@ -127,8 +127,10 @@ def get_data(map_name: str, read_from: str=None):
     if data_full.empty : raise ValueError(f"No data found for map {map_name}")
 
     # Filter out other stuff if necessary , for debug purposes
-    # data_full = data_full[data_full['Number of agents'] <= 50]
-    # data_full = data_full[data_full['Algorithm'] == "standard"]
+    # data_full = data_full[data_full['Number of agents'] <= 650]
+    # data_full = data_full[data_full['Algorithm'] != "FactBbox"]
+    # data_full = data_full[data_full['Algorithm'] != "FactOrient"]
+    # data_full = data_full[data_full['Algorithm'] != "FactAstar"]
     
     # Drop entries where there is no solution
     data_clipped = data_full.drop(data_full[data_full['Success'] == 0].index)
