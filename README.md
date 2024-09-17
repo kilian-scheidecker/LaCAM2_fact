@@ -84,6 +84,29 @@ This repository is compatible with [@Kei18/mapf-visualizer](https://github.com/k
   <p align="center">Example with 200 agents in random-32-32-20.map</p>
 </p>
 
+
+## Automated testing
+
+For optimal use, it is recommended to use the feature of auto-testing. Parameter of automated testing can be accessed through the `assets/test_params.json` file. 
+
+```
+  "from": 50,                                   # From 50 agents
+  "to": 700,                                    # to 700 agents
+  "jump": 50,                                   # incrementing by 50
+  "n": 30,                                      # with 30 tests each time
+  "map_name": ["random-32-32-20"],              # list of maps to test
+  "algorithms": ["FactPre", "FactDistance"],    # list of Heuristics to test
+  "use_heuristic": "FactDistance",              # heuristic used for the FactPre
+  "multi_threading": ["no", "yes"]              # specify use of multi-threading 
+```
+
+Once the parameters are set, the testing can be launched with the following command :
+
+```bash
+python3 assets/auto_test.py
+```
+
+
 ## Data visualization
 
 Once you ran a couple tests, you can visualize the .json files using a dedicated dashboard in the `assets` folder. To use this script, run it from the command line with the required and optional arguments.The `--map_name` argument is mandatory and specifies the name of the map to display. Optionally, you can provide the `--read_from` argument to specify a file to read data from , and the `--theme argument` to set the application theme to either 'dark' or 'light' (default is 'dark').
