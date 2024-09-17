@@ -126,7 +126,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
         x=min_score['Number of agents'],
         y=min_score['Min complexity score'],
         mode='lines',
-        name='Min. score',
+        name='Linear complexity',
         line=dict(color='#00d97f', dash='dash'),
     ))
 
@@ -139,7 +139,7 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     # Add the predicted factorization score line 
     # predict_score_data = data.drop(data[data['Algorithm'] != "FactDef"].index)
     # predict_score_data = predict_score(predict_score_data[['Number of agents', 'Complexity score']])
-    
+
     # line_score.add_trace(go.Scatter(
     #     x=predict_score_data['Number of agents'],
     #     y=predict_score_data['Predicted Complexity score'],
@@ -147,7 +147,8 @@ def show_plots(map_name: str, read_from: str=None, theme: str='dark') :
     #     line=dict(color='#00d97f', width=2),  # Line color and width
     #     name='Predicted Complexity Score'  # Name for the legend
     # ))
-
+    # line_score.data = [line_score.data[0], line_score.data[1], line_score.data[3], line_score.data[4], line_score.data[5], line_score.data[6], line_score.data[7]]
+    ################################################################################################
 
     # Bar charts for queue visualization (primarily for debug purposes)
 
