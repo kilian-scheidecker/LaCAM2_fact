@@ -52,8 +52,8 @@ Basic run with 50 agents on the 'random-32-32-20' map. The important arguments a
 Try running the following command :
 
 ```bash
-> build/main -i assets/maps/random-32-32-20/other_scenes/random-32-32-20-700.scen -m assets/maps/random-32-32-20/random-32-32-20.map -N 10 -v 1
-solved: 1ms     makespan: 47 (lb=47, ub=1)      sum_of_costs: 1297 (lb=1098, ub=1.19)   sum_of_loss: 1198 (lb=1098, ub=1.1)
+> build/main -i assets/maps/random-32-32-20/other_scenes/random-32-32-20-120.scen -m assets/maps/random-32-32-20/random-32-32-20.map -N 120 -v 1
+solved: 5s     makespan: 54 (lb=51, ub=1.06)   sum_of_costs: 4104 (lb=2693, ub=1.53)   sum_of_loss: 3610 (lb=2693, ub=1.35)
 ```
 
 There are other arguments you can specify in order to use all the feature of LaCAM2_fact :
