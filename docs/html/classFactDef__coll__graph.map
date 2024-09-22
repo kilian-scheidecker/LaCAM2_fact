@@ -1,4 +1,4 @@
 <map id="FactDef" name="FactDef">
-<area shape="rect" id="node1" title="Class that implements factorization using pre&#45;computed partitions." alt="" coords="5,292,176,399"/>
-<area shape="rect" id="node2" href="$classFactAlgo.html" title="Base class for different factorization algorithms." alt="" coords="5,5,176,244"/>
+<area shape="rect" id="node1" title="Class that implements factorization using pre&#45;computed partitions from the defintion." alt="" coords="43,277,139,369"/>
+<area shape="rect" id="node2" href="$classFactAlgo.html" title="Base class for different factorization algorithms." alt="" coords="5,5,176,229"/>
 </map>

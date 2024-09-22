@@ -153,12 +153,15 @@ Data Structures</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that implements A* distance-based factorization heuristic.  <a href="classFactAstar.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactDef.html">FactDef</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that implements factorization using pre-computed partitions.  <a href="classFactDef.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that implements factorization using pre-computed partitions from the defintion.  <a href="classFactDef.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFactPre.html">FactPre</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that implements factorization using pre-computed partitions from other heuristics.  <a href="classFactPre.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a8ed4cb0ddaead2f6489bb41f7ed8e091"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="factorizer_8hpp.html#a8ed4cb0ddaead2f6489bb41f7ed8e091">SAFETY_DISTANCE</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:a8ed4cb0ddaead2f6489bb41f7ed8e091"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="factorizer_8hpp.html#a8ed4cb0ddaead2f6489bb41f7ed8e091">SAFETY_DISTANCE</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:a8ed4cb0ddaead2f6489bb41f7ed8e091"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -172,9 +175,9 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a99191033dfd8c3dbb3b3de7c77724dc6"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classFactAlgo.html">FactAlgo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="factorizer_8hpp.html#a99191033dfd8c3dbb3b3de7c77724dc6">createFactAlgo</a> (const std::string &amp;type, int width)</td></tr>
-<tr class="memdesc:a99191033dfd8c3dbb3b3de7c77724dc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function to create <a class="el" href="classFactAlgo.html" title="Base class for different factorization algorithms.">FactAlgo</a> objects.  <a href="factorizer_8hpp.html#a99191033dfd8c3dbb3b3de7c77724dc6">More...</a><br /></td></tr>
-<tr class="separator:a99191033dfd8c3dbb3b3de7c77724dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8c23d8e8c5d657943c8046f738aeee9"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classFactAlgo.html">FactAlgo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="factorizer_8hpp.html#ad8c23d8e8c5d657943c8046f738aeee9">createFactAlgo</a> (const std::string &amp;type, const std::string &amp;readfrom, int width)</td></tr>
+<tr class="memdesc:ad8c23d8e8c5d657943c8046f738aeee9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function to create <a class="el" href="classFactAlgo.html" title="Base class for different factorization algorithms.">FactAlgo</a> objects.  <a href="factorizer_8hpp.html#ad8c23d8e8c5d657943c8046f738aeee9">More...</a><br /></td></tr>
+<tr class="separator:ad8c23d8e8c5d657943c8046f738aeee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides classes and methods for various factorization algorithms. </p>
@@ -187,7 +190,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SAFETY_DISTANCE&#160;&#160;&#160;0</td>
+          <td class="memname">#define SAFETY_DISTANCE&#160;&#160;&#160;1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -238,8 +241,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a99191033dfd8c3dbb3b3de7c77724dc6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99191033dfd8c3dbb3b3de7c77724dc6">&#9670;&nbsp;</a></span>createFactAlgo()</h2>
+<a id="ad8c23d8e8c5d657943c8046f738aeee9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8c23d8e8c5d657943c8046f738aeee9">&#9670;&nbsp;</a></span>createFactAlgo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,6 +252,12 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>readfrom</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -291,8 +300,8 @@ Functions</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6_icgraph.png" border="0" usemap="#afactorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6_icgraph" alt=""/></div>
-<map name="afactorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6_icgraph" id="afactorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6_icgraph">
+<div class="center"><img src="factorizer_8hpp_ad8c23d8e8c5d657943c8046f738aeee9_icgraph.png" border="0" usemap="#afactorizer_8hpp_ad8c23d8e8c5d657943c8046f738aeee9_icgraph" alt=""/></div>
+<map name="afactorizer_8hpp_ad8c23d8e8c5d657943c8046f738aeee9_icgraph" id="afactorizer_8hpp_ad8c23d8e8c5d657943c8046f738aeee9_icgraph">
 <area shape="rect" title="Factory function to create FactAlgo objects." alt="" coords="108,5,227,32"/>
 <area shape="rect" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,60,32"/>
 </map>

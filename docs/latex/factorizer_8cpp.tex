@@ -17,7 +17,7 @@ Include dependency graph for factorizer.\+cpp\+:\nopagebreak
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} $>$ \mbox{\hyperlink{factorizer_8cpp_a99191033dfd8c3dbb3b3de7c77724dc6}{create\+Fact\+Algo}} (const std\+::string \&type, int width)
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} $>$ \mbox{\hyperlink{factorizer_8cpp_ad8c23d8e8c5d657943c8046f738aeee9}{create\+Fact\+Algo}} (const std\+::string \&type, const std\+::string \&readfrom, int width)
 \begin{DoxyCompactList}\small\item\em Factory function to create instances of different \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} subclasses. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -27,11 +27,11 @@ Implements various factorization algorithms for multi-\/agent pathfinding.
 This file contains the definitions of the methods declared in the {\ttfamily \mbox{\hyperlink{factorizer_8hpp}{factorizer.\+hpp}}} header file. It includes the logic for different factorization strategies such as distance-\/based, bounding box-\/based, orientation-\/based, A$\ast$-\/based, and definition-\/based factorization algorithms. The implementation details of these strategies are encapsulated in their respective classes, which inherit from the base class {\ttfamily \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}}. Additionally, utility functions and heuristics for determining agent factorization are provided. 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{factorizer_8cpp_a99191033dfd8c3dbb3b3de7c77724dc6}\label{factorizer_8cpp_a99191033dfd8c3dbb3b3de7c77724dc6}} 
+\mbox{\Hypertarget{factorizer_8cpp_ad8c23d8e8c5d657943c8046f738aeee9}\label{factorizer_8cpp_ad8c23d8e8c5d657943c8046f738aeee9}} 
 \index{factorizer.cpp@{factorizer.cpp}!createFactAlgo@{createFactAlgo}}
 \index{createFactAlgo@{createFactAlgo}!factorizer.cpp@{factorizer.cpp}}
 \doxysubsubsection{\texorpdfstring{createFactAlgo()}{createFactAlgo()}}
-{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}$>$ create\+Fact\+Algo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{type,  }\item[{int}]{width }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}$>$ create\+Fact\+Algo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{type,  }\item[{const std\+::string \&}]{readfrom,  }\item[{int}]{width }\end{DoxyParamCaption})}
 
 
 
@@ -56,10 +56,11 @@ A unique pointer to the created \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} obj
 {\em std\+::invalid\+\_\+argument} & If the provided {\ttfamily type} does not match any valid \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} type. \\
 \hline
 \end{DoxyExceptions}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=246pt]{factorizer_8cpp_a99191033dfd8c3dbb3b3de7c77724dc6_icgraph}
+\includegraphics[width=246pt]{factorizer_8cpp_ad8c23d8e8c5d657943c8046f738aeee9_icgraph}
 \end{center}
 \end{figure}

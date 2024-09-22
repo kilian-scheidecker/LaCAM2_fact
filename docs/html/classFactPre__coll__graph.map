@@ -1,0 +1,4 @@
+<map id="FactPre" name="FactPre">
+<area shape="rect" id="node1" title="Class that implements factorization using pre&#45;computed partitions from other heuristics." alt="" coords="43,277,138,369"/>
+<area shape="rect" id="node2" href="$classFactAlgo.html" title="Base class for different factorization algorithms." alt="" coords="5,5,176,229"/>
+</map>

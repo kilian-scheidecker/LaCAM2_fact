@@ -112,7 +112,7 @@ python3 assets/auto_test.py
 Once you ran a couple tests, you can visualize the .json files using a dedicated dashboard in the `assets` folder. To use this script, run it from the command line with the required and optional arguments.The `--map_name` argument is mandatory and specifies the name of the map to display. Optionally, you can provide the `--read_from` argument to specify a file to read data from , and the `--theme argument` to set the application theme to either 'dark' or 'light' (default is 'dark').
 
 ```bash
-python3 assets/dashboard.py --map_name random-32-32-10 --read_from stats.json --theme dark
+python3 assets/dashboard.py --map_name random-32-32-20 --read_from stats.json --theme dark
 ```
 
 The dashboard contains a lot of interesting data, starting with simple general information about the tests (what map, how many agents, how many tests). Then some information about the current hardware of the machine (careful, this data does not represent the hardware used to generate a given .json file). 

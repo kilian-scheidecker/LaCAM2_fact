@@ -84,12 +84,36 @@ This repository is compatible with \href{https://github.com/kei18/mapf-visualize
  ~\newline
  
 
-Example with 200 agents in random-\/32-\/32-\/20.\+map\hypertarget{index_autotoc_md4}{}\doxysubsection{Data visualization}\label{index_autotoc_md4}
+Example with 200 agents in random-\/32-\/32-\/20.\+map\hypertarget{index_autotoc_md4}{}\doxysubsection{Automated testing}\label{index_autotoc_md4}
+For optimal use, it is recommended to use the feature of auto-\/testing. Parameter of automated testing can be accessed through the {\ttfamily assets/test\+\_\+params.\+json} file.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{"{}from"{}: 50,                                   \# From 50 agents}
+\DoxyCodeLine{"{}to"{}: 700,                                    \# to 700 agents}
+\DoxyCodeLine{"{}jump"{}: 50,                                   \# incrementing by 50}
+\DoxyCodeLine{"{}n"{}: 30,                                      \# with 30 tests each time}
+\DoxyCodeLine{"{}map\_name"{}: ["{}random-\/32-\/32-\/20"{}],              \# list of maps to test}
+\DoxyCodeLine{"{}algorithms"{}: ["{}FactPre"{}, "{}FactDistance"{}],    \# list of Heuristics to test}
+\DoxyCodeLine{"{}use\_heuristic"{}: "{}FactDistance"{},              \# heuristic used for the FactPre}
+\DoxyCodeLine{"{}multi\_threading"{}: ["{}no"{}, "{}yes"{}]              \# specify use of multi-\/threading }
+
+\end{DoxyCode}
+
+
+Once the parameters are set, the testing can be launched with the following command \+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python3 assets/auto\_test.py}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md5}{}\doxysubsection{Data visualization}\label{index_autotoc_md5}
 Once you ran a couple tests, you can visualize the .json files using a dedicated dashboard in the {\ttfamily assets} folder. To use this script, run it from the command line with the required and optional arguments.\+The {\ttfamily -\/-\/map\+\_\+name} argument is mandatory and specifies the name of the map to display. Optionally, you can provide the {\ttfamily -\/-\/read\+\_\+from} argument to specify a file to read data from , and the {\ttfamily -\/-\/theme argument} to set the application theme to either \textquotesingle{}dark\textquotesingle{} or \textquotesingle{}light\textquotesingle{} (default is \textquotesingle{}dark\textquotesingle{}).
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{python3 assets/dashboard.py -\/-\/map\_name random-\/32-\/32-\/10 -\/-\/read\_from stats.json -\/-\/theme dark}
+\DoxyCodeLine{python3 assets/dashboard.py -\/-\/map\_name random-\/32-\/32-\/20 -\/-\/read\_from stats.json -\/-\/theme dark}
 
 \end{DoxyCode}
 
@@ -98,17 +122,17 @@ The dashboard contains a lot of interesting data, starting with simple general i
 
 The two graphs on the top right represent the succes rate of the different algorithms in \%. The first row of charts is for sequential solving of MAPF instances and the second row is about the multi-\/threaded solving (MT). The solving times are averaged out and plotted as a function of the agent number in the map. Information about the variance can be viewed in the center charts. The charts on the far right depict the successfully solved instances as a function of agent number.
 
-The fourth row shows data about average CPU and maximum RAM usage during the solving.
+The fourth row displays information about the complexity of the search space and makespan/sum of costs data. Finally, the fifth row shows data about hardware usage during the solving process.
 
  ~\newline
  
 
-Screenshot of the dashboard.\hypertarget{index_autotoc_md5}{}\doxysubsection{Documentation}\label{index_autotoc_md5}
+Screenshot of the top of the dashboard.\hypertarget{index_autotoc_md6}{}\doxysubsection{Documentation}\label{index_autotoc_md6}
 The \mbox{[}docs\mbox{]}(docs) folder contains the documentation of this project. It is accessible via the {\ttfamily Documentation} link in the root folder.
 
  
 
-Alternatively, you can navigate to {\ttfamily docs/html} and open the \href{docs/html/index.html}{\texttt{ index}} file. This will open the html page in the browser and you can scroll through the documentation.\hypertarget{index_autotoc_md6}{}\doxysubsection{Code Profiling}\label{index_autotoc_md6}
+Alternatively, you can navigate to {\ttfamily docs/html} and open the \href{docs/html/index.html}{\texttt{ index}} file. This will open the html page in the browser and you can scroll through the documentation.\hypertarget{index_autotoc_md7}{}\doxysubsection{Code Profiling}\label{index_autotoc_md7}
 You can take advantage of the \href{https://github.com/yse/easy_profiler}{\texttt{ Easy Profiler library}} in order to analyze the code and dive into the internals of the algorithms.
 
 To use the profiling, the variable ENABLE\+\_\+\+PROFILING needs to be defined. Be aware that toggling the profiler may affect performances.
@@ -137,11 +161,11 @@ This file can then be vizualised by using the Easy Profiler Visualizer. There sh
 
 Once you opened the visualizer, you can use the folder icon at the top left to open the \textquotesingle{}profile.\+prof\textquotesingle{} file.
 
-To stop profiling, clean build the project again using the instructions in the \textquotesingle{}Building\textquotesingle{} section.\hypertarget{index_autotoc_md7}{}\doxysubsection{Notes}\label{index_autotoc_md7}
+To stop profiling, clean build the project again using the instructions in the \textquotesingle{}Building\textquotesingle{} section.\hypertarget{index_autotoc_md8}{}\doxysubsection{Notes}\label{index_autotoc_md8}
 
 \begin{DoxyItemize}
 \item The grid maps and scenarios in {\ttfamily assets/maps/} are from \href{https://movingai.com/benchmarks/mapf.html}{\texttt{ MAPF benchmarks}}.
 \item To run the python scripts in the {\ttfamily assets} folder, you might need to download/update some of the python packages (like dash, plotly, pandas, ...).
 \item La\+CAM$\ast$ variants are available in \href{https://github.com/Kei18/lacam2/tags}{\texttt{ tags}}.
-\end{DoxyItemize}\hypertarget{index_autotoc_md8}{}\doxysubsection{Licence}\label{index_autotoc_md8}
+\end{DoxyItemize}\hypertarget{index_autotoc_md9}{}\doxysubsection{Licence}\label{index_autotoc_md9}
 This software is released under the MIT License, see \href{LICENCE.txt}{\texttt{ LICENSE.\+txt}}. 

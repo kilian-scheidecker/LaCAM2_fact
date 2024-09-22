@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['json_85',['json',['../factorizer_8hpp.html#ab701e3ac61a85b337ec5c1abaad6742d',1,'factorizer.hpp']]]
+  ['json_86',['json',['../factorizer_8hpp.html#ab701e3ac61a85b337ec5c1abaad6742d',1,'factorizer.hpp']]]
 ];

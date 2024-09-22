@@ -1,6 +1,6 @@
 <map id="main" name="main">
 <area shape="rect" id="node1" title=" " alt="" coords="5,808,60,835"/>
-<area shape="rect" id="node2" href="$factorizer_8hpp.html#a99191033dfd8c3dbb3b3de7c77724dc6" title="Factory function to create FactAlgo objects." alt="" coords="113,263,232,290"/>
+<area shape="rect" id="node2" href="$factorizer_8hpp.html#ad8c23d8e8c5d657943c8046f738aeee9" title="Factory function to create FactAlgo objects." alt="" coords="113,263,232,290"/>
 <area shape="rect" id="node3" href="$post__processing_8hpp.html#adba9b96d1a3e654c235ea55897ed9934" title="Calculates the makespan of the solution, which is the maximum time step taken by any agent to reach i..." alt="" coords="114,314,231,340"/>
 <area shape="rect" id="node4" href="$utils_8hpp.html#a1a6db9534ce64125ad2b26565f6b010b" title="Prints debugging information depending on verbosity level." alt="" coords="1049,643,1096,670"/>
 <area shape="rect" id="node5" href="$classGraph.html#a5c1ab2322e063a96608817e2d9972b67" title="Initialize the Graph with a given file." alt="" coords="110,1175,235,1202"/>
@@ -32,7 +32,7 @@
 <area shape="rect" id="node27" href="$structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="505,896,685,923"/>
 <area shape="rect" id="node33" href="$utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title="Checks if the given deadline has expired." alt="" coords="1028,276,1117,303"/>
 <area shape="rect" id="node34" href="$classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the given configuration can be factorized and generates sub&#45;instances accordingly." alt="" coords="505,643,685,670"/>
-<area shape="rect" id="node36" href="$classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb" title="Allows factorization according to pre&#45;computed partitions (and thus also according to the definition ..." alt="" coords="491,795,699,822"/>
+<area shape="rect" id="node36" href="$classFactAlgo.html#abec12f7570f1d568b5da0c5f97a71750" title="Determines if the current instance is factorable based on a predefined partitioning at a given timest..." alt="" coords="491,795,699,822"/>
 <area shape="rect" id="node37" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="533,542,658,568"/>
 <area shape="rect" id="node38" href="$structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="771,491,921,518"/>
 <area shape="rect" id="node39" href="$planner_8cpp.html#adec0ef604594ebdb20dc833098255079" title="Transposes a matrix." alt="" coords="552,744,639,771"/>

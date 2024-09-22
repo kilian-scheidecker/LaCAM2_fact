@@ -1,0 +1,74 @@
+\hypertarget{classFactPre}{}\doxysection{Fact\+Pre Class Reference}
+\label{classFactPre}\index{FactPre@{FactPre}}
+
+
+Class that implements factorization using pre-\/computed partitions from other heuristics.  
+
+
+
+
+{\ttfamily \#include $<$factorizer.\+hpp$>$}
+
+
+
+Inheritance diagram for Fact\+Pre\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classFactPre__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Fact\+Pre\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classFactPre__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classFactPre_af0b8c25de592d96ad0ba5efa855e3142}{Fact\+Pre}} ()
+\item 
+\mbox{\hyperlink{classFactPre_a58dbcfddb291b18a51f16506e9efaad5}{Fact\+Pre}} (int \mbox{\hyperlink{classFactAlgo_ae69794255caed8036cc0e976fbe5f869}{width}}, const std\+::string \&readfrom)
+\begin{DoxyCompactList}\small\item\em Constructor for the {\ttfamily \mbox{\hyperlink{classFactPre}{Fact\+Pre}}} class that initializes the object with a given width and handles the initialization of the {\ttfamily partitions\+\_\+map} from the Fact\+Pre\+\_\+partitions.\+json file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Class that implements factorization using pre-\/computed partitions from other heuristics. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classFactPre_af0b8c25de592d96ad0ba5efa855e3142}\label{classFactPre_af0b8c25de592d96ad0ba5efa855e3142}} 
+\index{FactPre@{FactPre}!FactPre@{FactPre}}
+\index{FactPre@{FactPre}!FactPre@{FactPre}}
+\doxysubsubsection{\texorpdfstring{FactPre()}{FactPre()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Fact\+Pre\+::\+Fact\+Pre (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classFactPre_a58dbcfddb291b18a51f16506e9efaad5}\label{classFactPre_a58dbcfddb291b18a51f16506e9efaad5}} 
+\index{FactPre@{FactPre}!FactPre@{FactPre}}
+\index{FactPre@{FactPre}!FactPre@{FactPre}}
+\doxysubsubsection{\texorpdfstring{FactPre()}{FactPre()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Fact\+Pre\+::\+Fact\+Pre (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{const std\+::string \&}]{readfrom }\end{DoxyParamCaption})}
+
+
+
+Constructor for the {\ttfamily \mbox{\hyperlink{classFactPre}{Fact\+Pre}}} class that initializes the object with a given width and handles the initialization of the {\ttfamily partitions\+\_\+map} from the Fact\+Pre\+\_\+partitions.\+json file. 
+
+This constructor reads partitioning data from a JSON file located at a predefined path (`assets/temp/\textquotesingle{}readfrom'\+\_\+partitions.\+json$<$tt$>$) and initializes thepartitions\+\_\+map{\ttfamily member variable with it. If the file cannot be opened or a JSON parsing error occurs, it outputs an error message to}std\+::cerr\`{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & The width parameter used to initialize the base class {\ttfamily \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}}. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lacam2/include/\mbox{\hyperlink{factorizer_8hpp}{factorizer.\+hpp}}\item 
+lacam2/src/\mbox{\hyperlink{factorizer_8cpp}{factorizer.\+cpp}}\end{DoxyCompactItemize}

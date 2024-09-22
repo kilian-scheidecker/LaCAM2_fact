@@ -36,11 +36,13 @@ class \mbox{\hyperlink{classFactOrient}{Fact\+Orient}}
 class \mbox{\hyperlink{classFactAstar}{Fact\+Astar}}
 \begin{DoxyCompactList}\small\item\em Class that implements A$\ast$ distance-\/based factorization heuristic. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classFactDef}{Fact\+Def}}
-\begin{DoxyCompactList}\small\item\em Class that implements factorization using pre-\/computed partitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Class that implements factorization using pre-\/computed partitions from the defintion. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classFactPre}{Fact\+Pre}}
+\begin{DoxyCompactList}\small\item\em Class that implements factorization using pre-\/computed partitions from other heuristics. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \mbox{\hyperlink{factorizer_8hpp_a8ed4cb0ddaead2f6489bb41f7ed8e091}{SAFETY\+\_\+\+DISTANCE}}~0
+\#define \mbox{\hyperlink{factorizer_8hpp_a8ed4cb0ddaead2f6489bb41f7ed8e091}{SAFETY\+\_\+\+DISTANCE}}~1
 \end{DoxyCompactItemize}
 \doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
@@ -54,7 +56,7 @@ using \mbox{\hyperlink{factorizer_8hpp_ab701e3ac61a85b337ec5c1abaad6742d}{json}}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} $>$ \mbox{\hyperlink{factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6}{create\+Fact\+Algo}} (const std\+::string \&type, int width)
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} $>$ \mbox{\hyperlink{factorizer_8hpp_ad8c23d8e8c5d657943c8046f738aeee9}{create\+Fact\+Algo}} (const std\+::string \&type, const std\+::string \&readfrom, int width)
 \begin{DoxyCompactList}\small\item\em Factory function to create \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -68,7 +70,7 @@ This file defines several classes that implement different algorithms for factor
 \index{factorizer.hpp@{factorizer.hpp}!SAFETY\_DISTANCE@{SAFETY\_DISTANCE}}
 \index{SAFETY\_DISTANCE@{SAFETY\_DISTANCE}!factorizer.hpp@{factorizer.hpp}}
 \doxysubsubsection{\texorpdfstring{SAFETY\_DISTANCE}{SAFETY\_DISTANCE}}
-{\footnotesize\ttfamily \#define SAFETY\+\_\+\+DISTANCE~0}
+{\footnotesize\ttfamily \#define SAFETY\+\_\+\+DISTANCE~1}
 
 
 
@@ -94,11 +96,11 @@ This file defines several classes that implement different algorithms for factor
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6}\label{factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6}} 
+\mbox{\Hypertarget{factorizer_8hpp_ad8c23d8e8c5d657943c8046f738aeee9}\label{factorizer_8hpp_ad8c23d8e8c5d657943c8046f738aeee9}} 
 \index{factorizer.hpp@{factorizer.hpp}!createFactAlgo@{createFactAlgo}}
 \index{createFactAlgo@{createFactAlgo}!factorizer.hpp@{factorizer.hpp}}
 \doxysubsubsection{\texorpdfstring{createFactAlgo()}{createFactAlgo()}}
-{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}$>$ create\+Fact\+Algo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{type,  }\item[{int}]{width }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classFactAlgo}{Fact\+Algo}}$>$ create\+Fact\+Algo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{type,  }\item[{const std\+::string \&}]{readfrom,  }\item[{int}]{width }\end{DoxyParamCaption})}
 
 
 
@@ -130,10 +132,11 @@ A unique pointer to the created \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} obj
 {\em std\+::invalid\+\_\+argument} & If the provided {\ttfamily type} does not match any valid \mbox{\hyperlink{classFactAlgo}{Fact\+Algo}} type. \\
 \hline
 \end{DoxyExceptions}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=246pt]{factorizer_8hpp_a99191033dfd8c3dbb3b3de7c77724dc6_icgraph}
+\includegraphics[width=246pt]{factorizer_8hpp_ad8c23d8e8c5d657943c8046f738aeee9_icgraph}
 \end{center}
 \end{figure}

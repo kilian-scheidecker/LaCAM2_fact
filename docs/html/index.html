@@ -94,7 +94,7 @@ Usage</h2>
 </div><!-- fragment --><p>There are other arguments you can specify in order to use all the feature of LaCAM2_fact :</p>
 <ul>
 <li><code>-mt</code> (or <code>--multi_threading</code>): This argument toggles whether the program uses multiple cores to solve MAPF instances in parallel (if applicable). By defauly it is set to false. use <code>-mt</code> or <code>-mt yes</code> to enable multi threading.</li>
-<li><code>-f</code> (or <code>--factorize</code>): This argument specifies the mode of factorization to be used in the solving process. The options are standard, <a class="el" href="classFactDistance.html" title="Implements manhattan-distance-based factorization heuristic.">FactDistance</a>, <a class="el" href="classFactBbox.html" title="Implements Bounding-Box-based factorization heuristic.">FactBbox</a>, Factorient, <a class="el" href="classFactAstar.html" title="Class that implements A* distance-based factorization heuristic.">FactAstar</a>, or <a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions.">FactDef</a>, with the default being standard. This determines how the algorithm factorizes the problem for more efficient solving.</li>
+<li><code>-f</code> (or <code>--factorize</code>): This argument specifies the mode of factorization to be used in the solving process. The options are standard, <a class="el" href="classFactDistance.html" title="Implements manhattan-distance-based factorization heuristic.">FactDistance</a>, <a class="el" href="classFactBbox.html" title="Implements Bounding-Box-based factorization heuristic.">FactBbox</a>, Factorient, <a class="el" href="classFactAstar.html" title="Class that implements A* distance-based factorization heuristic.">FactAstar</a>, or <a class="el" href="classFactDef.html" title="Class that implements factorization using pre-computed partitions from the defintion.">FactDef</a>, with the default being standard. This determines how the algorithm factorizes the problem for more efficient solving.</li>
 <li><code>-s</code> (or <code>--save_stats</code>): This argument toggles whether the program should save statistics about the run. The satistics are saved in the <code>stats.json</code> file. By default, it is set to true. Use <code>-s false</code> to disable saving statistics.</li>
 <li><code>-sp</code> (or <code>--save_partitions</code>): This argument controls whether the program saves the partitions generated during the solving process. By default, it is set to false. Use <code>-sp</code> to enable saving partitions.</li>
 </ul>
@@ -107,21 +107,34 @@ Visualizer</h2>
  </p>
 <p>Example with 200 agents in random-32-32-20.map</p>
 <h2><a class="anchor" id="autotoc_md4"></a>
+Automated testing</h2>
+<p>For optimal use, it is recommended to use the feature of auto-testing. Parameter of automated testing can be accessed through the <code>assets/test_params.json</code> file.</p>
+<div class="fragment"><div class="line">&quot;from&quot;: 50,                                   # From 50 agents</div>
+<div class="line">&quot;to&quot;: 700,                                    # to 700 agents</div>
+<div class="line">&quot;jump&quot;: 50,                                   # incrementing by 50</div>
+<div class="line">&quot;n&quot;: 30,                                      # with 30 tests each time</div>
+<div class="line">&quot;map_name&quot;: [&quot;random-32-32-20&quot;],              # list of maps to test</div>
+<div class="line">&quot;algorithms&quot;: [&quot;FactPre&quot;, &quot;FactDistance&quot;],    # list of Heuristics to test</div>
+<div class="line">&quot;use_heuristic&quot;: &quot;FactDistance&quot;,              # heuristic used for the FactPre</div>
+<div class="line">&quot;multi_threading&quot;: [&quot;no&quot;, &quot;yes&quot;]              # specify use of multi-threading </div>
+</div><!-- fragment --><p>Once the parameters are set, the testing can be launched with the following command :</p>
+<div class="fragment"><div class="line">python3 assets/auto_test.py</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md5"></a>
 Data visualization</h2>
 <p>Once you ran a couple tests, you can visualize the .json files using a dedicated dashboard in the <code>assets</code> folder. To use this script, run it from the command line with the required and optional arguments.The <code>--map_name</code> argument is mandatory and specifies the name of the map to display. Optionally, you can provide the <code>--read_from</code> argument to specify a file to read data from , and the <code>--theme argument</code> to set the application theme to either 'dark' or 'light' (default is 'dark').</p>
-<div class="fragment"><div class="line">python3 assets/dashboard.py --map_name random-32-32-10 --read_from stats.json --theme dark</div>
+<div class="fragment"><div class="line">python3 assets/dashboard.py --map_name random-32-32-20 --read_from stats.json --theme dark</div>
 </div><!-- fragment --><p>The dashboard contains a lot of interesting data, starting with simple general information about the tests (what map, how many agents, how many tests). Then some information about the current hardware of the machine (careful, this data does not represent the hardware used to generate a given .json file).</p>
 <p>The two graphs on the top right represent the succes rate of the different algorithms in %. The first row of charts is for sequential solving of MAPF instances and the second row is about the multi-threaded solving (MT). The solving times are averaged out and plotted as a function of the agent number in the map. Information about the variance can be viewed in the center charts. The charts on the far right depict the successfully solved instances as a function of agent number.</p>
-<p>The fourth row shows data about average CPU and maximum RAM usage during the solving.</p>
+<p>The fourth row displays information about the complexity of the search space and makespan/sum of costs data. Finally, the fifth row shows data about hardware usage during the solving process.</p>
 <p align="center"><img src="assets/misc/screenshot_dashboard.png" alt="" width="100%" class="inline"/> <br  />
  </p>
-<p>Screenshot of the dashboard.</p>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<p>Screenshot of the top of the dashboard.</p>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Documentation</h2>
 <p>The [docs](docs) folder contains the documentation of this project. It is accessible via the <code>Documentation</code> link in the root folder.</p>
 <p><img src="assets/misc/screenshot_doc.png" alt="" width="75%" class="inline"/> </p>
 <p>Alternatively, you can navigate to <code>docs/html</code> and open the <a href="docs/html/index.html">index</a> file. This will open the html page in the browser and you can scroll through the documentation.</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Code Profiling</h2>
 <p>You can take advantage of the <a href="https://github.com/yse/easy_profiler">Easy Profiler library</a> in order to analyze the code and dive into the internals of the algorithms.</p>
 <p>To use the profiling, the variable ENABLE_PROFILING needs to be defined. Be aware that toggling the profiler may affect performances.</p>
@@ -133,14 +146,14 @@ Code Profiling</h2>
 <div class="fragment"><div class="line">./build/third_party/easy_profiler/bin/profiler_gui</div>
 </div><!-- fragment --><p>Once you opened the visualizer, you can use the folder icon at the top left to open the 'profile.prof' file.</p>
 <p>To stop profiling, clean build the project again using the instructions in the 'Building' section.</p>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 Notes</h2>
 <ul>
 <li>The grid maps and scenarios in <code>assets/maps/</code> are from <a href="https://movingai.com/benchmarks/mapf.html">MAPF benchmarks</a>.</li>
 <li>To run the python scripts in the <code>assets</code> folder, you might need to download/update some of the python packages (like dash, plotly, pandas, ...).</li>
 <li>LaCAM* variants are available in <a href="https://github.com/Kei18/lacam2/tags">tags</a>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 Licence</h2>
 <p>This software is released under the MIT License, see <a href="LICENCE.txt">LICENSE.txt</a>. </p>
 </div></div><!-- PageDoc -->

@@ -18,7 +18,7 @@
 <area shape="rect" id="node15" href="$structPlanner.html#a4884191fafefc2f8185a79571851d0b5" title="Creates a new configuration given some constraints for the next step." alt="" coords="399,664,579,691"/>
 <area shape="rect" id="node23" href="$utils_8hpp.html#a5ba91321a48d6365f2b2a396a5395708" title="Checks if the given deadline has expired." alt="" coords="690,107,779,133"/>
 <area shape="rect" id="node24" href="$classFactAlgo.html#a68f79cb1ed2dda1bd5cc19723574e5fb" title="Determines if the given configuration can be factorized and generates sub&#45;instances accordingly." alt="" coords="399,563,579,589"/>
-<area shape="rect" id="node26" href="$classFactAlgo.html#a59571e70bad92ddd2cdd813258f0b3eb" title="Allows factorization according to pre&#45;computed partitions (and thus also according to the definition ..." alt="" coords="385,208,593,235"/>
+<area shape="rect" id="node26" href="$classFactAlgo.html#abec12f7570f1d568b5da0c5f97a71750" title="Determines if the current instance is factorable based on a predefined partitioning at a given timest..." alt="" coords="385,208,593,235"/>
 <area shape="rect" id="node27" href="$graph_8hpp.html#a44b479382634c1b3415e08bc84d972e9" title="Check the equivalence of two configurations." alt="" coords="427,259,550,285"/>
 <area shape="rect" id="node28" href="$structPlanner.html#a9af3dcf185b5ccd49f03869da7812a24" title="Update the relation between 2 configurations by updating their costs and rewriting the net of configu..." alt="" coords="426,360,551,387"/>
 <area shape="rect" id="node29" href="$structPlanner.html#a4672665dd15c43cea5d697e100101213" title=" " alt="" coords="659,309,810,336"/>
